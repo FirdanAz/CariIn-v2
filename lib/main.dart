@@ -1,3 +1,5 @@
+import 'package:cariin_v2/common/app_theme.dart';
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/home_page/home.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +15,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(),
+      debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.light,
+      theme: AppTheme.getLightMode(),
+      darkTheme: AppTheme.getDarkMode(),
+      home: const CustomBottomNavigation(),
     );
   }
 }
