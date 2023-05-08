@@ -1,5 +1,5 @@
 import 'package:cariin_v2/common/app_color.dart';
-import 'package:cariin_v2/ui/home_page/home.dart';
+import 'package:cariin_v2/ui/lowongan/home_page/home.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigation extends StatefulWidget {
