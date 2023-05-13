@@ -1,6 +1,7 @@
 import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/common/app_theme.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
+import 'package:cariin_v2/ui/karyawan/splash_screen/splash.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       theme: AppTheme.getLightMode(),
       darkTheme: AppTheme.getDarkMode(),
-      home: const KaryawanBottomNavigation(),
+      home: const SplashScren(),
     );
   }
 }
