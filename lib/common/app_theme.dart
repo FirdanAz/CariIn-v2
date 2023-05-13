@@ -22,6 +22,7 @@ class AppTheme {
         surface: color.background,
         onSurface: color.onBackground,
       ),
+      fontFamily: 'Outfit',
       iconTheme: IconThemeData(color: color.black),
       navigationBarTheme: NavigationBarThemeData(
         indicatorColor: color.secondary,
@@ -52,6 +53,7 @@ class AppTheme {
         surface: color.background,
         onSurface: color.onBackground,
       ),
+      fontFamily: 'Outfit',
       iconTheme: IconThemeData(color: color.black),
       navigationBarTheme: NavigationBarThemeData(
         indicatorColor: color.secondary,
