@@ -1,4 +1,5 @@
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/ui/karyawan/detail_profile/detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -93,82 +94,89 @@ class WorkerCard extends StatelessWidget {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 5,
+              padding: EdgeInsets.only(
+                left: 10
+              ),
               itemBuilder: (context, index) {
-                return Container(
-                  width: 160,
-                  height: 230,
-                  margin: EdgeInsets.only(
-                      left: 15,
-                      top: 5,
-                      bottom: 10
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 4,
-                        offset:
-                        Offset(0, 4), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Center(
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundImage:
-                          AssetImage(AppAssets.firdanImg),
+                return InkWell(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailProfil(),)),
+                  child: Container(
+                    width: 160,
+                    height: 230,
+                    margin: EdgeInsets.only(
+                        left: 10,
+                        right: 10,
+                        top: 5,
+                        bottom: 10
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 4,
+                          offset:
+                          Offset(0, 4), // changes position of shadow
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 10, top: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Kalam',
-                              style: TextStyle(
-                                  color: color.black,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              'Pria, 99 Tahun',
-                              style: TextStyle(
-                                  color: color.black.withOpacity(0.5),
-                                  fontSize: 14),
-                            ),
-                            SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              'Kabupaten Kudus',
-                              style: TextStyle(
-                                  color: color.black.withOpacity(0.5),
-                                  fontSize: 14),
-                            ),
-                            SizedBox(
-                              height: 3,
-                            ),
-                            Text(
-                              'Programmer',
-                              style: TextStyle(
-                                  color: color.secondary, fontSize: 15),
-                            )
-                          ],
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 25,
                         ),
-                      )
-                    ],
+                        Center(
+                          child: CircleAvatar(
+                            radius: 40,
+                            backgroundImage:
+                            AssetImage(AppAssets.firdanImg),
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(left: 10, top: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Kalam',
+                                style: TextStyle(
+                                    color: color.black,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                'Pria, 99 Tahun',
+                                style: TextStyle(
+                                    color: color.black.withOpacity(0.5),
+                                    fontSize: 14),
+                              ),
+                              SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                'Kabupaten Kudus',
+                                style: TextStyle(
+                                    color: color.black.withOpacity(0.5),
+                                    fontSize: 14),
+                              ),
+                              SizedBox(
+                                height: 3,
+                              ),
+                              Text(
+                                'Programmer',
+                                style: TextStyle(
+                                    color: color.secondary, fontSize: 15),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 );
               },
