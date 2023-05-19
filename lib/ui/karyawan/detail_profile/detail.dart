@@ -1,5 +1,6 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/app_color.dart';
@@ -15,12 +16,13 @@ class DetailProfil extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: color.secondaryContainer),
             title: Text(
               'Profil',
               style: TextStyle(
-                color: color.black,
-                fontSize: 19,
-                fontWeight: FontWeight.w600
+                  color: color.black,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w600
               ),
             ),
           ),
@@ -29,13 +31,13 @@ class DetailProfil extends StatelessWidget {
               width: double.maxFinite,
               height: 140,
               margin: EdgeInsets.symmetric(
-                horizontal: 13
+                  horizontal: 13
               ),
               child: Row(
                 children: [
                   Container(
                     margin: EdgeInsets.only(
-                      right: 5
+                        right: 5
                     ),
                     child: CircleAvatar(
                       backgroundImage: AssetImage(AppAssets.firdanImg),
@@ -47,33 +49,47 @@ class DetailProfil extends StatelessWidget {
                     height: 120,
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
-                      color: color.secondary,
-                      borderRadius: BorderRadius.all(Radius.circular(5))
+                        color: color.secondary,
+                        borderRadius: BorderRadius.all(Radius.circular(5))
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(
-                      top: 10
+                        top: 10
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Kalam',
-                          style: TextStyle(
-                            color: color.black,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 17
-                          ),
-                        ),
                         SizedBox(
-                          height: 7,
-                        ),
-                        Text(
-                          '99 Tahun',
-                          style: TextStyle(
-                            color: color.black,
-                            fontSize: 14
+                          width: 200,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Kalam',
+                                    style: TextStyle(
+                                        color: color.black,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 17
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 7,
+                                  ),
+                                  Text(
+                                    '99 Tahun',
+                                    style: TextStyle(
+                                        color: color.black,
+                                        fontSize: 14
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              InkWell(child: SvgPicture.asset(AppAssets.cvIcon, width: 25,), onTap: () {},)
+                            ],
                           ),
                         ),
                         SizedBox(
@@ -84,16 +100,16 @@ class DetailProfil extends StatelessWidget {
                             Text(
                               'Kudus, Jawa Tengah, ',
                               style: TextStyle(
-                                color: color.black,
-                                fontSize: 14
+                                  color: color.black,
+                                  fontSize: 14
                               ),
                             ),
                             Text(
                               'Indonesia',
                               style: TextStyle(
-                                color: color.secondary,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 14
+                                  color: color.secondary,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14
                               ),
                             ),
                           ],
@@ -113,8 +129,8 @@ class DetailProfil extends StatelessWidget {
                               child: Text(
                                 'Ui/Ux Designer',
                                 style: TextStyle(
-                                  fontSize: 12,
-                                  color: color.white
+                                    fontSize: 12,
+                                    color: color.white
                                 ),
                               ),
                             ),
@@ -128,8 +144,8 @@ class DetailProfil extends StatelessWidget {
                               child: Text(
                                 'Front End',
                                 style: TextStyle(
-                                  fontSize: 12,
-                                  color: color.white
+                                    fontSize: 12,
+                                    color: color.white
                                 ),
                               ),
                             ),
@@ -154,6 +170,32 @@ class DetailProfil extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: BottomAppBar(
+        color: color.white,
+        child: InkWell(
+          onTap: () {},
+          hoverColor: Colors.black,
+          child: Container(
+            alignment: Alignment.center,
+            width: double.maxFinite,
+            height: 18,
+            margin: EdgeInsets.symmetric(
+                horizontal: 10
+            ),
+            decoration: BoxDecoration(
+                color: color.secondary,
+                borderRadius: BorderRadius.circular(12)
+            ),
+            child: Text(
+              'Undang Wawancara',
+              style: TextStyle(
+                  color: color.white,
+                  fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -164,8 +206,8 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
   return Container(
     width: double.maxFinite,
     margin: EdgeInsets.symmetric(
-      horizontal: 10,
-      vertical: 10
+        horizontal: 10,
+        vertical: 10
     ),
     child: Card(
       elevation: 2,
@@ -175,10 +217,10 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
           Container(
             width: 50,
             margin: EdgeInsets.only(
-              left: 10,
-              top: 20,
-              right: 20,
-              bottom: 40
+                left: 10,
+                top: 20,
+                right: 20,
+                bottom: 40
             ),
             child: Stack(
               children: [
