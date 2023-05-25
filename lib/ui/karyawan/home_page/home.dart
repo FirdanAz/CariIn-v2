@@ -1,4 +1,5 @@
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -95,11 +96,16 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                               fontSize: 14)),
                     ],
                   ),
-                  Text('Lebih banyak',
-                      style: GoogleFonts.outfit(
-                          color: color.secondary,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14)),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ListKaryawan(),));
+                    },
+                    child: Text('Lebih banyak',
+                        style: GoogleFonts.outfit(
+                            color: color.secondary,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14)),
+                  ),
                 ],
               ),
             ),
