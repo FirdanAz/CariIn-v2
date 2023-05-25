@@ -3,6 +3,7 @@ import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/home_page/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:group_button/group_button.dart';
 
 import '../../../../common/app_color.dart';
 
@@ -152,28 +153,6 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                         fontWeight: FontWeight.w500
                     ),
                   ),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 5,
-                        height: 100,
-                        margin: EdgeInsets.all(8),
-                        color: color.black,
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            'Provinsi',
-                            style: TextStyle(),
-                          ),
-                          Container(
-                            height: 20,
-                          )
-                        ],
-                      )
-                    ],
-                  ),
                   SizedBox(height: 20,),
                   InkWell(
                     onTap: () async {
@@ -191,21 +170,234 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                       width: double.maxFinite,
                       height: 60,
                       decoration: BoxDecoration(
-                        border: Border.all(color: color.secondary, width: 2),
-                        borderRadius: BorderRadius.circular(10)
+                          border: Border.all(color: color.secondary, width: 2),
+                          borderRadius: BorderRadius.circular(10)
                       ),
                       child: Center(
                         child: Text(
                           'Pilih Tanggal',
                           style: TextStyle(
-                            color: color.secondary,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15
+                              color: color.secondary,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15
                           ),
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  SizedBox(height: 20,),
+                  const Text(
+                    'Dimana bisnis didirikan?',
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 4,
+                        height: 215,
+                        margin: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: color.onBackground.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(5)
+                        ),
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.only(top: 10, bottom: 10, left: 6),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Provinsi',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w500
+                                ),
+                              ),
+                              Container(
+                                height: 50,
+                                width: double.maxFinite,
+                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    value: selectedValue,
+                                    icon: Container(
+                                        alignment: Alignment.centerRight,
+                                        child: const Icon(Icons.arrow_drop_down)),
+                                    elevation: 18,
+                                    underline: Container(
+                                      height: 2,
+                                      color: color.black.withOpacity(0.1),
+                                    ),
+                                    style:
+                                    TextStyle(color: color.black),
+                                    iconSize: 30,
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
+                                      setState(() {
+                                        selectedValue = value!;
+                                      });
+                                    },
+                                    items: dropdownItems
+                                ),
+                              ),
+                              Text(
+                                'Kota',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500
+                                ),
+                              ),
+                              Container(
+                                height: 50,
+                                width: double.maxFinite,
+                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    value: selectedValue,
+                                    icon: Container(
+                                        alignment: Alignment.centerRight,
+                                        child: const Icon(Icons.arrow_drop_down)),
+                                    elevation: 18,
+                                    underline: Container(
+                                      height: 2,
+                                      color: color.black.withOpacity(0.1),
+                                    ),
+                                    style:
+                                    TextStyle(color: color.black),
+                                    iconSize: 30,
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
+                                      setState(() {
+                                        selectedValue = value!;
+                                      });
+                                    },
+                                    items: dropdownItems
+                                ),
+                              ),
+                              Text(
+                                'Kecamatan',
+                                style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500
+                                ),
+                              ),
+                              Container(
+                                height: 50,
+                                width: double.maxFinite,
+                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                child: DropdownButton<String>(
+                                    isExpanded: true,
+                                    value: selectedValue,
+                                    icon: Container(
+                                        alignment: Alignment.centerRight,
+                                        child: const Icon(Icons.arrow_drop_down)),
+                                    elevation: 18,
+                                    underline: Container(
+                                      height: 2,
+                                      color: color.black.withOpacity(0.1),
+                                    ),
+                                    style:
+                                    TextStyle(color: color.black),
+                                    iconSize: 30,
+                                    onChanged: (String? value) {
+                                      // This is called when the user selects an item.
+                                      setState(() {
+                                        selectedValue = value!;
+                                      });
+                                    },
+                                    items: dropdownItems
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  const Text(
+                    'Selaku',
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  SizedBox(
+                    width: double.maxFinite,
+                    child: GroupButton(
+                      isRadio: false,
+                      borderRadius: BorderRadius.circular(10),
+                      spacing: 10,
+                      buttonHeight: 60,
+                      buttonWidth: 110,
+                      mainGroupAlignment: MainGroupAlignment.spaceBetween,
+                      selectedBorderColor: color.secondary,
+                      unselectedColor: color.secondary,
+                      selectedColor: color.white,
+                      selectedTextStyle: TextStyle(
+                        color: color.secondary
+                      ),
+                      unselectedTextStyle: TextStyle(color: color.white),
+                      buttons: [
+                        "Pemilik",
+                        "Pengelola",
+                        "Hrd"
+                      ],
+                      selectedButtons: [
+                        0
+                      ],
+                      onSelected: (int index, bool isSelected) => print('$index is selected'),
+
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  const Text(
+                    'Info singkat bisnis',
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
+                  SizedBox(height: 20,),
+                  Container(
+                    width: double.maxFinite,
+                    constraints: BoxConstraints(minHeight: 130),
+                    padding: EdgeInsets.only(
+                      left: 15,
+                      right: 10
+                    ),
+                    decoration: BoxDecoration(
+                      color: color.black.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: TextField(
+                      cursorColor: color.secondary,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: color.black
+                      ),
+                      decoration: InputDecoration(
+                        hintText: "Seputar bisnis anda",
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        hintStyle: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
