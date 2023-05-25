@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,7 +38,7 @@ class _SplashScrenState extends State<SplashScren> {
       Navigator.pushReplacement(
           context,
           PageTransition(
-              child: KaryawanBottomNavigation(),
+              child:CustomBottomNavigation(),
               type: PageTransitionType.fade,
               duration: const Duration(milliseconds: 900),
               curve: Curves.ease));
