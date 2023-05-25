@@ -1,5 +1,6 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
+import 'package:cariin_v2/ui/karyawan/form/rincian_usaha/rincian_usaha.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -64,7 +65,7 @@ class OptionsPage extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const FormRincianUsaha(),), (route) => false);
                 },
                 child: Container(
                   width: 150,

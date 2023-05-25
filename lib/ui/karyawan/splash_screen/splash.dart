@@ -62,9 +62,12 @@ class _SplashScrenState extends State<SplashScren> {
         systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: color.primary),
       ),
       backgroundColor: color.primary,
-      body: Center(
-        child: SvgPicture.asset(
-          AppAssets.appsLogo,
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Center(
+          child: SvgPicture.asset(
+            AppAssets.appsLogo,
+          ),
         ),
       ),
     );
