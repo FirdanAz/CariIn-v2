@@ -38,7 +38,7 @@ class _KandidatPageState extends State<KandidatPage> with TickerProviderStateMix
             indicator: UnderlineTabIndicator(
               borderSide: BorderSide(
                 width: 5,
-                color: color.secondary,
+                color: color.primary,
               ),
             ),
             tabs: [

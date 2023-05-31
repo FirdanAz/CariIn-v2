@@ -21,12 +21,13 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
     var color = AppColor.theme(Theme.of(context).brightness);
 
     return Scaffold(
+      backgroundColor: color.surface,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             toolbarHeight: 95,
             systemOverlayStyle:
-                SystemUiOverlayStyle(statusBarColor: color.secondaryContainer),
+                SystemUiOverlayStyle(statusBarColor: color.primaryContainer),
             pinned: false,
             actions: [
               Padding(
@@ -85,13 +86,13 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                     children: [
                       Text('Pekerja Siap Direkurt',
                           style: GoogleFonts.outfit(
-                              color: color.onSecondaryContainer,
+                              color: color.onPrimaryContainer,
                               fontWeight: FontWeight.w600,
                               fontSize: 16)),
                       Text('Pilih dan kirim undangan rekurt',
                           style: GoogleFonts.outfit(
                               color:
-                                  color.onSecondaryContainer.withOpacity(0.4),
+                                  color.onPrimaryContainer.withOpacity(0.4),
                               fontWeight: FontWeight.w600,
                               fontSize: 14)),
                     ],
@@ -102,7 +103,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                     },
                     child: Text('Lebih banyak',
                         style: GoogleFonts.outfit(
-                            color: color.secondary,
+                            color: color.primary,
                             fontWeight: FontWeight.w600,
                             fontSize: 14)),
                   ),
@@ -123,20 +124,20 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                     children: [
                       Text('Pekerjaan Disekitarmu',
                           style: GoogleFonts.outfit(
-                              color: color.onSecondaryContainer,
+                              color: color.onPrimaryContainer,
                               fontWeight: FontWeight.w600,
                               fontSize: 16)),
                       Text('Temukan Lowongan Terdekat',
                           style: GoogleFonts.outfit(
                               color:
-                                  color.onSecondaryContainer.withOpacity(0.4),
+                                  color.onPrimaryContainer.withOpacity(0.4),
                               fontWeight: FontWeight.w600,
                               fontSize: 14)),
                     ],
                   ),
                   Text('Lebih banyak',
                       style: GoogleFonts.outfit(
-                          color: color.secondary,
+                          color: color.primary,
                           fontWeight: FontWeight.w600,
                           fontSize: 14)),
                 ],

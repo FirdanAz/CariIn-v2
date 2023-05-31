@@ -13,10 +13,11 @@ class DetailProfil extends StatelessWidget {
     var color = AppColor.theme(Theme.of(context).brightness);
 
     return Scaffold(
+      backgroundColor: color.background,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: color.secondaryContainer),
+            systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: color.primaryContainer),
             title: Text(
               'Profil',
               style: TextStyle(
@@ -49,7 +50,7 @@ class DetailProfil extends StatelessWidget {
                     height: 120,
                     margin: EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
-                        color: color.secondary,
+                        color: color.primary,
                         borderRadius: BorderRadius.all(Radius.circular(5))
                     ),
                   ),
@@ -88,7 +89,7 @@ class DetailProfil extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              InkWell(child: SvgPicture.asset(AppAssets.cvIcon, width: 25,), onTap: () {},)
+                              InkWell(child: SvgPicture.asset(AppAssets.cvIcon, width: 25,color: color.primary,), onTap: () {},)
                             ],
                           ),
                         ),
@@ -107,7 +108,7 @@ class DetailProfil extends StatelessWidget {
                             Text(
                               'Indonesia',
                               style: TextStyle(
-                                  color: color.secondary,
+                                  color: color.primary,
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14
                               ),
@@ -124,7 +125,7 @@ class DetailProfil extends StatelessWidget {
                                   vertical: 3, horizontal: 5),
                               margin: EdgeInsets.only(right: 7),
                               decoration: BoxDecoration(
-                                  color: color.secondary,
+                                  color: color.primary,
                                   borderRadius: BorderRadius.circular(5)),
                               child: Text(
                                 'Ui/Ux Designer',
@@ -139,7 +140,7 @@ class DetailProfil extends StatelessWidget {
                                   vertical: 3, horizontal: 5),
                               margin: EdgeInsets.only(right: 7),
                               decoration: BoxDecoration(
-                                  color: color.secondary,
+                                  color: color.primary,
                                   borderRadius: BorderRadius.circular(5)),
                               child: Text(
                                 'Front End',
@@ -183,7 +184,7 @@ class DetailProfil extends StatelessWidget {
                 horizontal: 10
             ),
             decoration: BoxDecoration(
-                color: color.secondary,
+                color: color.primary,
                 borderRadius: BorderRadius.circular(12)
             ),
             child: Text(
@@ -210,6 +211,7 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
         vertical: 10
     ),
     child: Card(
+      color: color.white,
       elevation: 2,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,7 +230,7 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
                   height: 45,
                   width: 45,
                   decoration: BoxDecoration(
-                      color: color.secondaryContainer,
+                      color: color.primaryContainer,
                       borderRadius: BorderRadius.all(Radius.circular(10))
                   ),
                 ),
@@ -266,7 +268,7 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
                 Container(
                   padding: EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                      color: color.secondaryContainer,
+                      color: color.primaryContainer,
                       borderRadius: BorderRadius.circular(5)
                   ),
                   child: Container(
