@@ -65,14 +65,14 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                       margin: EdgeInsets.symmetric(
                         vertical: 20
                       ),
-                      color: color.secondary,
+                      color: color.primary,
                       child: Center(
                         child: Container(
                           padding: EdgeInsets.symmetric(
                             vertical: 8,
                             horizontal: 10
                           ),
-                          child: SvgPicture.asset(AppAssets.companyIcon, color: color.secondary,),
+                          child: SvgPicture.asset(AppAssets.companyIcon, color: color.primary,),
                           decoration: BoxDecoration(
                             color: color.white,
                             borderRadius: BorderRadius.circular(10)
@@ -95,7 +95,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                       margin: EdgeInsets.symmetric(
                           vertical: 20
                       ),
-                      color: color.secondary,
+                      color: color.primary,
                       child: Center(
                           child: Container(
                             padding: EdgeInsets.symmetric(
@@ -170,14 +170,14 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                       width: double.maxFinite,
                       height: 60,
                       decoration: BoxDecoration(
-                          border: Border.all(color: color.secondary, width: 2),
+                          border: Border.all(color: color.primary, width: 2),
                           borderRadius: BorderRadius.circular(10)
                       ),
                       child: Center(
                         child: Text(
                           'Pilih Tanggal',
                           style: TextStyle(
-                              color: color.secondary,
+                              color: color.primary,
                               fontWeight: FontWeight.w500,
                               fontSize: 15
                           ),
@@ -338,17 +338,17 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                       buttonHeight: 60,
                       buttonWidth: 110,
                       mainGroupAlignment: MainGroupAlignment.spaceBetween,
-                      selectedBorderColor: color.secondary,
-                      unselectedColor: color.secondary,
+                      selectedBorderColor: color.primary,
+                      unselectedColor: color.primary,
                       selectedColor: color.white,
                       selectedTextStyle: TextStyle(
-                        color: color.secondary
+                        color: color.primary
                       ),
                       unselectedTextStyle: TextStyle(color: color.white),
                       buttons: [
                         "Pemilik",
                         "Pengelola",
-                        "Hrd"
+                        "HRD"
                       ],
                       selectedButtons: [
                         0
@@ -378,7 +378,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                       borderRadius: BorderRadius.circular(10)
                     ),
                     child: TextField(
-                      cursorColor: color.secondary,
+                      cursorColor: color.primary,
                       maxLines: null,
                       keyboardType: TextInputType.multiline,
                       style: TextStyle(
@@ -413,7 +413,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                   vertical: 20
                 ),
                 decoration: BoxDecoration(
-                  color: color.secondary,
+                  color: color.primary,
                   borderRadius: BorderRadius.circular(10)
                 ),
                 child: Center(child: Text('Lanjut', style: TextStyle(

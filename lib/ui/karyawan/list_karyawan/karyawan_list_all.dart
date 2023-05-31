@@ -16,7 +16,7 @@ class ListKaryawan extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: color.secondaryContainer),
+            systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: color.primaryContainer),
             title: Text(
               'Pekerja Siap Direkurt',
               style: TextStyle(
@@ -109,7 +109,7 @@ Widget KaryawanListCard(BuildContext context) {
                     Text(
                       'Indonesia',
                       style: TextStyle(
-                          color: color.secondary,
+                          color: color.primary,
                           fontWeight: FontWeight.w600,
                           fontSize: 14
                       ),
@@ -120,7 +120,7 @@ Widget KaryawanListCard(BuildContext context) {
                 Text(
                   'UI/UX Designer',
                   style: TextStyle(
-                      color: color.secondary,
+                      color: color.primary,
                       fontSize: 14
                   ),
                 ),

@@ -29,22 +29,23 @@ class OptionsPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                hoverColor: color.secondaryContainer,
+                hoverColor: color.secondary.withOpacity(0.1),
                 onTap: () {},
                 child: Container(
                   width: 150,
                   height: 220,
-                  color: color.primary,
+                  color: color.secondary.withOpacity(0.1),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CircleAvatar(
                         radius: 40,
-                        backgroundColor: color.secondary,
+                        backgroundColor: color.primary,
                         child: Padding(
                           padding: const EdgeInsets.only(left: 7.0),
                           child: SvgPicture.asset(
                             AppAssets.cLowongan,
+                            color: color.white,
                           ),
                         ),
                       ),
@@ -53,7 +54,8 @@ class OptionsPage extends StatelessWidget {
                         'Cari Lowongan',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          fontSize: 15
+                          fontSize: 15,
+                          color: color.primary
                         ),
                       )
                     ],
@@ -70,15 +72,16 @@ class OptionsPage extends StatelessWidget {
                 child: Container(
                   width: 150,
                   height: 220,
-                  color: color.primary,
+                  color: color.secondary.withOpacity(0.1),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CircleAvatar(
                         radius: 40,
-                        backgroundColor: color.secondary,
+                        backgroundColor: color.primary,
                         child: SvgPicture.asset(
                           AppAssets.cKaryawan,
+                          color: color.white,
                         ),
                       ),
                       SizedBox(height: 10,),
@@ -86,7 +89,8 @@ class OptionsPage extends StatelessWidget {
                         'Cari Karyawan',
                         style: TextStyle(
                             fontWeight: FontWeight.w600,
-                            fontSize: 15
+                            fontSize: 15,
+                          color: color.primary
                         ),
                       )
                     ],

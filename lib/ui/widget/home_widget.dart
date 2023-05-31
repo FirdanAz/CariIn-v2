@@ -39,6 +39,7 @@ class HomeCard extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 30, right: 30),
                   child: SvgPicture.asset(
                     AppAssets.filterIcon,
+                    color: color.primary,
                     height: 30,
                   ),
                 ),
@@ -50,14 +51,14 @@ class HomeCard extends StatelessWidget {
                     children: [
                       Text('Apakah hasilnya kurang relevan?',
                           style: TextStyle(
-                            color: color.onSecondaryContainer,
+                            color: color.onPrimaryContainer,
                             fontWeight: FontWeight.w600,
                             fontSize: 15
                           )),
                       Text(
                           'Update minat dan preferensi usaha anda untuk rekomendasi yang lebih akurat.',
                           style: TextStyle(
-                            color: color.onSecondaryContainer,
+                            color: color.onPrimaryContainer,
                             fontSize: 13
                           )),
                       SizedBox(
@@ -65,7 +66,7 @@ class HomeCard extends StatelessWidget {
                       ),
                       Text('Perbarui Sekarang',
                           style: TextStyle(
-                            color: color.secondary,
+                            color: color.primary,
                             fontWeight: FontWeight.w500,
                             fontSize: 14
                           )),
@@ -170,7 +171,7 @@ class WorkerCard extends StatelessWidget {
                               Text(
                                 'Programmer',
                                 style: TextStyle(
-                                    color: color.secondary, fontSize: 15),
+                                    color: color.primary, fontSize: 15),
                               )
                             ],
                           ),
@@ -264,7 +265,7 @@ class JobListCard extends StatelessWidget {
                               vertical: 3, horizontal: 5),
                           margin: EdgeInsets.only(right: 7),
                           decoration: BoxDecoration(
-                              color: color.secondaryContainer,
+                              color: color.primaryContainer,
                               borderRadius: BorderRadius.circular(5)),
                           child: Text(
                             'Front End',
@@ -278,7 +279,7 @@ class JobListCard extends StatelessWidget {
                               vertical: 3, horizontal: 5),
                           margin: EdgeInsets.only(right: 7),
                           decoration: BoxDecoration(
-                              color: color.secondaryContainer,
+                              color: color.primaryContainer,
                               borderRadius: BorderRadius.circular(5)),
                           child: Text(
                             'Ui/Ux Designer',
@@ -292,7 +293,7 @@ class JobListCard extends StatelessWidget {
                               vertical: 3, horizontal: 5),
                           margin: EdgeInsets.only(right: 7),
                           decoration: BoxDecoration(
-                              color: color.secondaryContainer,
+                              color: color.primaryContainer,
                               borderRadius: BorderRadius.circular(5)),
                           child: Text(
                             'Hacker',
@@ -348,7 +349,7 @@ class JobListCard extends StatelessWidget {
               width: double.maxFinite,
               margin: EdgeInsets.only(left: 15, right: 15),
               decoration: BoxDecoration(
-                color: color.secondary,
+                color: color.primary,
                 borderRadius:
                 BorderRadius.only(bottomRight: Radius.circular(20)),
                 boxShadow: [
