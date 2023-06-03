@@ -16,6 +16,10 @@ class AppAssets {
   static String wIcon = AppAssetsData().wIcon;
   static String cKaryawan = AppAssetsData().cKaryawan;
   static String cLowongan = AppAssetsData().cLowongan;
+  static String codeIcon = AppAssetsData().codeIcon;
+  static String designIcon = AppAssetsData().designIcon;
+  static String medicalIcon = AppAssetsData().medicalIcon;
+  static String teacherIcon = AppAssetsData().teacherIcon;
 
 }
 
@@ -37,6 +41,10 @@ class AppAssetsData {
   final _wIcon = "assets/images/null_w.svg";
   final _cariKaryawanIcon = "assets/images/ckaryawan.svg";
   final _cariLowonganIcon = "assets/images/clowongan.svg";
+  final _codeIcon = "assets/images/code_icon.svg";
+  final _designIcon = "assets/images/design_icon.svg";
+  final _medicalIcon = "assets/images/medical_icon.svg";
+  final _teacherIcon = "assets/images/teacher_icon.svg";
 
   String get companyIcon => _companyIcon;
   String get warningIcon => _warningIcon;
@@ -55,4 +63,8 @@ class AppAssetsData {
   String get wIcon => _wIcon;
   String get cKaryawan => _cariKaryawanIcon;
   String get cLowongan => _cariLowonganIcon;
+  String get codeIcon => _codeIcon;
+  String get designIcon => _designIcon;
+  String get medicalIcon => _medicalIcon;
+  String get teacherIcon => _teacherIcon;
 }

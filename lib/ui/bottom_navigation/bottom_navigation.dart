@@ -13,8 +13,8 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
   int _pageIndex = 0;
   final List<Widget> _page = const [
     HomePage(),
-    Center(child: Text("Car")),
-    Center(child: Text("Money")),
+    Center(child: Text("Pekerjaan")),
+    Center(child: Text("Pesan")),
     Center(child: Text("Profil")),
   ];
 
@@ -30,28 +30,28 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
         destinations: [
           NavigationDestination(
               icon: Icon(
-                Icons.home_outlined,
+                Icons.home_filled,
                 color: _pageIndex == 0
                     ? color.white
                     : Theme.of(context).iconTheme.color!.withOpacity(0.5),
               ),
-              label: "Home"),
+              label: "Beranda"),
           NavigationDestination(
               icon: Icon(
-                Icons.car_crash,
+                Icons.work,
                 color: _pageIndex == 1
                     ? color.white
                     : Theme.of(context).iconTheme.color!.withOpacity(0.5),
               ),
-              label: "Car"),
+              label: "Pekerjaan"),
           NavigationDestination(
               icon: Icon(
-                Icons.money,
+                Icons.message,
                 color: _pageIndex == 2
                     ? color.white
                     : Theme.of(context).iconTheme.color!.withOpacity(0.5),
               ),
-              label: "Money"),
+              label: "Pesan"),
           NavigationDestination(
               icon: Icon(
                 Icons.person,
