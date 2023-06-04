@@ -1,19 +1,21 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/lowongan/lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/pelamar.dart';
+import 'package:cariin_v2/ui/karyawan/notification/chat/chat.dart';
+import 'package:cariin_v2/ui/karyawan/notification/notifikasi/notif_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/app_color.dart';
 
-class KandidatPage extends StatefulWidget {
-  KandidatPage({Key? key}) : super(key: key);
+class NotificationPage extends StatefulWidget {
+  NotificationPage({Key? key}) : super(key: key);
 
   @override
-  State<KandidatPage> createState() => _KandidatPageState();
+  State<NotificationPage> createState() => _NotificationPageState();
 }
 
-class _KandidatPageState extends State<KandidatPage> with TickerProviderStateMixin{
+class _NotificationPageState extends State<NotificationPage> with TickerProviderStateMixin{
   late TabController _tabController;
 
   @override
@@ -46,13 +48,13 @@ class _KandidatPageState extends State<KandidatPage> with TickerProviderStateMix
               Container(
                 height: 70,
                 alignment: Alignment.center,
-                child: Text("Pelamar"),
+                child: Text("Notifikasi"),
 
               ),
               Container(
                 height: 70,
                 alignment: Alignment.center,
-                child: Text("Lowongan"),
+                child: Text("Chat"),
               ),
             ],
           ),
@@ -61,8 +63,8 @@ class _KandidatPageState extends State<KandidatPage> with TickerProviderStateMix
       body: TabBarView(
         controller: _tabController,
         children: [
-          PelamarTab(),
-          LowonganPage(),
+          NotifPage(),
+          ChatPage(),
         ],
       ),
     );

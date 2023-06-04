@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/common/public_function.dart';
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,6 +11,7 @@ import 'package:page_transition/page_transition.dart';
 
 import '../../../common/app_color.dart';
 import '../../options/options.dart';
+import '../auth/login.dart';
 
 class SplashScren extends StatefulWidget {
   const SplashScren({Key? key}) : super(key: key);
@@ -24,31 +28,24 @@ class _SplashScrenState extends State<SplashScren> {
     setState(() {
       _logoOpacity = 1;
     });
-    Timer(Duration(seconds: 2), () {
-      // Navigator.pushReplacement(context,
-      //     PageTransition(child: FutureBuilder(
-      //       future: _initializedFirebase(),
-      //       builder: (context, snapshot) {
-      //         if(snapshot.connectionState == ConnectionState.done){
-      //           return FirebaseAuth.instance.currentUser == null ?  const LoginPage() : BottomNavbar();
-      //         }
-      //         return const Center(child: CircularProgressIndicator());
-      //       },), type: PageTransitionType.fade));
-      Navigator.pushReplacement(
-          context,
-          PageTransition(
-              child: const OptionsPage(),
-              type: PageTransitionType.fade,
-              duration: const Duration(milliseconds: 900),
-              curve: Curves.ease));
-    });
+    await Future.delayed(const Duration(seconds: 2));
+    if (await PublicFunction.getTokenCompany() == '') {
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OptionsPage(),), (route) => false);
+    }else if(await PublicFunction.getTokenCompany() != ''){
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
+    } else
+    if (await PublicFunction.getTokenWorker() == ''){
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OptionsPage(),), (route) => false);
+    } else if(await PublicFunction.getTokenWorker() != ''){
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false);
+    }
   }
 
   @override
   void initState() {
     // TODO: implement initState
-    _initialize();
     super.initState();
+    _initialize();
   }
 
   @override
@@ -58,7 +55,7 @@ class _SplashScrenState extends State<SplashScren> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: color.primaryContainer),
+        systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: color.secondaryContainer),
       ),
       backgroundColor: color.background,
       body: Padding(
