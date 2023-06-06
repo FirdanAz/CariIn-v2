@@ -20,7 +20,7 @@ class AppAssets {
   static String designIcon = AppAssetsData().designIcon;
   static String medicalIcon = AppAssetsData().medicalIcon;
   static String teacherIcon = AppAssetsData().teacherIcon;
-
+  static String introIcon = AppAssetsData().introIcon;
 }
 
 class AppAssetsData {
@@ -45,6 +45,7 @@ class AppAssetsData {
   final _designIcon = "assets/images/design_icon.svg";
   final _medicalIcon = "assets/images/medical_icon.svg";
   final _teacherIcon = "assets/images/teacher_icon.svg";
+  final _introIcon = "assets/images/intro_icon.svg";
 
   String get companyIcon => _companyIcon;
   String get warningIcon => _warningIcon;
@@ -56,6 +57,7 @@ class AppAssetsData {
   String get fieldIcon => _fieldIcon;
   String get motivationIcon => _motivationIcon;
   String get cvIcon => _cvIcon;
+  String get introIcon => _introIcon;
 
   String get homeIcon => _homeIcon;
   String get contactIcon => _contactIcon;
