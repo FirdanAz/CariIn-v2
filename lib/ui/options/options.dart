@@ -2,6 +2,7 @@ import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/form/rincian_usaha/rincian_usaha.dart';
+import 'package:cariin_v2/ui/lowongan/atur%20cv/cv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,7 +32,7 @@ class OptionsPage extends StatelessWidget {
             children: [
               InkWell(
                 hoverColor: color.secondary.withOpacity(0.1),
-                onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false),
+                onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => AturCvPage(),), (route) => false),
                 child: Container(
                   width: 150,
                   height: 220,
