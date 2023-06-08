@@ -11,7 +11,7 @@ import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
 import '../../../model/all_job_company_model.dart';
 import '../../../service/api_service.dart';
-import '../../lowongan/detail_lowongan/detail.dart';
+import '../../lowongan/detail_lowongan/page.dart';
 import '../auth/login.dart';
 
 class HomePageKaryawan extends StatefulWidget {
@@ -203,7 +203,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
             delegate: SliverChildBuilderDelegate(childCount: acceptedJobCompany!.data!.length,(context, index) {
               var data = acceptedJobCompany!.data![index];
               return  InkWell(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DetailLowongan(),)),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JobDetailPage(),)),
                 child: Column(
                   children: [
                     Container(
