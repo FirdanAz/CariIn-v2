@@ -1,15 +1,17 @@
 import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/common/responsive.dart';
+import 'package:cariin_v2/ui/widget/tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class JobDetailPage extends StatelessWidget {
-  const JobDetailPage({super.key});
+  JobDetailPage({super.key});
+  final ValueNotifier<int> _tabIndex = ValueNotifier<int>(0);
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final color = AppColor.theme(MediaQuery.of(context).platformBrightness);
+    final color = AppColor.theme(Theme.of(context).brightness);
     final textTheme = Theme.of(context).textTheme;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
@@ -18,7 +20,7 @@ class JobDetailPage extends StatelessWidget {
           children: [
             Image.network(
               'https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg',
-              height: 260,
+              height: Responsive.byHeight(260),
               width: screenSize.width,
               fit: BoxFit.cover,
             ),
@@ -33,8 +35,10 @@ class JobDetailPage extends StatelessWidget {
                       Container(
                         height: screenSize.height,
                         width: screenSize.width,
-                        padding:
-                            const EdgeInsets.only(top: 50, left: 15, right: 15),
+                        padding: EdgeInsets.only(
+                            top: 50,
+                            left: Responsive.byWidth(15),
+                            right: Responsive.byWidth(15)),
                         decoration: BoxDecoration(
                           color: color.surfaceContainer,
                           borderRadius: const BorderRadius.vertical(
@@ -64,6 +68,10 @@ class JobDetailPage extends StatelessWidget {
                               salary: '2 jt/bulan',
                             ),
                             const SizedBox(height: 24),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: CustomTabBar(),
+                            ),
                           ],
                         ),
                       ),
