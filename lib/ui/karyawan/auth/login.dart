@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: InkWell(onTap: () async {
                   showLoaderDialog(context);
                   await Future.delayed(const Duration(seconds: 2));
-                  await ApiService().postLoginCompany(context, _emailController.text, _passwordController.text);
+                  await ApiService().postLogin(context, _emailController.text, _passwordController.text, 'company');
                   await Future.delayed(const Duration(seconds: 2));
                   if(await PublicFunction.getTokenCompany() != ''){
                     await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
