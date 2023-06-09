@@ -1,72 +1,40 @@
 class AppAssets {
-  static String companyIcon = AppAssetsData().companyIcon;
-  static String warningIcon = AppAssetsData().warningIcon;
-  static String filterIcon = AppAssetsData().filterIcon;
-  static String firdanImg = AppAssetsData().firdanImg;
-  static String appsLogo = AppAssetsData().appsLogo;
-  static String genderIcon = AppAssetsData().genderIcon;
-  static String activityIcon = AppAssetsData().activityIcon;
-  static String fieldIcon = AppAssetsData().filterIcon;
-  static String motivationIcon = AppAssetsData().motivationIcon;
-  static String cvIcon = AppAssetsData().cvIcon;
+  static const String companyIcon = "assets/images/company.svg";
+  static const String warningIcon = "assets/images/warning.svg";
+  static const String filterIcon = "assets/images/filter.svg";
+  static const String firdanImg = "assets/images/firdan.jpeg";
+  static const String appsLogo = "assets/images/apps_logo.svg";
+  static const String genderIcon = "assets/icons/genders_icon.svg";
+  static const String activityIcon = "assets/images/activity_icon.svg";
+  static const String fieldIcon = "assets/images/field_icon.svg";
+  static const String motivationIcon = "assets/images/motivation_icon.svg";
+  static const String cvIcon = "assets/images/cvIcon.svg";
 
-  static String homeIcon = AppAssetsData().homeIcon;
-  static String contactIcon = AppAssetsData().contactIcon;
-  static String kandidatIcon = AppAssetsData().kandidatIcon;
-  static String wIcon = AppAssetsData().wIcon;
-  static String cKaryawan = AppAssetsData().cKaryawan;
-  static String cLowongan = AppAssetsData().cLowongan;
-  static String codeIcon = AppAssetsData().codeIcon;
-  static String designIcon = AppAssetsData().designIcon;
-  static String medicalIcon = AppAssetsData().medicalIcon;
-  static String teacherIcon = AppAssetsData().teacherIcon;
-  static String introIcon = AppAssetsData().introIcon;
-}
+  static const String homeIcon = "assets/icons/home_icon.svg";
+  static const String contactIcon = "assets/images/contact_icon.svg";
+  static const String kandidatIcon = "assets/images/kandidat_icon.svg";
+  static const String wIcon = "assets/images/null_w.svg";
+  static const String cariKaryawanIcon = "assets/images/ckaryawan.svg";
+  static const String cariLowonganIcon = "assets/images/clowongan.svg";
+  static const String codeIcon = "assets/images/code_icon.svg";
+  static const String designIcon = "assets/images/design_icon.svg";
+  static const String medicalIcon = "assets/images/medical_icon.svg";
+  static const String teacherIcon = "assets/images/teacher_icon.svg";
+  static const String introIcon = "assets/images/intro_icon.svg";
 
-class AppAssetsData {
-  final _companyIcon = "assets/images/company.svg";
-  final _warningIcon = "assets/images/warning.svg";
-  final _filterIcon = "assets/images/filter.svg";
-  final _firdanImg = "assets/images/firdan.jpeg";
-  final _appsLogo = "assets/images/apps_logo.svg";
-  final _genderIcon = "assets/images/gender_icon.svg";
-  final _activityIcon = "assets/images/activity_icon.svg";
-  final _fieldIcon = "assets/images/field_icon.svg";
-  final _motivationIcon = "assets/images/motivation_icon.svg";
-  final _cvIcon = "assets/images/cvIcon.svg";
-
-  final _homeIcon = "assets/images/home_icon.svg";
-  final _contactIcon = "assets/images/contact_icon.svg";
-  final _kandidatIcon = "assets/images/kandidat_icon.svg";
-  final _wIcon = "assets/images/null_w.svg";
-  final _cariKaryawanIcon = "assets/images/ckaryawan.svg";
-  final _cariLowonganIcon = "assets/images/clowongan.svg";
-  final _codeIcon = "assets/images/code_icon.svg";
-  final _designIcon = "assets/images/design_icon.svg";
-  final _medicalIcon = "assets/images/medical_icon.svg";
-  final _teacherIcon = "assets/images/teacher_icon.svg";
-  final _introIcon = "assets/images/intro_icon.svg";
-
-  String get companyIcon => _companyIcon;
-  String get warningIcon => _warningIcon;
-  String get filterIcon => _filterIcon;
-  String get firdanImg => _firdanImg;
-  String get appsLogo => _appsLogo;
-  String get genderIcon => _genderIcon;
-  String get activityIcon => _activityIcon;
-  String get fieldIcon => _fieldIcon;
-  String get motivationIcon => _motivationIcon;
-  String get cvIcon => _cvIcon;
-  String get introIcon => _introIcon;
-
-  String get homeIcon => _homeIcon;
-  String get contactIcon => _contactIcon;
-  String get kandidatIcon => _kandidatIcon;
-  String get wIcon => _wIcon;
-  String get cKaryawan => _cariKaryawanIcon;
-  String get cLowongan => _cariLowonganIcon;
-  String get codeIcon => _codeIcon;
-  String get designIcon => _designIcon;
-  String get medicalIcon => _medicalIcon;
-  String get teacherIcon => _teacherIcon;
+  static const String accountIcon = "assets/icons/account_icon.svg";
+  static const String cakeIcon = "assets/icons/cake_icon.svg";
+  static const String clockIcon = "assets/icons/clock_icon.svg";
+  static const String dollarIcon = "assets/icons/dollar_icon.svg";
+  static const String dollarOutlineIcon =
+      "assets/icons/dollar_outline_icon.svg";
+  static const String editIcon = "assets/icons/edit_icon.svg";
+  static const String globeIcon = "assets/icons/globe_icon.svg";
+  static const String graduationIcon = "assets/icons/graduation_icon.svg";
+  static const String historyIcon = "assets/icons/history_icon.svg";
+  static const String locationIcon = "assets/icons/location_icon.svg";
+  static const String messageIcon = "assets/icons/message_icon.svg";
+  static const String notificationIcon = "assets/icons/notification_icon.svg";
+  static const String searchDoneIcon = "assets/icons/search_done_icon.svg";
+  static const String suitcaseIcon = "assets/icons/suitcase_icon.svg";
 }
