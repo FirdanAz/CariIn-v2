@@ -39,6 +39,8 @@ dependencies:
   google_fonts:
   page_transition:
   group_button: ^2.4.1
+  sizer: ^2.0.15
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
