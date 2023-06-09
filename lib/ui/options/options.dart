@@ -1,8 +1,6 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
-import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/form/intoduction/intro_page.dart';
-import 'package:cariin_v2/ui/karyawan/form/rincian_usaha/rincian_usaha.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,7 +29,12 @@ class OptionsPage extends StatelessWidget {
                 children: [
                   InkWell(
                     hoverColor: color.secondary.withOpacity(0.1),
-                    onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false),
+                    onTap: () => Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CustomBottomNavigation(),
+                        ),
+                        (route) => false),
                     child: Container(
                       width: 150,
                       height: 220,
@@ -45,19 +48,20 @@ class OptionsPage extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 7.0),
                               child: SvgPicture.asset(
-                                AppAssets.cLowongan,
+                                AppAssets.cariLowonganIcon,
                                 color: color.primary,
                               ),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Text(
                             'Cari Lowongan?',
                             style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              color: color.white
-                            ),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                color: color.white),
                           )
                         ],
                       ),
@@ -68,7 +72,12 @@ class OptionsPage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const KaryawanIntroPage(),), (route) => false);
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const KaryawanIntroPage(),
+                          ),
+                          (route) => false);
                     },
                     child: Container(
                       width: 150,
@@ -81,18 +90,19 @@ class OptionsPage extends StatelessWidget {
                             radius: 40,
                             backgroundColor: color.primary,
                             child: SvgPicture.asset(
-                              AppAssets.cKaryawan,
+                              AppAssets.cariKaryawanIcon,
                               color: color.white,
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Text(
                             'Cari Karyawan?',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 15,
-                              color: color.primary
-                            ),
+                                color: color.primary),
                           )
                         ],
                       ),
