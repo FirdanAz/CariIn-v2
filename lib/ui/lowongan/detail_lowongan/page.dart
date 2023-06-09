@@ -9,7 +9,7 @@ class JobDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final color = AppColor.theme(MediaQuery.of(context).platformBrightness);
+    final color = AppColor.theme(Brightness.light);
     final textTheme = Theme.of(context).textTheme;
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
