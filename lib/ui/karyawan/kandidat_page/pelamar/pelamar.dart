@@ -1,4 +1,5 @@
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/ui/karyawan/form/rincian_usaha/rincian_usaha.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -61,21 +62,26 @@ class PelamarTab extends StatelessWidget {
               ),
               SizedBox(height: 30,),
               Container(
-                width: double.maxFinite,
-                height: 50,
-                margin: EdgeInsets.symmetric(
-                  horizontal: 40
-                ),
-                decoration: BoxDecoration(
-                  color: color.primary,
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                child: Center(
-                  child: Text(
-                    'Buat Lowongan',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: color.white
+                  margin: EdgeInsets.symmetric(
+                      horizontal: 40
+                  ),
+                child: InkWell(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => FormRincianUsaha(),)),
+                  child: Container(
+                    width: double.maxFinite,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: color.primary,
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Buat Lowongan',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: color.white
+                        ),
+                      ),
                     ),
                   ),
                 ),
