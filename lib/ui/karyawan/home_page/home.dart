@@ -1,4 +1,5 @@
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/model/accepted_job_model.dart';
 import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class HomePageKaryawan extends StatefulWidget {
 
 class _HomePageKaryawanState extends State<HomePageKaryawan> {
   //sementara
-  AllJobCompany? allJobCompany;
+  AcceptedJobCompany? acceptedJobCompany;
   bool _isLoad = false;
 
   void _logOut() {
@@ -51,9 +52,9 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
 
   getdata() async {
     _isLoad = true;
-    AllJobCompany allJob = await ApiService().AllJobsCompany();
+    AcceptedJobCompany allJob = await ApiService().AcceptedJob();
     setState(() {
-      allJobCompany = allJob;
+      acceptedJobCompany = allJob;
     });
     print(allJob);
     _isLoad = false;
@@ -199,8 +200,8 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
           ),
           //sementara
           _isLoad ? SliverToBoxAdapter() : SliverList(
-            delegate: SliverChildBuilderDelegate(childCount: allJobCompany!.data!.length,(context, index) {
-              var data = allJobCompany!.data![index];
+            delegate: SliverChildBuilderDelegate(childCount: acceptedJobCompany!.data!.length,(context, index) {
+              var data = acceptedJobCompany!.data![index];
               return  InkWell(
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JobDetailPage(),)),
                 child: Column(
