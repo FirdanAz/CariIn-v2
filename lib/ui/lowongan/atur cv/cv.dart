@@ -18,7 +18,6 @@ class _AturCvPageState extends State<AturCvPage> {
           'Atur CV',
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17),
         ),
-        const SizedBox(),
       ),
     );
   }
