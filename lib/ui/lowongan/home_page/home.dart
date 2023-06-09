@@ -1,6 +1,6 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_function.dart';
-import 'package:cariin_v2/ui/lowongan/notification_lowongan.dart';
+import 'package:cariin_v2/ui/lowongan/notification/notification_lowongan.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +34,8 @@ class _HomePageState extends State<HomePage> {
               Padding(
                 padding: const EdgeInsets.only(right: 35, top: 30),
                 child: InkWell(
-                  onTap: () => Navigate.push(context, NotificationPage()),
-                  child: Icon(Icons.notifications),
+                  onTap: () => Navigate.push(context, const NotificationPage()),
+                  child: const Icon(Icons.notifications),
                 ),
               ),
             ],
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Semangat Kerja',
                         style: TextStyle(
                           fontSize: 18,
@@ -68,33 +68,33 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
             bottom: PreferredSize(
-              preferredSize: Size.fromHeight(80),
+              preferredSize: const Size.fromHeight(80),
               child: Container(
                 width: double.maxFinite,
                 height: 70,
-                margin: EdgeInsets.symmetric(horizontal: 15),
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
                     color: color.secondaryContainer,
                     borderRadius: BorderRadius.circular(10)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
+                    const Text(
                       'UI/UX Designer',
                       style: TextStyle(fontSize: 17),
                     ),
                     Container(
                       width: 60,
                       alignment: Alignment.center,
-                      padding: EdgeInsets.all(15),
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: color.secondary,
+                          borderRadius: BorderRadius.circular(20)),
                       child: Icon(
                         Icons.search,
                         color: color.white,
                       ),
-                      decoration: BoxDecoration(
-                          color: color.secondary,
-                          borderRadius: BorderRadius.circular(20)),
                     )
                   ],
                 ),
@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
           SliverToBoxAdapter(
             child: Container(
               width: double.maxFinite,
-              margin: EdgeInsets.only(top: 10, left: 15, right: 15),
+              margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -130,7 +130,7 @@ class _HomePageState extends State<HomePage> {
           SliverToBoxAdapter(
             child: Center(
               child: Container(
-                  margin: EdgeInsets.symmetric(vertical: 15),
+                  margin: const EdgeInsets.symmetric(vertical: 15),
                   width: double.maxFinite,
                   height: 108,
                   alignment: Alignment.center,
@@ -151,7 +151,7 @@ class _HomePageState extends State<HomePage> {
           SliverToBoxAdapter(
             child: Container(
               width: double.maxFinite,
-              margin: EdgeInsets.only(top: 10, left: 15, right: 15),
+              margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -174,7 +174,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ),
-          JobListCard()
+          const JobListCard()
         ],
       ),
     );
@@ -185,10 +185,10 @@ Widget CategoryCard(String title, String assetsName, BuildContext context) {
   var color = AppColor.theme(Theme.of(context).brightness);
   return Container(
     height: 110,
-    constraints: BoxConstraints(minWidth: 90),
-    padding: EdgeInsets.all(15),
+    constraints: const BoxConstraints(minWidth: 90),
+    padding: const EdgeInsets.all(15),
     alignment: Alignment.center,
-    margin: EdgeInsets.symmetric(horizontal: 4.5),
+    margin: const EdgeInsets.symmetric(horizontal: 4.5),
     decoration: BoxDecoration(
         color: color.primary, borderRadius: BorderRadius.circular(10)),
     child: Column(
@@ -201,12 +201,12 @@ Widget CategoryCard(String title, String assetsName, BuildContext context) {
               assetsName,
               color: color.primary,
             )),
-        SizedBox(
+        const SizedBox(
           height: 9.5,
         ),
         Text(
           title.toString(),
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15,
             color: Colors.white,
           ),
