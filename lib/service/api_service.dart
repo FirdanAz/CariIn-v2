@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cariin_v2/model/accepted_job_model.dart';
 import 'package:cariin_v2/model/all_job_company_model.dart';
+import 'package:cariin_v2/model/detail_company_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
@@ -94,6 +95,25 @@ class ApiService {
         }
       }
       else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future getDetail(int id) async {
+    var endPoint = '/api/company/job/$id';
+    final url = '$_baseUrl$endPoint';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        DetailCompanyModel model = DetailCompanyModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      } else {
         throw Exception("Failed to fetch data from API");
       }
     } catch (e) {
