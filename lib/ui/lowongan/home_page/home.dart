@@ -153,7 +153,7 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Sesuai Profil',
+                      Text('Semua Pekerjaan',
                           style: GoogleFonts.outfit(
                               color: color.onSecondaryContainer,
                               fontWeight: FontWeight.w600,
