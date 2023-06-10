@@ -14,6 +14,10 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.only(top: 1),
+      ),
+    );
   }
 }

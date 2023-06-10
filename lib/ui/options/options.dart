@@ -1,6 +1,8 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/karyawan/form/intoduction/intro_page.dart';
+import 'package:cariin_v2/ui/karyawan/form/rincian_usaha/rincian_usaha.dart';
+import 'package:cariin_v2/ui/lowongan/atur%20cv/cv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -32,7 +34,7 @@ class OptionsPage extends StatelessWidget {
                     onTap: () => Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CustomBottomNavigation(),
+                          builder: (context) => AturCvPage(),
                         ),
                         (route) => false),
                     child: Container(
