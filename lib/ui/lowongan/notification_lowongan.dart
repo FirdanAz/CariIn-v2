@@ -159,7 +159,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                     margin: EdgeInsets.only(left: 5),
                                     width: double.maxFinite,
                                     child: Text(
-                                      'Follow',
+                                      'Kamu menerima bayaran sebesar Rp.50.000',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -190,7 +190,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Kemarin',
+                    'Minggu Lalu',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w400,
@@ -224,7 +224,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                     margin: EdgeInsets.only(left: 5),
                                     width: double.maxFinite,
                                     child: Text(
-                                      'Follow',
+                                      'Kamu menerima bayaran sebesar Rp.50.000',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,

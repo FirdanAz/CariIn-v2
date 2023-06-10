@@ -1,5 +1,7 @@
 import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/home.dart';
+import 'package:cariin_v2/ui/lowongan/lamaran/job_lowongan.dart';
+import 'package:cariin_v2/ui/lowongan/lamaran/jobfill_lowongan.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigation extends StatefulWidget {
@@ -11,9 +13,9 @@ class CustomBottomNavigation extends StatefulWidget {
 
 class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
   int _pageIndex = 0;
-  final List<Widget> _page = const [
+  final List<Widget> _page = [
     HomePage(),
-    Center(child: Text("Pekerjaan")),
+    LamaranPage(),
     Center(child: Text("Pesan")),
     Center(child: Text("Profil")),
   ];
@@ -43,7 +45,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
                     ? color.white
                     : Theme.of(context).iconTheme.color!.withOpacity(0.5),
               ),
-              label: "Pekerjaan"),
+              label: "Lamaran"),
           NavigationDestination(
               icon: Icon(
                 Icons.message,
