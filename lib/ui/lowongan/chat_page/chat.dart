@@ -29,7 +29,7 @@ class _ChatPageState extends State<ChatPage> {
               fontWeight: FontWeight.w600,
             ),
           ),
-          toolbarHeight: 80,
+          toolbarHeight: 70,
           backgroundColor: color.surface,
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1),

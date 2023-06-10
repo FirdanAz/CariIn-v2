@@ -3,6 +3,7 @@ import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/form/intoduction/intro_page.dart';
 import 'package:cariin_v2/ui/karyawan/form/rincian_usaha/rincian_usaha.dart';
+import 'package:cariin_v2/ui/lowongan/atur%20cv/cv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,7 +32,12 @@ class OptionsPage extends StatelessWidget {
                 children: [
                   InkWell(
                     hoverColor: color.secondary.withOpacity(0.1),
-                    onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false),
+                    onTap: () => Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => AturCvPage(),
+                        ),
+                        (route) => false),
                     child: Container(
                       width: 150,
                       height: 220,
@@ -50,14 +56,15 @@ class OptionsPage extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Text(
                             'Cari Lowongan?',
                             style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              color: color.white
-                            ),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                color: color.white),
                           )
                         ],
                       ),
@@ -68,7 +75,12 @@ class OptionsPage extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const KaryawanIntroPage(),), (route) => false);
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const KaryawanIntroPage(),
+                          ),
+                          (route) => false);
                     },
                     child: Container(
                       width: 150,
@@ -85,14 +97,15 @@ class OptionsPage extends StatelessWidget {
                               color: color.white,
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 10,
+                          ),
                           Text(
                             'Cari Karyawan?',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 15,
-                              color: color.primary
-                            ),
+                                color: color.primary),
                           )
                         ],
                       ),
