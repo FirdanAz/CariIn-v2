@@ -20,8 +20,8 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Container(
         width: double.maxFinite,
         height: double.maxFinite,
-        child: SvgPicture.asset(AppAssets.sementara, fit: BoxFit.cover,),
-      ),
+        child: SvgPicture.asset(AppAssets.sementara, fit: BoxFit.cover,)
+      )
     );
   }
 }
