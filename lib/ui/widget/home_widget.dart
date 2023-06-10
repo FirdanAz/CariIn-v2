@@ -192,7 +192,7 @@ class JobListCard extends StatelessWidget {
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const JobDetailPage(),
+                builder: (context) => JobDetailPage(),
               )),
           child: Column(
             children: [
