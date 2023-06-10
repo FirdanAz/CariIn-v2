@@ -1,7 +1,6 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/detail.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -21,16 +20,16 @@ class HomeCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Container(
-            height: 100,
+            constraints: const BoxConstraints(minHeight: 100),
             decoration: BoxDecoration(
               color: color.white,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 1,
                   blurRadius: 4,
-                  offset: Offset(0, 4), // changes position of shadow
+                  offset: const Offset(0, 4), // changes position of shadow
                 ),
               ],
             ),
@@ -40,6 +39,7 @@ class HomeCard extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 30, right: 30),
                   child: SvgPicture.asset(
                     AppAssets.filterIcon,
+                    // ignore: deprecated_member_use
                     color: color.primary,
                     height: 30,
                   ),
@@ -59,7 +59,7 @@ class HomeCard extends StatelessWidget {
                           'Update minat dan preferensi usaha anda untuk rekomendasi yang lebih akurat.',
                           style: TextStyle(
                               color: color.onPrimaryContainer, fontSize: 13)),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Text('Perbarui Sekarang',
@@ -89,11 +89,11 @@ class WorkerCard extends StatelessWidget {
     return SliverToBoxAdapter(
         child: Container(
             height: 250,
-            margin: EdgeInsets.only(top: 15),
+            margin: const EdgeInsets.only(top: 15),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 5,
-              padding: EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10),
               itemBuilder: (context, index) {
                 return InkWell(
                   onTap: () => Navigator.push(
@@ -104,7 +104,7 @@ class WorkerCard extends StatelessWidget {
                   child: Container(
                     width: 160,
                     height: 230,
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                         left: 10, right: 10, top: 5, bottom: 10),
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -113,14 +113,14 @@ class WorkerCard extends StatelessWidget {
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 1,
                           blurRadius: 4,
-                          offset: Offset(0, 4), // changes position of shadow
+                          offset: const Offset(0, 4), // changes position of shadow
                         ),
                       ],
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 25,
                         ),
                         Center(
@@ -130,7 +130,7 @@ class WorkerCard extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(left: 10, top: 10),
+                          margin: const EdgeInsets.only(left: 10, top: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -141,7 +141,7 @@ class WorkerCard extends StatelessWidget {
                                     fontWeight: FontWeight.w700,
                                     fontSize: 16),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 5,
                               ),
                               Text(
@@ -150,7 +150,7 @@ class WorkerCard extends StatelessWidget {
                                     color: color.black.withOpacity(0.5),
                                     fontSize: 14),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 3,
                               ),
                               Text(
@@ -159,7 +159,7 @@ class WorkerCard extends StatelessWidget {
                                     color: color.black.withOpacity(0.5),
                                     fontSize: 14),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 3,
                               ),
                               Text(
@@ -192,14 +192,14 @@ class JobListCard extends StatelessWidget {
           onTap: () => Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => JobDetailPage(),
+                builder: (context) => const JobDetailPage(),
               )),
           child: Column(
             children: [
               Container(
                 height: 140,
                 width: double.maxFinite,
-                margin: EdgeInsets.only(top: 20, left: 15, right: 15),
+                margin: const EdgeInsets.only(top: 20, left: 15, right: 15),
                 decoration: BoxDecoration(
                   color: color.white,
                   boxShadow: [
@@ -207,12 +207,12 @@ class JobListCard extends StatelessWidget {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 4,
-                      offset: Offset(2, 2), // changes position of shadow
+                      offset: const Offset(2, 2), // changes position of shadow
                     ),
                   ],
                 ),
                 child: Container(
-                  margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                  margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -223,7 +223,7 @@ class JobListCard extends StatelessWidget {
                             fontWeight: FontWeight.w600,
                             fontSize: 15),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 5,
                       ),
                       Row(
@@ -235,14 +235,14 @@ class JobListCard extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           CircleAvatar(
                             radius: 5,
                             backgroundColor: color.black.withOpacity(0.5),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 5,
                           ),
                           Text(
@@ -254,45 +254,45 @@ class JobListCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 3,
                       ),
                       Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 3, horizontal: 5),
-                            margin: EdgeInsets.only(right: 7),
+                            margin: const EdgeInsets.only(right: 7),
                             decoration: BoxDecoration(
                                 color: color.primaryContainer,
                                 borderRadius: BorderRadius.circular(5)),
-                            child: Text(
+                            child: const Text(
                               'Front End',
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w500),
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 3, horizontal: 5),
-                            margin: EdgeInsets.only(right: 7),
+                            margin: const EdgeInsets.only(right: 7),
                             decoration: BoxDecoration(
                                 color: color.primaryContainer,
                                 borderRadius: BorderRadius.circular(5)),
-                            child: Text(
+                            child: const Text(
                               'Ui/Ux Designer',
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w500),
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 3, horizontal: 5),
-                            margin: EdgeInsets.only(right: 7),
+                            margin: const EdgeInsets.only(right: 7),
                             decoration: BoxDecoration(
                                 color: color.primaryContainer,
                                 borderRadius: BorderRadius.circular(5)),
-                            child: Text(
+                            child: const Text(
                               'Hacker',
                               style: TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.w600),
@@ -301,14 +301,14 @@ class JobListCard extends StatelessWidget {
                         ],
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 7, left: 2),
+                        margin: const EdgeInsets.only(top: 7, left: 2),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
                               height: 40,
                               width: 4,
-                              margin: EdgeInsets.only(right: 10),
+                              margin: const EdgeInsets.only(right: 10),
                               decoration: BoxDecoration(
                                   color: color.tertiary.withOpacity(0.5),
                                   borderRadius: BorderRadius.circular(2)),
@@ -340,17 +340,17 @@ class JobListCard extends StatelessWidget {
               Container(
                 height: 30,
                 width: double.maxFinite,
-                margin: EdgeInsets.only(left: 15, right: 15),
+                margin: const EdgeInsets.only(left: 15, right: 15),
                 decoration: BoxDecoration(
                   color: color.primary,
                   borderRadius:
-                      BorderRadius.only(bottomRight: Radius.circular(20)),
+                      const BorderRadius.only(bottomRight: Radius.circular(20)),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 4,
-                      offset: Offset(2, 2), // changes position of shadow
+                      offset: const Offset(2, 2), // changes position of shadow
                     ),
                   ],
                 ),
@@ -362,7 +362,7 @@ class JobListCard extends StatelessWidget {
                             color: color.white,
                             fontWeight: FontWeight.w500,
                             fontSize: 12)),
-                    SizedBox(
+                    const SizedBox(
                       width: 13,
                     )
                   ],

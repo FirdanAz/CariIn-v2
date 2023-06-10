@@ -1,26 +1,55 @@
-import 'package:cariin_v2/common/app_color.dart';
-import 'package:cariin_v2/common/responsive.dart';
+import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_perusahaan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:cariin_v2/common/app_color.dart';
+import 'package:cariin_v2/common/responsive.dart';
+import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_deskripsi.dart';
+import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
 
 class JobDetailPage extends StatelessWidget {
-  const JobDetailPage({super.key});
+  JobDetailPage({super.key});
+  final ValueNotifier<int> _tabIndex = ValueNotifier<int>(0);
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final color = AppColor.theme(MediaQuery.of(context).platformBrightness);
-    final textTheme = Theme.of(context).textTheme;
+    final color = AppColor.theme(Theme.of(context).brightness);
+
+    // Ditaruh di build biar bisa menerima model
+    final List<Widget> _tabView = [
+      TabDeskripsi(),
+      TabPerusahaan(),
+      SizedBox(height: screenSize.height, child: const Text('Tab 3')),
+      SizedBox(height: screenSize.height, child: const Text('Tab 4')),
+    ];
+
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
       child: Scaffold(
         body: Stack(
           children: [
-            Image.network(
-              'https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg',
-              height: 260,
-              width: screenSize.width,
-              fit: BoxFit.cover,
+            Stack(
+              children: [
+                Image.network(
+                  'https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg',
+                  height: Responsive.byHeight(260),
+                  width: screenSize.width,
+                  fit: BoxFit.cover,
+                ),
+                Container(
+                  height: Responsive.byHeight(260),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Colors.black.withOpacity(0.25),
+                        Colors.black.withOpacity(0.05),
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
             SingleChildScrollView(
               child: Column(
@@ -31,10 +60,8 @@ class JobDetailPage extends StatelessWidget {
                     clipBehavior: Clip.none,
                     children: [
                       Container(
-                        height: screenSize.height,
                         width: screenSize.width,
-                        padding:
-                            const EdgeInsets.only(top: 50, left: 15, right: 15),
+                        padding: const EdgeInsets.only(top: 50),
                         decoration: BoxDecoration(
                           color: color.surfaceContainer,
                           borderRadius: const BorderRadius.vertical(
@@ -42,28 +69,66 @@ class JobDetailPage extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            Text(
-                              "Sr. UX Designer",
-                              style: textTheme.headlineMedium!
-                                  .copyWith(color: color.onSurface),
+                            // Header
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: Responsive.byWidth(15)),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    "Sr. UX Designer",
+                                    style: TextStyle(
+                                      fontSize: Responsive.fontSize(16),
+                                      fontWeight: FontWeight.w600,
+                                      color: color.onSurface,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5),
+                                  _buildSubInfo(
+                                    color: color,
+                                    company: "Google Cloud",
+                                    city: "New York",
+                                    uploadDistance: "2 hari",
+                                  ),
+                                  const SizedBox(height: 22),
+                                  _buildOtherInfo(
+                                    color: color,
+                                    city: 'New York',
+                                    timeType: 'Full TIme',
+                                    salary: '2 jt/bulan',
+                                  ),
+                                  const SizedBox(height: 14),
+                                ],
+                              ),
                             ),
-                            const SizedBox(height: 5),
-                            _buildSubInfo(
-                              color: color,
-                              textTheme: textTheme,
-                              company: "Google Cloud",
-                              city: "New York",
-                              uploadDistance: "2 hari",
+
+                            // TabBar
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: ChipTabBar(
+                                length: 4,
+                                itemDistance: Responsive.byWidth(12),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: Responsive.byWidth(15),
+                                  vertical: Responsive.byWidth(10),
+                                ),
+                                tabLabels: const [
+                                  "Deskripsi",
+                                  "Perusahaan",
+                                  "Lokasi",
+                                  "Lainnya",
+                                ],
+                                onTap: (value) => _tabIndex.value = value,
+                              ),
                             ),
-                            const SizedBox(height: 22),
-                            _buildOtherInfo(
-                              color: color,
-                              textTheme: textTheme,
-                              city: 'New York',
-                              timeType: 'Full TIme',
-                              salary: '2 jt/bulan',
+
+                            // TabBar View
+                            ValueListenableBuilder<int>(
+                              valueListenable: _tabIndex,
+                              builder: (context, value, child) {
+                                return _tabView[value];
+                              },
                             ),
-                            const SizedBox(height: 24),
                           ],
                         ),
                       ),
@@ -78,6 +143,7 @@ class JobDetailPage extends StatelessWidget {
             )
           ],
         ),
+        bottomNavigationBar: _buildBottomAppBar(color),
       ),
     );
   }
@@ -104,30 +170,32 @@ class JobDetailPage extends StatelessWidget {
   // Sub info
   Widget _buildSubInfo({
     required AppColorData color,
-    required TextTheme textTheme,
     required String company,
     required String city,
     required String uploadDistance,
   }) {
+    final TextStyle textStyle = TextStyle(
+      fontSize: Responsive.fontSize(14),
+      fontWeight: FontWeight.w500,
+      color: color.onSurface,
+    );
+
     final Widget dot = Container(
       height: 6,
       width: 6,
       margin: EdgeInsets.only(
-        left: Responsive.byWidth(10),
-        right: Responsive.byWidth(10),
-        top: 2,
-      ),
+          left: Responsive.byWidth(10), right: Responsive.byWidth(10), top: 2),
       decoration: BoxDecoration(color: color.onSurface, shape: BoxShape.circle),
     );
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(company, style: textTheme.titleLarge),
+        Text(company, style: textStyle),
         dot,
-        Text(city, style: textTheme.titleLarge),
+        Text(city, style: textStyle),
         dot,
-        Text(uploadDistance, style: textTheme.titleLarge),
+        Text(uploadDistance, style: textStyle),
       ],
     );
   }
@@ -135,24 +203,29 @@ class JobDetailPage extends StatelessWidget {
   // Other info
   Widget _buildOtherInfo({
     required AppColorData color,
-    required TextTheme textTheme,
     required String city,
     required String timeType,
     required String salary,
   }) {
-    TextStyle titleStyle = TextStyle(
-      fontSize: Responsive.fontSize(12),
-      color: color.onSurfaceVariant,
-    );
-
     Widget content(IconData icon, String title, String fill) {
       return Column(
         children: [
           Icon(icon, size: Responsive.byWidth(24), color: color.tertiary),
           const SizedBox(height: 5),
-          Text(title, style: titleStyle),
+          Text(
+            title,
+            style: TextStyle(
+                fontSize: Responsive.fontSize(12),
+                color: color.onSurfaceVariant),
+          ),
           const SizedBox(height: 3),
-          Text(fill, style: textTheme.titleLarge),
+          Text(
+            fill,
+            style: TextStyle(
+                fontSize: Responsive.fontSize(14),
+                fontWeight: FontWeight.w500,
+                color: color.onSurface),
+          ),
         ],
       );
     }
@@ -170,6 +243,47 @@ class JobDetailPage extends StatelessWidget {
           content(Icons.location_on_outlined, 'Lokasi', city),
           content(Icons.access_time, 'Tipe Pekerjaan', timeType),
           content(Icons.monetization_on_outlined, 'Gaji', salary),
+        ],
+      ),
+    );
+  }
+
+  // Bottom button
+  Widget _buildBottomAppBar(AppColorData color) {
+    final TextStyle textStyle = TextStyle(
+        fontSize: Responsive.fontSize(14), fontWeight: FontWeight.w500);
+
+    return BottomAppBar(
+      height: Responsive.byWidth(70),
+      color: color.surfaceContainer,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            height: Responsive.byWidth(50),
+            width: Responsive.byWidth(160),
+            child: FilledButton(
+              onPressed: () {},
+              style: FilledButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+              child: Text("Lamar", style: textStyle),
+            ),
+          ),
+          SizedBox(
+            height: Responsive.byWidth(50),
+            width: Responsive.byWidth(160),
+            child: OutlinedButton(
+              onPressed: () {},
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(color: color.primary),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+              child: Text("PKL", style: textStyle),
+            ),
+          ),
         ],
       ),
     );

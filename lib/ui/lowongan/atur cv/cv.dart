@@ -304,7 +304,6 @@ class _AturCvPageState extends State<AturCvPage> {
                 )),
           ),
         ]),
-      ),
     );
   }
 }

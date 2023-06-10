@@ -2,13 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cariin_v2/model/accepted_job_model.dart';
 import 'package:cariin_v2/model/all_job_company_model.dart';
+import 'package:cariin_v2/model/detail_company_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../common/public_function.dart';
 
 class ApiService {
-  final _baseUrl = "http://192.168.8.93:8000";
+  final _baseUrl = "http://192.168.8.52:8000";
 
   Future postLogin(BuildContext context, String email, String password, String role) async {
     var endPoint = '/api/$role/login';
@@ -94,6 +95,25 @@ class ApiService {
         }
       }
       else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future getDetail(int id) async {
+    var endPoint = '/api/company/job/$id';
+    final url = '$_baseUrl$endPoint';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        DetailCompanyModel model = DetailCompanyModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      } else {
         throw Exception("Failed to fetch data from API");
       }
     } catch (e) {

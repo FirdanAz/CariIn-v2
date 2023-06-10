@@ -1,6 +1,5 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
-import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/form/intoduction/intro_page.dart';
 import 'package:cariin_v2/ui/karyawan/form/rincian_usaha/rincian_usaha.dart';
 import 'package:cariin_v2/ui/lowongan/atur%20cv/cv.dart';
@@ -51,7 +50,7 @@ class OptionsPage extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.only(left: 7.0),
                               child: SvgPicture.asset(
-                                AppAssets.cLowongan,
+                                AppAssets.cariLowonganIcon,
                                 color: color.primary,
                               ),
                             ),
@@ -93,7 +92,7 @@ class OptionsPage extends StatelessWidget {
                             radius: 40,
                             backgroundColor: color.primary,
                             child: SvgPicture.asset(
-                              AppAssets.cKaryawan,
+                              AppAssets.cariKaryawanIcon,
                               color: color.white,
                             ),
                           ),

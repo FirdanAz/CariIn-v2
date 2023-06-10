@@ -1,5 +1,4 @@
 import 'package:cariin_v2/common/app_color.dart';
-import 'package:cariin_v2/common/responsive.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
@@ -49,33 +48,6 @@ class AppTheme {
         indicatorColor: color.primary,
         backgroundColor: color.surfaceContainer.withOpacity(0.9),
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-      ),
-      textTheme: TextTheme(
-        headlineLarge: TextStyle(
-          fontSize: Responsive.fontSize(16),
-          fontWeight: FontWeight.w700,
-          color: color.onSurface,
-        ),
-        headlineMedium: TextStyle(
-          fontSize: Responsive.fontSize(16),
-          fontWeight: FontWeight.w600,
-          color: color.onSurface,
-        ),
-        headlineSmall: TextStyle(
-          fontSize: Responsive.fontSize(14),
-          fontWeight: FontWeight.w600,
-          color: color.onSurface,
-        ),
-        titleLarge: TextStyle(
-          fontSize: Responsive.fontSize(14),
-          fontWeight: FontWeight.w500,
-          color: color.onSurface,
-        ),
-        titleMedium: TextStyle(
-          fontSize: Responsive.fontSize(12),
-          fontWeight: FontWeight.w500,
-          color: color.onSurface,
-        ),
       ),
     );
   }
@@ -127,33 +99,6 @@ class AppTheme {
         backgroundColor:
             Color.alphaBlend(color.primary.withOpacity(0.08), color.white),
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-      ),
-      textTheme: TextTheme(
-        headlineLarge: TextStyle(
-          fontSize: Responsive.fontSize(16),
-          fontWeight: FontWeight.w700,
-          color: color.onSurface,
-        ),
-        headlineMedium: TextStyle(
-          fontSize: Responsive.fontSize(16),
-          fontWeight: FontWeight.w600,
-          color: color.onSurface,
-        ),
-        headlineSmall: TextStyle(
-          fontSize: Responsive.fontSize(14),
-          fontWeight: FontWeight.w600,
-          color: color.onSurface,
-        ),
-        titleLarge: TextStyle(
-          fontSize: Responsive.fontSize(14),
-          fontWeight: FontWeight.w500,
-          color: color.onSurface,
-        ),
-        titleMedium: TextStyle(
-          fontSize: Responsive.fontSize(12),
-          fontWeight: FontWeight.w500,
-          color: color.onSurface,
-        ),
       ),
     );
   }
