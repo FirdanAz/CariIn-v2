@@ -18,7 +18,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
   String selectedValue = "SMA/SMK";
 
   List<DropdownMenuItem<String>> get dropdownItems {
-    List<DropdownMenuItem<String>> menuItems = [
+    List<DropdownMenuItem<String>> menuItems = const[
       DropdownMenuItem(child: Text("Perguruan Tinggi"), value: "Perguruan Tinggi"),
       DropdownMenuItem(child: Text("SMA/SMK"), value: "SMA/SMK"),
       DropdownMenuItem(child: Text("SMP"), value: "SMP"),
@@ -34,7 +34,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          const SliverAppBar(
             title: Text(
               'Rincian Usaha',
               style: TextStyle(
@@ -45,7 +45,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
           ),
           SliverToBoxAdapter(
             child: Container(
-              margin: EdgeInsets.symmetric(
+              margin: const EdgeInsets.symmetric(
                 horizontal: 15
               ),
               child: Column(
@@ -62,21 +62,21 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                     child: Container(
                       height: 100,
                       width: 100,
-                      margin: EdgeInsets.symmetric(
+                      margin: const EdgeInsets.symmetric(
                         vertical: 20
                       ),
                       color: color.primary,
                       child: Center(
                         child: Container(
-                          padding: EdgeInsets.symmetric(
+                          padding: const EdgeInsets.symmetric(
                             vertical: 8,
                             horizontal: 10
                           ),
-                          child: SvgPicture.asset(AppAssets.companyIcon, color: color.primary,),
                           decoration: BoxDecoration(
                             color: color.white,
                             borderRadius: BorderRadius.circular(10)
                           ),
+                          child: SvgPicture.asset(AppAssets.companyIcon, color: color.primary,),
                         )
                       ),
                     ),
@@ -92,17 +92,17 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                     child: Container(
                       height: 100,
                       width: 100,
-                      margin: EdgeInsets.symmetric(
+                      margin: const EdgeInsets.symmetric(
                           vertical: 20
                       ),
                       color: color.primary,
                       child: Center(
                           child: Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 8,
                                 horizontal: 10
                             ),
-                            child: Icon(Icons.add),
+                            child: const Icon(Icons.add),
                             decoration: BoxDecoration(
                                 color: color.white,
                                 borderRadius: BorderRadius.circular(10)
@@ -118,7 +118,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                       fontWeight: FontWeight.w500
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   SizedBox(
                     height: 70,
                     width: double.maxFinite,
@@ -145,7 +145,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                         items: dropdownItems
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   const Text(
                     'Kapan didirikan?',
                     style: TextStyle(
@@ -153,7 +153,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                         fontWeight: FontWeight.w500
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   InkWell(
                     onTap: () async {
                       DateTime? pickedDate = await showDatePicker(
@@ -185,7 +185,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   const Text(
                     'Dimana bisnis didirikan?',
                     style: TextStyle(
@@ -193,14 +193,14 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                         fontWeight: FontWeight.w500
                     ),
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
                         width: 4,
                         height: 215,
-                        margin: EdgeInsets.all(8),
+                        margin: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: color.onBackground.withOpacity(0.8),
                           borderRadius: BorderRadius.circular(5)
@@ -208,11 +208,11 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                       ),
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.only(top: 10, bottom: 10, left: 6),
+                          margin: const EdgeInsets.only(top: 10, bottom: 10, left: 6),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
+                              const Text(
                                 'Provinsi',
                                 style: TextStyle(
                                   fontSize: 15,
@@ -222,7 +222,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                               Container(
                                 height: 50,
                                 width: double.maxFinite,
-                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                margin: const EdgeInsets.symmetric(horizontal: 5),
                                 child: DropdownButton<String>(
                                     isExpanded: true,
                                     value: selectedValue,
@@ -246,7 +246,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                                     items: dropdownItems
                                 ),
                               ),
-                              Text(
+                              const Text(
                                 'Kota',
                                 style: TextStyle(
                                     fontSize: 15,
@@ -256,7 +256,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                               Container(
                                 height: 50,
                                 width: double.maxFinite,
-                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                margin: const EdgeInsets.symmetric(horizontal: 5),
                                 child: DropdownButton<String>(
                                     isExpanded: true,
                                     value: selectedValue,
@@ -280,7 +280,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                                     items: dropdownItems
                                 ),
                               ),
-                              Text(
+                              const Text(
                                 'Kecamatan',
                                 style: TextStyle(
                                     fontSize: 15,
@@ -290,7 +290,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                               Container(
                                 height: 50,
                                 width: double.maxFinite,
-                                margin: EdgeInsets.symmetric(horizontal: 5),
+                                margin: const EdgeInsets.symmetric(horizontal: 5),
                                 child: DropdownButton<String>(
                                     isExpanded: true,
                                     value: selectedValue,
@@ -328,7 +328,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                         fontWeight: FontWeight.w500
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   SizedBox(
                     width: double.maxFinite,
                     child: GroupButton(
@@ -345,7 +345,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                         color: color.primary
                       ),
                       unselectedTextStyle: TextStyle(color: color.white),
-                      buttons: [
+                      buttons: const [
                         "Pemilik",
                         "Pengelola",
                         "HRD"
@@ -357,7 +357,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
 
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   const Text(
                     'Info singkat bisnis',
                     style: TextStyle(
@@ -365,11 +365,11 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                         fontWeight: FontWeight.w500
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Container(
                     width: double.maxFinite,
                     constraints: BoxConstraints(minHeight: 130),
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       left: 15,
                       right: 10
                     ),
@@ -386,7 +386,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                           fontWeight: FontWeight.w500,
                           color: color.black
                       ),
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "Seputar bisnis anda",
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
@@ -408,7 +408,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
               child: Container(
                 width: double.maxFinite,
                 height: 60,
-                margin: EdgeInsets.symmetric(
+                margin: const EdgeInsets.symmetric(
                   horizontal: 15,
                   vertical: 20
                 ),

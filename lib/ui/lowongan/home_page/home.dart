@@ -1,5 +1,6 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_function.dart';
+import 'package:cariin_v2/ui/lowongan/home_page/all_categories.dart';
 import 'package:cariin_v2/ui/lowongan/notification/notification_lowongan.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -118,11 +119,16 @@ class _HomePageState extends State<HomePage> {
                               fontSize: 16)),
                     ],
                   ),
-                  Text('Lebih banyak',
-                      style: GoogleFonts.outfit(
-                          color: color.secondary,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14)),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryPage(),));
+                    },
+                    child: Text('Lebih banyak',
+                        style: GoogleFonts.outfit(
+                            color: color.secondary,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14)),
+                  ),
                 ],
               ),
             ),
@@ -158,7 +164,7 @@ class _HomePageState extends State<HomePage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Semua Pekerjaan',
+                      Text('Pekerjaan',
                           style: GoogleFonts.outfit(
                               color: color.onSecondaryContainer,
                               fontWeight: FontWeight.w600,

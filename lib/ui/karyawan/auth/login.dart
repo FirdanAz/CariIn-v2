@@ -1,5 +1,6 @@
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/service/api_service.dart';
+import 'package:cariin_v2/ui/karyawan/auth/register.dart';
 import 'package:cariin_v2/ui/karyawan/form/rincian_usaha/rincian_usaha.dart';
 import 'package:flutter/material.dart';
 
@@ -117,24 +118,27 @@ class _LoginPageState extends State<LoginPage> {
                 margin: EdgeInsets.only(
                   top: 50
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Belum Punya Akun? ',
-                      style: TextStyle(
-                        fontSize: 15
+                child: InkWell(
+                  onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CompanyRegisterPage(),), (route) => false),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Belum Punya Akun? ',
+                        style: TextStyle(
+                          fontSize: 15
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Daftar',
-                      style: TextStyle(
-                        color: color.primary,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500
-                      ),
-                    )
-                  ],
+                      Text(
+                        'Daftar',
+                        style: TextStyle(
+                          color: color.primary,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               Container(
