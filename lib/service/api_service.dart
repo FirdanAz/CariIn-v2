@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 import '../common/public_function.dart';
 
 class ApiService {
-  final _baseUrl = "http://192.168.8.52:8000";
+  final _baseUrl = "http://192.168.75.143:8000";
 
   Future postLogin(BuildContext context, String email, String password, String role) async {
     var endPoint = '/api/$role/login';
@@ -42,8 +42,44 @@ class ApiService {
     }
   }
 
+  Future postRegisterCompany(BuildContext context, String email, String password, String name, String category, String founding_date, String user_type, String location, String description) async {
+    var endPoint = '/api/company/register';
+    final url = '$_baseUrl$endPoint';
+    final body = {
+      'name' : name,
+      'email': email,
+      'password': password,
+      'category': category,
+      'founding_date': founding_date,
+      'user_type': user_type,
+      'location': location,
+      'description': description,
+    };
+    final headers = {
+      'Accept' : 'application/json'
+    };
+
+    try {
+      final response = await http.post(Uri.parse(url), headers: headers ,body: body);
+      if (response.statusCode == 201) {
+        print('register sukses');
+        await postLogin(context, email, password, 'company');
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } on SocketException {
+      print('Tidak koneksi Internet');
+      return false;
+    } on HttpException {
+      print('HttpException');
+      return false;
+    }
+  }
+
   Future AllJobsCompany() async {
-    const endPoint = '/api/company/job/';
+    const endPoint = '/api/company/jobs';
     final url = '$_baseUrl$endPoint';
     String token = await PublicFunction.getTokenCompany();
     final headers = {
@@ -67,7 +103,7 @@ class ApiService {
   }
 
   Future AcceptedJob() async {
-    const endPoint = '/api/company/job/accepted';
+    const endPoint = '/api/company/jobs';
     final url = '$_baseUrl$endPoint';
     String token = await PublicFunction.getTokenCompany();
     final headers = {
@@ -75,8 +111,12 @@ class ApiService {
       'Accept' : 'application/json'
     };
 
+    final queryParams =
+      'confirmed_status=accept';
+
     try {
-      final response = await http.get(Uri.parse(url), headers: headers);
+      print('$url?$queryParams');
+      final response = await http.get(Uri.parse('$url?$queryParams'), headers: headers);
       if (response.statusCode == 200) {
         print('status code : ${response.statusCode}');
         AcceptedJobCompany model = AcceptedJobCompany.fromJson(json.decode(response.body));
