@@ -3,13 +3,14 @@ import 'dart:io';
 import 'package:cariin_v2/model/accepted_job_model.dart';
 import 'package:cariin_v2/model/all_job_company_model.dart';
 import 'package:cariin_v2/model/detail_company_model.dart';
+import 'package:cariin_v2/model/profil_company_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../common/public_function.dart';
 
 class ApiService {
-  final _baseUrl = "http://192.168.75.143:8000";
+  final _baseUrl = "http://192.168.8.159:8000";
 
   Future postLogin(BuildContext context, String email, String password, String role) async {
     var endPoint = '/api/$role/login';
@@ -120,6 +121,42 @@ class ApiService {
       if (response.statusCode == 200) {
         print('status code : ${response.statusCode}');
         AcceptedJobCompany model = AcceptedJobCompany.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      }
+      if(response.statusCode == 401){
+        print('status code : ${response.statusCode}');
+        if(PublicFunction.getTokenCompany() != ''){
+          print('tidak kosong');
+
+
+
+        } else {
+          print('data kosong!');
+        }
+      }
+      else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future ProfilCompany() async {
+    const endPoint = '/api/company/me';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getTokenCompany();
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      if (response.statusCode == 200) {
+        print('status code : ${response.statusCode}');
+        ProfilCompanyModel model = ProfilCompanyModel.fromJson(json.decode(response.body));
         print(model);
         return model;
       }

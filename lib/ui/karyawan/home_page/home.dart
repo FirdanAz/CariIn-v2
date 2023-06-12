@@ -1,5 +1,6 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/accepted_job_model.dart';
+import 'package:cariin_v2/model/profil_company_model.dart';
 import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class HomePageKaryawan extends StatefulWidget {
 class _HomePageKaryawanState extends State<HomePageKaryawan> {
   //sementara
   AcceptedJobCompany? acceptedJobCompany;
+  ProfilCompanyModel? profilCompanyModel;
   bool _isLoad = false;
 
   void _logOut() {
@@ -53,10 +55,11 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
   getdata() async {
     _isLoad = true;
     AcceptedJobCompany allJob = await ApiService().AcceptedJob();
+    ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
     setState(() {
       acceptedJobCompany = allJob;
+      profilCompanyModel = profilCompany;
     });
-    print(allJob);
     _isLoad = false;
   }
 
@@ -109,17 +112,17 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                       SizedBox(
                         height: 10,
                       ),
-                      const Text(
-                        'Hai, Dadang',
+                      _isLoad ? Container() : Text(
+                        'Hai, ${profilCompanyModel!.data!.name}',
                         style: TextStyle(
-                            color: Colors.black,
+                            color: color.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 16),
                       ),
                       Text(
                         'Tap untuk mengubah profil',
                         style: TextStyle(
-                            color: Colors.black.withOpacity(0.4), fontSize: 14),
+                            color: color.black.withOpacity(0.4), fontSize: 14),
                       ),
                     ],
                   ),
@@ -214,7 +217,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                         color: color.white,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: color.primaryContainer.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 4,
                             offset: Offset(2, 2), // changes position of shadow
@@ -363,7 +366,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                         BorderRadius.only(bottomRight: Radius.circular(20)),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
+                            color: color.primaryContainer.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 4,
                             offset: Offset(2, 2), // changes position of shadow

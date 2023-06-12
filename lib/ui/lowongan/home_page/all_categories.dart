@@ -51,6 +51,7 @@ class _CategoryPageState extends State<CategoryPage> {
           children: [
             Container(
               width: 200,
+              constraints: BoxConstraints(minHeight: 100),
               padding: EdgeInsets.all(15),
               margin: EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
@@ -82,6 +83,7 @@ class _CategoryPageState extends State<CategoryPage> {
                   ),
                   Container(
                     width: double.maxFinite,
+                    height: 60,
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),

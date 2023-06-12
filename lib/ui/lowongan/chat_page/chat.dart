@@ -18,7 +18,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
-    final color = AppColor.theme(MediaQuery.of(context).platformBrightness);
+    var color = AppColor.theme(Theme.of(context).brightness);
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,

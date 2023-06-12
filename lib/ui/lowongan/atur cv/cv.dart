@@ -35,7 +35,7 @@ class _AturCvPageState extends State<AturCvPage> {
 
   @override
   Widget build(BuildContext context) {
-    final color = AppColor.theme(MediaQuery.of(context).platformBrightness);
+    var color = AppColor.theme(Theme.of(context).brightness);
 
     showLoaderDialog(BuildContext context) {
       AlertDialog alert = AlertDialog(
@@ -113,9 +113,9 @@ class _AturCvPageState extends State<AturCvPage> {
             ),
             SizedBox(
               height: 40,
-              width: 20,
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
@@ -130,7 +130,7 @@ class _AturCvPageState extends State<AturCvPage> {
                       });
                     },
                     underline: SizedBox(),
-                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 12),
                     items: [
                       DropdownMenuItem<String>(
                         value: 'Jenis Kelamin',
@@ -163,7 +163,7 @@ class _AturCvPageState extends State<AturCvPage> {
                       });
                     },
                     underline: SizedBox(),
-                    padding: EdgeInsets.symmetric(horizontal: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 10),
                     items: [
                       DropdownMenuItem<String>(
                         value: 'Status',
@@ -200,7 +200,7 @@ class _AturCvPageState extends State<AturCvPage> {
                       });
                     },
                     underline: SizedBox(),
-                    padding: EdgeInsets.symmetric(horizontal: 41),
+                    padding: EdgeInsets.symmetric(horizontal: 15),
                     items: [
                       DropdownMenuItem<String>(
                         value: 'Agama',
@@ -241,7 +241,7 @@ class _AturCvPageState extends State<AturCvPage> {
                     ElevatedButton(
                         onPressed: () {},
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 26),
+                          padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Text(
                             'Tanggal Lahir',
                             style: TextStyle(color: color.black),
@@ -260,10 +260,12 @@ class _AturCvPageState extends State<AturCvPage> {
               height: 25,
             ),
             Container(
+              width: double.maxFinite,
               decoration: BoxDecoration(
                   color: color.surfaceContainer,
                   borderRadius: BorderRadius.circular(5)),
               child: DropdownButton<String>(
+                isExpanded: true,
                 value: dropdownMinatDiIndustri,
                 icon: Icon(Icons.arrow_drop_down_rounded),
                 onChanged: (String? newValue) {
@@ -272,7 +274,7 @@ class _AturCvPageState extends State<AturCvPage> {
                   });
                 },
                 underline: SizedBox(),
-                padding: EdgeInsets.symmetric(horizontal: 100),
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 items: [
                   DropdownMenuItem<String>(
                     value: 'Minat di Industri',
