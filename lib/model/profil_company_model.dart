@@ -1,0 +1,72 @@
+class ProfilCompanyModel {
+  bool? success;
+  String? message;
+  Data? data;
+
+  ProfilCompanyModel({this.success, this.message, this.data});
+
+  ProfilCompanyModel.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    message = json['message'];
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    data['message'] = this.message;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    return data;
+  }
+}
+
+class Data {
+  String? name;
+  String? email;
+  String? category;
+  String? foundingDate;
+  String? userType;
+  String? location;
+  String? description;
+  int? employees;
+  String? role;
+
+  Data(
+      {this.name,
+        this.email,
+        this.category,
+        this.foundingDate,
+        this.userType,
+        this.location,
+        this.description,
+        this.employees,
+        this.role});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    email = json['email'];
+    category = json['category'];
+    foundingDate = json['founding_date'];
+    userType = json['user_type'];
+    location = json['location'];
+    description = json['description'];
+    employees = json['employees'];
+    role = json['role'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['email'] = this.email;
+    data['category'] = this.category;
+    data['founding_date'] = this.foundingDate;
+    data['user_type'] = this.userType;
+    data['location'] = this.location;
+    data['description'] = this.description;
+    data['employees'] = this.employees;
+    data['role'] = this.role;
+    return data;
+  }
+}

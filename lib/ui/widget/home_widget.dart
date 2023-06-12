@@ -26,7 +26,7 @@ class HomeCard extends StatelessWidget {
               borderRadius: const BorderRadius.all(Radius.circular(10)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: color.primaryContainer.withOpacity(0.5),
                   spreadRadius: 1,
                   blurRadius: 4,
                   offset: const Offset(0, 4), // changes position of shadow
@@ -107,10 +107,10 @@ class WorkerCard extends StatelessWidget {
                     margin: const EdgeInsets.only(
                         left: 10, right: 10, top: 5, bottom: 10),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: color.white,
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
+                          color: color.primaryContainer.withOpacity(0.5),
                           spreadRadius: 1,
                           blurRadius: 4,
                           offset: const Offset(0, 4), // changes position of shadow
@@ -123,7 +123,7 @@ class WorkerCard extends StatelessWidget {
                         const SizedBox(
                           height: 25,
                         ),
-                        Center(
+                        const Center(
                           child: CircleAvatar(
                             radius: 40,
                             backgroundImage: AssetImage(AppAssets.firdanImg),
@@ -204,7 +204,7 @@ class JobListCard extends StatelessWidget {
                   color: color.white,
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: color.primaryContainer.withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 4,
                       offset: const Offset(2, 2), // changes position of shadow
@@ -347,7 +347,7 @@ class JobListCard extends StatelessWidget {
                       const BorderRadius.only(bottomRight: Radius.circular(20)),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
+                      color: color.primaryContainer.withOpacity(0.5),
                       spreadRadius: 1,
                       blurRadius: 4,
                       offset: const Offset(2, 2), // changes position of shadow
