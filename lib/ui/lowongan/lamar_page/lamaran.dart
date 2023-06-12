@@ -14,7 +14,8 @@ class LamaranPage extends StatefulWidget {
   State<LamaranPage> createState() => _LamaranPageState();
 }
 
-class _LamaranPageState extends State<LamaranPage> with TickerProviderStateMixin{
+class _LamaranPageState extends State<LamaranPage>
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -48,7 +49,6 @@ class _LamaranPageState extends State<LamaranPage> with TickerProviderStateMixin
                 height: 70,
                 alignment: Alignment.center,
                 child: Text("Pelamar"),
-
               ),
               Container(
                 height: 70,
@@ -63,7 +63,9 @@ class _LamaranPageState extends State<LamaranPage> with TickerProviderStateMixin
         controller: _tabController,
         children: const [
           LamaranProcces(),
-          LamaranResult(),
+          LamaranResult(
+            status: '',
+          ),
         ],
       ),
     );
