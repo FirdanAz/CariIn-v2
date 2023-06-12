@@ -1,6 +1,7 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_function.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/all_categories.dart';
+import 'package:cariin_v2/ui/lowongan/home_page/search/search_page.dart';
 import 'package:cariin_v2/ui/lowongan/notification/notification_lowongan.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,34 +71,37 @@ class _HomePageState extends State<HomePage> {
             ),
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(80),
-              child: Container(
-                width: double.maxFinite,
-                height: 70,
-                margin: const EdgeInsets.symmetric(horizontal: 15),
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                decoration: BoxDecoration(
-                    color: color.secondaryContainer,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'UI/UX Designer',
-                      style: TextStyle(fontSize: 17),
-                    ),
-                    Container(
-                      width: 60,
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                          color: color.secondary,
-                          borderRadius: BorderRadius.circular(20)),
-                      child: Icon(
-                        Icons.search,
-                        color: color.white,
+              child: InkWell(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage(),)),
+                child: Container(
+                  width: double.maxFinite,
+                  height: 70,
+                  margin: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  decoration: BoxDecoration(
+                      color: color.secondaryContainer,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'UI/UX Designer',
+                        style: TextStyle(fontSize: 17),
                       ),
-                    )
-                  ],
+                      Container(
+                        width: 60,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                            color: color.secondary,
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Icon(
+                          Icons.search,
+                          color: color.white,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -145,6 +149,7 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        SizedBox(width: 10,),
                         CategoryCard('Code', AppAssets.codeIcon, context),
                         CategoryCard('Design', AppAssets.designIcon, context),
                         CategoryCard('Teacher', AppAssets.teacherIcon, context),

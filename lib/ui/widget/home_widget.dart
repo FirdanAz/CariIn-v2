@@ -375,3 +375,28 @@ class JobListCard extends StatelessWidget {
     );
   }
 }
+
+class CategoryButton extends StatelessWidget {
+  CategoryButton({Key? key, required this.text}) : super(key: key);
+  String text;
+
+  @override
+  Widget build(BuildContext context) {
+    var color = AppColor.theme(Theme.of(context).brightness);
+    return ActionChip(
+      padding: EdgeInsets.symmetric(horizontal: 17, vertical: 11),
+      backgroundColor: color.primary,
+      labelPadding: EdgeInsets.zero,
+      onPressed: () {},
+      elevation: 10,
+      pressElevation: 16,
+      shadowColor: const Color(0x80AAAACC),
+      label: Text(
+        text,
+        style: const TextStyle(
+            fontSize: 12, fontWeight: FontWeight.w500, color: Colors.white),
+      ),
+    );
+  }
+}
+

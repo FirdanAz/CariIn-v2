@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/app_color.dart';
+import '../../../common/public_function.dart';
 
 class DetailProfil extends StatelessWidget {
   const DetailProfil({Key? key}) : super(key: key);
@@ -174,7 +175,11 @@ class DetailProfil extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
         color: color.white,
         child: InkWell(
-          onTap: () {},
+          onTap: () {
+            showDialog(context: context, builder: (context) {
+              return PublicFunction.showDialog(context, 'Menuggu akun untuk diferifikasi 24x1 jam');
+            },);
+          },
           hoverColor: Colors.black,
           child: Container(
             alignment: Alignment.center,
