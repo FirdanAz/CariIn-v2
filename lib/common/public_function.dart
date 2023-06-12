@@ -28,4 +28,18 @@ class PublicFunction{
     Navigator.pushAndRemoveUntil(
         context, MaterialPageRoute(builder: (_) => widget), (route) => false);
   }
+
+  static AlertDialog showDialog(BuildContext context, String massage){
+    return AlertDialog(
+      content: Text(
+        massage,
+        style: const TextStyle(fontSize: 15),
+      ),
+      actions: [
+        TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text("Iya")),
+      ],
+    );
+  }
 }
