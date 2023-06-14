@@ -1,5 +1,6 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/detail.dart';
+import 'package:cariin_v2/ui/karyawan/form/rincian_usaha/rincian_usaha.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -14,63 +15,66 @@ class HomeCard extends StatelessWidget {
     var color = AppColor.theme(Theme.of(context).brightness);
 
     return SliverToBoxAdapter(
-      child: Container(
-        width: double.maxFinite,
-        margin: const EdgeInsets.only(top: 10),
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Container(
-            constraints: const BoxConstraints(minHeight: 100),
-            decoration: BoxDecoration(
-              color: color.white,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-              boxShadow: [
-                BoxShadow(
-                  color: color.primaryContainer.withOpacity(0.5),
-                  spreadRadius: 1,
-                  blurRadius: 4,
-                  offset: const Offset(0, 4), // changes position of shadow
-                ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 30, right: 30),
-                  child: SvgPicture.asset(
-                    AppAssets.filterIcon,
-                    // ignore: deprecated_member_use
-                    color: color.primary,
-                    height: 30,
+      child: InkWell(
+        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const FormRincianUsaha(),)),
+        child: Container(
+          width: double.maxFinite,
+          margin: const EdgeInsets.only(top: 10),
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Container(
+              constraints: const BoxConstraints(minHeight: 100),
+              decoration: BoxDecoration(
+                color: color.white,
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                boxShadow: [
+                  BoxShadow(
+                    color: color.primaryContainer.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 4,
+                    offset: const Offset(0, 4), // changes position of shadow
                   ),
-                ),
-                Container(
-                  width: 250,
-                  margin: const EdgeInsets.only(top: 5),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Apakah hasilnya kurang relevan?',
-                          style: TextStyle(
-                              color: color.onPrimaryContainer,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15)),
-                      Text(
-                          'Update minat dan preferensi usaha anda untuk rekomendasi yang lebih akurat.',
-                          style: TextStyle(
-                              color: color.onPrimaryContainer, fontSize: 13)),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Text('Perbarui Sekarang',
-                          style: TextStyle(
-                              color: color.primary,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 14)),
-                    ],
+                ],
+              ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 30, right: 30),
+                    child: SvgPicture.asset(
+                      AppAssets.filterIcon,
+                      // ignore: deprecated_member_use
+                      color: color.primary,
+                      height: 30,
+                    ),
                   ),
-                ),
-              ],
+                  Container(
+                    width: 250,
+                    margin: const EdgeInsets.only(top: 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Apakah hasilnya kurang relevan?',
+                            style: TextStyle(
+                                color: color.onPrimaryContainer,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15)),
+                        Text(
+                            'Update minat dan preferensi usaha anda untuk rekomendasi yang lebih akurat.',
+                            style: TextStyle(
+                                color: color.onPrimaryContainer, fontSize: 13)),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text('Perbarui Sekarang',
+                            style: TextStyle(
+                                color: color.primary,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -376,6 +380,7 @@ class JobListCard extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class CategoryButton extends StatelessWidget {
   CategoryButton({Key? key, required this.text}) : super(key: key);
   String text;

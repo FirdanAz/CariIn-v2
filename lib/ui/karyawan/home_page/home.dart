@@ -1,6 +1,8 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/accepted_job_model.dart';
 import 'package:cariin_v2/model/profil_company_model.dart';
+import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
+import 'package:cariin_v2/ui/karyawan/detail_profile/profil_comapny.dart';
 import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +30,24 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
   ProfilCompanyModel? profilCompanyModel;
   bool _isLoad = false;
 
+  getdata() async {
+    _isLoad = true;
+    AcceptedJobCompany allJob = await ApiService().AcceptedJob();
+    ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
+    setState(() {
+      acceptedJobCompany = allJob;
+      profilCompanyModel = profilCompany;
+    });
+    _isLoad = false;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getdata();
+    super.initState();
+  }
+
   void _logOut() {
     showDialog(
       context: context,
@@ -52,24 +72,6 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
     );
   }
 
-  getdata() async {
-    _isLoad = true;
-    AcceptedJobCompany allJob = await ApiService().AcceptedJob();
-    ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
-    setState(() {
-      acceptedJobCompany = allJob;
-      profilCompanyModel = profilCompany;
-    });
-    _isLoad = false;
-  }
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    getdata();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
@@ -84,10 +86,15 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                 SystemUiOverlayStyle(statusBarColor: color.primaryContainer),
             pinned: false,
             actions: [
-              Padding(
-                padding: const EdgeInsets.only(right: 20),
-                child: SvgPicture.asset(AppAssets.companyIcon,
-                    width: 28, color: color.tertiary),
+              InkWell(
+                onTap: () {
+                  _logOut();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: SvgPicture.asset(AppAssets.companyIcon,
+                      width: 28, color: color.primary),
+                ),
               )
             ],
             title: Row(
@@ -104,7 +111,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                   width: 10,
                 ),
                 InkWell(
-                  onTap: () => _logOut(),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilCompanyPage(),)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -112,7 +119,12 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                       SizedBox(
                         height: 10,
                       ),
-                      _isLoad ? Container() : Text(
+                      _isLoad ? Text(
+                        'Hai user',
+                        style: TextStyle(
+                            color: color.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16)) : Text(
                         'Hai, ${profilCompanyModel!.data!.name}',
                         style: TextStyle(
                             color: color.black,
@@ -179,12 +191,12 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Pekerjaan Disekitarmu',
+                      Text('Pekerjaan dari anda',
                           style: GoogleFonts.outfit(
                               color: color.onPrimaryContainer,
                               fontWeight: FontWeight.w600,
                               fontSize: 16)),
-                      Text('Temukan Lowongan Terdekat',
+                      Text('Lowongan yang terverifikasi',
                           style: GoogleFonts.outfit(
                               color:
                                   color.onPrimaryContainer.withOpacity(0.4),
@@ -206,7 +218,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
             delegate: SliverChildBuilderDelegate(childCount: acceptedJobCompany!.data!.length,(context, index) {
               var data = acceptedJobCompany!.data![index];
               return  InkWell(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JobDetailPage(),)),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyJobDetailPage(id: acceptedJobCompany!.data![index].id),)),
                 child: Column(
                   children: [
                     Container(

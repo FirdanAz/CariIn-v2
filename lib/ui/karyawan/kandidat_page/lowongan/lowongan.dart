@@ -1,5 +1,6 @@
 import 'package:cariin_v2/model/all_job_company_model.dart';
 import 'package:cariin_v2/service/api_service.dart';
+import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -51,7 +52,7 @@ class _LowonganPageState extends State<LowonganPage> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => JobDetailPage(),
+                        builder: (context) => CompanyJobDetailPage(id: allJobCompany!.data![index].id,),
                       )),
                   child: Column(
                     children: [
