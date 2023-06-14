@@ -29,7 +29,7 @@ class ApiService {
       if (response.statusCode == 200) {
         String token = json.decode(response.body)['data']['token'];
         print(token);
-        await PublicFunction.setTokenCompany(token);
+        await PublicFunction.setTokenCompany(token, role, email);
         return true;
       } else {
         print('Email atau Password salah');

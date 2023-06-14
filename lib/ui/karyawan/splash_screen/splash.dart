@@ -33,11 +33,6 @@ class _SplashScrenState extends State<SplashScren> {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OptionsPage(),), (route) => false);
     }else if(await PublicFunction.getTokenCompany() != ''){
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
-    } else
-    if (await PublicFunction.getTokenWorker() == ''){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OptionsPage(),), (route) => false);
-    } else if(await PublicFunction.getTokenWorker() != ''){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false);
     }
   }
 
