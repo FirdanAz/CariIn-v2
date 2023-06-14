@@ -1,6 +1,8 @@
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:group_button/group_button.dart';
 
 import '../../../common/app_color.dart';
 import '../../../service/api_service.dart';
@@ -18,6 +20,8 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
   final _passwordController = TextEditingController();
   final _descriptionController = TextEditingController();
   String selectedValue = "Teknologi";
+  String dateString = 'Pilih Tanggal';
+  int selectedRole = 0;
 
   List<DropdownMenuItem<String>> get bidangDropdownItems {
     List<DropdownMenuItem<String>> menuItems = const[
@@ -30,6 +34,12 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
     ];
     return menuItems;
   }
+
+  final _numberToRoleMap = {
+    0: 'pemilik',
+    1: 'pengelola',
+    2: 'HRD'
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -193,6 +203,92 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
                     items: bidangDropdownItems
                 ),
               ),
+              const SizedBox(height: 10,),
+              const Text(
+                'Didirikan',
+                style: TextStyle(
+                    fontSize: 18
+                ),
+              ),
+              const SizedBox(height: 20,),
+              InkWell(
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate:
+                      DateTime.now(), //get today's date
+                      firstDate: DateTime(
+                          2000), //DateTime.now() - not to allow to choose before today.
+                      lastDate: DateTime(2101)
+                  );
+
+                  if(pickedDate!= null){
+                    setState(() {
+                      dateString = '${pickedDate.year}-${pickedDate.month}-${pickedDate.day}';
+                    });
+                  }
+                },
+                child: Container(
+                  width: double.maxFinite,
+                  height: 60,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: color.primary, width: 2),
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Center(
+                    child: Text(
+                      dateString,
+                      style: TextStyle(
+                          color: color.primary,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 15
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10,),
+              const Text(
+                'Sebagai',
+                style: TextStyle(
+                    fontSize: 18
+                ),
+              ),
+              const SizedBox(height: 20,),
+              SizedBox(
+                width: double.maxFinite,
+                child: GroupButton(
+                  isRadio: false,
+                  borderRadius: BorderRadius.circular(10),
+                  spacing: 10,
+                  buttonHeight: 60,
+                  mainGroupAlignment: MainGroupAlignment.spaceEvenly,
+                  selectedBorderColor: color.primary,
+                  unselectedColor: color.primary,
+                  selectedColor: color.white,
+                  selectedTextStyle: TextStyle(
+                      color: color.primary
+                  ),
+                  unselectedTextStyle: TextStyle(color: color.white),
+                  buttons: const [
+                    "Pemilik",
+                    "Pengelola",
+                    "HRD"
+                  ],
+                  selectedButtons: [
+                    0
+                  ],
+                  onSelected: (int index, bool isSelected) {
+                    if (kDebugMode) {
+                      print('${_numberToRoleMap[index]} is selected');
+                    }
+                    setState(() {
+                      selectedRole = index;
+                    });
+                  },
+
+                ),
+              ),
               SizedBox(height: 15,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -248,13 +344,13 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Belum Punya Akun? ',
+                      'Sudah Punya Akun? ',
                       style: TextStyle(
                           fontSize: 15
                       ),
                     ),
                     Text(
-                      'Daftar',
+                      'Masuk',
                       style: TextStyle(
                           color: color.primary,
                           fontSize: 15,
@@ -276,13 +372,16 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
                     borderRadius: BorderRadius.circular(10)
                 ),
                 child: InkWell(onTap: () async {
-                  showLoaderDialog(context);
-                  await ApiService().postRegisterCompany(context, _emailController.text.toString(), _passwordController.text.toString(), _namaController.text.toString(), selectedValue, '2006-03-15', 'HRD', 'Indonesia', _descriptionController.text.toString());
-                  // ignore: use_build_context_synchronously
-                  Navigator.of(context).pop(true);
-                  if(PublicFunction.getTokenCompany() != ''){
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
+                  if(_namaController.text != '' && _emailController.text != '' && _passwordController.text != '' && _descriptionController.text != ''){
+                    showLoaderDialog(context);
+                    await ApiService().postRegisterCompany(context, _emailController.text.toString(), _passwordController.text.toString(), _namaController.text.toString(), selectedValue, dateString, _numberToRoleMap[selectedRole].toString(), 'Indonesia', _descriptionController.text.toString());
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pop(true);
+                    if(PublicFunction.getTokenCompany() != ''){
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
+                    }
                   }
+                  else PublicFunction.showDialog(context, 'Isi Formulir dengan lengkap');
                 }, child: Center(child: Text('Masuk', style: TextStyle(color: color.white, fontWeight: FontWeight.w500, fontSize: 16),),)),
               ),
             ],

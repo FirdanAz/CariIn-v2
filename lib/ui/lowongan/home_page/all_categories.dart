@@ -83,7 +83,6 @@ class _CategoryPageState extends State<CategoryPage> {
                   ),
                   Container(
                     width: double.maxFinite,
-                    height: 60,
                     padding: EdgeInsets.all(10),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),

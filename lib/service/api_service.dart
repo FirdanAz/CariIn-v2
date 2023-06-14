@@ -5,12 +5,13 @@ import 'package:cariin_v2/model/all_job_company_model.dart';
 import 'package:cariin_v2/model/detail_company_model.dart';
 import 'package:cariin_v2/model/profil_company_model.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../common/public_function.dart';
 
 class ApiService {
-  final _baseUrl = "http://192.168.8.159:8000";
+  final _baseUrl = "http://192.168.8.234:8000";
 
   Future postLogin(BuildContext context, String email, String password, String role) async {
     var endPoint = '/api/$role/login';
@@ -194,6 +195,25 @@ class ApiService {
         throw Exception("Failed to fetch data from API");
       }
     } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future deleteJob({required BuildContext context, required String id}) async {
+    var endPoint = '/api/company/jobs/delete/$id';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getTokenCompany();
+    final headers = {
+      'Authorization' : 'Bearer $token'
+    };
+    try{
+      var response = await http.delete(Uri.parse(url),
+          headers: headers
+      );
+      if(response.statusCode == 200){
+        print('delete sukses');
+      }
+    } catch(e) {
       print(e.toString());
     }
   }
