@@ -29,9 +29,9 @@ class _SplashScrenState extends State<SplashScren> {
       _logoOpacity = 1;
     });
     await Future.delayed(const Duration(seconds: 2));
-    if (await PublicFunction.getTokenCompany() == '') {
+    if (await PublicFunction.getToken('company') == '') {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OptionsPage(),), (route) => false);
-    }else if(await PublicFunction.getTokenCompany() != ''){
+    }else if(await PublicFunction.getToken('company') != ''){
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
     }
   }
