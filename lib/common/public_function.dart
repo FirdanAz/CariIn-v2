@@ -18,17 +18,24 @@ class PublicFunction{
     return prefs.setString("token", encodedMap);
 
   }
-  static Future<String> getTokenCompany() async {
+  static Future<String> getToken(String role) async {
     final prefs = await SharedPreferences.getInstance();
-    final dataToken = json.decode(prefs.getString('token').toString()) as Map<String, dynamic>;
+    print(prefs.getString('token'));
+    if(prefs.getString("token") != null){
+      final dataToken = json.decode(prefs.getString('token').toString()) as Map<String, dynamic>;
 
-    print(dataToken);
+      print(dataToken);
 
-    if(dataToken['role'] != 'company'){
-      return 'Bukan Role Company';
-    } else{
-      var token = dataToken['token'];
-      return token;
+      if(dataToken['role'] == role){
+        var token = dataToken['token'];
+        return token;
+      }
+      else{
+        return '';
+      }
+    }
+    else {
+      return '';
     }
   }
 

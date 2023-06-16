@@ -377,7 +377,7 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
                     await ApiService().postRegisterCompany(context, _emailController.text.toString(), _passwordController.text.toString(), _namaController.text.toString(), selectedValue, dateString, _numberToRoleMap[selectedRole].toString(), 'Indonesia', _descriptionController.text.toString());
                     // ignore: use_build_context_synchronously
                     Navigator.of(context).pop(true);
-                    if(PublicFunction.getTokenCompany() != ''){
+                    if(PublicFunction.getToken('company') != ''){
                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
                     }
                   }

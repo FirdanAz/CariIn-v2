@@ -156,8 +156,8 @@ class _LoginPageState extends State<LoginPage> {
                   showLoaderDialog(context);
                   await Future.delayed(const Duration(seconds: 2));
                   await ApiService().postLogin(context, _emailController.text, _passwordController.text, 'company');
-                  await Future.delayed(const Duration(seconds: 2));
-                  if(await PublicFunction.getTokenCompany() != ''){
+                  await Future.delayed(const Duration(seconds: 1));
+                  if(await PublicFunction.getToken('company') != ''){
                     await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
                     Navigator.of(context).pop(true);
                   } else {

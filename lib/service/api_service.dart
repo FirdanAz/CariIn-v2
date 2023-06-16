@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import '../common/public_function.dart';
 
 class ApiService {
-  final _baseUrl = "http://192.168.8.234:8000";
+  final _baseUrl = "http://192.168.8.14:8000";
 
   Future postLogin(BuildContext context, String email, String password, String role) async {
     var endPoint = '/api/$role/login';
@@ -83,7 +83,7 @@ class ApiService {
   Future AllJobsCompany() async {
     const endPoint = '/api/company/jobs';
     final url = '$_baseUrl$endPoint';
-    String token = await PublicFunction.getTokenCompany();
+    String token = await PublicFunction.getToken('company');
     final headers = {
       'Authorization' : 'Bearer $token',
       'Accept' : 'application/json'
@@ -107,7 +107,7 @@ class ApiService {
   Future AcceptedJob() async {
     const endPoint = '/api/company/jobs';
     final url = '$_baseUrl$endPoint';
-    String token = await PublicFunction.getTokenCompany();
+    String token = await PublicFunction.getToken('company');
     final headers = {
       'Authorization' : 'Bearer $token',
       'Accept' : 'application/json'
@@ -127,7 +127,7 @@ class ApiService {
       }
       if(response.statusCode == 401){
         print('status code : ${response.statusCode}');
-        if(PublicFunction.getTokenCompany() != ''){
+        if(PublicFunction.getToken('company') != ''){
           print('tidak kosong');
 
 
@@ -147,7 +147,7 @@ class ApiService {
   Future ProfilCompany() async {
     const endPoint = '/api/company/me';
     final url = '$_baseUrl$endPoint';
-    String token = await PublicFunction.getTokenCompany();
+    String token = await PublicFunction.getToken('company');
     final headers = {
       'Authorization' : 'Bearer $token',
       'Accept' : 'application/json'
@@ -163,7 +163,8 @@ class ApiService {
       }
       if(response.statusCode == 401){
         print('status code : ${response.statusCode}');
-        if(PublicFunction.getTokenCompany() != ''){
+        // ignore: unrelated_type_equality_checks
+        if(PublicFunction.getToken('company') != ''){
           print('tidak kosong');
 
 
@@ -202,7 +203,7 @@ class ApiService {
   Future deleteJob({required BuildContext context, required String id}) async {
     var endPoint = '/api/company/jobs/delete/$id';
     final url = '$_baseUrl$endPoint';
-    String token = await PublicFunction.getTokenCompany();
+    String token = await PublicFunction.getToken('company');
     final headers = {
       'Authorization' : 'Bearer $token'
     };

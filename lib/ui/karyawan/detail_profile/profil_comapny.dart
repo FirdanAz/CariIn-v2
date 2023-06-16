@@ -34,7 +34,7 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                 onPressed: () => Navigator.of(context).pop(),
                 child: const Text("No")),
             TextButton(
-                onPressed: () async => await PublicFunction.removeToken('tokenCompany')
+                onPressed: () async => await PublicFunction.removeToken('token')
                     .then((value) => PublicFunction.navigatorPushAndRemoved(
                     context, const LoginPage())),
                 child: const Text("Yes", style: TextStyle(color: Colors.red))),
