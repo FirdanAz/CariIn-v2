@@ -6,16 +6,17 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../common/app_color.dart';
 
+// ignore: must_be_immutable
 class KaryawanIntroPage extends StatefulWidget {
-  const KaryawanIntroPage({Key? key}) : super(key: key);
+  KaryawanIntroPage({Key? key, required this.nextPage}) : super(key: key);
+  Widget nextPage;
 
   @override
   State<KaryawanIntroPage> createState() => _KaryawanIntroPageState();
 }
 
 class _KaryawanIntroPageState extends State<KaryawanIntroPage> {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +106,7 @@ class _KaryawanIntroPageState extends State<KaryawanIntroPage> {
                   borderRadius: BorderRadius.circular(10)
                 ),
                 child: InkWell(onTap: () {
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => LoginPage(),), (route) => false);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => widget.nextPage,), (route) => false);
                 }, child: Center(child: Text('Masuk', style: TextStyle(color: color.white, fontWeight: FontWeight.w500, fontSize: 16),),)),
               ),
               Container(

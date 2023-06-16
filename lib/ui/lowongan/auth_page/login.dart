@@ -1,25 +1,23 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:cariin_v2/common/public_function.dart';
-import 'package:cariin_v2/service/api_service.dart';
-import 'package:cariin_v2/ui/karyawan/auth/register.dart';
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/app_color.dart';
-import '../../bottom_navigation/bottom_navigation_karyawan.dart';
+import '../../../common/public_function.dart';
+import '../../../service/api_service.dart';
+import '../../karyawan/auth/register.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginLowonganPage extends StatefulWidget {
+  const LoginLowonganPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginLowonganPage> createState() => _LoginLowonganPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginLowonganPageState extends State<LoginLowonganPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.symmetric(
-            horizontal: 20
+              horizontal: 20
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,15 +55,15 @@ class _LoginPageState extends State<LoginPage> {
               Text(
                 'Haii!!',
                 style: TextStyle(
-                  color: color.primary,
-                  fontSize: 40,
-                  fontWeight: FontWeight.w700
+                    color: color.primary,
+                    fontSize: 40,
+                    fontWeight: FontWeight.w700
                 ),
               ),
               const Text(
-                'Login Untuk Memulai aplikasi',
+                'Login Untuk Mencari Lowongan',
                 style: TextStyle(
-                  fontSize: 16
+                    fontSize: 16
                 ),
               ),
               const SizedBox(height: 150,),
@@ -106,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 alignment: Alignment.topRight,
                 margin: const EdgeInsets.symmetric(
-                  vertical: 5
+                    vertical: 5
                 ),
                 child: Text(
                   'Lupa Password',
@@ -117,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Container(
                 margin: const EdgeInsets.only(
-                  top: 50
+                    top: 50
                 ),
                 child: InkWell(
                   onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CompanyRegisterPage(),), (route) => false),
@@ -127,15 +125,15 @@ class _LoginPageState extends State<LoginPage> {
                       const Text(
                         'Belum Punya Akun? ',
                         style: TextStyle(
-                          fontSize: 15
+                            fontSize: 15
                         ),
                       ),
                       Text(
                         'Daftar',
                         style: TextStyle(
-                          color: color.primary,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500
+                            color: color.primary,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500
                         ),
                       )
                     ],
@@ -156,10 +154,10 @@ class _LoginPageState extends State<LoginPage> {
                 child: InkWell(onTap: () async {
                   showLoaderDialog(context);
                   await Future.delayed(const Duration(seconds: 2));
-                  await ApiService().postLogin(context, _emailController.text, _passwordController.text, 'company');
+                  await ApiService().postLogin(context, _emailController.text, _passwordController.text, 'worker');
                   await Future.delayed(const Duration(seconds: 1));
-                  if(await PublicFunction.getToken('company') != ''){
-                    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
+                  if(await PublicFunction.getToken('worker') != ''){
+                    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false);
                     Navigator.of(context).pop(true);
                   } else {
                     Navigator.of(context).pop(true);
