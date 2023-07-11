@@ -1,10 +1,12 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/karyawan/auth/login.dart';
+import 'package:cariin_v2/ui/karyawan/auth/register.dart';
 import 'package:cariin_v2/ui/karyawan/form/intoduction/intro_page.dart';
 import 'package:cariin_v2/ui/karyawan/form/rincian_usaha/rincian_usaha.dart';
 import 'package:cariin_v2/ui/lowongan/atur%20cv/cv.dart';
 import 'package:cariin_v2/ui/lowongan/auth_page/login.dart';
+import 'package:cariin_v2/ui/lowongan/auth_page/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -36,7 +38,7 @@ class OptionsPage extends StatelessWidget {
                     onTap: () => Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => KaryawanIntroPage(nextPage: const LoginLowonganPage()),
+                          builder: (context) => KaryawanIntroPage(loginPage: const LoginLowonganPage(), registerPage: const RegisterLowonganPage()),
                         ),
                         (route) => false),
                     child: Container(
@@ -79,7 +81,7 @@ class OptionsPage extends StatelessWidget {
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => KaryawanIntroPage(nextPage: const LoginPage()),
+                            builder: (context) => KaryawanIntroPage(loginPage: const LoginKaryawanPage(), registerPage: const CompanyRegisterPage(),),
                           ),
                           (route) => false);
                     },

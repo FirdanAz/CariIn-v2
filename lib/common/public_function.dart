@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PublicFunction{
-  static Future<bool> setTokenCompany(String value, String role, String email) async {
+  static Future<bool> setTokenCompany(String value, String role) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     Map<String, dynamic> token  = {
       "role" : role,
-      "email" : email,
       "token" : value
     };
     String encodedMap = json.encode(token);
@@ -20,7 +19,6 @@ class PublicFunction{
   }
   static Future<String> getToken(String role) async {
     final prefs = await SharedPreferences.getInstance();
-    print(prefs.getString('token'));
     if(prefs.getString("token") != null){
       final dataToken = json.decode(prefs.getString('token').toString()) as Map<String, dynamic>;
 

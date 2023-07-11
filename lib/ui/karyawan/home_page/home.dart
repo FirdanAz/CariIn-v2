@@ -8,6 +8,7 @@ import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../common/app_color.dart';
@@ -64,7 +65,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
             TextButton(
                 onPressed: () async => await PublicFunction.removeToken('token')
                     .then((value) => PublicFunction.navigatorPushAndRemoved(
-                    context, const LoginPage())),
+                    context, const LoginKaryawanPage())),
                 child: const Text("Yes", style: TextStyle(color: Colors.red))),
           ],
         );
@@ -217,6 +218,8 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
           _isLoad ? SliverToBoxAdapter() : SliverList(
             delegate: SliverChildBuilderDelegate(childCount: acceptedJobCompany!.data!.length,(context, index) {
               var data = acceptedJobCompany!.data![index];
+              DateTime? date = DateTime.parse(data.createdAt.toString());
+              print(date);
               return  InkWell(
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyJobDetailPage(id: acceptedJobCompany!.data![index].id),)),
                 child: Column(
@@ -346,7 +349,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                                     CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        data.city.toString(),
+                                        data.company!.name.toString(),
                                         style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             color: color.tertiary
@@ -388,7 +391,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text('2 Jam yang lalu',
+                          Text(GetTimeAgo.parse(date, locale: 'id'),
                               style: TextStyle(
                                   color: color.white,
                                   fontWeight: FontWeight.w500,

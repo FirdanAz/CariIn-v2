@@ -1,6 +1,4 @@
 import 'package:cariin_v2/common/app_assets.dart';
-import 'package:cariin_v2/ui/karyawan/auth/login.dart';
-import 'package:cariin_v2/ui/karyawan/auth/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -8,8 +6,9 @@ import '../../../../common/app_color.dart';
 
 // ignore: must_be_immutable
 class KaryawanIntroPage extends StatefulWidget {
-  KaryawanIntroPage({Key? key, required this.nextPage}) : super(key: key);
-  Widget nextPage;
+  KaryawanIntroPage({Key? key, required this.loginPage, required this.registerPage}) : super(key: key);
+  Widget loginPage;
+  Widget registerPage;
 
   @override
   State<KaryawanIntroPage> createState() => _KaryawanIntroPageState();
@@ -106,7 +105,7 @@ class _KaryawanIntroPageState extends State<KaryawanIntroPage> {
                   borderRadius: BorderRadius.circular(10)
                 ),
                 child: InkWell(onTap: () {
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => widget.nextPage,), (route) => false);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => widget.loginPage,), (route) => false);
                 }, child: Center(child: Text('Masuk', style: TextStyle(color: color.white, fontWeight: FontWeight.w500, fontSize: 16),),)),
               ),
               Container(
@@ -121,7 +120,7 @@ class _KaryawanIntroPageState extends State<KaryawanIntroPage> {
                   border: Border.all(width: 2, color: color.primary)
                 ),
                 child: Center(child: InkWell(onTap: () {
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CompanyRegisterPage(),), (route) => false);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => widget.registerPage,), (route) => false);
                 }, child: Center(child: Text('Daftar', style: TextStyle(color: color.primary, fontWeight: FontWeight.w500, fontSize: 16),))),),
               )
             ],

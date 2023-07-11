@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 import '../../../common/app_color.dart';
 import '../../bottom_navigation/bottom_navigation_karyawan.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginKaryawanPage extends StatefulWidget {
+  const LoginKaryawanPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginKaryawanPage> createState() => _LoginKaryawanPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginKaryawanPageState extends State<LoginKaryawanPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

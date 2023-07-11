@@ -32,11 +32,11 @@ class _SplashScrenState extends State<SplashScren> {
     });
     await Future.delayed(const Duration(seconds: 2));
     if (await PublicFunction.getToken('company') == '' && await PublicFunction.getToken('worker') == '') {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OptionsPage(),), (route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const OptionsPage(),), (route) => false);
     }else if(await PublicFunction.getToken('company') != ''){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const KaryawanBottomNavigation(),), (route) => false);
     } else if(await PublicFunction.getToken('worker') != ''){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false);
     }
   }
 

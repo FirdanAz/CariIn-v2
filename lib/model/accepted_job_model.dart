@@ -30,39 +30,47 @@ class AcceptedJobCompany {
 class Data {
   int? id;
   String? title;
-  String? city;
+  String? description;
+  int? salary;
   Company? company;
   bool? pklStatus;
   String? confirmedStatus;
+  String? createdAt;
 
   Data(
       {this.id,
         this.title,
-        this.city,
+        this.description,
+        this.salary,
         this.company,
         this.pklStatus,
-        this.confirmedStatus});
+        this.confirmedStatus,
+        this.createdAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    city = json['city'];
+    description = json['description'];
+    salary = json['salary'];
     company =
     json['company'] != null ? new Company.fromJson(json['company']) : null;
     pklStatus = json['pkl_status'];
     confirmedStatus = json['confirmed_status'];
+    createdAt = json['created_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
-    data['city'] = this.city;
+    data['description'] = this.description;
+    data['salary'] = this.salary;
     if (this.company != null) {
       data['company'] = this.company!.toJson();
     }
     data['pkl_status'] = this.pklStatus;
     data['confirmed_status'] = this.confirmedStatus;
+    data['created_at'] = this.createdAt;
     return data;
   }
 }

@@ -65,11 +65,11 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.symmetric(
-              horizontal: 20
+            horizontal: 20,
+            vertical: 50
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

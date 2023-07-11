@@ -1,22 +1,23 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
-import 'package:cariin_v2/ui/lowongan/auth_page/register.dart';
-import 'package:flutter/foundation.dart';
+import 'package:cariin_v2/ui/lowongan/auth_page/login.dart';
+import 'package:cariin_v2/ui/widget/auth_text_field.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
 import '../../../service/api_service.dart';
+import '../../karyawan/auth/register.dart';
 
-class LoginLowonganPage extends StatefulWidget {
-  const LoginLowonganPage({Key? key}) : super(key: key);
+class RegisterLowonganPage extends StatefulWidget {
+  const RegisterLowonganPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginLowonganPage> createState() => _LoginLowonganPageState();
+  State<RegisterLowonganPage> createState() => _RegisterLowonganPageState();
 }
 
-class _LoginLowonganPageState extends State<LoginLowonganPage> {
+class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -62,69 +63,33 @@ class _LoginLowonganPageState extends State<LoginLowonganPage> {
                 ),
               ),
               const Text(
-                'Login Untuk Mencari Lowongan',
+                'Daftar Untuk Mencari Lowongan',
                 style: TextStyle(
                     fontSize: 16
                 ),
               ),
               const SizedBox(height: 150,),
-              TextField(
-                controller: _emailController,
-                textAlign: TextAlign.left,
-                style: const TextStyle(color: Colors.black),
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintStyle: const TextStyle(color: Colors.black45),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: color.secondary.withOpacity(0.2),
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                  hintText: 'Email',
-                ),
-              ),
+              TextFieldComp(emailController: _emailController, hintText: 'Email'),
               const SizedBox(height: 20,),
-              TextField(
-                controller: _passwordController,
-                textAlign: TextAlign.left,
-                style: const TextStyle(color: Colors.black),
-                obscureText: true,
-                decoration: InputDecoration(
-                  border: const OutlineInputBorder(),
-                  hintStyle: const TextStyle(color: Colors.black45),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        width: 2,
-                        color: color.secondary.withOpacity(0.2),
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                  hintText: 'Password',
-                ),
-              ),
-              Container(
-                alignment: Alignment.topRight,
-                margin: const EdgeInsets.symmetric(
-                    vertical: 5
-                ),
-                child: Text(
-                  'Lupa Password',
-                  style: TextStyle(
-                    color: color.primary.withOpacity(0.8),
-                  ),
-                ),
-              ),
+              TextFieldComp(emailController: _passwordController, hintText: 'Password'),
+              const SizedBox(height: 20,),
+              TextFieldComp(emailController: _emailController, hintText: 'Gender'),
+              const SizedBox(height: 20,),
+              TextFieldComp(emailController: _emailController, hintText: 'Phone Number'),
+              const SizedBox(height: 20,),
+              TextFieldComp(emailController: _emailController, hintText: 'Tanggal Lahir'),
+              const SizedBox(height: 20,),
               Container(
                 margin: const EdgeInsets.only(
                     top: 50
                 ),
                 child: InkWell(
-                  onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const RegisterLowonganPage(),), (route) => false),
+                  onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginLowonganPage(),), (route) => false),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Belum Punya Akun? ',
+                        'Sudah Punya Akun? ',
                         style: TextStyle(
                             fontSize: 15
                         ),
@@ -158,13 +123,11 @@ class _LoginLowonganPageState extends State<LoginLowonganPage> {
                   await ApiService().postLogin(context, _emailController.text, _passwordController.text, 'worker');
                   await Future.delayed(const Duration(seconds: 1));
                   if(await PublicFunction.getToken('worker') != ''){
-                    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false);
+                    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false);
                     Navigator.of(context).pop(true);
                   } else {
                     Navigator.of(context).pop(true);
-                    if (kDebugMode) {
-                      print('isi form dengan lengkap');
-                    }
+                    print('isi form dengan lengkap');
                   }
                 }, child: Center(child: Text('Masuk', style: TextStyle(color: color.white, fontWeight: FontWeight.w500, fontSize: 16),),)),
               ),

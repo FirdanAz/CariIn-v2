@@ -3,6 +3,7 @@ import 'package:cariin_v2/service/api_service.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:get_time_ago/get_time_ago.dart';
 
 import '../../../../common/app_color.dart';
 import '../../../lowongan/detail_lowongan/page.dart';
@@ -48,6 +49,7 @@ class _LowonganPageState extends State<LowonganPage> {
               itemCount: allJobCompany!.data!.length,
               itemBuilder: (context, index) {
                 var job = allJobCompany!.data![index];
+                DateTime? date = DateTime.parse(job.createdAt.toString());
                 return InkWell(
                   onTap: () => Navigator.push(
                       context,
@@ -185,7 +187,7 @@ class _LowonganPageState extends State<LowonganPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          job.city.toString(),
+                                          job.company!.name.toString(),
                                           style: TextStyle(
                                               fontWeight: FontWeight.w600,
                                               color: color.secondaryContainer
@@ -228,7 +230,7 @@ class _LowonganPageState extends State<LowonganPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Text('2 Jam yang lalu',
+                            Text(GetTimeAgo.parse(date, locale: 'id'),
                                 style: TextStyle(
                                     color: color.white,
                                     fontWeight: FontWeight.w500,

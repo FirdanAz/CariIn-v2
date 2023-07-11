@@ -36,7 +36,7 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
             TextButton(
                 onPressed: () async => await PublicFunction.removeToken('token')
                     .then((value) => PublicFunction.navigatorPushAndRemoved(
-                    context, const LoginPage())),
+                    context, const LoginKaryawanPage())),
                 child: const Text("Yes", style: TextStyle(color: Colors.red))),
           ],
         );
