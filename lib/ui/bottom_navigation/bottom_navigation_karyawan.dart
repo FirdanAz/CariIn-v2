@@ -17,9 +17,9 @@ class KaryawanBottomNavigation extends StatefulWidget {
 class _KaryawanBottomNavigationState extends State<KaryawanBottomNavigation> {
   int _pageIndex = 0;
   final List<Widget> _page = [
-    HomePageKaryawan(),
+    const HomePageKaryawan(),
     KandidatPage(),
-    WawancaraPage(),
+    const WawancaraPage(),
     NotificationPage()
   ];
 

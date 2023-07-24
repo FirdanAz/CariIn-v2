@@ -5,10 +5,41 @@ import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/common/responsive.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_deskripsi.dart';
 import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
+import 'package:cariin_v2/model/detail_job_model.dart';
+import 'package:get_time_ago/get_time_ago.dart';
+import '../../../common/currency_format.dart';
+import '../../../service/api_service.dart';
 
-class JobDetailPage extends StatelessWidget {
-  JobDetailPage({super.key});
+// ignore: must_be_immutable
+class JobDetailPage extends StatefulWidget {
+  JobDetailPage({super.key, required this.id});
+  int id;
+
+  @override
+  State<JobDetailPage> createState() => _JobDetailPageState();
+}
+
+class _JobDetailPageState extends State<JobDetailPage> {
   final ValueNotifier<int> _tabIndex = ValueNotifier<int>(0);
+  JobDetailModel? jobDetailModel;
+  bool _isLoad = false;
+  DateTime? date;
+
+  getdata() async {
+    _isLoad = true;
+    JobDetailModel detailJob = await ApiService().jobDetailWorker(widget.id);
+    setState(() {
+      jobDetailModel = detailJob;
+      date = DateTime.parse(detailJob.data!.jobCreated.toString());
+    });
+    _isLoad = false;
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    getdata();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,16 +47,16 @@ class JobDetailPage extends StatelessWidget {
     final color = AppColor.theme(Theme.of(context).brightness);
 
     // Ditaruh di build biar bisa menerima model
-    final List<Widget> _tabView = [
-      TabDeskripsi(),
-      TabPerusahaan(),
+    final List<Widget> tabView = [
+      TabDeskripsi(id: widget.id),
+      const TabPerusahaan(),
       SizedBox(height: screenSize.height, child: const Text('Tab 3')),
       SizedBox(height: screenSize.height, child: const Text('Tab 4')),
     ];
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-      child: Scaffold(
+      child: _isLoad ? const Scaffold(body: Center(child: CircularProgressIndicator(),),) : Scaffold(
         body: Stack(
           children: [
             Stack(
@@ -76,7 +107,7 @@ class JobDetailPage extends StatelessWidget {
                               child: Column(
                                 children: [
                                   Text(
-                                    "Sr. UX Designer",
+                                    '${jobDetailModel!.data!.title}',
                                     style: TextStyle(
                                       fontSize: Responsive.fontSize(16),
                                       fontWeight: FontWeight.w600,
@@ -86,16 +117,16 @@ class JobDetailPage extends StatelessWidget {
                                   const SizedBox(height: 5),
                                   _buildSubInfo(
                                     color: color,
-                                    company: "Google Cloud",
-                                    city: "New York",
-                                    uploadDistance: "2 hari",
+                                    company: "${jobDetailModel!.data!.companyName}",
+                                    city: '${jobDetailModel!.data!.companyLocation}',
+                                    uploadDistance: GetTimeAgo.parse(date!, locale: 'id'),
                                   ),
                                   const SizedBox(height: 22),
                                   _buildOtherInfo(
                                     color: color,
-                                    city: 'New York',
-                                    timeType: 'Full TIme',
-                                    salary: '2 jt/bulan',
+                                    city: '${jobDetailModel!.data!.location!.location}',
+                                    timeType: '${jobDetailModel!.data!.timeType}',
+                                    salary: CurrencyFormat.convertToIdr(jobDetailModel!.data!.salary, 0),
                                   ),
                                   const SizedBox(height: 14),
                                 ],
@@ -126,7 +157,7 @@ class JobDetailPage extends StatelessWidget {
                             ValueListenableBuilder<int>(
                               valueListenable: _tabIndex,
                               builder: (context, value, child) {
-                                return _tabView[value];
+                                return tabView[value];
                               },
                             ),
                           ],

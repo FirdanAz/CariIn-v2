@@ -1,6 +1,7 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/worker_model.dart';
 import 'package:cariin_v2/ui/lowongan/auth_page/login.dart';
+import 'package:cariin_v2/ui/options/options.dart';
 import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -53,7 +54,7 @@ class _ProfilePageState extends State<ProfilePage> {
             TextButton(
                 onPressed: () async => await PublicFunction.removeToken('token')
                     .then((value) => PublicFunction.navigatorPushAndRemoved(
-                    context, const LoginLowonganPage())),
+                    context, const OptionsPage())),
                 child: const Text("Yes", style: TextStyle(color: Colors.red))),
           ],
         );

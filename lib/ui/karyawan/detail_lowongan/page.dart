@@ -1,15 +1,19 @@
+import 'package:cariin_v2/common/currency_format.dart';
 import 'package:cariin_v2/service/api_service.dart';
-import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_perusahaan.dart';
+import 'package:cariin_v2/ui/karyawan/detail_lowongan/tab_perusahaan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/common/responsive.dart';
-import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_deskripsi.dart';
+import 'package:cariin_v2/ui/karyawan/detail_lowongan/tab_deskripsi.dart';
 import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
+import 'package:get_time_ago/get_time_ago.dart';
+
+import '../../../model/detail_company_model.dart';
 
 class CompanyJobDetailPage extends StatefulWidget {
-  CompanyJobDetailPage({super.key, required this.id});
-  int? id;
+  const CompanyJobDetailPage({super.key, required this.id});
+  final int id;
 
   @override
   State<CompanyJobDetailPage> createState() => _CompanyJobDetailPageState();
@@ -17,6 +21,29 @@ class CompanyJobDetailPage extends StatefulWidget {
 
 class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
   final ValueNotifier<int> _tabIndex = ValueNotifier<int>(0);
+  DetailJobCompanyModel? detailCompanyModel;
+  bool _isLoad = false;
+  DateTime? date;
+  String? desc;
+
+  getdata() async {
+    _isLoad = true;
+    print('id :  ${widget.id}');
+    DetailJobCompanyModel details = await ApiService().jobDetailCompany(widget.id);
+    setState(() {
+      detailCompanyModel = details;
+      date = DateTime.parse(details.data!.jobCreated.toString());
+      desc = details.data!.description!.description.toString();
+    });
+    _isLoad = false;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getdata();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +51,16 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
     final color = AppColor.theme(Theme.of(context).brightness);
 
     // Ditaruh di build biar bisa menerima model
-    final List<Widget> _tabView = [
-      TabDeskripsi(),
-      TabPerusahaan(),
+    final List<Widget> tabView = [
+      TabDeskripsi(id: widget.id,),
+      const TabPerusahaan(),
       SizedBox(height: screenSize.height, child: const Text('Tab 3')),
       SizedBox(height: screenSize.height, child: const Text('Tab 4')),
     ];
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-      child: Scaffold(
+      child: _isLoad ? const Scaffold(body: Center(child: CircularProgressIndicator(),),) : Scaffold(
         body: Stack(
           children: [
             Stack(
@@ -84,7 +111,7 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
                               child: Column(
                                 children: [
                                   Text(
-                                    "Sr. UX Designer",
+                                    '${detailCompanyModel!.data!.title}',
                                     style: TextStyle(
                                       fontSize: Responsive.fontSize(16),
                                       fontWeight: FontWeight.w600,
@@ -94,16 +121,16 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
                                   const SizedBox(height: 5),
                                   _buildSubInfo(
                                     color: color,
-                                    company: "Google Cloud",
-                                    city: "New York",
-                                    uploadDistance: "2 hari",
+                                    company: "${detailCompanyModel!.data!.companyName}",
+                                    city: '${detailCompanyModel!.data!.companyLocation}',
+                                    uploadDistance: GetTimeAgo.parse(date!, locale: 'id'),
                                   ),
                                   const SizedBox(height: 22),
                                   _buildOtherInfo(
                                     color: color,
-                                    city: 'New York',
-                                    timeType: 'Full TIme',
-                                    salary: '2 jt/bulan',
+                                    city: '${detailCompanyModel!.data!.location!.location}',
+                                    timeType: '${detailCompanyModel!.data!.timeType}',
+                                    salary: CurrencyFormat.convertToIdr(detailCompanyModel!.data!.salary, 0),
                                   ),
                                   const SizedBox(height: 14),
                                 ],
@@ -134,7 +161,7 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
                             ValueListenableBuilder<int>(
                               valueListenable: _tabIndex,
                               builder: (context, value, child) {
-                                return _tabView[value];
+                                return tabView[value];
                               },
                             ),
                           ],

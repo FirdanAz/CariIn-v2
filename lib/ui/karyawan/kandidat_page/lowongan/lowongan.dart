@@ -54,7 +54,7 @@ class _LowonganPageState extends State<LowonganPage> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => CompanyJobDetailPage(id: allJobCompany!.data![index].id,),
+                        builder: (context) => CompanyJobDetailPage(id: int.parse(allJobCompany!.data![index].id.toString()),),
                       )),
                   child: Column(
                     children: [

@@ -1,10 +1,13 @@
-// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages
+// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages, unrelated_type_equality_checks
 
 import 'dart:convert';
 import 'dart:io';
 import 'package:cariin_v2/model/accepted_job_model.dart';
 import 'package:cariin_v2/model/all_job_company_model.dart';
+import 'package:cariin_v2/model/all_job_worker_model.dart';
 import 'package:cariin_v2/model/detail_company_model.dart';
+import 'package:cariin_v2/model/detail_job_model.dart';
+import 'package:cariin_v2/model/list_worker_model.dart';
 import 'package:cariin_v2/model/profil_company_model.dart';
 import 'package:cariin_v2/model/worker_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +18,7 @@ import 'package:http/http.dart' as http;
 import '../common/public_function.dart';
 
 class ApiService {
-  final _baseUrl = "http://192.168.20.143:8000";
+  final _baseUrl = "https://cariin.my.id";
 
   Future postLogin(BuildContext context, String email, String password, String role) async {
     var endPoint = '/api/$role/login';
@@ -69,7 +72,7 @@ class ApiService {
       final response = await http.post(Uri.parse(url), headers: headers ,body: body);
       if (response.statusCode == 201) {
         print('register sukses');
-        await postLogin(context, email, password, 'company');
+        await postLogin(context, email, password, 'worker');
         return true;
       } else {
         print(response.statusCode);
@@ -97,12 +100,44 @@ class ApiService {
       final response = await http.get(Uri.parse(url), headers: headers);
       print('status code : ${response.statusCode}');
       if (response.statusCode == 200) {
+        await RefreshToken('company', token);
         AllJobCompany model = AllJobCompany.fromJson(json.decode(response.body));
         print(model);
-        await RefreshToken('company', token);
         return model;
       } if(response.statusCode == 401 && PublicFunction.getToken('company') != '') {
         await RefreshToken('company', token);
+        AllJobCompany model = AllJobCompany.fromJson(json.decode(response.body));
+        print(model);
+      }
+      else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future AllJobsWorker() async {
+    const endPoint = '/api/worker/jobs';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        await RefreshToken('worker', token);
+        AllJobWorkerModel model = AllJobWorkerModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      } if(response.statusCode == 401 && PublicFunction.getToken('worker') != '') {
+        await RefreshToken('worker', token);
+        AllJobWorkerModel model = AllJobWorkerModel.fromJson(json.decode(response.body));
+        print(model);
       }
       else {
         throw Exception("Failed to fetch data from API");
@@ -121,17 +156,16 @@ class ApiService {
       'Authorization' : 'Bearer $oldToken',
       'Accept' : 'application/json'
     };
-    final bodyRToken = {
-      'role' : role
-    };
 
     try{
-      final response = await http.post(Uri.parse(urlRToken), headers: headers, body: bodyRToken);
+      final response = await http.post(Uri.parse(urlRToken), headers: headers);
       if(response.statusCode == 200) {
         String token = json.decode(response.body)['data']['token'];
-        await PublicFunction.setTokenCompany(token, 'company');
-      } else {
-
+        await PublicFunction.setTokenCompany(token, role);
+      } else if(role == 'comapany'){
+        if (kDebugMode) {
+          print('error auth');
+        }
       }
     } catch (e) {
       if (kDebugMode) {
@@ -157,13 +191,15 @@ class ApiService {
       final response = await http.get(Uri.parse('$url?$queryParams'), headers: headers);
       if (response.statusCode == 200) {
         print('status code : ${response.statusCode}');
+        await RefreshToken('company', token);
         AcceptedJobCompany model = AcceptedJobCompany.fromJson(json.decode(response.body));
         print(model);
-        await RefreshToken('company', token);
         return model;
       }
       if(response.statusCode == 401 && PublicFunction.getToken('company') != '') {
         await RefreshToken('company', token);
+        AcceptedJobCompany model = AcceptedJobCompany.fromJson(json.decode(response.body));
+        return model;
       }
       else {
         throw Exception("Failed to fetch data from API");
@@ -201,21 +237,57 @@ class ApiService {
     }
   }
 
-  Future getDetail(int id) async {
-    var endPoint = '/api/company/job/$id';
+  Future jobDetailCompany(int id) async {
+    var endPoint = '/api/company/jobs/$id';
     final url = '$_baseUrl$endPoint';
     String token = await PublicFunction.getToken('company');
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
 
     try {
-      final response = await http.get(Uri.parse(url));
+      final response = await http.get(Uri.parse(url), headers: headers);
       print('status code : ${response.statusCode}');
       if (response.statusCode == 200 && token != '') {
-        DetailCompanyModel model = DetailCompanyModel.fromJson(json.decode(response.body));
+        DetailJobCompanyModel model = DetailJobCompanyModel.fromJson(json.decode(response.body));
         print(model);
         await RefreshToken('company', token);
         return model;
       } if(response.statusCode == 401 && token != '') {
         await RefreshToken('company', token);
+        DetailJobCompanyModel model = DetailJobCompanyModel.fromJson(json.decode(response.body));
+        return model;
+      }
+      else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future jobDetailWorker(int id) async {
+    var endPoint = '/api/worker/jobs/$id';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200 && token != '') {
+        await RefreshToken('worker', token);
+        JobDetailModel model = JobDetailModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      } if(response.statusCode == 401 && token != '') {
+        await RefreshToken('worker', token);
+        JobDetailModel model = JobDetailModel.fromJson(json.decode(response.body));
+        return model;
       }
       else {
         throw Exception("Failed to fetch data from API");
@@ -261,14 +333,82 @@ class ApiService {
         print(model);
         await RefreshToken('worker', token);
         return model;
-      } if(response.statusCode == 401 && token != '') {
-        await RefreshToken('company', token);
+      } if(response.statusCode == 401 && PublicFunction.getToken('worker') != '') {
+        await RefreshToken('worker', token);
+        WorkerModel model = WorkerModel.fromJson(json.decode(response.body));
+        return model;
       }
       else {
         throw Exception("Failed to fetch data from API");
       }
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future ListWorkerCompany() async {
+    const endPoint = '/api/company/workers';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('company');
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        await RefreshToken('company', token);
+        WorkerListModel model = WorkerListModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      } if(response.statusCode == 401 && PublicFunction.getToken('company') != '') {
+        await RefreshToken('company', token);
+        WorkerListModel model = WorkerListModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      }
+      else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future postRegisterWorker(BuildContext context, String email, String password, String name, String gender, String phone_number, String born_date) async {
+    var endPoint = '/api/worker/register';
+    final url = '$_baseUrl$endPoint';
+    final body = {
+      'username' : name,
+      'email': email,
+      'password': password,
+      'gender': gender,
+      'phone_number': phone_number,
+      'born_date': born_date,
+    };
+    final headers = {
+      'Accept' : 'application/json'
+    };
+
+    try {
+      final response = await http.post(Uri.parse(url), headers: headers ,body: body);
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        print('register sukses');
+        await postLogin(context, email, password, 'worker');
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } on SocketException {
+      print('Tidak koneksi Internet');
+      return false;
+    } on HttpException {
+      print('HttpException');
+      return false;
     }
   }
 
