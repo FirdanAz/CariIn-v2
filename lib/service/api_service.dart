@@ -7,8 +7,12 @@ import 'package:cariin_v2/model/all_job_company_model.dart';
 import 'package:cariin_v2/model/all_job_worker_model.dart';
 import 'package:cariin_v2/model/detail_company_model.dart';
 import 'package:cariin_v2/model/detail_job_model.dart';
+import 'package:cariin_v2/model/detail_pelamar_model.dart';
+import 'package:cariin_v2/model/job_application_model.dart';
+import 'package:cariin_v2/model/job_tag_list_model.dart';
 import 'package:cariin_v2/model/list_worker_model.dart';
 import 'package:cariin_v2/model/profil_company_model.dart';
+import 'package:cariin_v2/model/worker_application_model.dart';
 import 'package:cariin_v2/model/worker_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -51,14 +55,14 @@ class ApiService {
     }
   }
 
-  Future postRegisterCompany(BuildContext context, String email, String password, String name, String category, String foundingDate, String userType, String location, String description) async {
+  Future postRegisterCompany(BuildContext context, String email, String password, String name,String field, String foundingDate, String userType, String location, String description) async {
     var endPoint = '/api/company/register';
     final url = '$_baseUrl$endPoint';
     final body = {
       'name' : name,
       'email': email,
       'password': password,
-      'category': category,
+      'field' : field,
       'founding_date': foundingDate,
       'user_type': userType,
       'location': location,
@@ -72,7 +76,7 @@ class ApiService {
       final response = await http.post(Uri.parse(url), headers: headers ,body: body);
       if (response.statusCode == 201) {
         print('register sukses');
-        await postLogin(context, email, password, 'worker');
+        await postLogin(context, email, password, 'company');
         return true;
       } else {
         print(response.statusCode);
@@ -409,6 +413,295 @@ class ApiService {
     } on HttpException {
       print('HttpException');
       return false;
+    }
+  }
+
+  Future postWorkerJob(BuildContext context, String jobId, String description) async {
+    var endPoint = '/api/worker/job-applications/create';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final body = {
+      'job_id' : jobId,
+      'description': description,
+    };
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
+
+    try {
+      final response = await http.post(Uri.parse(url), headers: headers ,body: body);
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        print('Lamaran sukses');
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } on SocketException {
+      print('Tidak koneksi Internet');
+      return false;
+    } on HttpException {
+      print('HttpException');
+      return false;
+    }
+  }
+
+  Future getLamaranResult(bool all, String value) async {
+    const endPoint = '/api/worker/job-applications';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
+
+    var queryParams =
+        'confirmed_status=$value';
+
+    try {
+      print('$url?$queryParams');
+      if(all == false){
+        final response = await http.get(Uri.parse('$url?$queryParams'), headers: headers);
+        if (response.statusCode == 200) {
+          print('status code : ${response.statusCode}');
+          await RefreshToken('worker', token);
+          JobApplicationModel model = JobApplicationModel.fromJson(json.decode(response.body));
+          print(model);
+          return model;
+        }
+        if(response.statusCode == 401 && PublicFunction.getToken('worker') != '') {
+          await RefreshToken('worker', token);
+          JobApplicationModel model = JobApplicationModel.fromJson(json.decode(response.body));
+          return model;
+        }
+        else {
+          throw Exception("Failed to fetch data from API");
+        }
+      }else{
+        final response = await http.get(Uri.parse(url), headers: headers);
+        if (response.statusCode == 200) {
+          print('status code : ${response.statusCode}');
+          await RefreshToken('worker', token);
+          JobApplicationModel model = JobApplicationModel.fromJson(json.decode(response.body));
+          print(model);
+          return model;
+        }
+        if(response.statusCode == 401 && PublicFunction.getToken('worker') != '') {
+          await RefreshToken('worker', token);
+          JobApplicationModel model = JobApplicationModel.fromJson(json.decode(response.body));
+          return model;
+        }
+        else {
+          throw Exception("Failed to fetch data from API");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future getWorkerResult(bool all, String value) async {
+    const endPoint = '/api/company/job-applications';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('company');
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
+
+    var queryParams =
+        'confirmed_status=$value';
+
+    try {
+      print('$url?$queryParams');
+      if(all == false){
+        final response = await http.get(Uri.parse('$url?$queryParams'), headers: headers);
+        if (response.statusCode == 200) {
+          print('status code : ${response.statusCode}');
+          await RefreshToken('company', token);
+          WorkerApplicationModel model = WorkerApplicationModel.fromJson(json.decode(response.body));
+          print(model);
+          return model;
+        }
+        if(response.statusCode == 401 && PublicFunction.getToken('company') != '') {
+          await RefreshToken('company', token);
+          WorkerApplicationModel model = WorkerApplicationModel.fromJson(json.decode(response.body));
+          return model;
+        }
+        else {
+          throw Exception("Failed to fetch data from API");
+        }
+      }else{
+        final response = await http.get(Uri.parse(url), headers: headers);
+        if (response.statusCode == 200) {
+          print('status code : ${response.statusCode}');
+          await RefreshToken('company', token);
+          WorkerApplicationModel model = WorkerApplicationModel.fromJson(json.decode(response.body));
+          print(model);
+          return model;
+        }
+        if(response.statusCode == 401 && PublicFunction.getToken('company') != '') {
+          await RefreshToken('company', token);
+          WorkerApplicationModel model = WorkerApplicationModel.fromJson(json.decode(response.body));
+          return model;
+        }
+        else {
+          throw Exception("Failed to fetch data from API");
+        }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future detailPelamar(int id) async {
+    var endPoint = '/api/company/job-applications/$id';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('company');
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200 && token != '') {
+        DetailPelamarModel model = DetailPelamarModel.fromJson(json.decode(response.body));
+        print(model);
+        await RefreshToken('company', token);
+        return model;
+      } if(response.statusCode == 401 && token != '') {
+        await RefreshToken('company', token);
+        DetailPelamarModel model = DetailPelamarModel.fromJson(json.decode(response.body));
+        return model;
+      }
+      else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future defineConfirmation(BuildContext context, String confirmValue, String id) async {
+    var endPoint = '/api/company/job-applications/$id/define-confirmation';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('company');
+    final body = {
+      'confirmed_status' : confirmValue
+    };
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
+
+    try {
+      final response = await http.post(Uri.parse(url), headers: headers ,body: body);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print('Lamaran diterima');
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } on SocketException {
+      print('Tidak koneksi Internet');
+      return false;
+    } on HttpException {
+      print('HttpException');
+      return false;
+    }
+  }
+
+  Future postcreateLowongan(
+      BuildContext context,
+      String title,
+      String location,
+      String time_type,
+      int salary,
+      int companyId,
+      String gender,
+      String education,
+      int minimum_age,
+      int maximum_age,
+      String description,
+      List<int> tags,
+      int pkl_status
+
+      ) async {
+    var endPoint = '/api/company/jobs/create';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('company');
+    final body = {
+      "title": title,
+      "location": location,
+      "time_type": time_type,
+      "salary": salary,
+      "company_id": companyId,
+      "gender": gender,
+      "education": education,
+      "minimum_age": minimum_age,
+      "maximum_age": maximum_age,
+      "description": description,
+      "tags": tags,
+      "pkl_status": pkl_status
+    };
+
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
+
+    try {
+      final response = await http.post(Uri.parse(url), headers: headers ,body: body);
+      if (response.statusCode == 200) {
+        print('buat lowongan sukses');
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } on SocketException {
+      print('Tidak koneksi Internet');
+      return false;
+    } on HttpException {
+      print('HttpException');
+      return false;
+    }
+  }
+
+  Future gettagList() async {
+    const endPoint = '/api/company/jobs/available-tags';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('company');
+    final headers = {
+      'Authorization' : 'Bearer $token',
+      'Accept' : 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        await RefreshToken('company', token);
+        JobTagListModel model = jobTagListModelFromJson(response.body);
+        print(model);
+        return model;
+      } if(response.statusCode == 401 && PublicFunction.getToken('company') != '') {
+        await RefreshToken('company', token);
+        JobTagListModel model = jobTagListModelFromJson(response.body);
+        print(model);
+        return model;
+      }
+      else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
 

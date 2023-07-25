@@ -36,7 +36,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
 
   getdata() async {
     _isLoad = true;
-    String oldToken = await PublicFunction.getToken('worker');
+    String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
     AcceptedJobCompany allJob = await ApiService().AcceptedJob();
     ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();

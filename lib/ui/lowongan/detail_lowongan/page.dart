@@ -1,4 +1,5 @@
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_perusahaan.dart';
+import 'package:cariin_v2/ui/lowongan/lamar_page/lamar_process_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cariin_v2/common/app_color.dart';
@@ -8,6 +9,7 @@ import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
 import 'package:cariin_v2/model/detail_job_model.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import '../../../common/currency_format.dart';
+import '../../../common/public_function.dart';
 import '../../../service/api_service.dart';
 
 // ignore: must_be_immutable
@@ -294,7 +296,12 @@ class _JobDetailPageState extends State<JobDetailPage> {
             height: Responsive.byWidth(50),
             width: Responsive.byWidth(160),
             child: FilledButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => LamarProcessPage(title: '${jobDetailModel!.data!.title}', jobId: jobDetailModel!.data!.id!.toInt()),));
+                showDialog(context: context, builder: (context) {
+                  return PublicFunction.showDialog(context, 'Isi formulir dengan benar!');
+                },);
+              },
               style: FilledButton.styleFrom(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
@@ -306,7 +313,11 @@ class _JobDetailPageState extends State<JobDetailPage> {
             height: Responsive.byWidth(50),
             width: Responsive.byWidth(160),
             child: OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(context: context, builder: (context) {
+                  return PublicFunction.showDialog(context, 'Belum Tersedia :)');
+                },);
+              },
               style: OutlinedButton.styleFrom(
                 side: BorderSide(color: color.primary),
                 shape: RoundedRectangleBorder(

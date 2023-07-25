@@ -3,10 +3,14 @@ import 'package:cariin_v2/service/api_service.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
+import '../../../../common/app_assets.dart';
 import '../../../../common/app_color.dart';
 import '../../../lowongan/detail_lowongan/page.dart';
+import '../../form/lowongan/create_lowongan.dart';
+import '../../form/rincian_usaha/rincian_usaha.dart';
 
 class LowonganPage extends StatefulWidget {
   LowonganPage({Key? key}) : super(key: key);
@@ -44,7 +48,7 @@ class _LowonganPageState extends State<LowonganPage> {
         ? Center(
             child: CircularProgressIndicator(),
           )
-        : Container(
+        : allJobCompany!.data!.length != 0 ? Container(
             child: ListView.builder(
               itemCount: allJobCompany!.data!.length,
               itemBuilder: (context, index) {
@@ -246,6 +250,67 @@ class _LowonganPageState extends State<LowonganPage> {
                 );
               },
             ),
-          );
+          ):
+    Container(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircleAvatar(
+              radius: 50,
+              backgroundColor: color.primary,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.asset(AppAssets.wIcon, width: 40,),
+              ),
+            ),
+            SizedBox(height: 25,),
+            Text(
+              'Belum ada pelamar',
+              style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.w600
+              ),
+            ),
+            SizedBox(height: 50,),
+            Container(
+              width: 200,
+              child: Text(
+                'Buat lowongan untuk mendapatkan Pelamar',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 15
+                ),
+              ),
+            ),
+            SizedBox(height: 30,),
+            Container(
+              margin: EdgeInsets.symmetric(
+                  horizontal: 40
+              ),
+              child: InkWell(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateLowonganPage(),)),
+                child: Container(
+                  width: double.maxFinite,
+                  height: 50,
+                  decoration: BoxDecoration(color: color.primary,
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Buat Lowongan',
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: color.white
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
