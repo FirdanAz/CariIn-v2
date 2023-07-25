@@ -1,15 +1,10 @@
 import 'package:cariin_v2/common/app_assets.dart';
-import 'package:cariin_v2/common/app_function.dart';
-import 'package:cariin_v2/ui/lowongan/home_page/home.dart';
-import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../../../common/app_color.dart';
+import '../../../../common/app_color.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -26,14 +21,14 @@ class _NotificationPageState extends State<NotificationPage> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: Container(
+          margin: const EdgeInsets.only(left: 15),
           child: InkWell(
             onTap: () => Navigator.of(context).pop(true),
-            child: Icon(Icons.arrow_back_ios),
+            child: const Icon(Icons.arrow_back_ios),
           ),
-          margin: EdgeInsets.only(left: 15),
         ),
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Kotak Masuk',
           style: TextStyle(
             fontWeight: FontWeight.w600,
@@ -52,7 +47,7 @@ class _NotificationPageState extends State<NotificationPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 9),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -68,7 +63,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     ),
                   ),
                   ListView.builder(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: 3,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
@@ -78,8 +73,8 @@ class _NotificationPageState extends State<NotificationPage> {
                             borderRadius: BorderRadius.circular(10)),
                         width: double.maxFinite,
                         height: 75,
-                        margin: EdgeInsets.symmetric(vertical: 8),
-                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
                           children: [
                             CircleAvatar(
@@ -91,9 +86,9 @@ class _NotificationPageState extends State<NotificationPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(left: 5),
+                                    margin: const EdgeInsets.only(left: 5),
                                     width: double.maxFinite,
-                                    child: Text(
+                                    child: const Text(
                                       'Kamu menerima bayaran sebesar Rp.50.000',
                                       style: TextStyle(
                                         fontSize: 16,
@@ -102,9 +97,9 @@ class _NotificationPageState extends State<NotificationPage> {
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(left: 5),
+                                    margin: const EdgeInsets.only(left: 5),
                                     width: double.maxFinite,
-                                    child: Text(
+                                    child: const Text(
                                       '09:21 AM',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w400,
@@ -133,7 +128,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     ),
                   ),
                   ListView.builder(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: 3,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
@@ -143,8 +138,8 @@ class _NotificationPageState extends State<NotificationPage> {
                             borderRadius: BorderRadius.circular(10)),
                         width: double.maxFinite,
                         height: 75,
-                        margin: EdgeInsets.symmetric(vertical: 8),
-                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
                           children: [
                             CircleAvatar(
@@ -156,10 +151,10 @@ class _NotificationPageState extends State<NotificationPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(left: 5),
+                                    margin: const EdgeInsets.only(left: 5),
                                     width: double.maxFinite,
-                                    child: Text(
-                                      'Kamu menerima bayaran sebesar Rp.50.000',
+                                    child: const Text(
+                                      'Follow',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -167,9 +162,9 @@ class _NotificationPageState extends State<NotificationPage> {
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(left: 5),
+                                    margin: const EdgeInsets.only(left: 5),
                                     width: double.maxFinite,
-                                    child: Text(
+                                    child: const Text(
                                       '09:21 AM',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w400,
@@ -198,7 +193,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     ),
                   ),
                   ListView.builder(
-                    physics: BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     itemCount: 3,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
@@ -208,8 +203,8 @@ class _NotificationPageState extends State<NotificationPage> {
                             borderRadius: BorderRadius.circular(10)),
                         width: double.maxFinite,
                         height: 75,
-                        margin: EdgeInsets.symmetric(vertical: 8),
-                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
                           children: [
                             CircleAvatar(
@@ -221,10 +216,10 @@ class _NotificationPageState extends State<NotificationPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(left: 5),
+                                    margin: const EdgeInsets.only(left: 5),
                                     width: double.maxFinite,
-                                    child: Text(
-                                      'Kamu menerima bayaran sebesar Rp.50.000',
+                                    child: const Text(
+                                      'Follow',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -232,9 +227,9 @@ class _NotificationPageState extends State<NotificationPage> {
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(left: 5),
+                                    margin: const EdgeInsets.only(left: 5),
                                     width: double.maxFinite,
-                                    child: Text(
+                                    child: const Text(
                                       '09:21 AM',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w400,

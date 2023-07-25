@@ -1,7 +1,8 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
-import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
+import 'package:cariin_v2/ui/karyawan/form/intoduction/intro_page.dart';
 import 'package:cariin_v2/ui/karyawan/form/rincian_usaha/rincian_usaha.dart';
+import 'package:cariin_v2/ui/lowongan/atur%20cv/cv.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,88 +16,101 @@ class OptionsPage extends StatelessWidget {
     var color = AppColor.theme(Theme.of(context).brightness);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Pilih Opsi',
-          style: TextStyle(
-            fontWeight: FontWeight.w600
-          ),
-        ),
-      ),
       body: Padding(
         padding: const EdgeInsets.only(bottom: 30),
         child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              InkWell(
-                hoverColor: color.secondary.withOpacity(0.1),
-                onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false),
-                child: Container(
-                  width: 150,
-                  height: 220,
-                  color: color.secondary.withOpacity(0.1),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundColor: color.primary,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 7.0),
-                          child: SvgPicture.asset(
-                            AppAssets.cLowongan,
-                            color: color.white,
+              Container(
+                margin: EdgeInsets.only(top: 100, bottom: 200),
+                child: SvgPicture.asset(AppAssets.appsLogo),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    hoverColor: color.secondary.withOpacity(0.1),
+                    onTap: () => Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CustomBottomNavigation(),
+                        ),
+                        (route) => false),
+                    child: Container(
+                      width: 150,
+                      height: 220,
+                      color: color.primary,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundColor: color.white,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 7.0),
+                              child: SvgPicture.asset(
+                                AppAssets.cariLowonganIcon,
+                                color: color.primary,
+                              ),
+                            ),
                           ),
-                        ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Cari Lowongan?',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                color: color.white),
+                          )
+                        ],
                       ),
-                      SizedBox(height: 10,),
-                      Text(
-                        'Cari Lowongan',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 15,
-                          color: color.primary
-                        ),
-                      )
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const FormRincianUsaha(),), (route) => false);
-                },
-                child: Container(
-                  width: 150,
-                  height: 220,
-                  color: color.secondary.withOpacity(0.1),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundColor: color.primary,
-                        child: SvgPicture.asset(
-                          AppAssets.cKaryawan,
-                          color: color.white,
-                        ),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const KaryawanIntroPage(),
+                          ),
+                          (route) => false);
+                    },
+                    child: Container(
+                      width: 150,
+                      height: 220,
+                      color: color.secondary.withOpacity(0.1),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 40,
+                            backgroundColor: color.primary,
+                            child: SvgPicture.asset(
+                              AppAssets.cariKaryawanIcon,
+                              color: color.white,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Cari Karyawan?',
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 15,
+                                color: color.primary),
+                          )
+                        ],
                       ),
-                      SizedBox(height: 10,),
-                      Text(
-                        'Cari Karyawan',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15,
-                          color: color.primary
-                        ),
-                      )
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ],
           ),

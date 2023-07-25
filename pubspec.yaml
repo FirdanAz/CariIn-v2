@@ -39,6 +39,8 @@ dependencies:
   google_fonts:
   page_transition:
   group_button: ^2.4.1
+  sizer: ^2.0.15
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +70,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -1,4 +1,5 @@
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/ui/karyawan/kandidat_page/lowongan/lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/pelamar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -61,7 +62,7 @@ class _KandidatPageState extends State<KandidatPage> with TickerProviderStateMix
         controller: _tabController,
         children: [
           PelamarTab(),
-          PelamarTab(),
+          LowonganPage(),
         ],
       ),
     );

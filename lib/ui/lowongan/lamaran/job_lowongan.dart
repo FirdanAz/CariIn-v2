@@ -1,6 +1,6 @@
+import 'package:cariin_v2/ui/karyawan/kandidat_page/lowongan/lowongan.dart';
+import 'package:cariin_v2/ui/lowongan/lamaran/jobfill_lowongan.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:cariin_v2/common/app_assets.dart';
 
 import '../../../common/app_color.dart';
 
@@ -59,8 +59,8 @@ class _LamaranPageState extends State<LamaranPage>
       body: TabBarView(
         controller: _tabController,
         children: [
-          LamaranPage(),
-          LamaranPage(),
+          LamaranDetailPage(),
+          LowonganPage(),
         ],
       ),
     );

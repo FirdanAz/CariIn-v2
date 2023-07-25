@@ -1,7 +1,8 @@
 import 'package:cariin_v2/common/app_color.dart';
+import 'package:cariin_v2/ui/lowongan/chat_page/chat.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/home.dart';
 import 'package:cariin_v2/ui/lowongan/lamaran/job_lowongan.dart';
-import 'package:cariin_v2/ui/lowongan/lamaran/jobfill_lowongan.dart';
+import 'package:cariin_v2/ui/lowongan/profile_page/Profile.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigation extends StatefulWidget {
@@ -16,8 +17,8 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
   final List<Widget> _page = [
     HomePage(),
     LamaranPage(),
-    Center(child: Text("Pesan")),
-    Center(child: Text("Profil")),
+    ChatPage(),
+    ProfilePage()
   ];
 
   @override

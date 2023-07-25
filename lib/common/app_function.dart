@@ -1,10 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cariin_v2/ui/lowongan/detail_lowongan/lamar_proposal.dart';
 import 'package:flutter/material.dart';
 
 class AppFunction {}
 
 class Navigate {
-  static void push(BuildContext context, Widget page) {
+  Navigate(LamarDetail lamarDetail);
+
+  static void push(BuildContext context, Widget page, LamarDetail lamarDetail) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => page));
   }
 
