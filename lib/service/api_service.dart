@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import '../common/public_function.dart';
 
 class ApiService {
-  final _baseUrl = "http://192.168.8.159:8000";
+  final _baseUrl = "http://192.168.8.124:8000";
 
   Future postLogin(BuildContext context, String email, String password, String role) async {
     var endPoint = '/api/$role/login';
