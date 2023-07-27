@@ -1,4 +1,6 @@
-import 'package:cariin_v2/ui/home_page/home.dart';
+import 'package:cariin_v2/common/app_theme.dart';
+import 'package:cariin_v2/common/responsive.dart';
+import 'package:cariin_v2/ui/karyawan/splash_screen/splash.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,12 +13,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    Responsive.init(buildContext: context, size: const Size(360, 800));
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const HomePage(),
+      debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.light,
+      theme: AppTheme.getLightMode(context),
+      darkTheme: AppTheme.getDarkMode(context),
+      home: const SplashScren(),
     );
   }
 }
