@@ -1,11 +1,13 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:cariin_v2/common/app_assets.dart';
-import 'package:cariin_v2/model/accepted_job_model.dart';
+import 'package:cariin_v2/model/job_company_model.dart';
 import 'package:cariin_v2/model/profil_company_model.dart';
-import 'package:cariin_v2/model/worker_model.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/profil_comapny.dart';
 import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -14,10 +16,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
-import '../../../model/all_job_company_model.dart';
 import '../../../model/list_worker_model.dart';
 import '../../../service/api_service.dart';
-import '../../lowongan/detail_lowongan/page.dart';
+import '../../widget/shimmer_widget.dart';
 import '../auth/login.dart';
 
 class HomePageKaryawan extends StatefulWidget {
@@ -29,7 +30,7 @@ class HomePageKaryawan extends StatefulWidget {
 
 class _HomePageKaryawanState extends State<HomePageKaryawan> {
   //sementara
-  AcceptedJobCompany? acceptedJobCompany;
+  JobCompanyModel? acceptedJobCompany;
   ProfilCompanyModel? profilCompanyModel;
   WorkerListModel? workerListModel;
   bool _isLoad = false;
@@ -38,7 +39,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
     _isLoad = true;
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
-    AcceptedJobCompany allJob = await ApiService().AcceptedJob();
+    JobCompanyModel allJob = await ApiService().jobsCompany(false, 'diterima');
     ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
     WorkerListModel workerList = await ApiService().ListWorkerCompany();
     setState(() {
@@ -84,7 +85,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
-    return _isLoad ? const Scaffold(body: Center(child: CircularProgressIndicator(),),) : Scaffold(
+    return Scaffold(
       backgroundColor: color.surface,
       body: CustomScrollView(
         slivers: [
@@ -105,10 +106,10 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                 ),
               )
             ],
-            title: Row(
+            title: _isLoad ? const ShimmerHomeAppBar() : Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
+                const Padding(
                   padding: EdgeInsets.only(top: 20, bottom: 10),
                   child: CircleAvatar(
                     radius: 25,
@@ -119,12 +120,12 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                   width: 10,
                 ),
                 InkWell(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilCompanyPage(),)),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilCompanyPage(),)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       _isLoad ? Text(
@@ -150,11 +151,11 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
               ],
             ),
           ),
-          const HomeCard(),
+          _isLoad ? const SliverToBoxAdapter(child: ShimmerHomeCard()) :  const HomeCard(),
           SliverToBoxAdapter(
             child: Container(
               width: double.maxFinite,
-              margin: EdgeInsets.only(top: 10, left: 15, right: 15),
+              margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -189,7 +190,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
             ),
           ),
           SliverToBoxAdapter(
-              child: Container(
+              child: _isLoad ? const ShimmerWorkerList() : Container(
                   height: 250,
                   margin: const EdgeInsets.only(top: 15),
                   child: ListView.builder(
@@ -200,11 +201,13 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                       var data = workerListModel!.data![index];
                       return WorkerCards(name: data.username.toString(), gender: data.gender.toString(), age: data.age.toString(), location: data.address.toString(), selection: data.interested.toString());
                     },
-                  ))),
+                  )
+              )
+          ),
           SliverToBoxAdapter(
             child: Container(
               width: double.maxFinite,
-              margin: EdgeInsets.only(top: 15, left: 15, right: 15),
+              margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -234,19 +237,31 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
             ),
           ),
           //sementara
-          SliverList(
+          _isLoad ? const SliverToBoxAdapter(
+            child: ShimmerJobCard(),
+          ) : SliverList(
             delegate: SliverChildBuilderDelegate(childCount: acceptedJobCompany!.data!.length,(context, index) {
               var data = acceptedJobCompany!.data![index];
+              int count;
+              if(data.tags!.length == 1){
+                count = 1;
+              }else if(data.tags!.length == 2){
+                count = 2;
+              } else{
+                count = 3;
+              }
               DateTime? date = DateTime.parse(data.createdAt.toString());
-              print(date);
-              return  InkWell(
+              if (kDebugMode) {
+                print(date);
+              }
+              return InkWell(
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyJobDetailPage(id: acceptedJobCompany!.data![index].id!.toInt()),)),
                 child: Column(
                   children: [
                     Container(
                       height: 140,
                       width: double.maxFinite,
-                      margin: EdgeInsets.only(top: 20, left: 15, right: 15),
+                      margin: const EdgeInsets.only(top: 20, left: 15, right: 15),
                       decoration: BoxDecoration(
                         color: color.white,
                         boxShadow: [
@@ -254,12 +269,12 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                             color: color.primaryContainer.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 4,
-                            offset: Offset(2, 2), // changes position of shadow
+                            offset: const Offset(2, 2), // changes position of shadow
                           ),
                         ],
                       ),
                       child: Container(
-                        margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                        margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -270,7 +285,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Row(
@@ -282,14 +297,14 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 CircleAvatar(
                                   radius: 5,
                                   backgroundColor: color.black.withOpacity(0.5),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Text(
@@ -301,26 +316,26 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 3,
                             ),
                             Expanded(
                               child: ListView.builder(
-                                itemCount: acceptedJobCompany!.data![index].tags!.length,
+                                itemCount: count,
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, indexs) {
                                   return Center(
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 3, horizontal: 5),
-                                      margin: EdgeInsets.only(right: 7),
+                                      margin: const EdgeInsets.only(right: 7),
                                       decoration: BoxDecoration(
                                           color: color.primaryContainer,
                                           borderRadius: BorderRadius.circular(5)),
                                       child: Text(
                                         '${data.tags![indexs].name}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500),
                                       ),
@@ -330,14 +345,14 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 7, left: 2, bottom: 10),
+                              margin: const EdgeInsets.only(top: 7, left: 2, bottom: 10),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
                                     height: 40,
                                     width: 4,
-                                    margin: EdgeInsets.only(right: 10),
+                                    margin: const EdgeInsets.only(right: 10),
                                     decoration: BoxDecoration(
                                         color: color.tertiary.withOpacity(0.5),
                                         borderRadius: BorderRadius.circular(2)),
@@ -372,17 +387,17 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                     Container(
                       height: 30,
                       width: double.maxFinite,
-                      margin: EdgeInsets.only(left: 15, right: 15),
+                      margin: const EdgeInsets.only(left: 15, right: 15),
                       decoration: BoxDecoration(
                         color: color.primary,
                         borderRadius:
-                        BorderRadius.only(bottomRight: Radius.circular(20)),
+                        const BorderRadius.only(bottomRight: Radius.circular(20)),
                         boxShadow: [
                           BoxShadow(
                             color: color.primaryContainer.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 4,
-                            offset: Offset(2, 2), // changes position of shadow
+                            offset: const Offset(2, 2), // changes position of shadow
                           ),
                         ],
                       ),
@@ -394,7 +409,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                                   color: color.white,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12)),
-                          SizedBox(
+                          const SizedBox(
                             width: 13,
                           )
                         ],
@@ -404,7 +419,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                 ),
               );
             }),
-          ),
+          )
         ],
       ),
     );

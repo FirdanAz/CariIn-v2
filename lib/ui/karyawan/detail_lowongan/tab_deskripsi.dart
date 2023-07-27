@@ -5,13 +5,14 @@ import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/common/currency_format.dart';
 import 'package:cariin_v2/common/responsive.dart';
 import 'package:cariin_v2/ui/widget/svg_icon.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/detail_company_model.dart';
 import '../../../service/api_service.dart';
 
 class TabDeskripsi extends StatefulWidget {
-  TabDeskripsi({
+  const TabDeskripsi({
     super.key,
     required this.id
   });
@@ -28,7 +29,9 @@ class _TabDeskripsiState extends State<TabDeskripsi> {
 
   getdata() async {
     _isLoad = true;
-    print('id :  ${widget.id}');
+    if (kDebugMode) {
+      print('id :  ${widget.id}');
+    }
     DetailJobCompanyModel details = await ApiService().jobDetailCompany(widget.id);
     setState(() {
       detailCompanyModel = details;

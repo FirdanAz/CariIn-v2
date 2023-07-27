@@ -1,17 +1,17 @@
-import 'package:cariin_v2/ui/karyawan/kandidat_page/lowongan/lowongan.dart';
-import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/pelamar.dart';
+import 'package:cariin_v2/ui/karyawan/lowongan/tab/lowongan_result.dart';
+import 'package:cariin_v2/ui/karyawan/lowongan/tab/wawancara_procces.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/app_color.dart';
 
-class KandidatPage extends StatefulWidget {
-  const KandidatPage({Key? key}) : super(key: key);
+class LowonganPage extends StatefulWidget {
+  const LowonganPage({Key? key}) : super(key: key);
 
   @override
-  State<KandidatPage> createState() => _KandidatPageState();
+  State<LowonganPage> createState() => _LowonganPageState();
 }
 
-class _KandidatPageState extends State<KandidatPage> with TickerProviderStateMixin{
+class _LowonganPageState extends State<LowonganPage> with TickerProviderStateMixin{
   late TabController _tabController;
 
   @override
@@ -27,9 +27,9 @@ class _KandidatPageState extends State<KandidatPage> with TickerProviderStateMix
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
         centerTitle: true,
-        title: const Text('Kandidat', style: TextStyle(fontWeight: FontWeight.w500),),
+        title: const Text('Lowongan', style: TextStyle(fontWeight: FontWeight.w500),),
+        elevation: 0,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: TabBar(
@@ -46,13 +46,20 @@ class _KandidatPageState extends State<KandidatPage> with TickerProviderStateMix
               Container(
                 height: 70,
                 alignment: Alignment.center,
-                child: const Text("Pelamar"),
+                child: const Text("Lowongan Anda"),
 
               ),
               Container(
                 height: 70,
                 alignment: Alignment.center,
-                child: const Text("Hasil Lamran"),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Lowongan Aktif"),
+                    SizedBox(width: 5,),
+                    CircleAvatar(backgroundColor: Colors.green, radius: 5,)
+                  ],
+                ),
               ),
             ],
           ),
@@ -60,10 +67,9 @@ class _KandidatPageState extends State<KandidatPage> with TickerProviderStateMix
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
-          // ignore: prefer_const_constructors
-          PelamarTab(),
-          LowonganPage(),
+        children: const [
+          LowonganProccesPage(),
+          LowonganResultPage(),
         ],
       ),
     );

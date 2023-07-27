@@ -16,6 +16,7 @@ class FormRincianUsaha extends StatefulWidget {
 
 class _FormRincianUsahaState extends State<FormRincianUsaha> {
   String selectedValue = "SMA/SMK";
+  List<int> selectedButton = [];
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = const[
@@ -349,11 +350,13 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                         "Pengelola",
                         "HRD"
                       ],
-                      selectedButtons: [
-                        0
-                      ],
-                      onSelected: (int index, bool isSelected) => print('$index is selected'),
-
+                      selectedButtons: selectedButton,
+                      onSelected: (int index, bool isSelected) {
+                        setState(() {
+                          selectedButton.add(index);
+                        });
+                        print(selectedButton);
+                      },
                     ),
                   ),
                   const SizedBox(height: 20,),

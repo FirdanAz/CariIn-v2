@@ -1,9 +1,8 @@
-// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages, unrelated_type_equality_checks
+// ignore_for_file: non_constant_identifier_names, depend_on_referenced_packages, unrelated_type_equality_checks, use_build_context_synchronously
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:cariin_v2/model/accepted_job_model.dart';
-import 'package:cariin_v2/model/all_job_company_model.dart';
+import 'package:cariin_v2/model/job_company_model.dart';
 import 'package:cariin_v2/model/all_job_worker_model.dart';
 import 'package:cariin_v2/model/detail_company_model.dart';
 import 'package:cariin_v2/model/detail_job_model.dart';
@@ -39,18 +38,26 @@ class ApiService {
       final response = await http.post(Uri.parse(url), headers: headers ,body: body);
       if (response.statusCode == 200) {
         String token = json.decode(response.body)['data']['token'];
-        print(token);
+        if (kDebugMode) {
+          print(token);
+        }
         await PublicFunction.setTokenCompany(token, role);
         return true;
       } else {
-        print('Email atau Password salah');
+        if (kDebugMode) {
+          print('Email atau Password salah');
+        }
         return false;
       }
     } on SocketException {
-      print('Tidak koneksi Internet');
+      if (kDebugMode) {
+        print('Tidak koneksi Internet');
+      }
       return false;
     } on HttpException {
-      print('HttpException');
+      if (kDebugMode) {
+        print('HttpException');
+      }
       return false;
     }
   }
@@ -75,49 +82,27 @@ class ApiService {
     try {
       final response = await http.post(Uri.parse(url), headers: headers ,body: body);
       if (response.statusCode == 201) {
-        print('register sukses');
+        if (kDebugMode) {
+          print('register sukses');
+        }
         await postLogin(context, email, password, 'company');
         return true;
       } else {
-        print(response.statusCode);
+        if (kDebugMode) {
+          print(response.statusCode);
+        }
         return false;
       }
     } on SocketException {
-      print('Tidak koneksi Internet');
+      if (kDebugMode) {
+        print('Tidak koneksi Internet');
+      }
       return false;
     } on HttpException {
-      print('HttpException');
+      if (kDebugMode) {
+        print('HttpException');
+      }
       return false;
-    }
-  }
-
-  Future AllJobsCompany() async {
-    const endPoint = '/api/company/jobs';
-    final url = '$_baseUrl$endPoint';
-    String token = await PublicFunction.getToken('company');
-    final headers = {
-      'Authorization' : 'Bearer $token',
-      'Accept' : 'application/json'
-    };
-
-    try {
-      final response = await http.get(Uri.parse(url), headers: headers);
-      print('status code : ${response.statusCode}');
-      if (response.statusCode == 200) {
-        await RefreshToken('company', token);
-        AllJobCompany model = AllJobCompany.fromJson(json.decode(response.body));
-        print(model);
-        return model;
-      } if(response.statusCode == 401 && PublicFunction.getToken('company') != '') {
-        await RefreshToken('company', token);
-        AllJobCompany model = AllJobCompany.fromJson(json.decode(response.body));
-        print(model);
-      }
-      else {
-        throw Exception("Failed to fetch data from API");
-      }
-    } catch (e) {
-      print(e.toString());
     }
   }
 
@@ -132,16 +117,22 @@ class ApiService {
 
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
-      print('status code : ${response.statusCode}');
+      if (kDebugMode) {
+        print('status code : ${response.statusCode}');
+      }
       if (response.statusCode == 200) {
         await RefreshToken('worker', token);
         AllJobWorkerModel model = AllJobWorkerModel.fromJson(json.decode(response.body));
-        print(model);
+        if (kDebugMode) {
+          print(model);
+        }
         return model;
       } if(response.statusCode == 401 && PublicFunction.getToken('worker') != '') {
         await RefreshToken('worker', token);
         AllJobWorkerModel model = AllJobWorkerModel.fromJson(json.decode(response.body));
-        print(model);
+        if (kDebugMode) {
+          print(model);
+        }
       }
       else {
         throw Exception("Failed to fetch data from API");
@@ -178,7 +169,7 @@ class ApiService {
     }
   }
 
-  Future AcceptedJob() async {
+  Future jobsCompany(bool isAll, String confirmedStatus) async {
     const endPoint = '/api/company/jobs';
     final url = '$_baseUrl$endPoint';
     String token = await PublicFunction.getToken('company');
@@ -187,29 +178,51 @@ class ApiService {
       'Accept' : 'application/json'
     };
 
-    const queryParams =
-      'confirmed_status=diterima';
-
-    try {
-      print('$url?$queryParams');
-      final response = await http.get(Uri.parse('$url?$queryParams'), headers: headers);
-      if (response.statusCode == 200) {
-        print('status code : ${response.statusCode}');
-        await RefreshToken('company', token);
-        AcceptedJobCompany model = AcceptedJobCompany.fromJson(json.decode(response.body));
-        print(model);
-        return model;
+    if(isAll == true){
+      try {
+        final response = await http.get(Uri.parse(url), headers: headers);
+        if (response.statusCode == 200) {
+          print('status code : ${response.statusCode}');
+          await RefreshToken('company', token);
+          JobCompanyModel model = JobCompanyModel.fromJson(json.decode(response.body));
+          print(model);
+          return model;
+        }
+        if(response.statusCode == 401 && PublicFunction.getToken('company') != '') {
+          await RefreshToken('company', token);
+          JobCompanyModel model = JobCompanyModel.fromJson(json.decode(response.body));
+          return model;
+        }
+        else {
+          throw Exception("Failed to fetch data from API");
+        }
+      } catch (e) {
+        print(e.toString());
       }
-      if(response.statusCode == 401 && PublicFunction.getToken('company') != '') {
-        await RefreshToken('company', token);
-        AcceptedJobCompany model = AcceptedJobCompany.fromJson(json.decode(response.body));
-        return model;
+    } else {
+      var queryParams =
+          'confirmed_status=$confirmedStatus';
+      try {
+        print('$url?$queryParams');
+        final response = await http.get(Uri.parse('$url?$queryParams'), headers: headers);
+        if (response.statusCode == 200) {
+          print('status code : ${response.statusCode}');
+          await RefreshToken('company', token);
+          JobCompanyModel model = JobCompanyModel.fromJson(json.decode(response.body));
+          print(model);
+          return model;
+        }
+        if(response.statusCode == 401 && PublicFunction.getToken('company') != '') {
+          await RefreshToken('company', token);
+          JobCompanyModel model = JobCompanyModel.fromJson(json.decode(response.body));
+          return model;
+        }
+        else {
+          throw Exception("Failed to fetch data from API");
+        }
+      } catch (e) {
+        print(e.toString());
       }
-      else {
-        throw Exception("Failed to fetch data from API");
-      }
-    } catch (e) {
-      print(e.toString());
     }
   }
 

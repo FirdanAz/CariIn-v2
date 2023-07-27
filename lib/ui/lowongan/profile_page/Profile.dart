@@ -1,6 +1,7 @@
+// ignore_for_file: sized_box_for_whitespace
+
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/worker_model.dart';
-import 'package:cariin_v2/ui/lowongan/auth_page/login.dart';
 import 'package:cariin_v2/ui/options/options.dart';
 import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
 
-    return _isLoad ? Scaffold(body: Center(child: CircularProgressIndicator(),),) : Scaffold(
+    return _isLoad ? const Scaffold(body: Center(child: CircularProgressIndicator(),),) : Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -83,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
               background: Stack(
                 alignment: Alignment.topCenter,
                 children: [
-                  Container(
+                  SizedBox(
                     width: double.maxFinite,
                     height: 230,
                     child: ClipRRect(
@@ -106,7 +107,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Container(
                       height: 200,
-                      margin: EdgeInsets.only(top: 130),
+                      margin: const EdgeInsets.only(top: 130),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -115,7 +116,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               width: 130,
                               height: 200,
                               child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(20)),
+                                borderRadius: const BorderRadius.all(Radius.circular(20)),
                                 child: Image.asset(AppAssets.firdanImg, fit: BoxFit.cover,),
                               ),
                             ),
@@ -180,7 +181,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Icon(Icons.email, size: 17, color: color.primary,),
-                                    SizedBox(width: 3,),
+                                    const SizedBox(width: 3,),
                                     Text(
                                       '${workerModel!.data!.email}',
                                       style: TextStyle(
@@ -195,7 +196,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     Icon(Icons.sentiment_dissatisfied, size: 17, color: color.primary,),
-                                    SizedBox(width: 3,),
+                                    const SizedBox(width: 3,),
                                     Text(
                                       '19 Tahun',
                                       style: TextStyle(
@@ -222,9 +223,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: ChipTabBar(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     length: 4,
-                    tabLabels: [
+                    tabLabels: const [
                       'Pengalaman',
                       'Pendidikan',
                       'Keterampilan',

@@ -64,7 +64,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
             Stack(
               children: [
                 Image.network(
-                  'https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg',
+                  'https://cariin.my.id/storage/${jobDetailModel!.data!.backdropImage}',
                   height: Responsive.byHeight(260),
                   width: screenSize.width,
                   fit: BoxFit.cover,
@@ -126,7 +126,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
                                   const SizedBox(height: 22),
                                   _buildOtherInfo(
                                     color: color,
-                                    city: '${jobDetailModel!.data!.location!.location}',
+                                    education: 'Smk/Sma',
                                     timeType: '${jobDetailModel!.data!.timeType}',
                                     salary: CurrencyFormat.convertToIdr(jobDetailModel!.data!.salary, 0),
                                   ),
@@ -168,7 +168,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
 
                       // Photoprofil
                       _buildPoster(color,
-                          'https://cloud.google.com/_static/cloud/images/social-icon-google-cloud-1200-630.png?hl=id')
+                          'https://cariin.my.id/storage/${jobDetailModel!.data!.coverImage}')
                     ],
                   )
                 ],
@@ -236,7 +236,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
   // Other info
   Widget _buildOtherInfo({
     required AppColorData color,
-    required String city,
+    required String education,
     required String timeType,
     required String salary,
   }) {
@@ -273,7 +273,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          content(Icons.location_on_outlined, 'Lokasi', city),
+          content(Icons.cast_for_education, 'Pendidikan', education),
           content(Icons.access_time, 'Tipe Pekerjaan', timeType),
           content(Icons.monetization_on_outlined, 'Gaji', salary),
         ],

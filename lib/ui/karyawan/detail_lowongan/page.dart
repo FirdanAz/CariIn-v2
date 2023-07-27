@@ -66,7 +66,7 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
             Stack(
               children: [
                 Image.network(
-                  'https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg',
+                  'https://cariin.my.id/storage/${detailCompanyModel!.data!.backdropImage}',
                   height: Responsive.byHeight(260),
                   width: screenSize.width,
                   fit: BoxFit.cover,
@@ -128,7 +128,7 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
                                   const SizedBox(height: 22),
                                   _buildOtherInfo(
                                     color: color,
-                                    city: '${detailCompanyModel!.data!.location!.location}',
+                                    education: 'Smk/Sma',
                                     timeType: '${detailCompanyModel!.data!.timeType}',
                                     salary: CurrencyFormat.convertToIdr(detailCompanyModel!.data!.salary, 0),
                                   ),
@@ -170,7 +170,7 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
 
                       // Photoprofil
                       _buildPoster(color,
-                          'https://cloud.google.com/_static/cloud/images/social-icon-google-cloud-1200-630.png?hl=id')
+                          'https://cariin.my.id/storage/${detailCompanyModel!.data!.coverImage}')
                     ],
                   )
                 ],
@@ -238,7 +238,7 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
   // Other info
   Widget _buildOtherInfo({
     required AppColorData color,
-    required String city,
+    required String education,
     required String timeType,
     required String salary,
   }) {
@@ -275,7 +275,7 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          content(Icons.location_on_outlined, 'Lokasi', city),
+          content(Icons.location_on_outlined, 'Pendidikan', education),
           content(Icons.access_time, 'Tipe Pekerjaan', timeType),
           content(Icons.monetization_on_outlined, 'Gaji', salary),
         ],

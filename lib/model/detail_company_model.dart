@@ -25,6 +25,8 @@ class DetailJobCompanyModel {
 class Data {
   int? id;
   String? title;
+  String? coverImage;
+  String? backdropImage;
   String? gender;
   String? companyName;
   String? companyLocation;
@@ -40,6 +42,8 @@ class Data {
   Data(
       {this.id,
         this.title,
+        this.coverImage,
+        this.backdropImage,
         this.gender,
         this.companyName,
         this.companyLocation,
@@ -55,6 +59,8 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
+    coverImage = json['cover_image'];
+    backdropImage = json['backdrop_image'];
     gender = json['gender'];
     companyName = json['company_name'];
     companyLocation = json['company_location'];
@@ -77,6 +83,8 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
+    data['cover_image'] = this.coverImage;
+    data['backdrop_image'] = this.backdropImage;
     data['gender'] = this.gender;
     data['company_name'] = this.companyName;
     data['company_location'] = this.companyLocation;
@@ -105,7 +113,7 @@ class Description {
   int? salary;
   String? education;
   int? minimumAge;
-  Null? maximumAge;
+  int? maximumAge;
   List<Tags>? tags;
 
   Description(

@@ -43,6 +43,7 @@ dependencies:
   shared_preferences:
   get_time_ago:
   intl:
+  shimmer: 
 
 dev_dependencies:
   flutter_test:
