@@ -43,7 +43,10 @@ dependencies:
   shared_preferences:
   get_time_ago:
   intl:
-  shimmer: 
+  shimmer:
+  image_picker: ^1.0.1
+  file_picker:
+  path_provider:
 
 dev_dependencies:
   flutter_test:

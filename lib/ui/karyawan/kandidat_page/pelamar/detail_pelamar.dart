@@ -62,31 +62,34 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                  padding: const EdgeInsets.all(8.0),
                  child: InkWell(
                      onTap: () async {
-                       AlertDialog(
-                         content: Text(
-                           'Tolak Lamaran ${detailPelamarModel!.data!.worker!.username}',
-                           style: const TextStyle(fontSize: 15),
-                         ),
-                         actions: [
-                           TextButton(
-                               onPressed: () async {
-                                 bool isSuccess = await ApiService().defineConfirmation(context, 'ditolak', '${detailPelamarModel!.data!.id}');
-                                 if(isSuccess == true){
-                                   setState(() {
-                                     getdata();
-                                   });
-                                   showDialog(context: context, builder: (context) {
-                                     return PublicFunction.showDialog(context, 'Lamaran Ditolak');
-                                   },);
-                                 }
-                               },
-                               child: const Text("Iya")
+                       showDialog(context: context, builder: (context) {
+                         return AlertDialog(
+                           content: Text(
+                             'Tolak Lamaran ${detailPelamarModel!.data!.worker!.username}',
+                             style: const TextStyle(fontSize: 15),
                            ),
-                           TextButton(
+                           actions: [
+                             TextButton(
                                onPressed: () => Navigator.of(context).pop(),
-                               child: const Text("Iya")),
-                         ],
-                       );
+                               child: const Text("Batal"),
+                             ),
+                             TextButton(
+                                 onPressed: () async {
+                                   bool isSuccess = await ApiService().defineConfirmation(context, 'ditolak', '${detailPelamarModel!.data!.id}');
+                                   if(isSuccess == true){
+                                     setState(() {
+                                       getdata();
+                                     });
+                                     showDialog(context: context, builder: (context) {
+                                       return PublicFunction.showDialog(context, 'Lamaran Ditolak');
+                                     },);
+                                   }
+                                 },
+                                 child: Text("Iya", style: TextStyle(color: color.error),)
+                             ),
+                           ],
+                         );
+                       },);
                      },
                      child: Icon(detailPelamarModel!.data!.confirmedStatus == 'menunggu' ? Icons.folder_delete :null, color: color.error,size: 30,)),
                )
@@ -228,6 +231,7 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
             child: Column(
               children: [
                 ProfileCard(context, AppAssets.activityIcon, 'Deskripsi Lamaran', '${detailPelamarModel!.data!.description}'),
+                ProfileCard(context, AppAssets.genderIcon, 'Jenis Kelamin', '${detailPelamarModel!.data!.worker!.gender}'),
                 detailPelamarModel!.data!.confirmedStatus == 'ditolak' ? Container(
                   height: 100,
                   width: double.maxFinite,
@@ -295,13 +299,13 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                   fontWeight: FontWeight.bold
               ),
             ) : detailPelamarModel!.data!.confirmedStatus == 'ditolak' ? Text(
-              'Undang Wawancara',
+              'Terima Pelamar',
               style: TextStyle(
                   color: color.white,
                   fontWeight: FontWeight.bold
               ),
             ) : detailPelamarModel!.data!.confirmedStatus == 'menunggu' ? Text(
-              'Undang Wawancara',
+              'Terima Pelamar',
               style: TextStyle(
                   color: color.white,
                   fontWeight: FontWeight.bold
@@ -328,7 +332,7 @@ Widget ProfileCard(BuildContext context, String image, String title, String desc
     width: double.maxFinite,
     margin: const EdgeInsets.symmetric(
         horizontal: 10,
-        vertical: 10
+        vertical: 5
     ),
     child: Card(
       color: color.white,
@@ -361,6 +365,7 @@ Widget ProfileCard(BuildContext context, String image, String title, String desc
                   ),
                   child: SvgPicture.asset(
                     image,
+                    color: color.primary,
                     width: 25,
                   ),
                 )

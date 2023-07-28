@@ -633,23 +633,25 @@ class ApiService {
   Future postcreateLowongan(
       BuildContext context,
       String title,
+      File coverImage,
+      File backdropImage,
       String location,
       String time_type,
-      int salary,
-      int companyId,
+      String salary,
+      String companyId,
       String gender,
       String education,
-      int minimum_age,
-      int maximum_age,
+      String minimum_age,
+      String maximum_age,
       String description,
       List<int> tags,
-      int pkl_status
+      String pkl_status
 
       ) async {
     var endPoint = '/api/company/jobs/create';
-    final url = '$_baseUrl$endPoint';
+    final url = Uri.parse('$_baseUrl$endPoint');
     String token = await PublicFunction.getToken('company');
-    final body = {
+    var body = {
       "title": title,
       "location": location,
       "time_type": time_type,
@@ -660,7 +662,9 @@ class ApiService {
       "minimum_age": minimum_age,
       "maximum_age": maximum_age,
       "description": description,
-      "tags": tags,
+      "tags[0]": '1',
+      "tags[1]": '4',
+      "tags[2]": '7',
       "pkl_status": pkl_status
     };
 
@@ -669,25 +673,29 @@ class ApiService {
       'Accept' : 'application/json'
     };
 
-    try {
-      final response = await http.post(Uri.parse(url), headers: headers ,body: body);
-      if (response.statusCode == 200) {
-        print('buat lowongan sukses');
-        return true;
-      } else {
-        print(response.statusCode);
-        return false;
-      }
-    } on SocketException {
-      print('Tidak koneksi Internet');
-      return false;
-    } on HttpException {
+    final request = http.MultipartRequest('POST', url)
+      ..headers.addAll(headers)
+      ..fields.addAll(body)
+      ..files.add(await http.MultipartFile.fromPath('cover_image', coverImage.path))
+      ..files.add(await http.MultipartFile.fromPath('backdrop_image', backdropImage.path));
+
+
+    final response = await request.send().timeout(
+        const Duration(seconds: 15)
+    );
+
+    final res = await http.Response.fromStream(response);
+    print(res.body);
+
+    if (res.statusCode == 201) {
+      return true;
+    } else {
       print('HttpException');
       return false;
     }
   }
 
-  Future gettagList() async {
+  Future getTagList() async {
     const endPoint = '/api/company/jobs/available-tags';
     final url = '$_baseUrl$endPoint';
     String token = await PublicFunction.getToken('company');

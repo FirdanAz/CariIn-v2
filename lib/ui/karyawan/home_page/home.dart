@@ -87,340 +87,347 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
     var color = AppColor.theme(Theme.of(context).brightness);
     return Scaffold(
       backgroundColor: color.surface,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            toolbarHeight: 95,
-            systemOverlayStyle:
-                SystemUiOverlayStyle(statusBarColor: color.primaryContainer),
-            pinned: false,
-            actions: [
-              InkWell(
-                onTap: () {
-                  _logOut();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: SvgPicture.asset(AppAssets.companyIcon,
-                      width: 28, color: color.primary),
-                ),
-              )
-            ],
-            title: _isLoad ? const ShimmerHomeAppBar() : Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 10),
-                  child: CircleAvatar(
-                    radius: 25,
-                    foregroundImage: AssetImage(AppAssets.firdanImg),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
+      body: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {
+            getdata();
+          });
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              toolbarHeight: 95,
+              systemOverlayStyle:
+                  SystemUiOverlayStyle(statusBarColor: color.primaryContainer),
+              pinned: false,
+              actions: [
                 InkWell(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilCompanyPage(),)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      _isLoad ? Text(
-                        'Hai user',
-                        style: TextStyle(
-                            color: color.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16)) : Text(
-                        'Hai, ${profilCompanyModel!.data!.name}',
-                        style: TextStyle(
-                            color: color.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16),
-                      ),
-                      Text(
-                        'Tap untuk mengubah profil',
-                        style: TextStyle(
-                            color: color.black.withOpacity(0.4), fontSize: 14),
-                      ),
-                    ],
+                  onTap: () {
+                    _logOut();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: SvgPicture.asset(AppAssets.companyIcon,
+                        width: 28, color: color.primary),
                   ),
                 )
               ],
-            ),
-          ),
-          _isLoad ? const SliverToBoxAdapter(child: ShimmerHomeCard()) :  const HomeCard(),
-          SliverToBoxAdapter(
-            child: Container(
-              width: double.maxFinite,
-              margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              title: _isLoad ? const ShimmerHomeAppBar() : Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Pekerja Siap Direkurt',
-                          style: GoogleFonts.outfit(
-                              color: color.onPrimaryContainer,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16)),
-                      Text('Pilih dan kirim undangan rekurt',
-                          style: GoogleFonts.outfit(
-                              color:
-                                  color.onPrimaryContainer.withOpacity(0.4),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14)),
-                    ],
+                  const Padding(
+                    padding: EdgeInsets.only(top: 20, bottom: 10),
+                    child: CircleAvatar(
+                      radius: 25,
+                      foregroundImage: AssetImage(AppAssets.firdanImg),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
                   ),
                   InkWell(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ListKaryawan(),));
-                    },
-                    child: Text('Lebih banyak',
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilCompanyPage(),)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        _isLoad ? Text(
+                          'Hai user',
+                          style: TextStyle(
+                              color: color.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16)) : Text(
+                          'Hai, ${profilCompanyModel!.data!.name}',
+                          style: TextStyle(
+                              color: color.black,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16),
+                        ),
+                        Text(
+                          'Tap untuk mengubah profil',
+                          style: TextStyle(
+                              color: color.black.withOpacity(0.4), fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),
+            _isLoad ? const SliverToBoxAdapter(child: ShimmerHomeCard()) :  const HomeCard(),
+            SliverToBoxAdapter(
+              child: Container(
+                width: double.maxFinite,
+                margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Pekerja Siap Direkurt',
+                            style: GoogleFonts.outfit(
+                                color: color.onPrimaryContainer,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16)),
+                        Text('Pilih dan kirim undangan rekurt',
+                            style: GoogleFonts.outfit(
+                                color:
+                                    color.onPrimaryContainer.withOpacity(0.4),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14)),
+                      ],
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ListKaryawan(),));
+                      },
+                      child: Text('Lebih banyak',
+                          style: GoogleFonts.outfit(
+                              color: color.primary,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 14)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+                child: _isLoad ? const ShimmerWorkerList() : Container(
+                    height: 250,
+                    margin: const EdgeInsets.only(top: 15),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: workerListModel!.data!.length,
+                      padding: const EdgeInsets.only(left: 10),
+                      itemBuilder: (context, index) {
+                        var data = workerListModel!.data![index];
+                        return WorkerCards(name: data.username.toString(), gender: data.gender.toString(), age: data.age.toString(), location: data.address.toString(), selection: data.interested.toString());
+                      },
+                    )
+                )
+            ),
+            SliverToBoxAdapter(
+              child: Container(
+                width: double.maxFinite,
+                margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Pekerjaan dari anda',
+                            style: GoogleFonts.outfit(
+                                color: color.onPrimaryContainer,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16)),
+                        Text('Lowongan yang terverifikasi',
+                            style: GoogleFonts.outfit(
+                                color:
+                                    color.onPrimaryContainer.withOpacity(0.4),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14)),
+                      ],
+                    ),
+                    Text('Lebih banyak',
                         style: GoogleFonts.outfit(
                             color: color.primary,
                             fontWeight: FontWeight.w600,
                             fontSize: 14)),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          SliverToBoxAdapter(
-              child: _isLoad ? const ShimmerWorkerList() : Container(
-                  height: 250,
-                  margin: const EdgeInsets.only(top: 15),
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: workerListModel!.data!.length,
-                    padding: const EdgeInsets.only(left: 10),
-                    itemBuilder: (context, index) {
-                      var data = workerListModel!.data![index];
-                      return WorkerCards(name: data.username.toString(), gender: data.gender.toString(), age: data.age.toString(), location: data.address.toString(), selection: data.interested.toString());
-                    },
-                  )
-              )
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              width: double.maxFinite,
-              margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            //sementara
+            _isLoad ? const SliverToBoxAdapter(
+              child: ShimmerJobCard(),
+            ) : SliverList(
+              delegate: SliverChildBuilderDelegate(childCount: acceptedJobCompany!.data!.length,(context, index) {
+                var data = acceptedJobCompany!.data![index];
+                int count;
+                if(data.tags!.length == 1){
+                  count = 1;
+                }else if(data.tags!.length == 2){
+                  count = 2;
+                } else{
+                  count = 3;
+                }
+                DateTime? date = DateTime.parse(data.createdAt.toString());
+                if (kDebugMode) {
+                  print(date);
+                }
+                return InkWell(
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyJobDetailPage(id: acceptedJobCompany!.data![index].id!.toInt()),)),
+                  child: Column(
                     children: [
-                      Text('Pekerjaan dari anda',
-                          style: GoogleFonts.outfit(
-                              color: color.onPrimaryContainer,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16)),
-                      Text('Lowongan yang terverifikasi',
-                          style: GoogleFonts.outfit(
-                              color:
-                                  color.onPrimaryContainer.withOpacity(0.4),
-                              fontWeight: FontWeight.w600,
-                              fontSize: 14)),
-                    ],
-                  ),
-                  Text('Lebih banyak',
-                      style: GoogleFonts.outfit(
-                          color: color.primary,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14)),
-                ],
-              ),
-            ),
-          ),
-          //sementara
-          _isLoad ? const SliverToBoxAdapter(
-            child: ShimmerJobCard(),
-          ) : SliverList(
-            delegate: SliverChildBuilderDelegate(childCount: acceptedJobCompany!.data!.length,(context, index) {
-              var data = acceptedJobCompany!.data![index];
-              int count;
-              if(data.tags!.length == 1){
-                count = 1;
-              }else if(data.tags!.length == 2){
-                count = 2;
-              } else{
-                count = 3;
-              }
-              DateTime? date = DateTime.parse(data.createdAt.toString());
-              if (kDebugMode) {
-                print(date);
-              }
-              return InkWell(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyJobDetailPage(id: acceptedJobCompany!.data![index].id!.toInt()),)),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 140,
-                      width: double.maxFinite,
-                      margin: const EdgeInsets.only(top: 20, left: 15, right: 15),
-                      decoration: BoxDecoration(
-                        color: color.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: color.primaryContainer.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 4,
-                            offset: const Offset(2, 2), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              data.title.toString(),
-                              style: TextStyle(
-                                  color: color.black,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15),
+                      Container(
+                        height: 140,
+                        width: double.maxFinite,
+                        margin: const EdgeInsets.only(top: 20, left: 15, right: 15),
+                        decoration: BoxDecoration(
+                          color: color.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: color.primaryContainer.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 4,
+                              offset: const Offset(2, 2), // changes position of shadow
                             ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Pengalaman',
-                                  style: TextStyle(
-                                      color: color.black.withOpacity(0.6),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                CircleAvatar(
-                                  radius: 5,
-                                  backgroundColor: color.black.withOpacity(0.5),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  '1 - 3 Tahun',
-                                  style: TextStyle(
-                                      color: color.black.withOpacity(0.6),
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 14),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 3,
-                            ),
-                            Expanded(
-                              child: ListView.builder(
-                                itemCount: count,
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder: (context, indexs) {
-                                  return Center(
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 3, horizontal: 5),
-                                      margin: const EdgeInsets.only(right: 7),
-                                      decoration: BoxDecoration(
-                                          color: color.primaryContainer,
-                                          borderRadius: BorderRadius.circular(5)),
-                                      child: Text(
-                                        '${data.tags![indexs].name}',
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                    ),
-                                  );
-                                },
+                          ],
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data.title.toString(),
+                                style: TextStyle(
+                                    color: color.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15),
                               ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(top: 7, left: 2, bottom: 10),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
                                 children: [
-                                  Container(
-                                    height: 40,
-                                    width: 4,
-                                    margin: const EdgeInsets.only(right: 10),
-                                    decoration: BoxDecoration(
-                                        color: color.tertiary.withOpacity(0.5),
-                                        borderRadius: BorderRadius.circular(2)),
+                                  Text(
+                                    'Pengalaman',
+                                    style: TextStyle(
+                                        color: color.black.withOpacity(0.6),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14),
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        data.company!.name.toString(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            color: color.tertiary
-                                                .withOpacity(0.8)),
-                                      ),
-                                      Text(
-                                        data.company!.location.toString(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: color.tertiary
-                                                .withOpacity(0.8)),
-                                      )
-                                    ],
-                                  )
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  CircleAvatar(
+                                    radius: 5,
+                                    backgroundColor: color.black.withOpacity(0.5),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    '1 - 3 Tahun',
+                                    style: TextStyle(
+                                        color: color.black.withOpacity(0.6),
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14),
+                                  ),
                                 ],
                               ),
+                              const SizedBox(
+                                height: 3,
+                              ),
+                              Expanded(
+                                child: ListView.builder(
+                                  itemCount: count,
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, indexs) {
+                                    return Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 3, horizontal: 5),
+                                        margin: const EdgeInsets.only(right: 7),
+                                        decoration: BoxDecoration(
+                                            color: color.primaryContainer,
+                                            borderRadius: BorderRadius.circular(5)),
+                                        child: Text(
+                                          '${data.tags![indexs].name}',
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 7, left: 2, bottom: 10),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      width: 4,
+                                      margin: const EdgeInsets.only(right: 10),
+                                      decoration: BoxDecoration(
+                                          color: color.tertiary.withOpacity(0.5),
+                                          borderRadius: BorderRadius.circular(2)),
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          data.company!.name.toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w600,
+                                              color: color.tertiary
+                                                  .withOpacity(0.8)),
+                                        ),
+                                        Text(
+                                          data.company!.location.toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: color.tertiary
+                                                  .withOpacity(0.8)),
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: 30,
+                        width: double.maxFinite,
+                        margin: const EdgeInsets.only(left: 15, right: 15),
+                        decoration: BoxDecoration(
+                          color: color.primary,
+                          borderRadius:
+                          const BorderRadius.only(bottomRight: Radius.circular(20)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: color.primaryContainer.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 4,
+                              offset: const Offset(2, 2), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(GetTimeAgo.parse(date, locale: 'id'),
+                                style: TextStyle(
+                                    color: color.white,
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 12)),
+                            const SizedBox(
+                              width: 13,
                             )
                           ],
                         ),
                       ),
-                    ),
-                    Container(
-                      height: 30,
-                      width: double.maxFinite,
-                      margin: const EdgeInsets.only(left: 15, right: 15),
-                      decoration: BoxDecoration(
-                        color: color.primary,
-                        borderRadius:
-                        const BorderRadius.only(bottomRight: Radius.circular(20)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: color.primaryContainer.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 4,
-                            offset: const Offset(2, 2), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(GetTimeAgo.parse(date, locale: 'id'),
-                              style: TextStyle(
-                                  color: color.white,
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 12)),
-                          const SizedBox(
-                            width: 13,
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          )
-        ],
+                    ],
+                  ),
+                );
+              }),
+            )
+          ],
+        ),
       ),
     );
   }

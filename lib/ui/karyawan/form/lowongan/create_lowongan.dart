@@ -1,8 +1,12 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:cariin_v2/model/profil_company_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 
 import '../../../../common/app_assets.dart';
 import '../../../../common/app_color.dart';
@@ -24,6 +28,7 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
   String selectedValueTime = "full time";
   String selectedValueTags = "1";
   bool _isLoad = false;
+  File? selectedImage;
   final _namaController = TextEditingController();
   final _addressController = TextEditingController();
   final _salaryController = TextEditingController();
@@ -51,13 +56,29 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
 
   getData() async {
     _isLoad = true;
-    JobTagListModel tagList = await ApiService().gettagList();
+    JobTagListModel tagList = await ApiService().getTagList();
     ProfilCompanyModel companyModel = await ApiService().ProfilCompany();
     setState(() {
       jobTagListModel = tagList;
       profilCompanyModel = companyModel;
     });
     _isLoad = false;
+  }
+
+  Future _pickImageFromGalery() async {
+    final returnImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      selectedImage = File(returnImage!.path);
+    });
+  }
+
+  Future _pickImageFromCamera() async {
+    final returnImage = await ImagePicker().pickImage(source: ImageSource.camera);
+
+    setState(() {
+      selectedImage = File(returnImage!.path);
+    });
   }
 
   @override
@@ -108,25 +129,81 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
                 ),
               ),
               Center(
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 20
-                  ),
-                  color: color.primary,
-                  child: Center(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8,
-                            horizontal: 10
-                        ),
-                        decoration: BoxDecoration(
-                            color: color.white,
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: SvgPicture.asset(AppAssets.companyIcon, color: color.primary,),
-                      )
+                child: InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Pilih Gambar dari'),
+                          actions: [
+                            Column(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    _pickImageFromGalery();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    padding: const EdgeInsets.all(15),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.window, color: color.primary,),
+                                        const SizedBox(width: 15,),
+                                        const Text('Galeri'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    _pickImageFromCamera();
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    padding: const EdgeInsets.all(15),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.camera, color: color.primary,),
+                                        const SizedBox(width: 15,),
+                                        const Text('Kamera'),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: selectedImage != null ? Container(
+                    height: 100,
+                    width: 100,
+                    child: Image.file(selectedImage!, fit: BoxFit.cover,),
+                  ): Container(
+                    height: 100,
+                    width: 100,
+                    margin: const EdgeInsets.symmetric(
+                        vertical: 20
+                    ),
+                    color: color.primary,
+                    child: Center(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 10
+                          ),
+                          decoration: BoxDecoration(
+                              color: color.white,
+                              borderRadius: BorderRadius.circular(10)
+                          ),
+                          child: SvgPicture.asset(AppAssets.companyIcon, color: color.primary),
+                        )
+                    ),
                   ),
                 ),
               ),
@@ -350,7 +427,23 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
         height: 80,
         child: InkWell(
           onTap: () async {
-            bool isSuccess = await ApiService().postcreateLowongan(context, _namaController.text, _addressController.text, selectedValueTime, int.parse(_salaryController.text), profilCompanyModel!.data!.id!.toInt(), selectedValue, 'bebas', int.parse(_minAgeController.text), int.parse(_maxAgeController.text), _descriptionController.text, [1,4,7], 1);
+            bool isSuccess = await ApiService().postcreateLowongan(
+              context,
+              _namaController.text,
+              selectedImage!,
+              selectedImage!,
+              _addressController.text,
+              selectedValueTime,
+              _salaryController.text,
+              profilCompanyModel!.data!.id!.toString(),
+              selectedValue,
+              'bebas',
+              _minAgeController.text,
+              _maxAgeController.text,
+              _descriptionController.text,
+              [1,4,7],
+              'true',
+            );
             if(isSuccess == true){
               showDialog(context: context, builder: (context) {
                 return PublicFunction.showDialog(context, 'Lowongan dibuat Menunggu konfirmasi dari admin');
@@ -404,7 +497,7 @@ class textFieldEx extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 18
           ),
         ),

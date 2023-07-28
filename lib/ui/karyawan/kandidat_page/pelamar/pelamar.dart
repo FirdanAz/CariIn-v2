@@ -46,7 +46,7 @@ class _PelamarTabState extends State<PelamarTab> {
                 tabLabels: const [
                   "Semua",
                   "Diterima",
-                  "Menunggu",
+                  "Direview",
                   "Ditolak",
                 ],
                 onTap: (value) => _tabIndex.value = value,

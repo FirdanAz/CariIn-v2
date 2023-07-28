@@ -1,3 +1,4 @@
+import 'package:cariin_v2/ui/karyawan/form/lowongan/create_lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/lowongan/tab/lowongan_result.dart';
 import 'package:cariin_v2/ui/karyawan/lowongan/tab/wawancara_procces.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,14 @@ class _LowonganPageState extends State<LowonganPage> with TickerProviderStateMix
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateLowonganPage(),));
+        },
+        backgroundColor: color.white,
+        elevation: 2,
+        child: Icon(Icons.add, color: color.primary,),
       ),
       body: TabBarView(
         controller: _tabController,
