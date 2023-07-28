@@ -78,7 +78,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
               ),
             ),
             Container(
-              margin: const EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 30),
               child: InkWell(
                 onTap: () {},
                 child: SizedBox(
@@ -141,7 +141,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: EdgeInsets.only(top: 30),
               width: double.maxFinite,
               constraints: BoxConstraints(minHeight: 130),
               padding: const EdgeInsets.only(

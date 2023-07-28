@@ -36,6 +36,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
     });
     _isLoad = false;
   }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -58,126 +59,139 @@ class _JobDetailPageState extends State<JobDetailPage> {
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-      child: _isLoad ? const Scaffold(body: Center(child: CircularProgressIndicator(),),) : Scaffold(
-        body: Stack(
-          children: [
-            Stack(
-              children: [
-                Image.network(
-                  'https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg',
-                  height: Responsive.byHeight(260),
-                  width: screenSize.width,
-                  fit: BoxFit.cover,
-                ),
-                Container(
-                  height: Responsive.byHeight(260),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black.withOpacity(0.25),
-                        Colors.black.withOpacity(0.05),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SingleChildScrollView(
-              child: Column(
+      child: _isLoad
+          ? const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            )
+          : Scaffold(
+              body: Stack(
                 children: [
-                  SizedBox(height: Responsive.byHeight(163)),
                   Stack(
-                    alignment: Alignment.topCenter,
-                    clipBehavior: Clip.none,
                     children: [
-                      Container(
+                      Image.network(
+                        'https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg',
+                        height: Responsive.byHeight(260),
                         width: screenSize.width,
-                        padding: const EdgeInsets.only(top: 50),
+                        fit: BoxFit.cover,
+                      ),
+                      Container(
+                        height: Responsive.byHeight(260),
                         decoration: BoxDecoration(
-                          color: color.surfaceContainer,
-                          borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(30)),
-                        ),
-                        child: Column(
-                          children: [
-                            // Header
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: Responsive.byWidth(15)),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    '${jobDetailModel!.data!.title}',
-                                    style: TextStyle(
-                                      fontSize: Responsive.fontSize(16),
-                                      fontWeight: FontWeight.w600,
-                                      color: color.onSurface,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  _buildSubInfo(
-                                    color: color,
-                                    company: "${jobDetailModel!.data!.companyName}",
-                                    city: '${jobDetailModel!.data!.companyLocation}',
-                                    uploadDistance: GetTimeAgo.parse(date!, locale: 'id'),
-                                  ),
-                                  const SizedBox(height: 22),
-                                  _buildOtherInfo(
-                                    color: color,
-                                    city: '${jobDetailModel!.data!.location!.location}',
-                                    timeType: '${jobDetailModel!.data!.timeType}',
-                                    salary: CurrencyFormat.convertToIdr(jobDetailModel!.data!.salary, 0),
-                                  ),
-                                  const SizedBox(height: 14),
-                                ],
-                              ),
-                            ),
-
-                            // TabBar
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: ChipTabBar(
-                                length: 4,
-                                itemDistance: Responsive.byWidth(12),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: Responsive.byWidth(15),
-                                  vertical: Responsive.byWidth(10),
-                                ),
-                                tabLabels: const [
-                                  "Deskripsi",
-                                  "Perusahaan",
-                                  "Lokasi",
-                                  "Lainnya",
-                                ],
-                                onTap: (value) => _tabIndex.value = value,
-                              ),
-                            ),
-
-                            // TabBar View
-                            ValueListenableBuilder<int>(
-                              valueListenable: _tabIndex,
-                              builder: (context, value, child) {
-                                return tabView[value];
-                              },
-                            ),
-                          ],
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.black.withOpacity(0.25),
+                              Colors.black.withOpacity(0.05),
+                            ],
+                          ),
                         ),
                       ),
-
-                      // Photoprofil
-                      _buildPoster(color,
-                          'https://cloud.google.com/_static/cloud/images/social-icon-google-cloud-1200-630.png?hl=id')
                     ],
+                  ),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        SizedBox(height: Responsive.byHeight(163)),
+                        Stack(
+                          alignment: Alignment.topCenter,
+                          clipBehavior: Clip.none,
+                          children: [
+                            Container(
+                              width: screenSize.width,
+                              padding: const EdgeInsets.only(top: 50),
+                              decoration: BoxDecoration(
+                                color: color.surfaceContainer,
+                                borderRadius: const BorderRadius.vertical(
+                                    top: Radius.circular(30)),
+                              ),
+                              child: Column(
+                                children: [
+                                  // Header
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: Responsive.byWidth(15)),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          '${jobDetailModel!.data!.title}',
+                                          style: TextStyle(
+                                            fontSize: Responsive.fontSize(16),
+                                            fontWeight: FontWeight.w600,
+                                            color: color.onSurface,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        _buildSubInfo(
+                                          color: color,
+                                          company:
+                                              "${jobDetailModel!.data!.companyName}",
+                                          city:
+                                              '${jobDetailModel!.data!.companyLocation}',
+                                          uploadDistance: GetTimeAgo.parse(
+                                              date!,
+                                              locale: 'id'),
+                                        ),
+                                        const SizedBox(height: 22),
+                                        _buildOtherInfo(
+                                          color: color,
+                                          city:
+                                              '${jobDetailModel!.data!.location!.location}',
+                                          timeType:
+                                              '${jobDetailModel!.data!.timeType}',
+                                          salary: CurrencyFormat.convertToIdr(
+                                              jobDetailModel!.data!.salary, 0),
+                                        ),
+                                        const SizedBox(height: 14),
+                                      ],
+                                    ),
+                                  ),
+
+                                  // TabBar
+                                  Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: ChipTabBar(
+                                      length: 4,
+                                      itemDistance: Responsive.byWidth(12),
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: Responsive.byWidth(15),
+                                        vertical: Responsive.byWidth(10),
+                                      ),
+                                      tabLabels: const [
+                                        "Deskripsi",
+                                        "Perusahaan",
+                                        "Lokasi",
+                                        "Lainnya",
+                                      ],
+                                      onTap: (value) => _tabIndex.value = value,
+                                    ),
+                                  ),
+
+                                  // TabBar View
+                                  ValueListenableBuilder<int>(
+                                    valueListenable: _tabIndex,
+                                    builder: (context, value, child) {
+                                      return tabView[value];
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // Photoprofil
+                            _buildPoster(color,
+                                'https://cloud.google.com/_static/cloud/images/social-icon-google-cloud-1200-630.png?hl=id')
+                          ],
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
-            )
-          ],
-        ),
-        bottomNavigationBar: _buildBottomAppBar(color),
-      ),
+              bottomNavigationBar: _buildBottomAppBar(color),
+            ),
     );
   }
 
@@ -297,10 +311,20 @@ class _JobDetailPageState extends State<JobDetailPage> {
             width: Responsive.byWidth(160),
             child: FilledButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => LamarProcessPage(title: '${jobDetailModel!.data!.title}', jobId: jobDetailModel!.data!.id!.toInt()),));
-                showDialog(context: context, builder: (context) {
-                  return PublicFunction.showDialog(context, 'Isi formulir dengan benar!');
-                },);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LamarProcessPage(
+                          title: '${jobDetailModel!.data!.title}',
+                          jobId: jobDetailModel!.data!.id!.toInt()),
+                    ));
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return PublicFunction.showDialog(
+                        context, 'Isi formulir dengan benar!');
+                  },
+                );
               },
               style: FilledButton.styleFrom(
                 shape: RoundedRectangleBorder(
@@ -314,9 +338,13 @@ class _JobDetailPageState extends State<JobDetailPage> {
             width: Responsive.byWidth(160),
             child: OutlinedButton(
               onPressed: () {
-                showDialog(context: context, builder: (context) {
-                  return PublicFunction.showDialog(context, 'Belum Tersedia :)');
-                },);
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return PublicFunction.showDialog(
+                        context, 'Belum Tersedia :)');
+                  },
+                );
               },
               style: OutlinedButton.styleFrom(
                 side: BorderSide(color: color.primary),

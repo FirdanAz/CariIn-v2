@@ -85,10 +85,10 @@ class _ChatPageState extends State<ChatPage> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 13),
-                                                  padding: EdgeInsets.only(
-                                                      top: 15),
+                                                  margin:
+                                                      EdgeInsets.only(left: 13),
+                                                  padding:
+                                                      EdgeInsets.only(top: 15),
                                                   child: Text(
                                                     'Milkita',
                                                     style: TextStyle(
@@ -108,17 +108,15 @@ class _ChatPageState extends State<ChatPage> {
                                                             .spaceBetween,
                                                     children: [
                                                       Container(
-                                                        margin:
-                                                            EdgeInsets.only(
-                                                                left: 7),
+                                                        margin: EdgeInsets.only(
+                                                            left: 7),
                                                         //padding: EdgeInsets.only(top: 3),
                                                         child: Text(
                                                           'Halo, saya ingin melamar pekerjaan',
                                                           style: TextStyle(
                                                             fontSize: 15,
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .w400,
+                                                                FontWeight.w400,
                                                           ),
                                                         ),
                                                       ),
