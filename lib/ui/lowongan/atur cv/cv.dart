@@ -13,20 +13,20 @@ class AturCvPage extends StatefulWidget {
 }
 
 class _AturCvPageState extends State<AturCvPage> {
-  DateTime _dateTime = DateTime.now();
-  void _showDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2025),
-    ).then((value) {
-      if (value != null)
-        setState(() {
-          _dateTime = value;
-        });
-    });
-  }
+  //DateTime _dateTime = DateTime.now();
+  // void _showDatePicker() {
+  //   showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(2000),
+  //     lastDate: DateTime(2025),
+  //   ).then((value) {
+  //     if (value != null)
+  //       setState(() {
+  //         _dateTime = value;
+  //       });
+  //   });
+  // }
 
   String dropdownJenisKelamin = 'Jenis Kelamin';
   String dropdownStatus = 'Status';

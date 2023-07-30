@@ -1,4 +1,3 @@
-import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/tab_result/diterima.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/tab_result/ditolak.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/tab_result/menunggu.dart';
@@ -20,8 +19,8 @@ class _LamaranResultState extends State<LamaranResult> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final color = AppColor.theme(Theme.of(context).brightness);
+    //final screenSize = MediaQuery.of(context).size;
+    //final color = AppColor.theme(Theme.of(context).brightness);
 
     final List<Widget> tabView = [
       const SemuaTabs(),

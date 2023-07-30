@@ -318,8 +318,10 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
             child: OutlinedButton(
               onPressed: () async {
                 ApiService().deleteJob(context: context, id: widget.id.toString());
-                await Future.delayed(const Duration(seconds: 2));
-                Navigator.of(context).initState();
+                Navigator.of(context).pop();
+                setState(() {
+                  Navigator.of(context).initState();
+                });
               },
               style: OutlinedButton.styleFrom(
                 side: BorderSide(color: color.error),

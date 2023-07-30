@@ -119,7 +119,7 @@ class Worker {
   String? username;
   String? gender;
   int? age;
-  Null? address;
+  String? address;
   String? interested;
   String? createdAt;
 

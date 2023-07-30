@@ -3,13 +3,13 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/service/api_service.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
-import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
 
+// ignore: must_be_immutable
 class LamarProcessPage extends StatefulWidget {
   LamarProcessPage({Key? key, required this.title, required this.jobId}) : super(key: key);
   String title;

@@ -1,6 +1,5 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
-import 'package:cariin_v2/ui/karyawan/home_page/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:group_button/group_button.dart';
@@ -157,15 +156,15 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
                   const SizedBox(height: 20,),
                   InkWell(
                     onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate:
-                          DateTime.now(), //get today's date
-                          firstDate: DateTime(
-                              2000), //DateTime.now() - not to allow to choose before today.
-                          lastDate: DateTime(2101))
-                          .then((value) {}
-                      );
+                      // DateTime? pickedDate = await showDatePicker(
+                      //     context: context,
+                      //     initialDate:
+                      //     DateTime.now(), //get today's date
+                      //     firstDate: DateTime(
+                      //         2000), //DateTime.now() - not to allow to choose before today.
+                      //     lastDate: DateTime(2101))
+                      //     .then((value) {}
+                      // );
                     },
                     child: Container(
                       width: double.maxFinite,

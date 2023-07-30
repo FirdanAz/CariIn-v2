@@ -49,212 +49,229 @@ class _ProccesSemuaTabState extends State<ProccesSemuaTab> {
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
 
-    return _isLoad
-        ? const ShimmerJobCard()
-        : allJobCompany!.data!.isNotEmpty ? ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: allJobCompany!.data!.length,
-          itemBuilder: (context, index) {
-            var job = allJobCompany!.data![index];
-            DateTime? date = DateTime.parse(job.createdAt.toString());
-            return InkWell(
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CompanyJobDetailPage(id: int.parse(allJobCompany!.data![index].id.toString()),),
-                  )),
-              child: Column(
-                children: [
-                  Container(
-                    height: 140,
-                    width: double.maxFinite,
-                    margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
-                    decoration: BoxDecoration(
-                      color: color.primary,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 4,
-                          offset:
-                          const Offset(2, 2), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Container(
-                      margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            job.title.toString(),
-                            style: TextStyle(
-                                color: color.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Pengalaman',
-                                style: TextStyle(
-                                    color: color.white.withOpacity(0.6),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              CircleAvatar(
-                                radius: 5,
-                                backgroundColor:
-                                color.white.withOpacity(0.5),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '1 - 3 Tahun',
-                                style: TextStyle(
-                                    color: color.white.withOpacity(0.6),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 14),
+    return _isLoad ? const ShimmerJobCard() : allJobCompany!.data!.isNotEmpty ?
+    RefreshIndicator(
+      triggerMode: RefreshIndicatorTriggerMode.onEdge,
+      onRefresh: () async {
+        setState(() {
+          getdata();
+        });
+      },
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Container(
+          constraints: BoxConstraints(minHeight: 1000),
+          child: Column(
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: allJobCompany!.data!.length,
+                itemBuilder: (context, index) {
+                  var job = allJobCompany!.data![index];
+                  DateTime? date = DateTime.parse(job.createdAt.toString());
+                  return InkWell(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CompanyJobDetailPage(id: int.parse(allJobCompany!.data![index].id.toString()),),
+                        )),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 140,
+                          width: double.maxFinite,
+                          margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
+                          decoration: BoxDecoration(
+                            color: color.primary,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 4,
+                                offset:
+                                const Offset(2, 2), // changes position of shadow
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          Row(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 3, horizontal: 5),
-                                margin: EdgeInsets.only(right: 7),
-                                decoration: BoxDecoration(
-                                    color: color.secondaryContainer,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Text(
-                                  'Front End',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 3, horizontal: 5),
-                                margin: EdgeInsets.only(right: 7),
-                                decoration: BoxDecoration(
-                                    color: color.primaryContainer,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Text(
-                                  'Ui/Ux Designer',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 3, horizontal: 5),
-                                margin: EdgeInsets.only(right: 7),
-                                decoration: BoxDecoration(
-                                    color: color.primaryContainer,
-                                    borderRadius: BorderRadius.circular(5)),
-                                child: Text(
-                                  'Hacker',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            margin: EdgeInsets.only(top: 7, left: 2),
-                            child: Row(
+                          child: Container(
+                            margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  height: 40,
-                                  width: 4,
-                                  margin: EdgeInsets.only(right: 10),
-                                  decoration: BoxDecoration(
-                                      color: color.secondaryContainer
-                                          .withOpacity(0.5),
-                                      borderRadius:
-                                      BorderRadius.circular(2)),
+                                Text(
+                                  job.title.toString(),
+                                  style: TextStyle(
+                                      color: color.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
                                 ),
-                                Column(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
                                   children: [
                                     Text(
-                                      job.company!.name.toString(),
+                                      'Pengalaman',
                                       style: TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          color: color.secondaryContainer
-                                              .withOpacity(0.8)),
+                                          color: color.white.withOpacity(0.6),
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 14),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    CircleAvatar(
+                                      radius: 5,
+                                      backgroundColor:
+                                      color.white.withOpacity(0.5),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
                                     ),
                                     Text(
-                                      job.company!.location.toString(),
+                                      '1 - 3 Tahun',
                                       style: TextStyle(
+                                          color: color.white.withOpacity(0.6),
                                           fontWeight: FontWeight.w500,
-                                          color: color.secondaryContainer
-                                              .withOpacity(0.8)),
-                                    )
+                                          fontSize: 14),
+                                    ),
                                   ],
+                                ),
+                                const SizedBox(
+                                  height: 3,
+                                ),
+                                Row(
+                                  children: [
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 5),
+                                      margin: EdgeInsets.only(right: 7),
+                                      decoration: BoxDecoration(
+                                          color: color.secondaryContainer,
+                                          borderRadius: BorderRadius.circular(5)),
+                                      child: Text(
+                                        'Front End',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 5),
+                                      margin: EdgeInsets.only(right: 7),
+                                      decoration: BoxDecoration(
+                                          color: color.primaryContainer,
+                                          borderRadius: BorderRadius.circular(5)),
+                                      child: Text(
+                                        'Ui/Ux Designer',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 5),
+                                      margin: EdgeInsets.only(right: 7),
+                                      decoration: BoxDecoration(
+                                          color: color.primaryContainer,
+                                          borderRadius: BorderRadius.circular(5)),
+                                      child: Text(
+                                        'Hacker',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 7, left: 2),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        height: 40,
+                                        width: 4,
+                                        margin: EdgeInsets.only(right: 10),
+                                        decoration: BoxDecoration(
+                                            color: color.secondaryContainer
+                                                .withOpacity(0.5),
+                                            borderRadius:
+                                            BorderRadius.circular(2)),
+                                      ),
+                                      Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            job.company!.name.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: color.secondaryContainer
+                                                    .withOpacity(0.8)),
+                                          ),
+                                          Text(
+                                            job.company!.location.toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: color.secondaryContainer
+                                                    .withOpacity(0.8)),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 )
                               ],
                             ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 30,
-                    width: double.maxFinite,
-                    margin: EdgeInsets.only(left: 15, right: 15),
-                    decoration: BoxDecoration(
-                      color: color.primary,
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(20)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 4,
-                          offset:
-                          Offset(2, 2), // changes position of shadow
+                          ),
+                        ),
+                        Container(
+                          height: 30,
+                          width: double.maxFinite,
+                          margin: EdgeInsets.only(left: 15, right: 15),
+                          decoration: BoxDecoration(
+                            color: color.primary,
+                            borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(20)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 4,
+                                offset:
+                                Offset(2, 2), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(GetTimeAgo.parse(date, locale: 'id'),
+                                  style: TextStyle(
+                                      color: color.white,
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 12)),
+                              SizedBox(
+                                width: 13,
+                              )
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(GetTimeAgo.parse(date, locale: 'id'),
-                            style: TextStyle(
-                                color: color.white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 12)),
-                        SizedBox(
-                          width: 13,
-                        )
-                      ],
-                    ),
-                  ),
-                ],
+                  );
+                },
               ),
-            );
-          },
-        ):
-    Center(
+            ],
+          ),
+        ),
+      ),
+    ): Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

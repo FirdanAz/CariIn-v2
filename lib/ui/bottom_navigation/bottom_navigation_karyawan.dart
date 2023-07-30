@@ -31,7 +31,10 @@ class _KaryawanBottomNavigationState extends State<KaryawanBottomNavigation> {
     var color = AppColor.theme(Theme.of(context).brightness);
 
     return Scaffold(
-      body: _page[_pageIndex],
+      body: IndexedStack(
+        index: _pageIndex,
+        children: _page,
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _pageIndex,
         height: 73,
