@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously, non_constant_identifier_names
+
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/detail_pelamar_model.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ import '../../../../common/public_function.dart';
 import '../../../../service/api_service.dart';
 
 class DetailPelamarPage extends StatefulWidget {
-  DetailPelamarPage({Key? key, required this.id}) : super(key: key);
+  const DetailPelamarPage({Key? key, required this.id}) : super(key: key);
   final int id;
 
   @override
@@ -60,15 +62,34 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                  padding: const EdgeInsets.all(8.0),
                  child: InkWell(
                      onTap: () async {
-                       bool isSuccess = await ApiService().defineConfirmation(context, 'ditolak', '${detailPelamarModel!.data!.id}');
-                       if(isSuccess == true){
-                         setState(() {
-                           getdata();
-                         });
-                         showDialog(context: context, builder: (context) {
-                           return PublicFunction.showDialog(context, 'Lamaran Ditolak');
-                         },);
-                       }
+                       showDialog(context: context, builder: (context) {
+                         return AlertDialog(
+                           content: Text(
+                             'Tolak Lamaran ${detailPelamarModel!.data!.worker!.username}',
+                             style: const TextStyle(fontSize: 15),
+                           ),
+                           actions: [
+                             TextButton(
+                               onPressed: () => Navigator.of(context).pop(),
+                               child: const Text("Batal"),
+                             ),
+                             TextButton(
+                                 onPressed: () async {
+                                   bool isSuccess = await ApiService().defineConfirmation(context, 'ditolak', '${detailPelamarModel!.data!.id}');
+                                   if(isSuccess == true){
+                                     setState(() {
+                                       getdata();
+                                     });
+                                     showDialog(context: context, builder: (context) {
+                                       return PublicFunction.showDialog(context, 'Lamaran Ditolak');
+                                     },);
+                                   }
+                                 },
+                                 child: Text("Iya", style: TextStyle(color: color.error),)
+                             ),
+                           ],
+                         );
+                       },);
                      },
                      child: Icon(detailPelamarModel!.data!.confirmedStatus == 'menunggu' ? Icons.folder_delete :null, color: color.error,size: 30,)),
                )
@@ -78,16 +99,16 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
             child: Container(
               width: double.maxFinite,
               height: 140,
-              margin: EdgeInsets.symmetric(
+              margin: const EdgeInsets.symmetric(
                   horizontal: 13
               ),
               child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                         right: 5
                     ),
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                       backgroundImage: AssetImage(AppAssets.firdanImg),
                       radius: 60,
                     ),
@@ -95,10 +116,10 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                   Container(
                     width: 5,
                     height: 120,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                         color: color.primary,
-                        borderRadius: BorderRadius.all(Radius.circular(5))
+                        borderRadius: const BorderRadius.all(Radius.circular(5))
                     ),
                   ),
                   Container(
@@ -124,7 +145,7 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                                         fontSize: 17
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 7,
                                   ),
                                   Text(
@@ -140,7 +161,7 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Row(
@@ -162,15 +183,15 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 12,
                         ),
                         Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 3, horizontal: 5),
-                              margin: EdgeInsets.only(right: 7),
+                              margin: const EdgeInsets.only(right: 7),
                               decoration: BoxDecoration(
                                   color: color.primary,
                                   borderRadius: BorderRadius.circular(5)),
@@ -183,9 +204,9 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 3, horizontal: 5),
-                              margin: EdgeInsets.only(right: 7),
+                              margin: const EdgeInsets.only(right: 7),
                               decoration: BoxDecoration(
                                   color: color.primary,
                                   borderRadius: BorderRadius.circular(5)),
@@ -209,18 +230,19 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                ProfilCard(context, AppAssets.activityIcon, 'Deskripsi Lamaran', '${detailPelamarModel!.data!.description}'),
+                ProfileCard(context, AppAssets.activityIcon, 'Deskripsi Lamaran', '${detailPelamarModel!.data!.description}'),
+                ProfileCard(context, AppAssets.genderIcon, 'Jenis Kelamin', '${detailPelamarModel!.data!.worker!.gender}'),
                 detailPelamarModel!.data!.confirmedStatus == 'ditolak' ? Container(
                   height: 100,
                   width: double.maxFinite,
-                  margin: EdgeInsets.symmetric(
+                  margin: const EdgeInsets.symmetric(
                     horizontal: 20
                   ),
                   decoration: BoxDecoration(
                     color: color.error.withOpacity(0.2),
                     borderRadius: BorderRadius.circular(10)
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Pengguna ini sudah anda tolak!',
                       style: TextStyle(
@@ -263,7 +285,7 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
             alignment: Alignment.center,
             width: double.maxFinite,
             height: 18,
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
                 horizontal: 10
             ),
             decoration: BoxDecoration(
@@ -277,13 +299,13 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                   fontWeight: FontWeight.bold
               ),
             ) : detailPelamarModel!.data!.confirmedStatus == 'ditolak' ? Text(
-              'Undang Wawancara',
+              'Terima Pelamar',
               style: TextStyle(
                   color: color.white,
                   fontWeight: FontWeight.bold
               ),
             ) : detailPelamarModel!.data!.confirmedStatus == 'menunggu' ? Text(
-              'Undang Wawancara',
+              'Terima Pelamar',
               style: TextStyle(
                   color: color.white,
                   fontWeight: FontWeight.bold
@@ -303,14 +325,14 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
 }
 
 
-Widget ProfilCard(BuildContext context, String image, String title, String desc) {
+Widget ProfileCard(BuildContext context, String image, String title, String desc) {
   var color = AppColor.theme(Theme.of(context).brightness);
 
   return Container(
     width: double.maxFinite,
-    margin: EdgeInsets.symmetric(
+    margin: const EdgeInsets.symmetric(
         horizontal: 10,
-        vertical: 10
+        vertical: 5
     ),
     child: Card(
       color: color.white,
@@ -320,7 +342,7 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
         children: [
           Container(
             width: 50,
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
                 left: 10,
                 top: 20,
                 right: 20,
@@ -333,16 +355,17 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
                   width: 45,
                   decoration: BoxDecoration(
                       color: color.primaryContainer,
-                      borderRadius: BorderRadius.all(Radius.circular(10))
+                      borderRadius: const BorderRadius.all(Radius.circular(10))
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(
+                  margin: const EdgeInsets.only(
                       left: 25,
                       top: 25
                   ),
                   child: SvgPicture.asset(
                     image,
+                    color: color.primary,
                     width: 25,
                   ),
                 )
@@ -350,7 +373,7 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
                 vertical: 10
             ),
             child: Column(
@@ -364,16 +387,16 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
                       fontSize: 15
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 13,
                 ),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       color: color.primaryContainer,
                       borderRadius: BorderRadius.circular(5)
                   ),
-                  child: Container(
+                  child: SizedBox(
                     width: 200,
                     child: Text(
                       desc,

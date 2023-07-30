@@ -1,15 +1,14 @@
+// ignore_for_file: deprecated_member_use, non_constant_identifier_names
+
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_function.dart';
-import 'package:cariin_v2/model/all_job_company_model.dart';
 import 'package:cariin_v2/model/all_job_worker_model.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/all_categories.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/search/search_page.dart';
 import 'package:cariin_v2/ui/lowongan/notification/notification_lowongan.dart';
-import 'package:cariin_v2/ui/widget/home_widget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_time_ago/get_time_ago.dart';
@@ -17,7 +16,6 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../common/app_color.dart';
 import '../../../service/api_service.dart';
-import '../../karyawan/detail_lowongan/page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -49,7 +47,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
-    return _isLoad ? const Scaffold(body: Center(child: CircularProgressIndicator(),),) : Scaffold(
+    if (_isLoad) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator(),),);
+    } else {
+      return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -97,7 +98,7 @@ class _HomePageState extends State<HomePage> {
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(80),
               child: InkWell(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SearchPage(),)),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchPage(),)),
                 child: Container(
                   width: double.maxFinite,
                   height: 70,
@@ -150,7 +151,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => CategoryPage(),));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const CategoryPage(),));
                     },
                     child: Text('Lebih banyak',
                         style: GoogleFonts.outfit(
@@ -174,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(width: 10,),
+                        const SizedBox(width: 10,),
                         CategoryCard('Code', AppAssets.codeIcon, context),
                         CategoryCard('Design', AppAssets.designIcon, context),
                         CategoryCard('Teacher', AppAssets.teacherIcon, context),
@@ -213,8 +214,18 @@ class _HomePageState extends State<HomePage> {
           SliverList(
             delegate: SliverChildBuilderDelegate(childCount: allJobWorkerModel!.data!.length,(context, index) {
               var data = allJobWorkerModel!.data![index];
+              int count;
+              if(data.tags!.length == 1){
+                count = 1;
+              }else if(data.tags!.length == 2){
+                count = 2;
+              } else{
+                count = 3;
+              }
               DateTime? date = DateTime.parse(data.createdAt.toString());
-              print(date);
+              if (kDebugMode) {
+                print(date);
+              }
               return  InkWell(
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => JobDetailPage(id: allJobWorkerModel!.data![index].id!.toInt()), )),
                 child: Column(
@@ -222,7 +233,7 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       height: 140,
                       width: double.maxFinite,
-                      margin: EdgeInsets.only(top: 20, left: 15, right: 15),
+                      margin: const EdgeInsets.only(top: 20, left: 15, right: 15),
                       decoration: BoxDecoration(
                         color: color.white,
                         boxShadow: [
@@ -230,12 +241,12 @@ class _HomePageState extends State<HomePage> {
                             color: color.primaryContainer.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 4,
-                            offset: Offset(2, 2), // changes position of shadow
+                            offset: const Offset(2, 2), // changes position of shadow
                           ),
                         ],
                       ),
                       child: Container(
-                        margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                        margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -246,7 +257,7 @@ class _HomePageState extends State<HomePage> {
                                   fontWeight: FontWeight.w600,
                                   fontSize: 15),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Row(
@@ -258,14 +269,14 @@ class _HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 CircleAvatar(
                                   radius: 5,
                                   backgroundColor: color.black.withOpacity(0.5),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 Text(
@@ -277,26 +288,26 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 3,
                             ),
                             Expanded(
                               child: ListView.builder(
-                                itemCount: allJobWorkerModel!.data![index].tags!.length,
+                                itemCount: count,
                                 shrinkWrap: true,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context, indexs) {
                                   return Center(
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           vertical: 3, horizontal: 5),
-                                      margin: EdgeInsets.only(right: 7),
+                                      margin: const EdgeInsets.only(right: 7),
                                       decoration: BoxDecoration(
                                           color: color.primaryContainer,
                                           borderRadius: BorderRadius.circular(5)),
                                       child: Text(
                                         '${data.tags![indexs].name}',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500),
                                       ),
@@ -306,14 +317,14 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 7, left: 2, bottom: 10),
+                              margin: const EdgeInsets.only(top: 7, left: 2, bottom: 10),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
                                     height: 40,
                                     width: 4,
-                                    margin: EdgeInsets.only(right: 10),
+                                    margin: const EdgeInsets.only(right: 10),
                                     decoration: BoxDecoration(
                                         color: color.tertiary.withOpacity(0.5),
                                         borderRadius: BorderRadius.circular(2)),
@@ -348,17 +359,17 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       height: 30,
                       width: double.maxFinite,
-                      margin: EdgeInsets.only(left: 15, right: 15),
+                      margin: const EdgeInsets.only(left: 15, right: 15),
                       decoration: BoxDecoration(
                         color: color.primary,
                         borderRadius:
-                        BorderRadius.only(bottomRight: Radius.circular(20)),
+                        const BorderRadius.only(bottomRight: Radius.circular(20)),
                         boxShadow: [
                           BoxShadow(
                             color: color.primaryContainer.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 4,
-                            offset: Offset(2, 2), // changes position of shadow
+                            offset: const Offset(2, 2), // changes position of shadow
                           ),
                         ],
                       ),
@@ -370,7 +381,7 @@ class _HomePageState extends State<HomePage> {
                                   color: color.white,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 12)),
-                          SizedBox(
+                          const SizedBox(
                             width: 13,
                           )
                         ],
@@ -384,6 +395,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
     );
+    }
   }
 }
 

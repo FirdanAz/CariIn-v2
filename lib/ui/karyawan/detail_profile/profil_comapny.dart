@@ -1,14 +1,11 @@
-import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/profil_company_model.dart';
 import 'package:cariin_v2/ui/options/options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
 import '../../../service/api_service.dart';
-import '../auth/login.dart';
 
 class ProfilCompanyPage extends StatefulWidget {
   const ProfilCompanyPage({Key? key}) : super(key: key);

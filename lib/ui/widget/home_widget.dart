@@ -282,7 +282,6 @@ class JobListCard extends StatelessWidget {
   }
 }
 
-// ignore: must_be_immutable
 class CategoryButton extends StatelessWidget {
   CategoryButton({Key? key, required this.text}) : super(key: key);
   String text;
@@ -291,7 +290,7 @@ class CategoryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
     return ActionChip(
-      padding: EdgeInsets.symmetric(horizontal: 17, vertical: 11),
+      padding: const EdgeInsets.symmetric(horizontal: 17, vertical: 11),
       backgroundColor: color.primary,
       labelPadding: EdgeInsets.zero,
       onPressed: () {},
@@ -585,7 +584,7 @@ class WorkerCards extends StatelessWidget {
                     height: 3,
                   ),
                   Text(
-                    '$selection',
+                    selection,
                     style: TextStyle(
                         color: color.primary, fontSize: 15),
                   )

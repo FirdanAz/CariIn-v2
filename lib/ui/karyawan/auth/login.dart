@@ -18,8 +18,6 @@ class LoginKaryawanPage extends StatefulWidget {
 class _LoginKaryawanPageState extends State<LoginKaryawanPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {

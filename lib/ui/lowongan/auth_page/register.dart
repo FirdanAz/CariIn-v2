@@ -6,9 +6,7 @@ import 'package:cariin_v2/ui/widget/auth_text_field.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/app_color.dart';
-import '../../../common/public_function.dart';
 import '../../../service/api_service.dart';
-import '../../karyawan/auth/register.dart';
 
 class RegisterLowonganPage extends StatefulWidget {
   const RegisterLowonganPage({Key? key}) : super(key: key);

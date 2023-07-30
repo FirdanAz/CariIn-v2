@@ -27,7 +27,7 @@ class Data {
   String? email;
   String? gender;
   String? phoneNumber;
-  Null? address;
+  String? address;
   String? bornDate;
   String? role;
 

@@ -1,10 +1,7 @@
-import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_color.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 
+// ignore: must_be_immutable
 class ChatPekerja extends StatelessWidget {
   ChatPekerja({Key? key, required this.message}) : super(key: key);
 
