@@ -1,4 +1,5 @@
 import 'package:cariin_v2/common/app_color.dart';
+import 'package:cariin_v2/ui/lowongan/profile_page/about_page.dart';
 import 'package:cariin_v2/ui/options/options.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,15 +56,17 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                   Icons.person,
                   color: color.primary,
                 ),
-                SizedBox(width: 10),
+                SizedBox(
+                  width: 10,
+                ),
                 Text(
-                  "Profil",
+                  "Profil & CV",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: color.onSurface,
                   ),
-                )
+                ),
               ],
             ),
             Divider(
@@ -71,16 +74,16 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
               thickness: 1.5,
             ),
             SizedBox(height: 0),
-            buildSetting(context, "Foto"),
-            buildSetting(context, "Data Diri"),
-            buildSetting(context, "Atur CV"),
-            buildSetting(context, "Ganti Password"),
-            buildSetting(context, "Notifikasi"),
-            SizedBox(height: 20),
+            buildSetting(context, "Akun", () {}),
+            buildSetting(context, "Atur Foto", () {}),
+            buildSetting(context, "Atur Background", () {}),
+            buildSetting(context, "Atur CV", () {}),
+            buildSetting(context, "Apa ini?", () {}),
+            SizedBox(height: 10),
             Row(
               children: [
                 Icon(
-                  Icons.window,
+                  Icons.info_rounded,
                   color: color.primary,
                 ),
                 SizedBox(width: 10),
@@ -98,13 +101,15 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
               thickness: 1.5,
             ),
             SizedBox(height: 0),
-            buildSetting(context, "Kebijakan Privasi"),
-            buildSetting(context, "Syarat dan Ketentuan"),
-            buildSetting(context, "Pertanyaan sering Diajukan"),
-            buildSetting(context, "Bantuan"),
-            buildSetting(context, "Umpan Balik"),
-            buildSetting(context, "Rating Kami"),
-            buildSetting(context, "Tentang Kami"),
+            buildSetting(context, "Kebijakan Privasi", () {}),
+            buildSetting(context, "Syarat dan Ketentuan", () {}),
+            buildSetting(context, "Pertanyaan sering Diajukan", () {}),
+            buildSetting(context, "Bantuan", () {}),
+            buildSetting(context, "Umpan Balik", () {}),
+            buildSetting(context, "Tentang Kami", () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AboutPage()),
+              );
+            }),
             SizedBox(height: 25),
             Center(
               child: Container(
@@ -132,64 +137,43 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
   }
 }
 
-  void _LogOut() {
-    var context;
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: const Text(
-            "Ingin keluar dari akun ini ?",
-            style: TextStyle(fontSize: 15),
-          ),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text("No")),
-            TextButton(
-              onPressed: () async =>
-                  await PublicFunction.removeToken('token').then(
-                (value) => PublicFunction.navigatorPushAndRemoved(
-                  context,
-                  const OptionsPage(),
-                ),
-              ),
-              child: const Text(
-                "Yes",
-                style: TextStyle(color: Colors.red),
+void _LogOut() {
+  var context;
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: const Text(
+          "Ingin keluar dari akun ini ?",
+          style: TextStyle(fontSize: 15),
+        ),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text("No")),
+          TextButton(
+            onPressed: () async =>
+                await PublicFunction.removeToken('token').then(
+              (value) => PublicFunction.navigatorPushAndRemoved(
+                context,
+                const OptionsPage(),
               ),
             ),
-          ],
-        );
-      },
-    );
-  }
-
-GestureDetector buildSetting(BuildContext context, String title) {
-  return GestureDetector(
-    onTap: () {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(title),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text("Konteks"),
-                ],
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text("Tutup"),
-                ),
-              ],
-            );
-          });
+            child: const Text(
+              "Yes",
+              style: TextStyle(color: Colors.red),
+            ),
+          ),
+        ],
+      );
     },
+  );
+}
+
+GestureDetector buildSetting(
+    BuildContext context, String title, Function() onTap) {
+  return GestureDetector(
+    onTap: onTap,
     child: Padding(
       padding: const EdgeInsets.symmetric(
         vertical: 8,
