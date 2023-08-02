@@ -405,7 +405,7 @@ class _FormRincianUsahaState extends State<FormRincianUsaha> {
           ),
           SliverToBoxAdapter(
             child: InkWell(
-              onTap: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(  ),), (route) => false);},
+              onTap: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 0),), (route) => false);},
               child: Container(
                 width: double.maxFinite,
                 height: 60,

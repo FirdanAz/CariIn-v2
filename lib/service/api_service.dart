@@ -238,6 +238,7 @@ class ApiService {
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
       if (response.statusCode == 200) {
+        await RefreshToken('company', token);
         print('status code : ${response.statusCode}');
         ProfilCompanyModel model = ProfilCompanyModel.fromJson(json.decode(response.body));
         print(model);
@@ -245,6 +246,9 @@ class ApiService {
       }
       if(response.statusCode == 401 && PublicFunction.getToken('company') != '') {
         await RefreshToken('company', token);
+        ProfilCompanyModel model = ProfilCompanyModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
       }
       else {
         throw Exception("Failed to fetch data from API");
@@ -267,9 +271,9 @@ class ApiService {
       final response = await http.get(Uri.parse(url), headers: headers);
       print('status code : ${response.statusCode}');
       if (response.statusCode == 200 && token != '') {
+        await RefreshToken('company', token);
         DetailJobCompanyModel model = DetailJobCompanyModel.fromJson(json.decode(response.body));
         print(model);
-        await RefreshToken('company', token);
         return model;
       } if(response.statusCode == 401 && token != '') {
         await RefreshToken('company', token);
@@ -346,9 +350,9 @@ class ApiService {
       final response = await http.get(Uri.parse(url), headers: headers);
       print('status code : ${response.statusCode}');
       if (response.statusCode == 200) {
+        await RefreshToken('worker', token);
         WorkerModel model = WorkerModel.fromJson(json.decode(response.body));
         print(model);
-        await RefreshToken('worker', token);
         return model;
       } if(response.statusCode == 401 && PublicFunction.getToken('worker') != '') {
         await RefreshToken('worker', token);
@@ -528,7 +532,6 @@ class ApiService {
         'confirmed_status=$value';
 
     try {
-      print('$url?$queryParams');
       if(all == false){
         final response = await http.get(Uri.parse('$url?$queryParams'), headers: headers);
         if (response.statusCode == 200) {
@@ -582,9 +585,9 @@ class ApiService {
       final response = await http.get(Uri.parse(url), headers: headers);
       print('status code : ${response.statusCode}');
       if (response.statusCode == 200 && token != '') {
+        await RefreshToken('company', token);
         DetailPelamarModel model = DetailPelamarModel.fromJson(json.decode(response.body));
         print(model);
-        await RefreshToken('company', token);
         return model;
       } if(response.statusCode == 401 && token != '') {
         await RefreshToken('company', token);

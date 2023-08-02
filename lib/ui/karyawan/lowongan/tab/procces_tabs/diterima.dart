@@ -29,7 +29,7 @@ class _ProccesDiterimaTabState extends State<ProccesDiterimaTab> {
     _isLoad = true;
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
-    JobCompanyModel allJob = await ApiService().jobsCompany(false, 'diterima');
+    JobCompanyModel allJob = await ApiService().jobsCompany(false, 'terverifikasi');
     setState(() {
       allJobCompany = allJob;
     });

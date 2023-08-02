@@ -47,6 +47,7 @@ dependencies:
   image_picker: ^1.0.1
   file_picker:
   path_provider:
+  introduction_screen: 
 
 dev_dependencies:
   flutter_test:
