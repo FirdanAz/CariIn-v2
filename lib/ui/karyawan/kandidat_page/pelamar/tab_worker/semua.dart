@@ -1,5 +1,4 @@
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
@@ -75,7 +74,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
                     children: [
                       Row(
                         children: [
-                          CircleAvatar(
+                          const CircleAvatar(
                             radius: 30,
                             backgroundImage: NetworkImage('https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg'),
                           ),
@@ -87,7 +86,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
                                 margin: const EdgeInsets.only(left: 5),
                                 child: Text(
                                   '${data.worker!.username}',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -97,7 +96,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
                                 margin: const EdgeInsets.only(left: 5),
                                 child: Text(
                                   GetTimeAgo.parse(date, locale: 'id'),
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
@@ -106,18 +105,18 @@ class _SemuaTabsState extends State<SemuaTabs> {
                           ),
                         ],
                       ),
-                      data.confirmedStatus == 'diterima' ? Container(padding: EdgeInsets.symmetric(
+                      data.confirmedStatus == 'diterima' ? Container(padding: const EdgeInsets.symmetric(
                         vertical: 5,
                         horizontal: 10,
                       ),
                         color: color.primaryContainer,
-                        child: Text(
+                        child: const Text(
                           'Diterima',
                           style: TextStyle(
                               fontSize: 13
                           ),
                         ),
-                      ) : data.confirmedStatus == 'ditolak' ? Container(padding: EdgeInsets.symmetric(
+                      ) : data.confirmedStatus == 'ditolak' ? Container(padding: const EdgeInsets.symmetric(
                         vertical: 5,
                         horizontal: 10,
                       ),
@@ -129,7 +128,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
                             color: color.white
                           ),
                         ),
-                      ) : data.confirmedStatus == 'menunggu' ? Container(padding: EdgeInsets.symmetric(
+                      ) : data.confirmedStatus == 'menunggu' ? Container(padding: const EdgeInsets.symmetric(
                         vertical: 5,
                         horizontal: 10,
                       ),
@@ -141,12 +140,12 @@ class _SemuaTabsState extends State<SemuaTabs> {
                             color: color.white
                           ),
                         ),
-                      ) : Container(padding: EdgeInsets.symmetric(
+                      ) : Container(padding: const EdgeInsets.symmetric(
                         vertical: 5,
                         horizontal: 10,
                       ),
                         color: color.primary,
-                        child: Text(
+                        child: const Text(
                           'Iya',
                           style: TextStyle(
                               fontSize: 13

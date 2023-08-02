@@ -179,7 +179,7 @@ class Tags {
 
 class Company {
   int? id;
-  Null? url;
+  String? url;
   String? location;
   String? foundingDate;
   int? employees;

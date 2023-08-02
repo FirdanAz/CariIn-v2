@@ -30,7 +30,7 @@ class _SplashScrenState extends State<SplashScren> {
     if (await PublicFunction.getToken('company') == '' && await PublicFunction.getToken('worker') == '') {
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const OptionsPage(),), (route) => false);
     }else if(await PublicFunction.getToken('company') != ''){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const KaryawanBottomNavigation(),), (route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 0,),), (route) => false);
     } else if(await PublicFunction.getToken('worker') != ''){
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false);
     }

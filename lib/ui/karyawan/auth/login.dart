@@ -118,7 +118,7 @@ class _LoginKaryawanPageState extends State<LoginKaryawanPage> {
                   top: 50
                 ),
                 child: InkWell(
-                  onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CompanyRegisterPage(),), (route) => false),
+                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CompanyRegisterPage(),)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -157,7 +157,7 @@ class _LoginKaryawanPageState extends State<LoginKaryawanPage> {
                   await ApiService().postLogin(context, _emailController.text, _passwordController.text, 'company');
                   await Future.delayed(const Duration(seconds: 1));
                   if(await PublicFunction.getToken('company') != ''){
-                    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
+                    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 0,),), (route) => false);
                     Navigator.of(context).pop(true);
                   } else {
                     Navigator.of(context).pop(true);
