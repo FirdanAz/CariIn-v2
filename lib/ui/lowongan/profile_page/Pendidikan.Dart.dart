@@ -28,20 +28,7 @@ class _PendidikanPageState extends State<PendidikanPage> {
                   fontWeight: FontWeight.w400,
                 ),),
               ),
-              Expanded(child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(
-                      left: 7
-                    ),
-                    child: Text(
-                      ''
-                    ),
-                  )
-                ],
-              ))
+
             ],
           );
   }
