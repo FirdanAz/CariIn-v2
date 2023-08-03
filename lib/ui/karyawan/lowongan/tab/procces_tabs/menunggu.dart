@@ -29,7 +29,7 @@ class _ProccesMenungguTabState extends State<ProccesMenungguTab> {
     _isLoad = true;
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
-    JobCompanyModel allJob = await ApiService().jobsCompany(false, 'belum terverifikasi');
+    JobCompanyModel allJob = await ApiService().jobsCompany(false, 'belum_terverifikasi');
     setState(() {
       allJobCompany = allJob;
     });

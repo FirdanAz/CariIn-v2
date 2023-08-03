@@ -20,6 +20,7 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _phoneNumberController = TextEditingController();
+  final _addressController = TextEditingController();
   String selectedValue = "pria";
   String dateString = 'Pilih Tanggal';
 
@@ -111,6 +112,17 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
               ),
               const SizedBox(height: 10,),
               TextFieldComp(emailController: _passwordController, hintText: 'Password'),
+              const SizedBox(height: 20,),
+              Text(
+                'Alamat',
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: color.primary
+                ),
+              ),
+              const SizedBox(height: 10,),
+              TextFieldComp(emailController: _addressController, hintText: 'Jl.Kudus'),
               const SizedBox(height: 20,),
               Text(
                 'Jenis Kelamin',
@@ -247,7 +259,7 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
                 child: InkWell(onTap: () async {
                   showLoaderDialog(context);
                   await Future.delayed(const Duration(seconds: 2));
-                  bool condition = await ApiService().postRegisterWorker(context, _emailController.text, _passwordController.text, _userNameController.text, selectedValue, _phoneNumberController.text, dateString);
+                  bool condition = await ApiService().postRegisterWorker(context, _emailController.text, _passwordController.text, _userNameController.text, selectedValue, _phoneNumberController.text, dateString, _addressController.text);
                   await Future.delayed(const Duration(seconds: 1));
                   if(condition == true){
                     await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false);

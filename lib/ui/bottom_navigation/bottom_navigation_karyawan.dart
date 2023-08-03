@@ -33,7 +33,10 @@ class _KaryawanBottomNavigationState extends State<KaryawanBottomNavigation> {
       widget.indexs = widget.indexs;
     });
     return Scaffold(
-      body: _page[widget.indexs],
+      body: IndexedStack(
+        index: widget.indexs,
+        children: _page,
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: widget.indexs,
         height: 73,
