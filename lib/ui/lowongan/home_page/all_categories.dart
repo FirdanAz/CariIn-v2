@@ -1,5 +1,6 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_color.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -48,6 +49,10 @@ class _CategoryPageState extends State<CategoryPage> {
         child: GridView.count(
           crossAxisCount: 2,
           children: [
+            CategoriesCard(title: 'Pemprograman', image: AppAssets.teacherIcon),
+            CategoriesCard(title: 'Pemprograman', image: AppAssets.designIcon),
+            CategoriesCard(title: 'Pemprograman', image: AppAssets.teacherIcon),
+            CategoriesCard(title: 'Pemprograman', image: AppAssets.teacherIcon),
             CategoriesCard(title: 'Pemprograman', image: AppAssets.teacherIcon),
             CategoriesCard(title: 'Pemprograman', image: AppAssets.teacherIcon),
             CategoriesCard(title: 'Pemprograman', image: AppAssets.teacherIcon),
