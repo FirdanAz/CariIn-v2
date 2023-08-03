@@ -398,7 +398,7 @@ class ApiService {
     }
   }
 
-  Future postRegisterWorker(BuildContext context, String email, String password, String name, String gender, String phone_number, String born_date) async {
+  Future postRegisterWorker(BuildContext context, String email, String password, String name, String gender, String phone_number, String born_date, String address) async {
     var endPoint = '/api/worker/register';
     final url = '$_baseUrl$endPoint';
     final body = {
@@ -408,6 +408,7 @@ class ApiService {
       'gender': gender,
       'phone_number': phone_number,
       'born_date': born_date,
+      'address': address
     };
     final headers = {
       'Accept' : 'application/json'
