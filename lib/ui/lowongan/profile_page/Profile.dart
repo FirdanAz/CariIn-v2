@@ -2,6 +2,8 @@
 
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/worker_model.dart';
+import 'package:cariin_v2/ui/lowongan/profile_page/Pendidikan.Dart.dart';
+import 'package:cariin_v2/ui/lowongan/profile_page/Pengalaman.dart';
 import 'package:cariin_v2/ui/options/options.dart';
 import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +26,8 @@ class _ProfilePageState extends State<ProfilePage> {
   bool _isLoad = false;
 
   final List<Widget> _tabView = const[
-    Center(child: Text('Tab 1'),),
-    Center(child: Text('Tab 2'),),
+    PengalamanPage(),
+    PendidikanPage(),
     Center(child: Text('Tab 3'),),
     Center(child: Text('Tab 4'),),
   ];
