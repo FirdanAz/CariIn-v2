@@ -38,4 +38,9 @@ class AppAssets {
   static const String notificationIcon = "assets/icons/notification_icon.svg";
   static const String searchDoneIcon = "assets/icons/search_done_icon.svg";
   static const String suitcaseIcon = "assets/icons/suitcase_icon.svg";
+
+  static const String lottieImageJob1 = "assets/lottie/lottie_job1.json";
+  static const String lottieImageJob2 = "assets/lottie/lottie_job2.json";
+  static const String lottieImageJob3 = "assets/lottie/lottie_job3.json";
+  static const String lottieImageJob4 = "assets/lottie/lottie_job4.json";
 }
