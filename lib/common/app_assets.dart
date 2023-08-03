@@ -22,6 +22,15 @@ class AppAssets {
   static const String teacherIcon = "assets/images/teacher_icon.svg";
   static const String introIcon = "assets/images/intro_icon.svg";
   static const String backImageProfil = "assets/images/back_profile.png";
+  static const String OtomotifIcon = "assets/images/Automotive.svg";
+  static const String PemerintahanIcon = "assets/images/Pemerintahan_icon.svg";
+  static const String PersuhaanIcon = "assets/images/Perusahaan_icon.svg";
+  static const String RetailIcon = "assets/images/Retail_icon.svg";
+  static const String CustomerServiceIcon = "assets/images/Customer Service_icon.svg";
+  static const String TeknikIcon = "assets/images/Teknik_icon.svg";
+  static const String BisnisIcon = "assets/images/Bisnis_icon.svg";
+  static const String MarketingIcon = "assets/images/Marketing_icon.svg";
+
 
   static const String accountIcon = "assets/icons/account_icon.svg";
   static const String cakeIcon = "assets/icons/cake_icon.svg";

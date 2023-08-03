@@ -12,9 +12,6 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  final List<Map> myCategorys =
-      List.generate(12, (index) => {"id": index, "name": "Pekerjaan $index"})
-          .toList();
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
@@ -47,24 +44,86 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
         ),
       ),
-      body: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 220,
-          childAspectRatio:2/2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 5,),
-            itemCount: myCategorys.length,
-        itemBuilder: (_, index) {
-          return Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: color.white,
-              borderRadius: BorderRadius.circular(10)
-            ),
-          );
-        },
+      body: Container(
+        margin: EdgeInsets.only(top: 7, bottom: 7),
+        child: GridView.count(
+          crossAxisCount: 2,
+          children: [
+            CategoriesCard(title: 'Pemprograman', image: AppAssets.codeIcon),
+            CategoriesCard(title: 'Desainer', image: AppAssets.designIcon),
+            CategoriesCard(title: 'Guru', image: AppAssets.teacherIcon),
+            CategoriesCard(title: 'Medis', image: AppAssets.medicalIcon),
+            CategoriesCard(title: 'Bisnis', image: AppAssets.BisnisIcon),
+            CategoriesCard(title: 'Marketing', image: AppAssets.MarketingIcon),
+            CategoriesCard(title: 'Teknik', image: AppAssets.TeknikIcon),
+            CategoriesCard(title: 'Costumer Service', image: AppAssets.CustomerServiceIcon),
+            CategoriesCard(title: 'Perusahaan', image: AppAssets.PersuhaanIcon),
+            CategoriesCard(title: 'Otomotif', image: AppAssets.OtomotifIcon),
+            CategoriesCard(title: 'Retail', image: AppAssets.RetailIcon),
+            CategoriesCard(title: 'Pemerintahan', image: AppAssets.PemerintahanIcon),
+          ],
         ),
+      ),
+    );
+  }
+}
+
+class CategoriesCard extends StatelessWidget {
+  CategoriesCard({Key? key, required this.title, required this.image,}) : super(key: key);
+  String title;
+  String image;
+
+  @override
+  Widget build(BuildContext context) {
+    var color = AppColor.theme(Theme.of(context).brightness);
+    return Container(
+      padding: EdgeInsets.all(15),
+      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+      decoration: BoxDecoration(
+        color: color.white,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Stack(
+            children: [
+              Container(
+                height: 70,
+                width: 70,
+                decoration: BoxDecoration(
+                    color: color.primaryContainer,
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 30, left: 25),
+                child: SvgPicture.asset(
+                  image,
+                  height: 80,
+                  color: color.primary,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: color.primaryContainer),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

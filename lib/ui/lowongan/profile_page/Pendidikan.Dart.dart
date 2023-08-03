@@ -28,7 +28,6 @@ class _PendidikanPageState extends State<PendidikanPage> {
                   fontWeight: FontWeight.w400,
                 ),),
               ),
-
             ],
           );
   }
