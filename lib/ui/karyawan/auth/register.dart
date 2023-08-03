@@ -366,28 +366,31 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
                   ),
                 ],
               ),
-              Container(
-                margin: const EdgeInsets.only(
-                    top: 50
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Sudah Punya Akun? ',
-                      style: TextStyle(
-                          fontSize: 15
+              InkWell(
+                onTap: () => Navigator.of(context).pop(),
+                child: Container(
+                  margin: const EdgeInsets.only(
+                      top: 50
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Sudah Punya Akun? ',
+                        style: TextStyle(
+                            fontSize: 15
+                        ),
                       ),
-                    ),
-                    Text(
-                      'Masuk',
-                      style: TextStyle(
-                          color: color.primary,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500
-                      ),
-                    )
-                  ],
+                      Text(
+                        'Masuk',
+                        style: TextStyle(
+                            color: color.primary,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
               Container(
@@ -408,11 +411,11 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
                     // ignore: use_build_context_synchronously
                     Navigator.of(context).pop(true);
                     if(PublicFunction.getToken('company') != ''){
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 0,),), (route) => false);
                     }
                   }
                   else PublicFunction.showDialog(context, 'Isi Formulir dengan lengkap');
-                }, child: Center(child: Text('Masuk', style: TextStyle(color: color.white, fontWeight: FontWeight.w500, fontSize: 16),),)),
+                }, child: Center(child: Text('Daftar', style: TextStyle(color: color.white, fontWeight: FontWeight.w500, fontSize: 16),),)),
               ),
             ],
           ),

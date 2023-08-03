@@ -2,6 +2,7 @@
 
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/detail_pelamar_model.dart';
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -45,212 +46,229 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
     var color = AppColor.theme(Theme.of(context).brightness);
 
     return _isLoad ? const Scaffold(body: Center(child: CircularProgressIndicator(),),) : Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: color.primaryContainer),
-            title: Text(
-              'Detail Pelamar',
-              style: TextStyle(
-                  color: color.black,
-                  fontSize: 19,
-                  fontWeight: FontWeight.w600
+      body: WillPopScope(
+        onWillPop: () async {
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 1),), (route) => false);
+          return true;
+        },
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: color.primaryContainer),
+              title: Text(
+                'Detail Pelamar',
+                style: TextStyle(
+                    color: color.black,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w600
+                ),
               ),
+              leading: IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new_rounded),
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 1),), (route) => false);
+                },
+              ),
+              actions: [
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: InkWell(
+                       onTap: () async {
+                         showDialog(context: context, builder: (context) {
+                           return AlertDialog(
+                             content: Text(
+                               'Tolak Lamaran ${detailPelamarModel!.data!.worker!.username}',
+                               style: const TextStyle(fontSize: 15),
+                             ),
+                             actions: [
+                               TextButton(
+                                 onPressed: () => Navigator.of(context).pop(),
+                                 child: const Text("Batal"),
+                               ),
+                               TextButton(
+                                   onPressed: () async {
+                                     bool isSuccess = await ApiService().defineConfirmation(context, 'ditolak', '${detailPelamarModel!.data!.id}');
+                                     if(isSuccess == true){
+                                       setState(() {
+                                         getdata();
+                                       });
+                                       showDialog(context: context, builder: (context) {
+                                         return PublicFunction.showDialog(context, 'Lamaran Ditolak');
+                                       },);
+                                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 1),), (route) => false);
+                                     }
+                                   },
+                                   child: Text("Iya", style: TextStyle(color: color.error),)
+                               ),
+                             ],
+                           );
+                         },);
+                       },
+                       child: Icon(detailPelamarModel!.data!.confirmedStatus == 'menunggu' ? Icons.folder_delete :null, color: color.error,size: 30,)),
+                 )
+              ],
             ),
-            actions: [
-               Padding(
-                 padding: const EdgeInsets.all(8.0),
-                 child: InkWell(
-                     onTap: () async {
-                       AlertDialog(
-                         content: Text(
-                           'Tolak Lamaran ${detailPelamarModel!.data!.worker!.username}',
-                           style: const TextStyle(fontSize: 15),
-                         ),
-                         actions: [
-                           TextButton(
-                               onPressed: () async {
-                                 bool isSuccess = await ApiService().defineConfirmation(context, 'ditolak', '${detailPelamarModel!.data!.id}');
-                                 if(isSuccess == true){
-                                   setState(() {
-                                     getdata();
-                                   });
-                                   showDialog(context: context, builder: (context) {
-                                     return PublicFunction.showDialog(context, 'Lamaran Ditolak');
-                                   },);
-                                 }
-                               },
-                               child: const Text("Iya")
-                           ),
-                           TextButton(
-                               onPressed: () => Navigator.of(context).pop(),
-                               child: const Text("Iya")),
-                         ],
-                       );
-                     },
-                     child: Icon(detailPelamarModel!.data!.confirmedStatus == 'menunggu' ? Icons.folder_delete :null, color: color.error,size: 30,)),
-               )
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: Container(
-              width: double.maxFinite,
-              height: 140,
-              margin: const EdgeInsets.symmetric(
-                  horizontal: 13
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(
-                        right: 5
+            SliverToBoxAdapter(
+              child: Container(
+                width: double.maxFinite,
+                height: 140,
+                margin: const EdgeInsets.symmetric(
+                    horizontal: 13
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(
+                          right: 5
+                      ),
+                      child: const CircleAvatar(
+                        backgroundImage: AssetImage(AppAssets.firdanImg),
+                        radius: 60,
+                      ),
                     ),
-                    child: const CircleAvatar(
-                      backgroundImage: AssetImage(AppAssets.firdanImg),
-                      radius: 60,
+                    Container(
+                      width: 5,
+                      height: 120,
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                          color: color.primary,
+                          borderRadius: const BorderRadius.all(Radius.circular(5))
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: 5,
-                    height: 120,
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                        color: color.primary,
-                        borderRadius: const BorderRadius.all(Radius.circular(5))
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(
-                        top: 10
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 200,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Container(
+                      margin: const EdgeInsets.only(
+                          top: 10
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: 200,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${detailPelamarModel!.data!.worker!.username}',
+                                      style: TextStyle(
+                                          color: color.black,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 17
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 7,
+                                    ),
+                                    Text(
+                                      '${detailPelamarModel!.data!.worker!.age} Tahun',
+                                      style: TextStyle(
+                                          color: color.black,
+                                          fontSize: 14
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                InkWell(child: SvgPicture.asset(AppAssets.cvIcon, width: 25,color: color.primary,), onTap: () {},)
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${detailPelamarModel!.data!.worker!.username}',
-                                    style: TextStyle(
-                                        color: color.black,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 17
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-                                  Text(
-                                    '${detailPelamarModel!.data!.worker!.age} Tahun',
-                                    style: TextStyle(
-                                        color: color.black,
-                                        fontSize: 14
-                                    ),
-                                  ),
-                                ],
+                              Text(
+                                'Kudus, Jawa Tengah, ',
+                                style: TextStyle(
+                                    color: color.black,
+                                    fontSize: 14
+                                ),
                               ),
-                              InkWell(child: SvgPicture.asset(AppAssets.cvIcon, width: 25,color: color.primary,), onTap: () {},)
+                              Text(
+                                'Indonesia',
+                                style: TextStyle(
+                                    color: color.primary,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14
+                                ),
+                              ),
                             ],
                           ),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'Kudus, Jawa Tengah, ',
-                              style: TextStyle(
-                                  color: color.black,
-                                  fontSize: 14
-                              ),
-                            ),
-                            Text(
-                              'Indonesia',
-                              style: TextStyle(
-                                  color: color.primary,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 14
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 12,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 3, horizontal: 5),
-                              margin: const EdgeInsets.only(right: 7),
-                              decoration: BoxDecoration(
-                                  color: color.primary,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Text(
-                                'Ui/Ux Designer',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: color.white
+                          const SizedBox(
+                            height: 12,
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 3, horizontal: 5),
+                                margin: const EdgeInsets.only(right: 7),
+                                decoration: BoxDecoration(
+                                    color: color.primary,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Text(
+                                  'Ui/Ux Designer',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: color.white
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 3, horizontal: 5),
-                              margin: const EdgeInsets.only(right: 7),
-                              decoration: BoxDecoration(
-                                  color: color.primary,
-                                  borderRadius: BorderRadius.circular(5)),
-                              child: Text(
-                                'Front End',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: color.white
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 3, horizontal: 5),
+                                margin: const EdgeInsets.only(right: 7),
+                                decoration: BoxDecoration(
+                                    color: color.primary,
+                                    borderRadius: BorderRadius.circular(5)),
+                                child: Text(
+                                  'Front End',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      color: color.white
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        )
-                      ],
+                            ],
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  ProfileCard(context, AppAssets.activityIcon, 'Deskripsi Lamaran', '${detailPelamarModel!.data!.description}'),
+                  ProfileCard(context, AppAssets.genderIcon, 'Jenis Kelamin', '${detailPelamarModel!.data!.worker!.gender}'),
+                  detailPelamarModel!.data!.confirmedStatus == 'ditolak' ? Container(
+                    height: 100,
+                    width: double.maxFinite,
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 20
                     ),
-                  )
+                    decoration: BoxDecoration(
+                      color: color.error.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(10)
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Pengguna ini sudah anda tolak!',
+                        style: TextStyle(
+                          fontSize: 16
+                        ),
+                      ),
+                    ),
+                  ) : Container()
                 ],
               ),
             ),
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                ProfileCard(context, AppAssets.activityIcon, 'Deskripsi Lamaran', '${detailPelamarModel!.data!.description}'),
-                detailPelamarModel!.data!.confirmedStatus == 'ditolak' ? Container(
-                  height: 100,
-                  width: double.maxFinite,
-                  margin: const EdgeInsets.symmetric(
-                    horizontal: 20
-                  ),
-                  decoration: BoxDecoration(
-                    color: color.error.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Pengguna ini sudah anda tolak!',
-                      style: TextStyle(
-                        fontSize: 16
-                      ),
-                    ),
-                  ),
-                ) : Container()
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: BottomAppBar(
         color: color.white,
@@ -295,13 +313,13 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                   fontWeight: FontWeight.bold
               ),
             ) : detailPelamarModel!.data!.confirmedStatus == 'ditolak' ? Text(
-              'Undang Wawancara',
+              'Terima Pelamar',
               style: TextStyle(
                   color: color.white,
                   fontWeight: FontWeight.bold
               ),
             ) : detailPelamarModel!.data!.confirmedStatus == 'menunggu' ? Text(
-              'Undang Wawancara',
+              'Terima Pelamar',
               style: TextStyle(
                   color: color.white,
                   fontWeight: FontWeight.bold
@@ -328,7 +346,7 @@ Widget ProfileCard(BuildContext context, String image, String title, String desc
     width: double.maxFinite,
     margin: const EdgeInsets.symmetric(
         horizontal: 10,
-        vertical: 10
+        vertical: 5
     ),
     child: Card(
       color: color.white,
@@ -361,6 +379,7 @@ Widget ProfileCard(BuildContext context, String image, String title, String desc
                   ),
                   child: SvgPicture.asset(
                     image,
+                    color: color.primary,
                     width: 25,
                   ),
                 )

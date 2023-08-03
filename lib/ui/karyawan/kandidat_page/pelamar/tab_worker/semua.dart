@@ -1,9 +1,7 @@
-import 'package:cariin_v2/model/job_application_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
-import '../../../../../common/app_assets.dart';
 import '../../../../../common/app_color.dart';
 import '../../../../../common/public_function.dart';
 import '../../../../../model/worker_application_model.dart';
@@ -43,116 +41,124 @@ class _SemuaTabsState extends State<SemuaTabs> {
   Widget build(BuildContext context) {
     final color = AppColor.theme(Theme.of(context).brightness);
 
-    return _isLoad ? const Center(child:
-    CircularProgressIndicator(),) :
+    return _isLoad ? const ShimmerPelamar() :
     SizedBox(
-      child: ListView.builder(
-        physics: BouncingScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: jobApplicationModel!.data!.length,
-        itemBuilder: (context, index) {
-          var data = jobApplicationModel!.data![index];
-          DateTime? date = DateTime.parse(data.createdAt.toString());
-          return InkWell(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPelamarPage(id: data.id!.toInt()),));
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                  color: color.surfaceContainer,
-                  borderRadius: BorderRadius.circular(10)),
-              width: double.maxFinite,
-              height: 75,
-              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
+      child: RefreshIndicator(
+        onRefresh: () async {
+          setState(() {
+            getdata();
+          });
+        },
+        child: Container(
+          constraints: const BoxConstraints(minHeight: 1000),
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: jobApplicationModel!.data!.length,
+            itemBuilder: (context, index) {
+              var data = jobApplicationModel!.data![index];
+              DateTime? date = DateTime.parse(data.createdAt.toString());
+              return InkWell(
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPelamarPage(id: data.id!.toInt()),));
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: color.surfaceContainer,
+                      borderRadius: BorderRadius.circular(10)),
+                  width: double.maxFinite,
+                  height: 75,
+                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundImage: NetworkImage('https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg'),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
+                      Row(
                         children: [
-                          Container(
-                            margin: const EdgeInsets.only(left: 5),
-                            child: Text(
-                              '${data.worker!.username}',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
+                          const CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage('https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg'),
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 5),
-                            child: Text(
-                              GetTimeAgo.parse(date, locale: 'id'),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(left: 5),
+                                child: Text(
+                                  '${data.worker!.username}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Container(
+                                margin: const EdgeInsets.only(left: 5),
+                                child: Text(
+                                  GetTimeAgo.parse(date, locale: 'id'),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
+                      data.confirmedStatus == 'diterima' ? Container(padding: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 10,
+                      ),
+                        color: color.primaryContainer,
+                        child: const Text(
+                          'Diterima',
+                          style: TextStyle(
+                              fontSize: 13
+                          ),
+                        ),
+                      ) : data.confirmedStatus == 'ditolak' ? Container(padding: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 10,
+                      ),
+                        color: color.error,
+                        child: Text(
+                          'Ditolak',
+                          style: TextStyle(
+                              fontSize: 13,
+                            color: color.white
+                          ),
+                        ),
+                      ) : data.confirmedStatus == 'menunggu' ? Container(padding: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 10,
+                      ),
+                        color: color.primary,
+                        child: Text(
+                          'Menunggu',
+                          style: TextStyle(
+                              fontSize: 13,
+                            color: color.white
+                          ),
+                        ),
+                      ) : Container(padding: const EdgeInsets.symmetric(
+                        vertical: 5,
+                        horizontal: 10,
+                      ),
+                        color: color.primary,
+                        child: const Text(
+                          'Iya',
+                          style: TextStyle(
+                              fontSize: 13
+                          ),
+                        ),
+                      )
                     ],
                   ),
-                  data.confirmedStatus == 'diterima' ? Container(padding: EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 10,
-                  ),
-                    color: color.primaryContainer,
-                    child: Text(
-                      'Diterima',
-                      style: TextStyle(
-                          fontSize: 13
-                      ),
-                    ),
-                  ) : data.confirmedStatus == 'ditolak' ? Container(padding: EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 10,
-                  ),
-                    color: color.error,
-                    child: Text(
-                      'Ditolak',
-                      style: TextStyle(
-                          fontSize: 13,
-                        color: color.white
-                      ),
-                    ),
-                  ) : data.confirmedStatus == 'menunggu' ? Container(padding: EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 10,
-                  ),
-                    color: color.primary,
-                    child: Text(
-                      'Menunggu',
-                      style: TextStyle(
-                          fontSize: 13,
-                        color: color.white
-                      ),
-                    ),
-                  ) : Container(padding: EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 10,
-                  ),
-                    color: color.primary,
-                    child: Text(
-                      'Iya',
-                      style: TextStyle(
-                          fontSize: 13
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-          );
-        },
+                ),
+              );
+            },
+          ),
+        ),
       ),
     );
   }

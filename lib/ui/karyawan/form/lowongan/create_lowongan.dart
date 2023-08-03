@@ -1,8 +1,11 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, use_build_context_synchronously
+
+import 'dart:io';
 
 import 'package:cariin_v2/model/profil_company_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../../common/app_assets.dart';
 import '../../../../common/app_color.dart';
@@ -24,6 +27,8 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
   String selectedValueTime = "full time";
   String selectedValueTags = "1";
   bool _isLoad = false;
+  File? selectedImage;
+  final _formState = GlobalKey<FormState>();
   final _namaController = TextEditingController();
   final _addressController = TextEditingController();
   final _salaryController = TextEditingController();
@@ -51,13 +56,29 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
 
   getData() async {
     _isLoad = true;
-    JobTagListModel tagList = await ApiService().gettagList();
+    JobTagListModel tagList = await ApiService().getTagList();
     ProfilCompanyModel companyModel = await ApiService().ProfilCompany();
     setState(() {
       jobTagListModel = tagList;
       profilCompanyModel = companyModel;
     });
     _isLoad = false;
+  }
+
+  Future _pickImageFromGalery() async {
+    final returnImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      selectedImage = File(returnImage!.path);
+    });
+  }
+
+  Future _pickImageFromCamera() async {
+    final returnImage = await ImagePicker().pickImage(source: ImageSource.camera);
+
+    setState(() {
+      selectedImage = File(returnImage!.path);
+    });
   }
 
   @override
@@ -82,8 +103,9 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
 
-    return _isLoad ? Scaffold(body: Center(child: CircularProgressIndicator(),), ) : Scaffold(
+    return _isLoad ? const Scaffold(body: Center(child: CircularProgressIndicator(),), ) : Scaffold(
       appBar: AppBar(
+        backgroundColor: color.background,
         title: const Text('Buat Lowongan'),
         leading: InkWell(
           onTap: () => Navigator.of(context).pop(),
@@ -94,255 +116,336 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          margin: EdgeInsets.symmetric(
+          margin: const EdgeInsets.symmetric(
             horizontal: 20
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Tambahkan Gambar Lowongan',
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500
-                ),
-              ),
-              Center(
-                child: Container(
-                  height: 100,
-                  width: 100,
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 20
-                  ),
-                  color: color.primary,
-                  child: Center(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8,
-                            horizontal: 10
-                        ),
-                        decoration: BoxDecoration(
-                            color: color.white,
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: SvgPicture.asset(AppAssets.companyIcon, color: color.primary,),
-                      )
+          child: Form(
+            key: _formState,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Tambahkan Cover Foto',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500
                   ),
                 ),
-              ),
-              const SizedBox(height: 10,),
-              textFieldEx(title: 'Nama Lowongan', hint: 'Nama Lowongan', editingController: _namaController),
-              textFieldEx(title: 'Alamat Lowongan', hint: 'Jl.Raya Jurang Jakarta', editingController: _addressController),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10,),
-                  const Text(
-                    'Tipe waktu',
-                    style: TextStyle(
-                        fontSize: 18
-                    ),
-                  ),
-                  const SizedBox(height: 5,),
-                  SizedBox(
-                    height: 70,
-                    width: double.maxFinite,
-                    child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: selectedValueTime,
-                        icon: Container(
-                            alignment: Alignment.centerRight,
-                            child: const Icon(Icons.arrow_drop_down)),
-                        elevation: 18,
-                        underline: Container(
-                          height: 2,
-                          width: 1,
-                          color: color.black.withOpacity(0.1),
-                        ),
-                        style:
-                        TextStyle(color: color.black),
-                        iconSize: 30,
-                        onChanged: (String? value) {
-                          // This is called when the user selects an item.
-                          setState(() {
-                            selectedValueTime = value!;
-                          });
+                Center(
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Pilih Gambar dari'),
+                            actions: [
+                              Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      _pickImageFromGalery();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      width: double.maxFinite,
+                                      padding: const EdgeInsets.all(15),
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.window, color: color.primary,),
+                                          const SizedBox(width: 15,),
+                                          const Text('Galeri'),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      _pickImageFromCamera();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      width: double.maxFinite,
+                                      padding: const EdgeInsets.all(15),
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.camera, color: color.primary,),
+                                          const SizedBox(width: 15,),
+                                          const Text('Kamera'),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          );
                         },
-                        items: timeTypeDropdownItems
+                      );
+                    },
+                    child: selectedImage != null ? SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Image.file(selectedImage!, fit: BoxFit.cover,),
+                    ): Container(
+                      height: 100,
+                      width: 100,
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 20
+                      ),
+                      color: color.primary,
+                      child: Center(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8,
+                                horizontal: 10
+                            ),
+                            decoration: BoxDecoration(
+                                color: color.white,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            // ignore: deprecated_member_use
+                            child: SvgPicture.asset(AppAssets.companyIcon, color: color.primary),
+                          )
+                      ),
                     ),
                   ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Gaji Perkiraan',
-                    style: TextStyle(
-                        fontSize: 18
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  TextField(
-                    controller: _salaryController,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(color: Colors.black),
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintStyle: const TextStyle(color: Colors.black45),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 2,
-                            color: color.secondary.withOpacity(0.2),
-                          ),
-                          borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Gaji',
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 10,),
-                  const Text(
-                    'Jenis Kelamin',
-                    style: TextStyle(
-                        fontSize: 18
-                    ),
-                  ),
-                  const SizedBox(height: 5,),
-                  SizedBox(
-                    height: 70,
-                    width: double.maxFinite,
-                    child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: selectedValue,
-                        icon: Container(
-                            alignment: Alignment.centerRight,
-                            child: const Icon(Icons.arrow_drop_down)),
-                        elevation: 18,
-                        underline: Container(
-                          height: 2,
-                          width: 1,
-                          color: color.black.withOpacity(0.1),
-                        ),
-                        style:
-                        TextStyle(color: color.black),
-                        iconSize: 30,
-                        onChanged: (String? value) {
-                          // This is called when the user selects an item.
-                          setState(() {
-                            selectedValue = value!;
-                          });
-                        },
-                        items: genderDropdownItems
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Umur minimal',
-                    style: TextStyle(
-                        fontSize: 18
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  TextField(
-                    controller: _minAgeController,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(color: Colors.black),
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintStyle: const TextStyle(color: Colors.black45),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 2,
-                            color: color.secondary.withOpacity(0.2),
-                          ),
-                          borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Umur',
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Umur Maximal',
-                    style: TextStyle(
-                        fontSize: 18
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  TextField(
-                    controller: _maxAgeController,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(color: Colors.black),
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintStyle: const TextStyle(color: Colors.black45),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 2,
-                            color: color.secondary.withOpacity(0.2),
-                          ),
-                          borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Umur',
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  const Text(
-                    'Deskripsi',
-                    style: TextStyle(
-                        fontSize: 18
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  Container(
-                    width: double.maxFinite,
-                    constraints: BoxConstraints(minHeight: 130),
-                    padding: const EdgeInsets.only(
-                        left: 15,
-                        right: 10
-                    ),
-                    decoration: BoxDecoration(
-                        color: color.black.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(10)
-                    ),
-                    child: TextField(
-                      cursorColor: color.primary,
-                      controller: _descriptionController,
-                      maxLines: null,
-                      keyboardType: TextInputType.multiline,
+                ),
+                const SizedBox(height: 10,),
+                textFieldEx(title: 'Nama Lowongan', hint: 'Nama Lowongan', editingController: _namaController),
+                textFieldEx(title: 'Alamat Lowongan', hint: 'Jl.Raya Jurang Jakarta', editingController: _addressController),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10,),
+                    const Text(
+                      'Tipe waktu',
                       style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: color.black
+                          fontSize: 18
                       ),
-                      decoration: const InputDecoration(
-                        hintText: "Seputar bisnis anda",
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        hintStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
+                    ),
+                    const SizedBox(height: 5,),
+                    SizedBox(
+                      height: 70,
+                      width: double.maxFinite,
+                      child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: selectedValueTime,
+                          icon: Container(
+                              alignment: Alignment.centerRight,
+                              child: const Icon(Icons.arrow_drop_down)),
+                          elevation: 18,
+                          underline: Container(
+                            height: 2,
+                            width: 1,
+                            color: color.black.withOpacity(0.1),
+                          ),
+                          style:
+                          TextStyle(color: color.black),
+                          iconSize: 30,
+                          onChanged: (String? value) {
+                            // This is called when the user selects an item.
+                            setState(() {
+                              selectedValueTime = value!;
+                            });
+                          },
+                          items: timeTypeDropdownItems
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Gaji Perkiraan',
+                      style: TextStyle(
+                          fontSize: 18
+                      ),
+                    ),
+                    const SizedBox(height: 10,),
+                    TextFormField(
+                      controller: _salaryController,
+                      validator: (value) {
+                        if(value!.isEmpty){
+                          return "Data harus diisi";
+                        }
+                        return null;
+                      },
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(color: Colors.black),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        hintStyle: const TextStyle(color: Colors.black45),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: color.secondary.withOpacity(0.2),
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                        hintText: 'Gaji',
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 10,),
+                    const Text(
+                      'Jenis Kelamin',
+                      style: TextStyle(
+                          fontSize: 18
+                      ),
+                    ),
+                    const SizedBox(height: 5,),
+                    SizedBox(
+                      height: 70,
+                      width: double.maxFinite,
+                      child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: selectedValue,
+                          icon: Container(
+                              alignment: Alignment.centerRight,
+                              child: const Icon(Icons.arrow_drop_down)),
+                          elevation: 18,
+                          underline: Container(
+                            height: 2,
+                            width: 1,
+                            color: color.black.withOpacity(0.1),
+                          ),
+                          style:
+                          TextStyle(color: color.black),
+                          iconSize: 30,
+                          onChanged: (String? value) {
+                            // This is called when the user selects an item.
+                            setState(() {
+                              selectedValue = value!;
+                            });
+                          },
+                        items: genderDropdownItems,
+
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Umur minimal',
+                      style: TextStyle(
+                          fontSize: 18
+                      ),
+                    ),
+                    const SizedBox(height: 10,),
+                    TextFormField(
+                      controller: _minAgeController,
+                      validator: (value) {
+                        if(value!.isEmpty){
+                          return "Data harus diisi";
+                        }
+                        return null;
+                      },
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(color: Colors.black),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        hintStyle: const TextStyle(color: Colors.black45),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: color.secondary.withOpacity(0.2),
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                        hintText: 'Umur',
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Umur Maximal',
+                      style: TextStyle(
+                          fontSize: 18
+                      ),
+                    ),
+                    const SizedBox(height: 10,),
+                    TextFormField(
+                      controller: _maxAgeController,
+                      validator: (value) {
+                        if(value!.isEmpty){
+                          return "Data harus diisi";
+                        }
+                        return null;
+                      },
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(color: Colors.black),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(),
+                        hintStyle: const TextStyle(color: Colors.black45),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 2,
+                              color: color.secondary.withOpacity(0.2),
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                        hintText: 'Umur',
+                      ),
+                    ),
+                    const SizedBox(height: 10,),
+                    const Text(
+                      'Deskripsi',
+                      style: TextStyle(
+                          fontSize: 18
+                      ),
+                    ),
+                    const SizedBox(height: 10,),
+                    Container(
+                      width: double.maxFinite,
+                      constraints: const BoxConstraints(minHeight: 130),
+                      padding: const EdgeInsets.only(
+                          left: 15,
+                          right: 10
+                      ),
+                      decoration: BoxDecoration(
+                          color: color.black.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      child: TextField(
+                        cursorColor: color.primary,
+                        controller: _descriptionController,
+                        maxLines: null,
+                        keyboardType: TextInputType.multiline,
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: color.black
+                        ),
+                        decoration: const InputDecoration(
+                          hintText: "Seputar bisnis anda",
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          hintStyle: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 40,)
-            ],
+                  ],
+                ),
+                const SizedBox(height: 40,)
+              ],
+            ),
           ),
         ),
       ),
@@ -350,13 +453,33 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
         height: 80,
         child: InkWell(
           onTap: () async {
-            bool isSuccess = await ApiService().postcreateLowongan(context, _namaController.text, _addressController.text, selectedValueTime, int.parse(_salaryController.text), profilCompanyModel!.data!.id!.toInt(), selectedValue, 'bebas', int.parse(_minAgeController.text), int.parse(_maxAgeController.text), _descriptionController.text, [1,4,7], 1);
+            bool isSuccess = await ApiService().postcreateLowongan(
+              context,
+              _namaController.text,
+              selectedImage!,
+              selectedImage!,
+              _addressController.text,
+              selectedValueTime,
+              _salaryController.text,
+              profilCompanyModel!.data!.id!.toString(),
+              selectedValue,
+              'bebas',
+              _minAgeController.text,
+              _maxAgeController.text,
+              _descriptionController.text,
+              [1,4,7],
+              'true',
+            );
+            print(isSuccess);
             if(isSuccess == true){
-              showDialog(context: context, builder: (context) {
-                return PublicFunction.showDialog(context, 'Lowongan dibuat Menunggu konfirmasi dari admin');
-              },);
-              Navigator.of(context).pop();
-            } else {
+              setState(() {
+                Navigator.of(context).pop();
+                showDialog(context: context, builder: (context) {
+                  return PublicFunction.showDialog(context, 'Menunggu 1x24 Jam untuk dikonfirmasi oleh admin');
+                },);
+              });
+            }
+            else {
               showDialog(context: context, builder: (context) {
                 return PublicFunction.showDialog(context, 'Lowongan Gagal dibuat');
               },);
@@ -369,7 +492,7 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
               color: color.primary,
               borderRadius: BorderRadius.circular(10)
             ),
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
               horizontal: 10
             ),
             child: Center(
@@ -389,6 +512,7 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
   }
 }
 
+// ignore: camel_case_types
 class textFieldEx extends StatelessWidget {
   textFieldEx({Key? key, required this.title, required this.hint, required this.editingController}) : super(key: key);
   String title;
@@ -404,13 +528,19 @@ class textFieldEx extends StatelessWidget {
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 18
           ),
         ),
         const SizedBox(height: 10,),
-        TextField(
+        TextFormField(
           controller: editingController,
+          validator: (value) {
+            if(value!.isEmpty){
+              return "Data harus diisi";
+            }
+            return null;
+          },
           textAlign: TextAlign.left,
           style: const TextStyle(color: Colors.black),
           decoration: InputDecoration(

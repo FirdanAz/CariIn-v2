@@ -1,6 +1,3 @@
-import 'package:cariin_v2/common/app_assets.dart';
-import 'package:cariin_v2/ui/karyawan/kandidat_page/lowongan/lowongan.dart';
-import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/pelamar.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/lamaran_procces.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/lamaran_result.dart';
 import 'package:flutter/material.dart';

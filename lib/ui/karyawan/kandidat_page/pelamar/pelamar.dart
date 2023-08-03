@@ -1,4 +1,3 @@
-import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/tab_worker/diterima.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/tab_worker/ditolak.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/tab_worker/menunggu.dart';
@@ -20,8 +19,8 @@ class _PelamarTabState extends State<PelamarTab> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final color = AppColor.theme(Theme.of(context).brightness);
+    //final screenSize = MediaQuery.of(context).size;
+    //final color = AppColor.theme(Theme.of(context).brightness);
 
     final List<Widget> tabView = [
       const SemuaTabs(),
@@ -46,7 +45,7 @@ class _PelamarTabState extends State<PelamarTab> {
                 tabLabels: const [
                   "Semua",
                   "Diterima",
-                  "Menunggu",
+                  "Direview",
                   "Ditolak",
                 ],
                 onTap: (value) => _tabIndex.value = value,

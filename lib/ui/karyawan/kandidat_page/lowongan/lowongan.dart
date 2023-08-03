@@ -1,14 +1,8 @@
-import 'package:cariin_v2/model/job_company_model.dart';
-import 'package:cariin_v2/service/api_service.dart';
-import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:get_time_ago/get_time_ago.dart';
 
 import '../../../../common/app_assets.dart';
 import '../../../../common/app_color.dart';
-import '../../form/lowongan/create_lowongan.dart';
 
 class LowonganPage extends StatefulWidget {
   const LowonganPage({Key? key}) : super(key: key);

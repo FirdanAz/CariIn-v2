@@ -11,62 +11,64 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../karyawan/lowongan/lowongan.dart';
 
 class KaryawanBottomNavigation extends StatefulWidget {
-  const KaryawanBottomNavigation({super.key});
+  KaryawanBottomNavigation({super.key, required this.indexs});
+  int indexs;
 
   @override
   State<KaryawanBottomNavigation> createState() => _KaryawanBottomNavigationState();
 }
 
 class _KaryawanBottomNavigationState extends State<KaryawanBottomNavigation> {
-  int _pageIndex = 0;
   final List<Widget> _page = [
     const HomePageKaryawan(),
     const KandidatPage(),
-    LowonganPage(),
+    const LowonganPage(),
     NotificationPage()
   ];
 
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
-
+    setState(() {
+      widget.indexs = widget.indexs;
+    });
     return Scaffold(
-      body: _page[_pageIndex],
+      body: _page[widget.indexs],
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _pageIndex,
+        selectedIndex: widget.indexs,
         height: 73,
         destinations: [
           NavigationDestination(
               icon: SvgPicture.asset(AppAssets.homeIcon,
-                color: _pageIndex == 0
+                color: widget.indexs == 0
                   ? color.white
                   : Theme.of(context).iconTheme.color!.withOpacity(0.5),),
               label: "Beranda"
           ),
           NavigationDestination(
               icon: SvgPicture.asset(AppAssets.kandidatIcon,
-                color: _pageIndex == 1
+                color: widget.indexs == 1
                     ? color.white
                     : Theme.of(context).iconTheme.color!.withOpacity(0.5),),
               label: "Kandidat"
           ),
           NavigationDestination(
               icon: SvgPicture.asset(AppAssets.companyIcon,
-                color: _pageIndex == 2
+                color: widget.indexs == 2
                     ? color.white
                     : Theme.of(context).iconTheme.color!.withOpacity(0.5),),
               label: "Lowongan"
           ),
           NavigationDestination(
               icon: SvgPicture.asset(AppAssets.contactIcon,
-                color: _pageIndex == 3
+                color: widget.indexs == 3
                     ? color.white
                     : Theme.of(context).iconTheme.color!.withOpacity(0.5),),
               label: "Kontak"
           ),
         ],
         onDestinationSelected: (value) => setState(() {
-          _pageIndex = value;
+          widget.indexs = value;
         }),
       ),
     );

@@ -126,4 +126,32 @@ class ShimmerJobCard extends StatelessWidget {
   }
 }
 
+class ShimmerPelamar extends StatelessWidget {
+  const ShimmerPelamar({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: 7,
+        itemBuilder: (context, index) {
+          return Container(
+            width: double.maxFinite,
+            height: 70,
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(10)
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+
 
