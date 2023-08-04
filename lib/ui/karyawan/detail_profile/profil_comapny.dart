@@ -1,5 +1,6 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/profil_company_model.dart';
+import 'package:cariin_v2/ui/options/options.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,7 +37,7 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
             TextButton(
                 onPressed: () async => await PublicFunction.removeToken('token')
                     .then((value) => PublicFunction.navigatorPushAndRemoved(
-                    context, const LoginPage())),
+                    context, const OptionsPage())),
                 child: const Text("Yes", style: TextStyle(color: Colors.red))),
           ],
         );
@@ -176,7 +177,6 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                 children: [
                   _profileItems('Email', profilCompanyModel!.data!.email.toString()),
                   _profileItems('Alamat Lengkap', profilCompanyModel!.data!.location.toString()),
-                  _profileItems('Bidang', profilCompanyModel!.data!.category.toString()),
                   _profileItems('Deskripsi', profilCompanyModel!.data!.description.toString()),
                   _profileItems('Sejak', profilCompanyModel!.data!.foundingDate.toString()),
                   _profileItems('Sebagai', profilCompanyModel!.data!.userType.toString()),

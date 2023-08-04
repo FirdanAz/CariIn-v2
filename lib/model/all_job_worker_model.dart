@@ -1,11 +1,11 @@
-class AcceptedJobCompany {
+class AllJobWorkerModel {
   bool? success;
   String? message;
   List<Data>? data;
 
-  AcceptedJobCompany({this.success, this.message, this.data});
+  AllJobWorkerModel({this.success, this.message, this.data});
 
-  AcceptedJobCompany.fromJson(Map<String, dynamic> json) {
+  AllJobWorkerModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     if (json['data'] != null) {

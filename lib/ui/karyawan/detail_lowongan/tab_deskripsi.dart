@@ -1,25 +1,60 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_color.dart';
+import 'package:cariin_v2/common/currency_format.dart';
 import 'package:cariin_v2/common/responsive.dart';
 import 'package:cariin_v2/ui/widget/svg_icon.dart';
 import 'package:flutter/material.dart';
 
-class TabDeskripsi extends StatelessWidget {
-  const TabDeskripsi({
+import '../../../model/detail_company_model.dart';
+import '../../../service/api_service.dart';
+
+class TabDeskripsi extends StatefulWidget {
+  TabDeskripsi({
     super.key,
+    required this.id
   });
+  final int id;
+
+  @override
+  State<TabDeskripsi> createState() => _TabDeskripsiState();
+}
+
+class _TabDeskripsiState extends State<TabDeskripsi> {
+  DetailJobCompanyModel? detailCompanyModel;
+  bool _isLoad = false;
+  DateTime? date;
+
+  getdata() async {
+    _isLoad = true;
+    print('id :  ${widget.id}');
+    DetailJobCompanyModel details = await ApiService().jobDetailCompany(widget.id);
+    setState(() {
+      detailCompanyModel = details;
+      date = DateTime.parse(details.data!.jobCreated.toString());
+    });
+    _isLoad = false;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getdata();
+    super.initState();
+  }
   TextStyle _textStyle(Color color, FontWeight fontWeight) => TextStyle(
-        fontSize: Responsive.fontSize(14),
-        fontWeight: fontWeight,
-        color: color,
-      );
+    fontSize: Responsive.fontSize(14),
+    fontWeight: fontWeight,
+    color: color,
+  );
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final color = AppColor.theme(Theme.of(context).brightness);
 
-    return Padding(
+    return _isLoad ? const Center(child: CircularProgressIndicator(),) : Padding(
       padding: EdgeInsets.symmetric(
         horizontal: Responsive.byWidth(15),
         vertical: Responsive.byWidth(10),
@@ -30,7 +65,7 @@ class TabDeskripsi extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Dalam pekerjaan Desainer UX, Anda memerlukan kedua jenis keterampilan tersebut untuk mengembangkan produk generasi berikutnya. Anda akan bermitra dengan Peneliti dan Desainer untuk menentukan dan memberikan fitur baru.',
+              '${detailCompanyModel!.data!.description!.description}',
               textAlign: TextAlign.justify,
               style: _textStyle(color.onSurfaceVariant, FontWeight.w400),
             ),
@@ -39,10 +74,10 @@ class TabDeskripsi extends StatelessWidget {
             const SizedBox(height: 20),
             _buildRincianPekerjaan(
               color: color,
-              timeType: 'Full Time',
-              name: 'Sr. UX Designer',
-              salary: '2 jt/bulan',
-              gender: 'Pria & Wanita',
+              timeType: '${detailCompanyModel!.data!.timeType}',
+              name: '${detailCompanyModel!.data!.title}',
+              salary: CurrencyFormat.convertToIdr(detailCompanyModel!.data!.salary, 0),
+              gender: '${detailCompanyModel!.data!.gender}',
               education: 'Semua',
               age: '17 - 35 Tahun',
             ),
@@ -51,9 +86,7 @@ class TabDeskripsi extends StatelessWidget {
             _buildTanggungJawab(
               color: color,
               responsibility: [
-                "Understand, evangelize and educate on the businesses value of DeFI and GameFi.",
-                "Understand, evangelize and educate on the businesses value of DeFI and GameFi.",
-                "Understand, evangelize and educate on the businesses value of DeFI and GameFi.",
+                "${detailCompanyModel!.data!.companyName}",
               ],
             ),
           ],

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
 import 'package:cariin_v2/common/app_assets.dart';
@@ -29,10 +31,12 @@ class _SplashScrenState extends State<SplashScren> {
       _logoOpacity = 1;
     });
     await Future.delayed(const Duration(seconds: 2));
-    if (await PublicFunction.getToken('company') == '') {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => OptionsPage(),), (route) => false);
+    if (await PublicFunction.getToken('company') == '' && await PublicFunction.getToken('worker') == '') {
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const OptionsPage(),), (route) => false);
     }else if(await PublicFunction.getToken('company') != ''){
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(),), (route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const KaryawanBottomNavigation(),), (route) => false);
+    } else if(await PublicFunction.getToken('worker') != ''){
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false);
     }
   }
 

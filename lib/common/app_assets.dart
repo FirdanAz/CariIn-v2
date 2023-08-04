@@ -21,7 +21,7 @@ class AppAssets {
   static const String medicalIcon = "assets/images/medical_icon.svg";
   static const String teacherIcon = "assets/images/teacher_icon.svg";
   static const String introIcon = "assets/images/intro_icon.svg";
-  static const String sementara = "assets/images/sementara.svg";
+  static const String backImageProfil = "assets/images/back_profile.png";
 
   static const String accountIcon = "assets/icons/account_icon.svg";
   static const String cakeIcon = "assets/icons/cake_icon.svg";

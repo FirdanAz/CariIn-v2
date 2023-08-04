@@ -23,9 +23,10 @@ class ProfilCompanyModel {
 }
 
 class Data {
+  int? id;
   String? name;
   String? email;
-  String? category;
+  String? field;
   String? foundingDate;
   String? userType;
   String? location;
@@ -34,9 +35,10 @@ class Data {
   String? role;
 
   Data(
-      {this.name,
+      {this.id,
+        this.name,
         this.email,
-        this.category,
+        this.field,
         this.foundingDate,
         this.userType,
         this.location,
@@ -45,9 +47,10 @@ class Data {
         this.role});
 
   Data.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     name = json['name'];
     email = json['email'];
-    category = json['category'];
+    field = json['field'];
     foundingDate = json['founding_date'];
     userType = json['user_type'];
     location = json['location'];
@@ -58,9 +61,10 @@ class Data {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['name'] = this.name;
     data['email'] = this.email;
-    data['category'] = this.category;
+    data['field'] = this.field;
     data['founding_date'] = this.foundingDate;
     data['user_type'] = this.userType;
     data['location'] = this.location;

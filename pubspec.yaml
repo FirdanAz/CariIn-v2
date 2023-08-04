@@ -41,6 +41,8 @@ dependencies:
   group_button: ^2.4.1
   sizer: ^2.0.15
   shared_preferences:
+  get_time_ago:
+  intl:
 
 dev_dependencies:
   flutter_test:

@@ -19,6 +19,7 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _descriptionController = TextEditingController();
+  final _addressController = TextEditingController();
   String selectedValue = "Teknologi";
   String dateString = 'Pilih Tanggal';
   int selectedRole = 0;
@@ -65,11 +66,11 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(),
       body: SingleChildScrollView(
         child: Container(
           margin: const EdgeInsets.symmetric(
-              horizontal: 20
+            horizontal: 20,
+            vertical: 50
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,6 +210,35 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
                 style: TextStyle(
                     fontSize: 18
                 ),
+              ),
+              const SizedBox(height: 20,),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Alamat Perusahaan',
+                    style: TextStyle(
+                        fontSize: 18
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  TextField(
+                    controller: _addressController,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(color: Colors.black),
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      hintStyle: const TextStyle(color: Colors.black45),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 2,
+                            color: color.secondary.withOpacity(0.2),
+                          ),
+                          borderRadius: BorderRadius.circular(10)),
+                      hintText: 'Jl.Jurang Colo Dawe Kudus',
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: 20,),
               InkWell(
@@ -374,7 +404,7 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
                 child: InkWell(onTap: () async {
                   if(_namaController.text != '' && _emailController.text != '' && _passwordController.text != '' && _descriptionController.text != ''){
                     showLoaderDialog(context);
-                    await ApiService().postRegisterCompany(context, _emailController.text.toString(), _passwordController.text.toString(), _namaController.text.toString(), selectedValue, dateString, _numberToRoleMap[selectedRole].toString(), 'Indonesia', _descriptionController.text.toString());
+                    await ApiService().postRegisterCompany(context, _emailController.text, _passwordController.text, _namaController.text, selectedValue, dateString, _numberToRoleMap[selectedRole].toString(), _addressController.text, _descriptionController.text);
                     // ignore: use_build_context_synchronously
                     Navigator.of(context).pop(true);
                     if(PublicFunction.getToken('company') != ''){

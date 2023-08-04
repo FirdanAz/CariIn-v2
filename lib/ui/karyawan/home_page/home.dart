@@ -1,6 +1,7 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/accepted_job_model.dart';
 import 'package:cariin_v2/model/profil_company_model.dart';
+import 'package:cariin_v2/model/worker_model.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/profil_comapny.dart';
 import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
@@ -8,11 +9,13 @@ import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
 import '../../../model/all_job_company_model.dart';
+import '../../../model/list_worker_model.dart';
 import '../../../service/api_service.dart';
 import '../../lowongan/detail_lowongan/page.dart';
 import '../auth/login.dart';
@@ -28,16 +31,22 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
   //sementara
   AcceptedJobCompany? acceptedJobCompany;
   ProfilCompanyModel? profilCompanyModel;
+  WorkerListModel? workerListModel;
   bool _isLoad = false;
 
   getdata() async {
     _isLoad = true;
+    String oldToken = await PublicFunction.getToken('company');
+    await ApiService().RefreshToken('company', oldToken);
     AcceptedJobCompany allJob = await ApiService().AcceptedJob();
     ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
+    WorkerListModel workerList = await ApiService().ListWorkerCompany();
     setState(() {
       acceptedJobCompany = allJob;
       profilCompanyModel = profilCompany;
+      workerListModel = workerList;
     });
+
     _isLoad = false;
   }
 
@@ -64,7 +73,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
             TextButton(
                 onPressed: () async => await PublicFunction.removeToken('token')
                     .then((value) => PublicFunction.navigatorPushAndRemoved(
-                    context, const LoginPage())),
+                    context, const LoginKaryawanPage())),
                 child: const Text("Yes", style: TextStyle(color: Colors.red))),
           ],
         );
@@ -75,8 +84,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
-
-    return Scaffold(
+    return _isLoad ? const Scaffold(body: Center(child: CircularProgressIndicator(),),) : Scaffold(
       backgroundColor: color.surface,
       body: CustomScrollView(
         slivers: [
@@ -180,7 +188,19 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
               ),
             ),
           ),
-          const WorkerCard(),
+          SliverToBoxAdapter(
+              child: Container(
+                  height: 250,
+                  margin: const EdgeInsets.only(top: 15),
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: workerListModel!.data!.length,
+                    padding: const EdgeInsets.only(left: 10),
+                    itemBuilder: (context, index) {
+                      var data = workerListModel!.data![index];
+                      return WorkerCards(name: data.username.toString(), gender: data.gender.toString(), age: data.age.toString(), location: data.address.toString(), selection: data.interested.toString());
+                    },
+                  ))),
           SliverToBoxAdapter(
             child: Container(
               width: double.maxFinite,
@@ -214,11 +234,13 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
             ),
           ),
           //sementara
-          _isLoad ? SliverToBoxAdapter() : SliverList(
+          SliverList(
             delegate: SliverChildBuilderDelegate(childCount: acceptedJobCompany!.data!.length,(context, index) {
               var data = acceptedJobCompany!.data![index];
+              DateTime? date = DateTime.parse(data.createdAt.toString());
+              print(date);
               return  InkWell(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyJobDetailPage(id: acceptedJobCompany!.data![index].id),)),
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyJobDetailPage(id: acceptedJobCompany!.data![index].id!.toInt()),)),
                 child: Column(
                   children: [
                     Container(
@@ -282,54 +304,33 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                             SizedBox(
                               height: 3,
                             ),
-                            Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 3, horizontal: 5),
-                                  margin: EdgeInsets.only(right: 7),
-                                  decoration: BoxDecoration(
-                                      color: color.primaryContainer,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Text(
-                                    'Front End',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 3, horizontal: 5),
-                                  margin: EdgeInsets.only(right: 7),
-                                  decoration: BoxDecoration(
-                                      color: color.primaryContainer,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Text(
-                                    'Ui/Ux Designer',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500),
-                                  ),
-                                ),
-                                Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 3, horizontal: 5),
-                                  margin: EdgeInsets.only(right: 7),
-                                  decoration: BoxDecoration(
-                                      color: color.primaryContainer,
-                                      borderRadius: BorderRadius.circular(5)),
-                                  child: Text(
-                                    'Hacker',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                ),
-                              ],
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: acceptedJobCompany!.data![index].tags!.length,
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, indexs) {
+                                  return Center(
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 3, horizontal: 5),
+                                      margin: EdgeInsets.only(right: 7),
+                                      decoration: BoxDecoration(
+                                          color: color.primaryContainer,
+                                          borderRadius: BorderRadius.circular(5)),
+                                      child: Text(
+                                        '${data.tags![indexs].name}',
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(top: 7, left: 2),
+                              margin: EdgeInsets.only(top: 7, left: 2, bottom: 10),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -346,7 +347,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                                     CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        data.city.toString(),
+                                        data.company!.name.toString(),
                                         style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             color: color.tertiary
@@ -388,7 +389,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text('2 Jam yang lalu',
+                          Text(GetTimeAgo.parse(date, locale: 'id'),
                               style: TextStyle(
                                   color: color.white,
                                   fontWeight: FontWeight.w500,

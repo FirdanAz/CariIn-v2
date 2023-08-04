@@ -47,13 +47,13 @@ class _LamaranPageState extends State<LamaranPage> with TickerProviderStateMixin
               Container(
                 height: 70,
                 alignment: Alignment.center,
-                child: Text("Pelamar"),
+                child: Text("Pekerjaan Dilamar"),
 
               ),
               Container(
                 height: 70,
                 alignment: Alignment.center,
-                child: Text("Lowongan"),
+                child: Text("Hasil Lamaran"),
               ),
             ],
           ),

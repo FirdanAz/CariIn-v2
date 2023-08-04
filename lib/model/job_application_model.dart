@@ -1,11 +1,11 @@
-class AllJobCompany {
+class JobApplicationModel {
   bool? success;
   String? message;
   List<Data>? data;
 
-  AllJobCompany({this.success, this.message, this.data});
+  JobApplicationModel({this.success, this.message, this.data});
 
-  AllJobCompany.fromJson(Map<String, dynamic> json) {
+  JobApplicationModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     if (json['data'] != null) {
@@ -29,32 +29,18 @@ class AllJobCompany {
 
 class Data {
   int? id;
-  String? title;
-  String? description;
-  int? salary;
-  Company? company;
-  bool? pklStatus;
+  Job? job;
+  Worker? worker;
   String? confirmedStatus;
   String? createdAt;
 
-  Data(
-      {this.id,
-        this.title,
-        this.description,
-        this.salary,
-        this.company,
-        this.pklStatus,
-        this.confirmedStatus,
-        this.createdAt});
+  Data({this.id, this.job, this.worker, this.confirmedStatus, this.createdAt});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    title = json['title'];
-    description = json['description'];
-    salary = json['salary'];
-    company =
-    json['company'] != null ? new Company.fromJson(json['company']) : null;
-    pklStatus = json['pkl_status'];
+    job = json['job'] != null ? new Job.fromJson(json['job']) : null;
+    worker =
+    json['worker'] != null ? new Worker.fromJson(json['worker']) : null;
     confirmedStatus = json['confirmed_status'];
     createdAt = json['created_at'];
   }
@@ -62,37 +48,52 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['salary'] = this.salary;
-    if (this.company != null) {
-      data['company'] = this.company!.toJson();
+    if (this.job != null) {
+      data['job'] = this.job!.toJson();
     }
-    data['pkl_status'] = this.pklStatus;
+    if (this.worker != null) {
+      data['worker'] = this.worker!.toJson();
+    }
     data['confirmed_status'] = this.confirmedStatus;
     data['created_at'] = this.createdAt;
     return data;
   }
 }
 
-class Company {
+class Job {
   int? id;
-  String? name;
-  String? location;
+  String? title;
 
-  Company({this.id, this.name, this.location});
+  Job({this.id, this.title});
 
-  Company.fromJson(Map<String, dynamic> json) {
+  Job.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
-    location = json['location'];
+    title = json['title'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['name'] = this.name;
-    data['location'] = this.location;
+    data['title'] = this.title;
+    return data;
+  }
+}
+
+class Worker {
+  int? id;
+  String? username;
+
+  Worker({this.id, this.username});
+
+  Worker.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    username = json['username'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['username'] = this.username;
     return data;
   }
 }
