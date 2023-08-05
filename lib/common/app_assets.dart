@@ -36,8 +36,7 @@ class AppAssets {
   static const String cakeIcon = "assets/icons/cake_icon.svg";
   static const String clockIcon = "assets/icons/clock_icon.svg";
   static const String dollarIcon = "assets/icons/dollar_icon.svg";
-  static const String dollarOutlineIcon =
-      "assets/icons/dollar_outline_icon.svg";
+  static const String dollarOutlineIcon = "assets/icons/dollar_outline_icon.svg";
   static const String editIcon = "assets/icons/edit_icon.svg";
   static const String globeIcon = "assets/icons/globe_icon.svg";
   static const String graduationIcon = "assets/icons/graduation_icon.svg";
@@ -47,4 +46,5 @@ class AppAssets {
   static const String notificationIcon = "assets/icons/notification_icon.svg";
   static const String searchDoneIcon = "assets/icons/search_done_icon.svg";
   static const String suitcaseIcon = "assets/icons/suitcase_icon.svg";
+  static const String GDriveIcon = "assets/icons/GDrive_icon.svg";
 }

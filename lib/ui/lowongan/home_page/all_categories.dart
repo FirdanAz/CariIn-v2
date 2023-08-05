@@ -61,7 +61,7 @@ class _CategoryPageState extends State<CategoryPage> {
             CategoriesCard(title: 'Otomotif', image: AppAssets.OtomotifIcon),
             CategoriesCard(title: 'Retail', image: AppAssets.RetailIcon),
             CategoriesCard(title: 'Pemerintahan', image: AppAssets.PemerintahanIcon),
-          ],
+        ],
         ),
       ),
     );
