@@ -726,4 +726,27 @@ class ApiService {
     }
   }
 
+  Future logoutWorker() async {
+    const endPoint = '/api/worker/logout';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+
+    final headers = {
+      'Authorization' : 'Bearer $token'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final response = await PublicFunction.removeToken(token);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
 }
