@@ -22,13 +22,21 @@ class AppAssets {
   static const String teacherIcon = "assets/images/teacher_icon.svg";
   static const String introIcon = "assets/images/intro_icon.svg";
   static const String backImageProfil = "assets/images/back_profile.png";
+  static const String OtomotifIcon = "assets/images/Automotive.svg";
+  static const String PemerintahanIcon = "assets/images/Pemerintahan_icon.svg";
+  static const String PersuhaanIcon = "assets/images/Perusahaan_icon.svg";
+  static const String RetailIcon = "assets/images/Retail_icon.svg";
+  static const String CustomerServiceIcon = "assets/images/Customer Service_icon.svg";
+  static const String TeknikIcon = "assets/images/Teknik_icon.svg";
+  static const String BisnisIcon = "assets/images/Bisnis_icon.svg";
+  static const String MarketingIcon = "assets/images/Marketing_icon.svg";
+
 
   static const String accountIcon = "assets/icons/account_icon.svg";
   static const String cakeIcon = "assets/icons/cake_icon.svg";
   static const String clockIcon = "assets/icons/clock_icon.svg";
   static const String dollarIcon = "assets/icons/dollar_icon.svg";
-  static const String dollarOutlineIcon =
-      "assets/icons/dollar_outline_icon.svg";
+  static const String dollarOutlineIcon = "assets/icons/dollar_outline_icon.svg";
   static const String editIcon = "assets/icons/edit_icon.svg";
   static const String globeIcon = "assets/icons/globe_icon.svg";
   static const String graduationIcon = "assets/icons/graduation_icon.svg";
@@ -38,4 +46,5 @@ class AppAssets {
   static const String notificationIcon = "assets/icons/notification_icon.svg";
   static const String searchDoneIcon = "assets/icons/search_done_icon.svg";
   static const String suitcaseIcon = "assets/icons/suitcase_icon.svg";
+  static const String GDriveIcon = "assets/icons/GDrive_icon.svg";
 }
