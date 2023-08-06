@@ -189,7 +189,8 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
                       height: 100,
                       width: 100,
                       child: Image.file(selectedImage!, fit: BoxFit.cover,),
-                    ): Container(
+                    ):
+                    Container(
                       height: 100,
                       width: 100,
                       margin: const EdgeInsets.symmetric(

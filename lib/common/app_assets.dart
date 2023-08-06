@@ -43,4 +43,8 @@ class AppAssets {
   static const String lottieImageJob2 = "assets/lottie/lottie_job2.json";
   static const String lottieImageJob3 = "assets/lottie/lottie_job3.json";
   static const String lottieImageJob4 = "assets/lottie/lottie_job4.json";
+  static const String lottieBackground = "assets/lottie/lottie_background.json";
+  static const String lottieBackground2 = "assets/lottie/lottie_background2.json";
+  static const String lottieSearchJob = "assets/lottie/lottie_search.json";
+  static const String lottieSearchWorker = "assets/lottie/lottie_searchWorker.json";
 }

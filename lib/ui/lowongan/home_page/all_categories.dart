@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_color.dart';
 import 'package:flutter/cupertino.dart';

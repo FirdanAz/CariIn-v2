@@ -1,8 +1,9 @@
+// ignore_for_file: use_build_context_synchronously, unrelated_type_equality_checks
+
 import 'package:cariin_v2/common/public_function.dart';
-import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
-import 'package:flutter/foundation.dart';
+import 'package:cariin_v2/ui/karyawan/auth/login.dart';
+import 'package:cariin_v2/ui/karyawan/form/fill_data_company/fill_data.dart';
 import 'package:flutter/material.dart';
-import 'package:group_button/group_button.dart';
 
 import '../../../common/app_color.dart';
 import '../../../service/api_service.dart';
@@ -18,8 +19,6 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
   final _namaController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _descriptionController = TextEditingController();
-  final _addressController = TextEditingController();
   String selectedValue = "Teknologi";
   String dateString = 'Pilih Tanggal';
   int selectedRole = 0;
@@ -35,12 +34,6 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
     ];
     return menuItems;
   }
-
-  final _numberToRoleMap = {
-    0: 'pemilik',
-    1: 'pengelola',
-    2: 'HRD'
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -177,197 +170,48 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
                 ],
               ),
               const SizedBox(height: 15,),
-              SizedBox(
-                height: 70,
-                width: double.maxFinite,
-                child: DropdownButton<String>(
-                    isExpanded: true,
-                    value: selectedValue,
-                    icon: Container(
-                        alignment: Alignment.centerRight,
-                        child: const Icon(Icons.arrow_drop_down)),
-                    elevation: 18,
-                    underline: Container(
-                      height: 2,
-                      width: 1,
-                      color: color.black.withOpacity(0.1),
-                    ),
-                    style:
-                    TextStyle(color: color.black),
-                    iconSize: 30,
-                    onChanged: (String? value) {
-                      // This is called when the user selects an item.
-                      setState(() {
-                        selectedValue = value!;
-                      });
-                    },
-                    items: bidangDropdownItems
-                ),
-              ),
-              const SizedBox(height: 10,),
-              const Text(
-                'Didirikan',
-                style: TextStyle(
-                    fontSize: 18
-                ),
-              ),
-              const SizedBox(height: 20,),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    'Alamat Perusahaan',
-                    style: TextStyle(
-                        fontSize: 18
-                    ),
-                  ),
-                  const SizedBox(height: 10,),
-                  TextField(
-                    controller: _addressController,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(color: Colors.black),
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintStyle: const TextStyle(color: Colors.black45),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 2,
-                            color: color.secondary.withOpacity(0.2),
-                          ),
-                          borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Jl.Jurang Colo Dawe Kudus',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20,),
-              InkWell(
-                onTap: () async {
-                  DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate:
-                      DateTime.now(), //get today's date
-                      firstDate: DateTime(
-                          2000), //DateTime.now() - not to allow to choose before today.
-                      lastDate: DateTime(2101)
-                  );
-
-                  if(pickedDate!= null){
-                    setState(() {
-                      dateString = '${pickedDate.year}-${pickedDate.month}-${pickedDate.day}';
-                    });
-                  }
-                },
-                child: Container(
-                  width: double.maxFinite,
-                  height: 60,
-                  decoration: BoxDecoration(
-                      border: Border.all(color: color.primary, width: 2),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: Center(
-                    child: Text(
-                      dateString,
-                      style: TextStyle(
-                          color: color.primary,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 15
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10,),
-              const Text(
-                'Sebagai',
-                style: TextStyle(
-                    fontSize: 18
-                ),
-              ),
-              const SizedBox(height: 20,),
-              SizedBox(
-                width: double.maxFinite,
-                child: GroupButton(
-                  isRadio: false,
-                  borderRadius: BorderRadius.circular(10),
-                  spacing: 10,
-                  buttonHeight: 60,
-                  mainGroupAlignment: MainGroupAlignment.spaceEvenly,
-                  selectedBorderColor: color.primary,
-                  unselectedColor: color.primary,
-                  selectedColor: color.white,
-                  selectedTextStyle: TextStyle(
-                      color: color.primary
-                  ),
-                  unselectedTextStyle: TextStyle(color: color.white),
-                  buttons: const [
-                    "Pemilik",
-                    "Pengelola",
-                    "HRD"
-                  ],
-                  selectedButtons: [
-                    0
-                  ],
-                  onSelected: (int index, bool isSelected) {
-                    if (kDebugMode) {
-                      print('${_numberToRoleMap[index]} is selected');
-                    }
-                    setState(() {
-                      selectedRole = index;
-                    });
-                  },
-
-                ),
-              ),
-              SizedBox(height: 15,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Deskripsi  ',
+                    'Bidang Perusahaan',
                     style: TextStyle(
                         fontSize: 18
                     ),
                   ),
                   const SizedBox(height: 10,),
                   Container(
+                    height: 70,
                     width: double.maxFinite,
-                    constraints: BoxConstraints(minHeight: 130),
-                    padding: const EdgeInsets.only(
-                        left: 15,
-                        right: 10
-                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 6),
                     decoration: BoxDecoration(
-                        color: color.background,
-                        borderRadius: BorderRadius.circular(10),
-                      border: Border.all(width: 1, color: color.black.withOpacity(0.2))
+                      color: color.background,
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(color: color.black.withOpacity(0.2), width: 2)
                     ),
-                    child: TextField(
-                      controller: _descriptionController,
-                      cursorColor: color.primary,
-                      maxLines: null,
-                      keyboardType: TextInputType.multiline,
-                      style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: color.black
-                      ),
-                      decoration: InputDecoration(
-                        hintText: "Seputar bisnis anda",
-                        enabledBorder: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        hintStyle: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: color.black.withOpacity(0.5),
+                    child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: selectedValue,
+                        icon: Container(
+                          alignment: Alignment.centerLeft,
+                          child: const Icon(Icons.arrow_drop_down),
                         ),
-                      ),
+                        style:
+                        TextStyle(color: color.black),
+                        iconSize: 30,
+                        onChanged: (String? value) {
+                          // This is called when the user selects an item.
+                          setState(() {
+                            selectedValue = value!;
+                          });
+                        },
+                        items: bidangDropdownItems
                     ),
                   ),
                 ],
               ),
               InkWell(
-                onTap: () => Navigator.of(context).pop(),
+                onTap: () => PublicFunction.navigatorPushAndRemoved(context, const LoginKaryawanPage()),
                 child: Container(
                   margin: const EdgeInsets.only(
                       top: 50
@@ -405,16 +249,22 @@ class _CompanyRegisterPageState extends State<CompanyRegisterPage> {
                     borderRadius: BorderRadius.circular(10)
                 ),
                 child: InkWell(onTap: () async {
-                  if(_namaController.text != '' && _emailController.text != '' && _passwordController.text != '' && _descriptionController.text != ''){
+                  if(_namaController.text.isNotEmpty && _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty){
                     showLoaderDialog(context);
-                    await ApiService().postRegisterCompany(context, _emailController.text, _passwordController.text, _namaController.text, selectedValue, dateString, _numberToRoleMap[selectedRole].toString(), _addressController.text, _descriptionController.text);
-                    // ignore: use_build_context_synchronously
+                    await ApiService().postRegisterCompany(context, _emailController.text, _passwordController.text, _namaController.text, selectedValue);
                     Navigator.of(context).pop(true);
                     if(PublicFunction.getToken('company') != ''){
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 0,),), (route) => false);
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const FillDataCompany(),), (route) => false);
                     }
+                    showDialog(context: context, builder: (context) {
+                      return PublicFunction.showDialog(context, 'Daftar sukses, Lanjutkan pengisian data perusahaan');
+                    },);
                   }
-                  else PublicFunction.showDialog(context, 'Isi Formulir dengan lengkap');
+                  else {
+                    showDialog(context: context, builder: (context) {
+                      return PublicFunction.showDialog(context, 'Isi Formulir dengan lengkap');
+                    },);
+                  }
                 }, child: Center(child: Text('Daftar', style: TextStyle(color: color.white, fontWeight: FontWeight.w500, fontSize: 16),),)),
               ),
             ],
