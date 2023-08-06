@@ -20,41 +20,44 @@ class _LowonganProccesPageState extends State<LowonganProccesPage> {
     final List<Widget> tabView = [
       const ProccesSemuaTab(),
       const ProccesMenungguTab(),
-      const ProccesDiterimaTab(),
-      const ProccesDiterimaTab(),
+      const ProccesDiterimaTab()
     ];
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Align(
-            alignment: Alignment.centerLeft,
-            child: ChipTabBar(
-              length: 4,
-              itemDistance: Responsive.byWidth(12),
-              padding: EdgeInsets.symmetric(
-                horizontal: Responsive.byWidth(15),
-                vertical: Responsive.byWidth(10),
+    return RefreshIndicator(
+      onRefresh: () async {
+        await Future.delayed(const Duration(seconds: 2));
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: ChipTabBar(
+                length: 3,
+                itemDistance: Responsive.byWidth(12),
+                padding: EdgeInsets.symmetric(
+                  horizontal: Responsive.byWidth(15),
+                  vertical: Responsive.byWidth(10),
+                ),
+                tabLabels: const [
+                  "Semua",
+                  "Menunggu",
+                  "Diterima"
+                ],
+                onTap: (value) => _tabIndex.value = value,
               ),
-              tabLabels: const [
-                "Semua",
-                "Menunggu",
-                "Diterima",
-                "Direkrut"
-              ],
-              onTap: (value) => _tabIndex.value = value,
             ),
-          ),
 
-          // TabBar View
-          ValueListenableBuilder<int>(
-            valueListenable: _tabIndex,
-            builder: (context, value, child) {
-              return tabView[value];
-            },
-          ),
-          const SizedBox(height: 50,)
-        ],
+            // TabBar View
+            ValueListenableBuilder<int>(
+              valueListenable: _tabIndex,
+              builder: (context, value, child) {
+                return tabView[value];
+              },
+            ),
+            const SizedBox(height: 50,)
+          ],
+        ),
       ),
     );
   }
