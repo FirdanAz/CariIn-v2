@@ -6,7 +6,6 @@ import 'package:cariin_v2/ui/lowongan/profile_page/Keterampilan.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Pencapaian.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Pendidikan.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/profile_settings.dart';
-import 'package:cariin_v2/ui/lowongan/profile_page/Pendidikan.Dart.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Pengalaman.dart';
 import 'package:cariin_v2/ui/options/options.dart';
 import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
@@ -28,19 +27,6 @@ class _ProfilePageState extends State<ProfilePage> {
   WorkerModel? workerModel;
   bool _isLoad = false;
 
-  final List<Widget> _tabView = const [
-    Center(
-      child: Text('Tab 1'),
-    ),
-    Center(
-      child: Text('Tab 2'),
-    ),
-    Center(
-      child: Text('Tab 3'),
-    ),
-    Center(
-      child: Text('Tab 4'),
-    ),
   final List<Widget> _tabView = const[
     PengalamanPage(),
     PendidikanPage(),
