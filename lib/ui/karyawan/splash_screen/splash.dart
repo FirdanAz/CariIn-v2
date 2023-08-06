@@ -6,12 +6,12 @@ import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
+import 'package:cariin_v2/ui/karyawan/form/intoduction/introduction_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/app_color.dart';
-import '../../options/options.dart';
 
 class SplashScren extends StatefulWidget {
   const SplashScren({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _SplashScrenState extends State<SplashScren> {
     });
     await Future.delayed(const Duration(seconds: 2));
     if (await PublicFunction.getToken('company') == '' && await PublicFunction.getToken('worker') == '') {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const OptionsPage(),), (route) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CompanyIntroductionPage(),), (route) => false);
     }else if(await PublicFunction.getToken('company') != ''){
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 0,),), (route) => false);
     } else if(await PublicFunction.getToken('worker') != ''){

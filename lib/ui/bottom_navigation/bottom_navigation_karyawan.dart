@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, must_be_immutable
 
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_color.dart';
@@ -33,10 +33,11 @@ class _KaryawanBottomNavigationState extends State<KaryawanBottomNavigation> {
       widget.indexs = widget.indexs;
     });
     return Scaffold(
-      body: IndexedStack(
-        index: widget.indexs,
-        children: _page,
-      ),
+      // body: IndexedStack(
+      //   index: widget.indexs,
+      //   children: _page,
+      // ),
+      body: _page[widget.indexs],
       bottomNavigationBar: NavigationBar(
         selectedIndex: widget.indexs,
         height: 73,

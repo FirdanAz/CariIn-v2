@@ -1,39 +1,36 @@
 import 'dart:convert';
 
-import 'package:cariin_v2/service/api_service.dart';
-import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PublicFunction{
+class PublicFunction {
   static Future<bool> setTokenCompany(String value, String role) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    Map<String, dynamic> token  = {
-      "role" : role,
-      "token" : value
-    };
+    Map<String, dynamic> token = {"role": role, "token": value};
     String encodedMap = json.encode(token);
 
     return prefs.setString("token", encodedMap);
-
   }
+
   static Future<String> getToken(String role) async {
     final prefs = await SharedPreferences.getInstance();
-    if(prefs.getString("token") != null){
-      final dataToken = json.decode(prefs.getString('token').toString()) as Map<String, dynamic>;
+    if (prefs.getString("token") != null) {
+      final dataToken = json.decode(prefs.getString('token').toString())
+          as Map<String, dynamic>;
 
-      print(dataToken);
+      if (kDebugMode) {
+        print(dataToken);
+      }
 
-      if(dataToken['role'] == role){
+      if (dataToken['role'] == role) {
         var token = dataToken['token'];
         return token;
-      }
-      else{
+      } else {
         return '';
       }
-    }
-    else {
+    } else {
       return '';
     }
   }
@@ -48,7 +45,7 @@ class PublicFunction{
         context, MaterialPageRoute(builder: (_) => widget), (route) => false);
   }
 
-  static AlertDialog showDialog(BuildContext context, String massage){
+  static AlertDialog showDialog(BuildContext context, String massage) {
     return AlertDialog(
       content: Text(
         massage,
@@ -59,6 +56,48 @@ class PublicFunction{
             onPressed: () => Navigator.of(context).pop(true),
             child: const Text("Iya")),
       ],
+    );
+  }
+
+  static void navigatorPushAndRemoveUntil(BuildContext context, Widget widget) {
+    Navigator.pushAndRemoveUntil(
+        context,
+        PageRouteBuilder(
+          transitionDuration: const Duration(seconds: 1),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            animation =
+                CurvedAnimation(parent: animation, curve: Curves.elasticOut);
+            return ScaleTransition(
+              alignment: Alignment.center,
+              scale: animation,
+              child: child,
+            );
+          },
+          pageBuilder: (context, animation, secondaryAnimation) {
+            return widget;
+          },
+        ),
+        (route) => false);
+  }
+
+  static void navigatorPush(BuildContext context, Widget widget) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        transitionDuration: const Duration(seconds: 1),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          animation =
+              CurvedAnimation(parent: animation, curve: Curves.elasticOut);
+          return ScaleTransition(
+            alignment: Alignment.center,
+            scale: animation,
+            child: child,
+          );
+        },
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return widget;
+        },
+      ),
     );
   }
 }

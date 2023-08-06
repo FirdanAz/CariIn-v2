@@ -29,7 +29,7 @@ class _PelamarTabState extends State<PelamarTab> {
       const DitolakTabs(),
     ];
     return SingleChildScrollView(
-      child: Container(
+        child: Container(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -59,7 +59,7 @@ class _PelamarTabState extends State<PelamarTab> {
                 return tabView[value];
               },
             ),
-            SizedBox(height: 50,)
+            // SizedBox(height: 50,)
           ],
         ),
       ),
