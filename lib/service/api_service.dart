@@ -755,49 +755,28 @@ class ApiService {
       print(e.toString());
     }
   }
-
-  Future postFillDataCompany(
-    BuildContext context,
-    File profilImage,
-    String foundingDate,
-    String userType,
-    String location,
-    String description,
-    File insideImage,
-    File outsideImage,
-  ) async {
-    var endPoint = '/api/company/fill-data';
-    final url = Uri.parse('$_baseUrl$endPoint');
-    String token = await PublicFunction.getToken('company');
-    var body = {
-      'founding_date': foundingDate,
-      'user_type': userType,
-      'location': location,
-      'description': description,
-    };
+ 
+   Future logoutWorker() async {
+    const endPoint = '/api/worker/logout';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
 
     final headers = {
-      'Authorization': 'Bearer $token',
-      'Accept': 'application/json'
+      'Authorization' : 'Bearer $token'
     };
 
-    final request = http.MultipartRequest('POST', url)
-      ..headers.addAll(headers)
-      ..fields.addAll(body)
-      ..files.add(await http.MultipartFile.fromPath('profile_image', profilImage.path))
-      ..files.add(await http.MultipartFile.fromPath('inside_image', insideImage.path))
-      ..files.add(await http.MultipartFile.fromPath('outside_image', outsideImage.path));
-
-    final response = await request.send().timeout(const Duration(seconds: 15));
-
-    final res = await http.Response.fromStream(response);
-    print(res.body);
-
-    if (res.statusCode == 201) {
-      return true;
-    } else {
-      print('HttpException');
-      return false;
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        final response = await PublicFunction.removeToken(token);
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
     }
   }
+
 }
