@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/lowongan/tab/procces_tabs/diterima.dart';
 import 'package:cariin_v2/ui/karyawan/lowongan/tab/procces_tabs/menunggu.dart';
 import 'package:cariin_v2/ui/karyawan/lowongan/tab/procces_tabs/semua.dart';
@@ -24,7 +27,8 @@ class _LowonganProccesPageState extends State<LowonganProccesPage> {
     ];
     return RefreshIndicator(
       onRefresh: () async {
-        await Future.delayed(const Duration(seconds: 2));
+        await Future.delayed(const Duration(seconds: 1));
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 2),), (route) => false);
       },
       child: SingleChildScrollView(
         child: Column(

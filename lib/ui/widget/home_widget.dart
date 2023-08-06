@@ -505,7 +505,8 @@ class _NewJobListCardState extends State<NewJobListCard> {
 }
 
 class WorkerCards extends StatelessWidget {
-  WorkerCards({Key? key, required this.name, required this.gender, required this.age, required this.location, required this.selection}) : super(key: key);
+  WorkerCards({Key? key, required this.id, required this.name, required this.gender, required this.age, required this.location, required this.selection}) : super(key: key);
+  int id;
   String name;
   String gender;
   String age;
@@ -520,7 +521,7 @@ class WorkerCards extends StatelessWidget {
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => const DetailProfil(),
+            builder: (context) => DetailProfil(id: id),
           )),
       child: Container(
         width: 160,

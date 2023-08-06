@@ -12,6 +12,7 @@ import 'package:cariin_v2/model/job_tag_list_model.dart';
 import 'package:cariin_v2/model/list_worker_model.dart';
 import 'package:cariin_v2/model/profil_company_model.dart';
 import 'package:cariin_v2/model/worker_application_model.dart';
+import 'package:cariin_v2/model/worker_detail_model.dart';
 import 'package:cariin_v2/model/worker_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -398,6 +399,38 @@ class ApiService {
         WorkerListModel model =
             WorkerListModel.fromJson(json.decode(response.body));
         print(model);
+        return model;
+      } else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future getWorkerDetail(int id) async {
+    var endPoint = '/api/company/workers/$id';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('company');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200 && token != '') {
+        await RefreshToken('company', token);
+        WorkerDetailModel model =
+        WorkerDetailModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      }
+      if (response.statusCode == 401 && token != '') {
+        await RefreshToken('company', token);
+        JobDetailModel model =
+        JobDetailModel.fromJson(json.decode(response.body));
         return model;
       } else {
         throw Exception("Failed to fetch data from API");

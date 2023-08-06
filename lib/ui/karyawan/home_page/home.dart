@@ -115,18 +115,18 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
               title: _isLoad ? const ShimmerHomeAppBar() : Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(top: 20, bottom: 10),
                     child: CircleAvatar(
                       radius: 25,
-                      foregroundImage: AssetImage(AppAssets.firdanImg),
+                      foregroundImage: NetworkImage('https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}'),
                     ),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
                   InkWell(
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const ProfilCompanyPage(),)),
+                    onTap: () => PublicFunction.navigatorPush(context, const ProfilCompanyPage()),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -205,7 +205,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                       padding: const EdgeInsets.only(left: 10),
                       itemBuilder: (context, index) {
                         var data = workerListModel!.data![index];
-                        return WorkerCards(name: data.username.toString(), gender: data.gender.toString(), age: data.age.toString(), location: data.address.toString(), selection: data.interested.toString());
+                        return WorkerCards(id: data.id!,name: data.username.toString(), gender: data.gender.toString(), age: data.age.toString(), location: data.address.toString(), selection: data.interested.toString());
                       },
                     )
                 )

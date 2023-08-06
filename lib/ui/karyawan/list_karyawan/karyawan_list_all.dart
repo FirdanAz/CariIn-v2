@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/detail.dart';
 import 'package:flutter/material.dart';
@@ -43,11 +45,11 @@ Widget KaryawanListCard(BuildContext context) {
   var color = AppColor.theme(Theme.of(context).brightness);
 
   return InkWell(
-    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const DetailProfil(),)),
+    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DetailProfil(id: 1),)),
     child: Container(
       width: double.maxFinite,
       height: 150,
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
           horizontal: 10
       ),
       decoration: BoxDecoration(
@@ -58,23 +60,23 @@ Widget KaryawanListCard(BuildContext context) {
             spreadRadius: 1,
             blurRadius: 4,
             offset:
-            Offset(0, 4), // changes position of shadow
+            const Offset(0, 4), // changes position of shadow
           ),
         ],
       ),
       child: Row(
         children: [
           Container(
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
                 horizontal: 20
             ),
-            child: CircleAvatar(
+            child: const CircleAvatar(
               radius: 50,
               backgroundImage: AssetImage(AppAssets.firdanImg),
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
                 vertical: 25,
                 horizontal: 5
             ),
@@ -89,7 +91,7 @@ Widget KaryawanListCard(BuildContext context) {
                       fontSize: 17
                   ),
                 ),
-                SizedBox(height: 5,),
+                const SizedBox(height: 5,),
                 Text(
                   '99 Tahun',
                   style: TextStyle(
@@ -116,7 +118,7 @@ Widget KaryawanListCard(BuildContext context) {
                     ),
                   ],
                 ),
-                SizedBox(height: 5,),
+                const SizedBox(height: 5,),
                 Text(
                   'UI/UX Designer',
                   style: TextStyle(

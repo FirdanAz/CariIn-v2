@@ -101,7 +101,7 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                 SizedBox(
                   width: double.maxFinite,
                   height: double.maxFinite,
-                  child: Image.network('https://data.si/en/wp-content/uploads/2018/05/business-address-slovenia-europe-800x445.jpg', fit: BoxFit.cover,),
+                  child: Image.network('https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}', fit: BoxFit.cover,),
                 ),
                 Container(
                   width: double.maxFinite,
@@ -116,9 +116,9 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                   ),
                   child: Column(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
                         radius: 40,
-                        backgroundImage: NetworkImage('https://data.si/en/wp-content/uploads/2018/05/business-address-slovenia-europe-800x445.jpg'),
+                        backgroundImage: NetworkImage('https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}'),
                       ),
                       SizedBox(height: 5,),
                       Text(
@@ -172,12 +172,12 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
               ),
               child: Column(
                 children: [
-                  _profileItems('Email', profilCompanyModel!.data!.email.toString()),
-                  _profileItems('Alamat Lengkap', profilCompanyModel!.data!.location.toString()),
-                  _profileItems('Deskripsi', profilCompanyModel!.data!.description.toString()),
-                  _profileItems('Sejak', profilCompanyModel!.data!.foundingDate.toString()),
-                  _profileItems('Sebagai', profilCompanyModel!.data!.userType.toString()),
-                  _profileItems('Peran', profilCompanyModel!.data!.role.toString()),
+                  _profileItems('Email', profilCompanyModel!.data!.email.toString(), Icons.email),
+                  _profileItems('Alamat Lengkap', profilCompanyModel!.data!.location.toString(), Icons.location_on_rounded),
+                  _profileItems('Deskripsi', profilCompanyModel!.data!.description.toString(), Icons.description),
+                  _profileItems('Sejak', profilCompanyModel!.data!.foundingDate.toString(), Icons.date_range),
+                  _profileItems('Sebagai', profilCompanyModel!.data!.userType.toString(), Icons.assignment_ind_rounded),
+                  _profileItems('Peran', profilCompanyModel!.data!.role.toString(), Icons.supervised_user_circle),
                 ],
               ),
             ),
@@ -212,7 +212,7 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                         margin: EdgeInsets.symmetric(
                             vertical: 5
                         ),
-                        child: Image.network('https://images.lawpath.com.au/2020/06/sean-pollock-PhYq704ffdA-unsplash-scaled.jpg', fit: BoxFit.cover,),
+                        child: Image.network('https://cariin.my.id/storage/${profilCompanyModel!.data!.outsideImage}', fit: BoxFit.cover,),
                       )
                     ],
                   ),
@@ -241,7 +241,7 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                         margin: EdgeInsets.symmetric(
                             vertical: 5
                         ),
-                        child: Image.network('https://data.si/en/wp-content/uploads/2018/05/business-address-slovenia-europe-800x445.jpg', fit: BoxFit.cover,),
+                        child: Image.network('https://cariin.my.id/storage/${profilCompanyModel!.data!.insideImage}', fit: BoxFit.cover,),
                       ),
                       SizedBox(height: 20,)
                     ],
@@ -255,7 +255,7 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
     );
   }
 
-  Widget _profileItems(String title, String desc) {
+  Widget _profileItems(String title, String desc, IconData icon) {
     var color = AppColor.theme(Theme.of(context).brightness);
 
     return Container(
@@ -263,12 +263,19 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            title,
-            style: TextStyle(
-                color: color.black,
-                fontWeight: FontWeight.w600
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, color: color.black,),
+              SizedBox(width: 20,),
+              Text(
+                title,
+                style: TextStyle(
+                    color: color.black,
+                    fontWeight: FontWeight.w600
+                ),
+              ),
+            ],
           ),
           Row(
             children: [
@@ -279,11 +286,10 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    color: color.black
+                    color: color.primary
                   ),
                 ),
               ),
-              Icon(Icons.navigate_next)
             ],
           )
         ],

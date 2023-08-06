@@ -1,19 +1,50 @@
+// ignore_for_file: must_be_immutable, deprecated_member_use, non_constant_identifier_names
+
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/model/worker_detail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
+import '../../../service/api_service.dart';
 
-class DetailProfil extends StatelessWidget {
-  const DetailProfil({Key? key}) : super(key: key);
+class DetailProfil extends StatefulWidget {
+  DetailProfil({Key? key, required this.id}) : super(key: key);
+  int id;
+
+  @override
+  State<DetailProfil> createState() => _DetailProfilState();
+}
+
+class _DetailProfilState extends State<DetailProfil> {
+  bool _isLoad = false;
+  WorkerDetailModel? workerDetailModel;
+
+  getdata() async {
+    _isLoad = true;
+    String oldToken = await PublicFunction.getToken('company');
+    await ApiService().RefreshToken('company', oldToken);
+    WorkerDetailModel detail = await ApiService().getWorkerDetail(widget.id);
+    setState(() {
+      workerDetailModel = detail;
+    });
+    _isLoad = false;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getdata();
+  }
 
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
 
-    return Scaffold(
+    return _isLoad ? const Center(child: CircularProgressIndicator(),) : Scaffold(
       backgroundColor: color.background,
       body: CustomScrollView(
         slivers: [
@@ -32,16 +63,16 @@ class DetailProfil extends StatelessWidget {
             child: Container(
               width: double.maxFinite,
               height: 140,
-              margin: EdgeInsets.symmetric(
+              margin: const EdgeInsets.symmetric(
                   horizontal: 13
               ),
               child: Row(
                 children: [
                   Container(
-                    margin: EdgeInsets.only(
+                    margin: const EdgeInsets.only(
                         right: 5
                     ),
-                    child: CircleAvatar(
+                    child: const CircleAvatar(
                       backgroundImage: AssetImage(AppAssets.firdanImg),
                       radius: 60,
                     ),
@@ -49,10 +80,10 @@ class DetailProfil extends StatelessWidget {
                   Container(
                     width: 5,
                     height: 120,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
                     decoration: BoxDecoration(
                         color: color.primary,
-                        borderRadius: BorderRadius.all(Radius.circular(5))
+                        borderRadius: const BorderRadius.all(Radius.circular(5))
                     ),
                   ),
                   Container(
@@ -71,18 +102,18 @@ class DetailProfil extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Kalam',
+                                    workerDetailModel!.data!.username!,
                                     style: TextStyle(
                                         color: color.black,
                                         fontWeight: FontWeight.w700,
                                         fontSize: 17
                                     ),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 7,
                                   ),
                                   Text(
-                                    '99 Tahun',
+                                    '${workerDetailModel!.data!.age} Tahun',
                                     style: TextStyle(
                                         color: color.black,
                                         fontSize: 14
@@ -94,20 +125,20 @@ class DetailProfil extends StatelessWidget {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Row(
                           children: [
                             Text(
-                              'Kudus, Jawa Tengah, ',
+                              workerDetailModel!.data!.address!,
                               style: TextStyle(
                                   color: color.black,
                                   fontSize: 14
                               ),
                             ),
                             Text(
-                              'Indonesia',
+                              ', Indonesia',
                               style: TextStyle(
                                   color: color.primary,
                                   fontWeight: FontWeight.w600,
@@ -116,20 +147,20 @@ class DetailProfil extends StatelessWidget {
                             ),
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 12,
                         ),
                         Row(
                           children: [
                             Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 3, horizontal: 5),
-                              margin: EdgeInsets.only(right: 7),
+                              margin: const EdgeInsets.only(right: 7),
                               decoration: BoxDecoration(
                                   color: color.primary,
                                   borderRadius: BorderRadius.circular(5)),
                               child: Text(
-                                'Ui/Ux Designer',
+                                workerDetailModel!.data!.interested!,
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: color.white
@@ -137,9 +168,9 @@ class DetailProfil extends StatelessWidget {
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 3, horizontal: 5),
-                              margin: EdgeInsets.only(right: 7),
+                              margin: const EdgeInsets.only(right: 7),
                               decoration: BoxDecoration(
                                   color: color.primary,
                                   borderRadius: BorderRadius.circular(5)),
@@ -163,9 +194,9 @@ class DetailProfil extends StatelessWidget {
           SliverToBoxAdapter(
             child: Column(
               children: [
-                ProfilCard(context, AppAssets.genderIcon, 'Jenis Kelamin', 'Laki - Laki'),
+                ProfilCard(context, AppAssets.genderIcon, 'Jenis Kelamin', workerDetailModel!.data!.gender!),
                 ProfilCard(context, AppAssets.activityIcon, 'Aktivitas', ' - Belum Ada'),
-                ProfilCard(context, AppAssets.fieldIcon, 'Bidang', 'Programmer'),
+                ProfilCard(context, AppAssets.fieldIcon, 'Bidang', workerDetailModel!.data!.interested!),
                 ProfilCard(context, AppAssets.motivationIcon, 'Motivasi', 'Berhubungan dengan skil dan pengalaman kerja'),
               ],
             ),
@@ -185,7 +216,7 @@ class DetailProfil extends StatelessWidget {
             alignment: Alignment.center,
             width: double.maxFinite,
             height: 18,
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
                 horizontal: 10
             ),
             decoration: BoxDecoration(
@@ -211,7 +242,7 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
 
   return Container(
     width: double.maxFinite,
-    margin: EdgeInsets.symmetric(
+    margin: const EdgeInsets.symmetric(
         horizontal: 10,
         vertical: 10
     ),
@@ -223,7 +254,7 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
         children: [
           Container(
             width: 50,
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
                 left: 10,
                 top: 20,
                 right: 20,
@@ -236,11 +267,11 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
                   width: 45,
                   decoration: BoxDecoration(
                       color: color.primaryContainer,
-                      borderRadius: BorderRadius.all(Radius.circular(10))
+                      borderRadius: const BorderRadius.all(Radius.circular(10))
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(
+                  margin: const EdgeInsets.only(
                       left: 25,
                       top: 25
                   ),
@@ -253,7 +284,7 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
             ),
           ),
           Container(
-            margin: EdgeInsets.symmetric(
+            margin: const EdgeInsets.symmetric(
                 vertical: 10
             ),
             child: Column(
@@ -267,16 +298,16 @@ Widget ProfilCard(BuildContext context, String image, String title, String desc)
                       fontSize: 15
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 13,
                 ),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       color: color.primaryContainer,
                       borderRadius: BorderRadius.circular(5)
                   ),
-                  child: Container(
+                  child: SizedBox(
                     width: 200,
                     child: Text(
                       desc,
