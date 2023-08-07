@@ -11,6 +11,8 @@ import 'package:cariin_v2/model/job_application_model.dart';
 import 'package:cariin_v2/model/job_tag_list_model.dart';
 import 'package:cariin_v2/model/list_worker_model.dart';
 import 'package:cariin_v2/model/profil_company_model.dart';
+import 'package:cariin_v2/model/recruit/recruit_list_model.dart';
+import 'package:cariin_v2/model/recruit/ricruit_detail_model.dart';
 import 'package:cariin_v2/model/worker_application_model.dart';
 import 'package:cariin_v2/model/worker_detail_model.dart';
 import 'package:cariin_v2/model/worker_model.dart';
@@ -854,6 +856,107 @@ class ApiService {
       }
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  Future getListRecruit() async {
+    const endPoint = '/api/company/recruit-workers';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('company');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        await RefreshToken('company', token);
+        RecruitListModel model =
+        RecruitListModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      }
+      if (response.statusCode == 401 &&
+          PublicFunction.getToken('company') != '') {
+        await RefreshToken('company', token);
+        RecruitListModel model =
+        RecruitListModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      } else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future getDetailRecruit(int id) async {
+    var endPoint = '/api/company/recruit-workers/$id';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('company');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200 && token != '') {
+        await RefreshToken('company', token);
+        RecruitDetailModel model =
+        RecruitDetailModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      }
+      if (response.statusCode == 401 && token != '') {
+        await RefreshToken('company', token);
+        RecruitDetailModel model =
+        RecruitDetailModel.fromJson(json.decode(response.body));
+        return model;
+      } else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future createWorkerRecruit(
+      BuildContext context, String jobId, String worker_id, String description) async {
+    var endPoint = '/api/company/recruit-workers/create';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('company');
+    final body = {
+      'job_id': jobId,
+      'worker_id': worker_id,
+      'description': description,
+    };
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response =
+      await http.post(Uri.parse(url), headers: headers, body: body);
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        print('Undangan Sukses');
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } on SocketException {
+      print('Tidak koneksi Internet');
+      return false;
+    } on HttpException {
+      print('HttpException');
+      return false;
     }
   }
 

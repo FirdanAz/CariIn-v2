@@ -2,6 +2,7 @@
 
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/worker_detail_model.dart';
+import 'package:cariin_v2/ui/karyawan/form/lowongan/select_job.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -206,9 +207,64 @@ class _DetailProfilState extends State<DetailProfil> {
       bottomNavigationBar: BottomAppBar(
         color: color.white,
         child: InkWell(
-          onTap: () {
+          onTap: () async {
             showDialog(context: context, builder: (context) {
-              return PublicFunction.showDialog(context, 'Menuggu akun untuk diferifikasi 24x1 jam');
+              return AlertDialog(
+                actions: [
+                  Container(
+                    width: double.maxFinite,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(height: 30,),
+                        CircleAvatar(backgroundImage: AssetImage(AppAssets.firdanImg), radius: 60,),
+                        SizedBox(height: 30,),
+                        Text(
+                          'Undang',
+                          style: TextStyle(
+                            color: color.black,
+                            fontSize: 17
+                          ),
+                        ),
+                        Text(
+                          '" ${workerDetailModel!.data!.username!} "',
+                          style: TextStyle(
+                            color: color.primary,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600
+                          ),
+                        ),
+                        Text(
+                          'Untuk bergabung didalam perusahaan anda',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: color.black,
+                              fontSize: 15
+                          ),
+                        ),
+                        SizedBox(height: 40,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Batal', style: TextStyle(color: color.black),),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                PublicFunction.navigatorPush(context, SelectJob(workerId: workerDetailModel!.data!.id!,));
+                              },
+                              child: Text('Undang', style: TextStyle(color: color.primary),),
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              );
             },);
           },
           hoverColor: Colors.black,
