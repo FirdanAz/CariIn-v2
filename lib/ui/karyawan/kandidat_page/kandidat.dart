@@ -1,5 +1,6 @@
 import 'package:cariin_v2/ui/karyawan/kandidat_page/lowongan/lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/pelamar.dart';
+import 'package:cariin_v2/ui/karyawan/kandidat_page/rekrut_karyawan/rekrut.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/app_color.dart';
@@ -52,7 +53,7 @@ class _KandidatPageState extends State<KandidatPage> with TickerProviderStateMix
               Container(
                 height: 70,
                 alignment: Alignment.center,
-                child: const Text("Hasil Lamran"),
+                child: const Text("Rekrut Karyawan"),
               ),
             ],
           ),
@@ -60,10 +61,10 @@ class _KandidatPageState extends State<KandidatPage> with TickerProviderStateMix
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [
+        children: const [
           // ignore: prefer_const_constructors
           PelamarTab(),
-          LowonganPage(),
+          RekrutKaryawanPage(),
         ],
       ),
     );
