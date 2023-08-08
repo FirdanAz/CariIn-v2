@@ -19,6 +19,12 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: color.background,
+        leading: Container(
+          child: InkWell(
+            onTap: () => Navigator.of(context).pop(true),
+            child: Icon(Icons.arrow_back_ios),
+          ),
+        ),
         title: Text(
           "Search",
           style: TextStyle(
@@ -29,9 +35,7 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 15
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: [
             Padding(
@@ -56,9 +60,11 @@ class _SearchPageState extends State<SearchPage> {
                         enabledBorder: InputBorder.none,
                         focusedBorder: InputBorder.none,
                         suffix: SizedBox(width: 10),
-                        prefixIcon: Icon(Icons.search, size: 20),
-                        prefixIconColor:
-                        color.secondary.withOpacity(0.5),
+                        prefixIcon: Icon(
+                          Icons.search,
+                          size: 20,
+                        ),
+                        prefixIconColor: color.secondary.withOpacity(0.5),
                         hintText: "Cari loker atau perusahaan",
                         hintStyle: TextStyle(
                             fontWeight: FontWeight.w500,
@@ -67,7 +73,9 @@ class _SearchPageState extends State<SearchPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20,),
+                  SizedBox(
+                    height: 20,
+                  ),
                   SizedBox(
                     width: double.infinity,
                     child: Column(

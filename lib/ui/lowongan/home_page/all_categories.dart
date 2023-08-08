@@ -37,14 +37,6 @@ class _CategoryPageState extends State<CategoryPage> {
         ),
         toolbarHeight: 80,
         backgroundColor: color.surface,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(
-            height: 1,
-            width: double.maxFinite,
-            color: color.secondary,
-          ),
-        ),
       ),
       body: Container(
         margin: EdgeInsets.only(top: 7, bottom: 7),
@@ -58,12 +50,15 @@ class _CategoryPageState extends State<CategoryPage> {
             CategoriesCard(title: 'Bisnis', image: AppAssets.BisnisIcon),
             CategoriesCard(title: 'Marketing', image: AppAssets.MarketingIcon),
             CategoriesCard(title: 'Teknik', image: AppAssets.TeknikIcon),
-            CategoriesCard(title: 'Costumer Service', image: AppAssets.CustomerServiceIcon),
+            CategoriesCard(
+                title: 'Costumer Service',
+                image: AppAssets.CustomerServiceIcon),
             CategoriesCard(title: 'Perusahaan', image: AppAssets.PersuhaanIcon),
             CategoriesCard(title: 'Otomotif', image: AppAssets.OtomotifIcon),
             CategoriesCard(title: 'Retail', image: AppAssets.RetailIcon),
-            CategoriesCard(title: 'Pemerintahan', image: AppAssets.PemerintahanIcon),
-        ],
+            CategoriesCard(
+                title: 'Pemerintahan', image: AppAssets.PemerintahanIcon),
+          ],
         ),
       ),
     );
@@ -71,7 +66,11 @@ class _CategoryPageState extends State<CategoryPage> {
 }
 
 class CategoriesCard extends StatelessWidget {
-  CategoriesCard({Key? key, required this.title, required this.image,}) : super(key: key);
+  CategoriesCard({
+    Key? key,
+    required this.title,
+    required this.image,
+  }) : super(key: key);
   String title;
   String image;
 

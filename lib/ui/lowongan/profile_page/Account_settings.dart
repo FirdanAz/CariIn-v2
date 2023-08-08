@@ -1,6 +1,7 @@
 import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/service/api_service.dart';
+import 'package:cariin_v2/ui/lowongan/profile_page/change_profile.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/change_password.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/profile_settings.dart';
 import 'package:cariin_v2/ui/options/options.dart';
@@ -32,7 +33,7 @@ class _AccountSettingsState extends State<AccountSettings> {
         ),
         centerTitle: true,
         title: Text(
-          'Atur Profil',
+          'Atur Akun & Profil',
           style: TextStyle(
             fontWeight: FontWeight.w600,
           ),
@@ -55,12 +56,18 @@ class _AccountSettingsState extends State<AccountSettings> {
             Row(
               children: [
                 Icon(
-                  Icons.edit,
+                  Icons.sentiment_satisfied_alt,
                   color: color.primary,
                 ),
-                SizedBox(
-                  width: 10,
-                )
+                SizedBox(width: 10),
+                Text(
+                  'Data Diri',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: color.onSurface,
+                  ),
+                ),
               ],
             ),
             Divider(
@@ -69,11 +76,17 @@ class _AccountSettingsState extends State<AccountSettings> {
             ),
             SizedBox(height: 0),
             SettingContentButton(
-                context: context, title: 'Edit Nama', onTap: () {}),
-            SettingContentButton(
-                context: context, title: 'Ganti Foto', onTap: () {}),
-            SettingContentButton(
-                context: context, title: 'Ganti Backdrop', onTap: () {}),
+              context: context,
+              title: 'Edit Profil',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChangeProfile(),
+                  ),
+                );
+              },
+            ),
             SettingContentButton(
               context: context,
               title: 'Ubah Kata Sandi',
@@ -87,9 +100,15 @@ class _AccountSettingsState extends State<AccountSettings> {
               },
             ),
             SettingContentButton(
-                context: context, title: 'Info Kontak', onTap: () {}),
+              context: context,
+              title: 'Info Kontak',
+              onTap: () {},
+            ),
             SettingContentButton(
-                context: context, title: 'Tanggal Lahir', onTap: () {}),
+              context: context,
+              title: 'Tanggal Lahir',
+              onTap: () {},
+            ),
             SizedBox(height: 20),
             Row(
               children: [

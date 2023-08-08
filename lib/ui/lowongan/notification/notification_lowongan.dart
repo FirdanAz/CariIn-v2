@@ -18,6 +18,7 @@ class _NotificationPageState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
     return Scaffold(
+      backgroundColor: color.surfaceContainer,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         leading: Container(
@@ -36,14 +37,6 @@ class _NotificationPageState extends State<NotificationPage> {
         ),
         toolbarHeight: 80,
         backgroundColor: color.surface,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(
-            height: 1,
-            width: double.maxFinite,
-            color: color.secondary,
-          ),
-        ),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -69,7 +62,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     itemBuilder: (context, index) {
                       return Container(
                         decoration: BoxDecoration(
-                            color: color.surfaceContainer,
+                            color: color.surface,
                             borderRadius: BorderRadius.circular(10)),
                         width: double.maxFinite,
                         height: 75,
@@ -134,7 +127,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     itemBuilder: (context, index) {
                       return Container(
                         decoration: BoxDecoration(
-                            color: color.surfaceContainer,
+                            color: color.surface,
                             borderRadius: BorderRadius.circular(10)),
                         width: double.maxFinite,
                         height: 75,
@@ -154,7 +147,7 @@ class _NotificationPageState extends State<NotificationPage> {
                                     margin: const EdgeInsets.only(left: 5),
                                     width: double.maxFinite,
                                     child: const Text(
-                                      'Follow',
+                                      'Lamaran pekerjaanmu telah diterima oleh Perusahaan!',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -185,7 +178,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Kemarin',
+                    'Bulan Lalu',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w400,
@@ -199,7 +192,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     itemBuilder: (context, index) {
                       return Container(
                         decoration: BoxDecoration(
-                            color: color.surfaceContainer,
+                            color: color.surface,
                             borderRadius: BorderRadius.circular(10)),
                         width: double.maxFinite,
                         height: 75,
