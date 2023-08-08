@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   WorkerModel? workerModel;
   bool _isLoad = false;
 
-  final List<Widget> _tabView = const[
+  final List<Widget> _tabView = const [
     PengalamanPage(),
     PendidikanPage(),
     KeterampilanPage(),
@@ -95,14 +95,19 @@ class _ProfilePageState extends State<ProfilePage> {
                       alignment: Alignment.topCenter,
                       children: [
                         SizedBox(
-                            width: double.maxFinite,
-                            height: 230,
-                            child: ClipRRect(
-                                borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(30),
-                                    bottomRight: Radius.circular(30)),
-                                child: Image.asset(AppAssets.backImageProfil,
-                                    fit: BoxFit.cover))),
+                          width: double.maxFinite,
+                          height: 230,
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30),
+                            ),
+                            child: Image.asset(
+                              AppAssets.backImageProfil,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
                         Container(
                           alignment: Alignment.topRight,
                           margin: const EdgeInsets.only(top: 50, right: 30),
