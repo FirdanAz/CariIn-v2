@@ -1,11 +1,11 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/common/responsive.dart';
-import 'package:cariin_v2/model/detail_job_model.dart';
 import 'package:cariin_v2/ui/widget/svg_icon.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/currency_format.dart';
+import '../../../model/company/detail_job_model.dart';
 import '../../../service/api_service.dart';
 
 

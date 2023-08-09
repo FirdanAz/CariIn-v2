@@ -1,9 +1,8 @@
-import 'package:cariin_v2/model/job_application_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
 import '../../../../../common/app_color.dart';
+import '../../../../../model/worker/job_application_model.dart';
 import '../../../../../service/api_service.dart';
 
 class MenungguTabs extends StatefulWidget {
@@ -19,7 +18,7 @@ class _MenungguTabsState extends State<MenungguTabs> {
 
   getdata() async {
     _isLoad = true;
-    JobApplicationModel allJob = await ApiService().getLamaranResult(false, 'menunggu');
+    JobApplicationModel allJob = await ApiService().getLamaranResult(false, 'mengirim');
     setState(() {
       jobApplicationModel = allJob;
     });
@@ -40,7 +39,7 @@ class _MenungguTabsState extends State<MenungguTabs> {
     return _isLoad ? const Center(child: CircularProgressIndicator(),) :
     Container(
       child: SizedBox(
-        child: ListView.builder(
+        child: jobApplicationModel!.data!.length == 0 ? Center(child: Text('Data Kosong'),) : ListView.builder(
           shrinkWrap: true,
           itemCount: jobApplicationModel!.data!.length,
           itemBuilder: (context, index) {

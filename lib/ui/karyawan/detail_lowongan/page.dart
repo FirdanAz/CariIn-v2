@@ -9,7 +9,7 @@ import 'package:cariin_v2/ui/karyawan/detail_lowongan/tab_deskripsi.dart';
 import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
-import '../../../model/detail_company_model.dart';
+import '../../../model/company/detail_company_model.dart';
 
 class CompanyJobDetailPage extends StatefulWidget {
   const CompanyJobDetailPage({super.key, required this.id});

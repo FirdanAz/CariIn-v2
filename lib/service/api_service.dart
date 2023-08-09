@@ -2,26 +2,26 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:cariin_v2/model/job_company_model.dart';
-import 'package:cariin_v2/model/all_job_worker_model.dart';
-import 'package:cariin_v2/model/detail_company_model.dart';
-import 'package:cariin_v2/model/detail_job_model.dart';
-import 'package:cariin_v2/model/detail_pelamar_model.dart';
-import 'package:cariin_v2/model/job_application_model.dart';
-import 'package:cariin_v2/model/job_tag_list_model.dart';
-import 'package:cariin_v2/model/list_worker_model.dart';
-import 'package:cariin_v2/model/profil_company_model.dart';
+import 'package:cariin_v2/model/worker/all_job_worker_model.dart';
+import 'package:cariin_v2/model/company/detail_company_model.dart';
+import 'package:cariin_v2/model/worker/job_application_model.dart';
 import 'package:cariin_v2/model/recruit/recruit_list_model.dart';
 import 'package:cariin_v2/model/recruit/ricruit_detail_model.dart';
-import 'package:cariin_v2/model/worker_application_model.dart';
-import 'package:cariin_v2/model/worker_detail_model.dart';
-import 'package:cariin_v2/model/worker_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../common/public_function.dart';
+import '../model/company/detail_job_model.dart';
+import '../model/company/detail_pelamar_model.dart';
+import '../model/company/job_company_model.dart';
+import '../model/company/job_tag_list_model.dart';
+import '../model/company/list_worker_model.dart';
+import '../model/company/profil_company_model.dart';
+import '../model/worker/worker_application_model.dart';
+import '../model/worker/worker_detail_model.dart';
+import '../model/worker/worker_model.dart';
 
 class ApiService {
   final _baseUrl = "https://cariin.my.id";

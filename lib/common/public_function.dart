@@ -65,13 +65,12 @@ class PublicFunction {
         PageRouteBuilder(
           transitionDuration: const Duration(seconds: 1),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            animation =
-                CurvedAnimation(parent: animation, curve: Curves.elasticOut);
-            return ScaleTransition(
-              alignment: Alignment.center,
-              scale: animation,
-              child: child,
-            );
+            const begin = Offset(0.0, -0.1);
+            const end = Offset.zero;
+            const curve = Curves.fastOutSlowIn;
+            var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+            var offsetAnimation = animation.drive(tween);
+            return SlideTransition(position: offsetAnimation, child: child);
           },
           pageBuilder: (context, animation, secondaryAnimation) {
             return widget;
@@ -84,13 +83,16 @@ class PublicFunction {
     Navigator.push(
       context,
       PageRouteBuilder(
-        transitionDuration: const Duration(seconds: 1),
+        transitionDuration: const Duration(milliseconds: 300),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          animation =
-              CurvedAnimation(parent: animation, curve: Curves.elasticOut);
-          return ScaleTransition(
-            alignment: Alignment.center,
-            scale: animation,
+          const begin = Offset(0.2, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOut;
+
+          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+          return SlideTransition(
+            position: animation.drive(tween),
             child: child,
           );
         },

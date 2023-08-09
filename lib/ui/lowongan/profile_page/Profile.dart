@@ -1,18 +1,16 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:cariin_v2/common/app_assets.dart';
-import 'package:cariin_v2/model/worker_model.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Keterampilan.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Pencapaian.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Pendidikan.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/profile_settings.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Pengalaman.dart';
-import 'package:cariin_v2/ui/options/options.dart';
 import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/app_color.dart';
-import '../../../common/public_function.dart';
+import '../../../model/worker/worker_model.dart';
 import '../../../service/api_service.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -41,30 +39,6 @@ class _ProfilePageState extends State<ProfilePage> {
       workerModel = workerData;
     });
     _isLoad = false;
-  }
-
-  void _logOut() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: const Text(
-            "Ingin keluar dari akun ini ?",
-            style: TextStyle(fontSize: 15),
-          ),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text("No")),
-            TextButton(
-                onPressed: () async => await PublicFunction.removeToken('token')
-                    .then((value) => PublicFunction.navigatorPushAndRemoved(
-                        context, const OptionsPage())),
-                child: const Text("Yes", style: TextStyle(color: Colors.red))),
-          ],
-        );
-      },
-    );
   }
 
   @override
@@ -110,10 +84,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             onTap: () => Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ProfileSettingPage(),
+                                builder: (context) => const ProfileSettingPage(),
                               ),
                             ),
-                            child: CircleAvatar(
+                            child: const CircleAvatar(
                               radius: 17,
                               child: Icon(
                                 Icons.settings,

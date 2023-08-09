@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously, non_constant_identifier_names
 
 import 'package:cariin_v2/common/app_assets.dart';
-import 'package:cariin_v2/model/detail_pelamar_model.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../common/app_color.dart';
 import '../../../../common/public_function.dart';
+import '../../../../model/company/detail_pelamar_model.dart';
 import '../../../../service/api_service.dart';
 
 class DetailPelamarPage extends StatefulWidget {

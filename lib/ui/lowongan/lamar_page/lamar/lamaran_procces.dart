@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
 import '../../../../common/app_color.dart';
-import '../../../../model/all_job_worker_model.dart';
+import '../../../../model/worker/all_job_worker_model.dart';
 import '../../../../service/api_service.dart';
 import '../../detail_lowongan/page.dart';
 
