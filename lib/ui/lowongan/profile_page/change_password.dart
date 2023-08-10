@@ -41,7 +41,7 @@ class _ChangePasswordState extends State<ChangePassword> {
         ),
         centerTitle: true,
         title: Text(
-          'Akun CariIn',
+          'Sandi Akun',
           style: TextStyle(
             fontWeight: FontWeight.w600,
           ),

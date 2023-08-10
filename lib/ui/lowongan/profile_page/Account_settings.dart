@@ -1,8 +1,10 @@
 import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/service/api_service.dart';
+import 'package:cariin_v2/ui/lowongan/profile_page/birthdate.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/change_profile.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/change_password.dart';
+import 'package:cariin_v2/ui/lowongan/profile_page/contact_info.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/profile_settings.dart';
 import 'package:cariin_v2/ui/options/options.dart';
 import 'package:cariin_v2/ui/widget/danger_zone_content_button.dart';
@@ -102,12 +104,26 @@ class _AccountSettingsState extends State<AccountSettings> {
             SettingContentButton(
               context: context,
               title: 'Info Kontak',
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ContactInfo(),
+                  ),
+                );
+              },
             ),
             SettingContentButton(
               context: context,
               title: 'Tanggal Lahir',
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BirthDate(),
+                  ),
+                );
+              },
             ),
             SizedBox(height: 20),
             Row(
