@@ -1,5 +1,4 @@
 // ignore_for_file: must_be_immutable, deprecated_member_use, non_constant_identifier_names
-
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/karyawan/form/lowongan/select_job.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +27,7 @@ class _DetailProfilState extends State<DetailProfil> {
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
     WorkerDetailModel detail = await ApiService().getWorkerDetail(widget.id);
+    print(detail.data!.profilImage);
     setState(() {
       workerDetailModel = detail;
     });
@@ -70,13 +70,13 @@ class _DetailProfilState extends State<DetailProfil> {
               child: Row(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(
-                        right: 5
-                    ),
-                    child: const CircleAvatar(
-                      backgroundImage: AssetImage(AppAssets.firdanImg),
-                      radius: 60,
-                    ),
+                      margin: const EdgeInsets.only(
+                          right: 5
+                      ),
+                      child: CircleAvatar(
+                        backgroundImage: workerDetailModel!.data!.profilImage == 'null' ? const NetworkImage('https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png') : NetworkImage('https://cariin.my.id/storage/${workerDetailModel!.data!.profilImage!}'),
+                        radius: 60,
+                      )
                   ),
                   Container(
                     width: 5,

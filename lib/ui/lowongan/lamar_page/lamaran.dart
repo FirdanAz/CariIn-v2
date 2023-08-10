@@ -44,13 +44,13 @@ class _LamaranPageState extends State<LamaranPage> with TickerProviderStateMixin
               Container(
                 height: 70,
                 alignment: Alignment.center,
-                child: Text("Pekerjaan Dilamar"),
+                child: Text("Hasil Lamaran"),
 
               ),
               Container(
                 height: 70,
                 alignment: Alignment.center,
-                child: Text("Hasil Lamaran"),
+                child: Text("Pekerjaan Dilamar"),
               ),
             ],
           ),
@@ -59,8 +59,8 @@ class _LamaranPageState extends State<LamaranPage> with TickerProviderStateMixin
       body: TabBarView(
         controller: _tabController,
         children: const [
-          LamaranProcces(),
           LamaranResult(),
+          LamaranProcces()
         ],
       ),
     );

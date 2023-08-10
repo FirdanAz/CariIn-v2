@@ -505,19 +505,21 @@ class _NewJobListCardState extends State<NewJobListCard> {
 }
 
 class WorkerCards extends StatelessWidget {
-  WorkerCards({Key? key, required this.id, required this.name, required this.gender, required this.age, required this.location, required this.selection}) : super(key: key);
+  WorkerCards({Key? key, required this.id, required this.name, required this.gender, required this.age, required this.location, required this.selection, required this.urlProfileImage}) : super(key: key);
   int id;
   String name;
   String gender;
   String age;
   String location;
   String selection;
+  String urlProfileImage;
 
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
 
     return InkWell(
+      overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
       onTap: () => Navigator.push(
           context,
           MaterialPageRoute(
@@ -545,11 +547,11 @@ class WorkerCards extends StatelessWidget {
             const SizedBox(
               height: 25,
             ),
-            const Center(
+            Center(
               child: CircleAvatar(
                 radius: 40,
-                backgroundImage: AssetImage(AppAssets.firdanImg),
-              ),
+                backgroundImage: urlProfileImage == 'null' ? NetworkImage('https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png') : NetworkImage('https://cariin.my.id/storage/$urlProfileImage'),
+              )
             ),
             Container(
               margin: const EdgeInsets.only(left: 10, top: 10),

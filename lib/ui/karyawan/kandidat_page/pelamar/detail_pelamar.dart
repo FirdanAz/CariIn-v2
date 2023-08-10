@@ -1,11 +1,15 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously, non_constant_identifier_names
 
+import 'dart:io';
+
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
+import 'package:cariin_v2/ui/lowongan/lamar_page/lamar_process_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pdf/pdf.dart';
 
 import '../../../../common/app_color.dart';
 import '../../../../common/public_function.dart';
@@ -23,6 +27,7 @@ class DetailPelamarPage extends StatefulWidget {
 class _DetailPelamarPageState extends State<DetailPelamarPage> {
   DetailPelamarModel? detailPelamarModel;
   bool _isLoad = false;
+  PdfDocument? document;
 
   getdata() async {
     _isLoad = true;
@@ -45,7 +50,6 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
-
     return _isLoad
         ? const Scaffold(
             body: Center(
@@ -200,7 +204,10 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                                         width: 25,
                                         color: color.primary,
                                       ),
-                                      onTap: () {},
+                                      onTap: () async {
+                                        File file = await ApiService().loadPdf('https://cariin.my.id/storage/${detailPelamarModel!.data!.cvFile}');
+                                        Navigator.push(context, MaterialPageRoute(builder: (context) => CvPage(file: file),));
+                                      },
                                     )
                                   ],
                                 ),

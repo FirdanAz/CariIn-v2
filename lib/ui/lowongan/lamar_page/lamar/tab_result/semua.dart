@@ -1,3 +1,4 @@
+import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
@@ -36,11 +37,11 @@ class _SemuaTabsState extends State<SemuaTabs> {
   Widget build(BuildContext context) {
     final color = AppColor.theme(Theme.of(context).brightness);
 
-    return _isLoad ? const Center(child: CircularProgressIndicator(),) :
-    Container(
-      child: SizedBox(
-        child: ListView.builder(
+    return SingleChildScrollView(
+      child: _isLoad ? const ShimmerPelamar() : SizedBox(
+        child:  ListView.builder(
           shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
           itemCount: jobApplicationModel!.data!.length,
           itemBuilder: (context, index) {
             var data = jobApplicationModel!.data![index];
