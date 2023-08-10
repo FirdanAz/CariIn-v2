@@ -1,8 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:cariin_v2/common/app_assets.dart';
-import 'package:cariin_v2/model/job_company_model.dart';
-import 'package:cariin_v2/model/profil_company_model.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/profil_comapny.dart';
 import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
@@ -16,7 +14,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
-import '../../../model/list_worker_model.dart';
+import '../../../model/company/job_company_model.dart';
+import '../../../model/company/list_worker_model.dart';
+import '../../../model/company/profil_company_model.dart';
 import '../../../service/api_service.dart';
 import '../../widget/shimmer_widget.dart';
 import '../auth/login.dart';
@@ -39,7 +39,8 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
     _isLoad = true;
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
-    JobCompanyModel allJob = await ApiService().jobsCompany(false, 'terverifikasi');
+    JobCompanyModel allJob =
+        await ApiService().jobsCompany(false, 'terverifikasi');
     ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
     WorkerListModel workerList = await ApiService().ListWorkerCompany();
     setState(() {
@@ -74,7 +75,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
             TextButton(
                 onPressed: () async => await PublicFunction.removeToken('token')
                     .then((value) => PublicFunction.navigatorPushAndRemoved(
-                    context, const LoginKaryawanPage())),
+                        context, const LoginKaryawanPage())),
                 child: const Text("Yes", style: TextStyle(color: Colors.red))),
           ],
         );
@@ -112,52 +113,64 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                   ),
                 )
               ],
-              title: _isLoad ? const ShimmerHomeAppBar() : Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 10),
-                    child: CircleAvatar(
-                      radius: 25,
-                      foregroundImage: NetworkImage('https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}'),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  InkWell(
-                    onTap: () => PublicFunction.navigatorPush(context, const ProfilCompanyPage()),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+              title: _isLoad
+                  ? const ShimmerHomeAppBar()
+                  : Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 20, bottom: 10),
+                          child: CircleAvatar(
+                            radius: 25,
+                            foregroundImage: NetworkImage(
+                                'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}'),
+                          ),
+                        ),
                         const SizedBox(
-                          height: 10,
+                          width: 10,
                         ),
-                        _isLoad ? Text(
-                          'Hai user',
-                          style: TextStyle(
-                              color: color.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16)) : Text(
-                          'Hai, ${profilCompanyModel!.data!.name}',
-                          style: TextStyle(
-                              color: color.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16),
-                        ),
-                        Text(
-                          'Tap untuk mengubah profil',
-                          style: TextStyle(
-                              color: color.black.withOpacity(0.4), fontSize: 14),
-                        ),
+                        InkWell(
+                          onTap: () => PublicFunction.navigatorPush(
+                              context, const ProfilCompanyPage()),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              _isLoad
+                                  ? Text('Hai user',
+                                      style: TextStyle(
+                                          color: color.black,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16))
+                                  : Row(
+                                      children: [
+                                        Text(
+                                          'Hai, ${profilCompanyModel!.data!.name}',
+                                          style: TextStyle(
+                                              color: color.black,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ],
+                                    ),
+                              Text(
+                                'Tap untuk mengubah profil',
+                                style: TextStyle(
+                                    color: color.black.withOpacity(0.4),
+                                    fontSize: 14),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
-                  )
-                ],
-              ),
             ),
-            _isLoad ? const SliverToBoxAdapter(child: ShimmerHomeCard()) :  const HomeCard(),
+            _isLoad
+                ? const SliverToBoxAdapter(child: ShimmerHomeCard())
+                : const HomeCard(),
             SliverToBoxAdapter(
               child: Container(
                 width: double.maxFinite,
@@ -183,7 +196,11 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ListKaryawan(),));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ListKaryawan(),
+                            ));
                       },
                       child: Text('Lebih banyak',
                           style: GoogleFonts.outfit(
@@ -196,20 +213,26 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
               ),
             ),
             SliverToBoxAdapter(
-                child: _isLoad ? const ShimmerWorkerList() : Container(
-                    height: 250,
-                    margin: const EdgeInsets.only(top: 15),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: workerListModel!.data!.length,
-                      padding: const EdgeInsets.only(left: 10),
-                      itemBuilder: (context, index) {
-                        var data = workerListModel!.data![index];
-                        return WorkerCards(id: data.id!,name: data.username.toString(), gender: data.gender.toString(), age: data.age.toString(), location: data.address.toString(), selection: data.interested.toString());
-                      },
-                    )
-                )
-            ),
+                child: _isLoad
+                    ? const ShimmerWorkerList()
+                    : Container(
+                        height: 250,
+                        margin: const EdgeInsets.only(top: 15),
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: workerListModel!.data!.length,
+                          padding: const EdgeInsets.only(left: 10),
+                          itemBuilder: (context, index) {
+                            var data = workerListModel!.data![index];
+                            return WorkerCards(
+                                id: data.id!,
+                                name: data.username.toString(),
+                                gender: data.gender.toString(),
+                                age: data.age.toString(),
+                                location: data.address.toString(),
+                                selection: data.interested.toString());
+                          },
+                        ))),
             SliverToBoxAdapter(
               child: Container(
                 width: double.maxFinite,
@@ -243,189 +266,221 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
               ),
             ),
             //sementara
-            _isLoad ? const SliverToBoxAdapter(
-              child: ShimmerJobCard(),
-            ) : SliverList(
-              delegate: SliverChildBuilderDelegate(childCount: acceptedJobCompany!.data!.length,(context, index) {
-                var data = acceptedJobCompany!.data![index];
-                int count;
-                if(data.tags!.length == 1){
-                  count = 1;
-                }else if(data.tags!.length == 2){
-                  count = 2;
-                } else{
-                  count = 3;
-                }
-                DateTime? date = DateTime.parse(data.createdAt.toString());
-                if (kDebugMode) {
-                  print(date);
-                }
-                return InkWell(
-                  onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => CompanyJobDetailPage(id: acceptedJobCompany!.data![index].id!.toInt()),)),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 140,
-                        width: double.maxFinite,
-                        margin: const EdgeInsets.only(top: 20, left: 15, right: 15),
-                        decoration: BoxDecoration(
-                          color: color.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: color.primaryContainer.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 4,
-                              offset: const Offset(2, 2), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Container(
-                          margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                data.title.toString(),
-                                style: TextStyle(
-                                    color: color.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    'Pengalaman',
-                                    style: TextStyle(
-                                        color: color.black.withOpacity(0.6),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  CircleAvatar(
-                                    radius: 5,
-                                    backgroundColor: color.black.withOpacity(0.5),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    '1 - 3 Tahun',
-                                    style: TextStyle(
-                                        color: color.black.withOpacity(0.6),
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14),
+            _isLoad
+                ? const SliverToBoxAdapter(
+                    child: ShimmerJobCard(),
+                  )
+                : SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                        childCount: acceptedJobCompany!.data!.length,
+                        (context, index) {
+                      var data = acceptedJobCompany!.data![index];
+                      int count;
+                      if (data.tags!.length == 1) {
+                        count = 1;
+                      } else if (data.tags!.length == 2) {
+                        count = 2;
+                      } else {
+                        count = 3;
+                      }
+                      DateTime? date =
+                          DateTime.parse(data.createdAt.toString());
+                      if (kDebugMode) {
+                        print(date);
+                      }
+                      return InkWell(
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CompanyJobDetailPage(
+                                  id: acceptedJobCompany!.data![index].id!
+                                      .toInt()),
+                            )),
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 140,
+                              width: double.maxFinite,
+                              margin: const EdgeInsets.only(
+                                  top: 20, left: 15, right: 15),
+                              decoration: BoxDecoration(
+                                color: color.white,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                        color.primaryContainer.withOpacity(0.5),
+                                    spreadRadius: 1,
+                                    blurRadius: 4,
+                                    offset: const Offset(
+                                        2, 2), // changes position of shadow
                                   ),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 3,
-                              ),
-                              Expanded(
-                                child: ListView.builder(
-                                  itemCount: count,
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, indexs) {
-                                    return Center(
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 3, horizontal: 5),
-                                        margin: const EdgeInsets.only(right: 7),
-                                        decoration: BoxDecoration(
-                                            color: color.primaryContainer,
-                                            borderRadius: BorderRadius.circular(5)),
-                                        child: Text(
-                                          '${data.tags![indexs].name}',
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 7, left: 2, bottom: 10),
-                                child: Row(
+                              child: Container(
+                                margin: const EdgeInsets.only(
+                                    top: 10, left: 10, right: 10),
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Container(
-                                      height: 40,
-                                      width: 4,
-                                      margin: const EdgeInsets.only(right: 10),
-                                      decoration: BoxDecoration(
-                                          color: color.tertiary.withOpacity(0.5),
-                                          borderRadius: BorderRadius.circular(2)),
+                                    Text(
+                                      data.title.toString(),
+                                      style: TextStyle(
+                                          color: color.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15),
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
                                       children: [
                                         Text(
-                                          data.company!.name.toString(),
+                                          'Pengalaman',
                                           style: TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                              color: color.tertiary
-                                                  .withOpacity(0.8)),
+                                              color:
+                                                  color.black.withOpacity(0.6),
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 14),
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
+                                        ),
+                                        CircleAvatar(
+                                          radius: 5,
+                                          backgroundColor:
+                                              color.black.withOpacity(0.5),
+                                        ),
+                                        const SizedBox(
+                                          width: 5,
                                         ),
                                         Text(
-                                          data.company!.location.toString(),
+                                          '1 - 3 Tahun',
                                           style: TextStyle(
+                                              color:
+                                                  color.black.withOpacity(0.6),
                                               fontWeight: FontWeight.w500,
-                                              color: color.tertiary
-                                                  .withOpacity(0.8)),
-                                        )
+                                              fontSize: 14),
+                                        ),
                                       ],
+                                    ),
+                                    const SizedBox(
+                                      height: 3,
+                                    ),
+                                    Expanded(
+                                      child: ListView.builder(
+                                        itemCount: count,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.horizontal,
+                                        itemBuilder: (context, indexs) {
+                                          return Center(
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 3,
+                                                      horizontal: 5),
+                                              margin: const EdgeInsets.only(
+                                                  right: 7),
+                                              decoration: BoxDecoration(
+                                                  color: color.primaryContainer,
+                                                  borderRadius:
+                                                      BorderRadius.circular(5)),
+                                              child: Text(
+                                                '${data.tags![indexs].name}',
+                                                style: const TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                          top: 7, left: 2, bottom: 10),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Container(
+                                            height: 40,
+                                            width: 4,
+                                            margin: const EdgeInsets.only(
+                                                right: 10),
+                                            decoration: BoxDecoration(
+                                                color: color.tertiary
+                                                    .withOpacity(0.5),
+                                                borderRadius:
+                                                    BorderRadius.circular(2)),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                data.company!.name.toString(),
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: color.tertiary
+                                                        .withOpacity(0.8)),
+                                              ),
+                                              Text(
+                                                data.company!.location
+                                                    .toString(),
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500,
+                                                    color: color.tertiary
+                                                        .withOpacity(0.8)),
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     )
                                   ],
                                 ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 30,
-                        width: double.maxFinite,
-                        margin: const EdgeInsets.only(left: 15, right: 15),
-                        decoration: BoxDecoration(
-                          color: color.primary,
-                          borderRadius:
-                          const BorderRadius.only(bottomRight: Radius.circular(20)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: color.primaryContainer.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 4,
-                              offset: const Offset(2, 2), // changes position of shadow
+                              ),
+                            ),
+                            Container(
+                              height: 30,
+                              width: double.maxFinite,
+                              margin:
+                                  const EdgeInsets.only(left: 15, right: 15),
+                              decoration: BoxDecoration(
+                                color: color.primary,
+                                borderRadius: const BorderRadius.only(
+                                    bottomRight: Radius.circular(20)),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color:
+                                        color.primaryContainer.withOpacity(0.5),
+                                    spreadRadius: 1,
+                                    blurRadius: 4,
+                                    offset: const Offset(
+                                        2, 2), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(GetTimeAgo.parse(date, locale: 'id'),
+                                      style: TextStyle(
+                                          color: color.white,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 12)),
+                                  const SizedBox(
+                                    width: 13,
+                                  )
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(GetTimeAgo.parse(date, locale: 'id'),
-                                style: TextStyle(
-                                    color: color.white,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12)),
-                            const SizedBox(
-                              width: 13,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }),
-            )
+                      );
+                    }),
+                  )
           ],
         ),
       ),

@@ -73,21 +73,21 @@ class _PelamarTabState extends State<PelamarTab> {
                                   )),
                               InkWell(
                                 onTap: () {
-                                  PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'mengirim', titlePage: 'Menunggu Direview',));
+                                  PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'mengirim', titlePage: 'Belum Direview',));
                                 },
                                 child: PelamarCard(
                                 icon: Icons.work_history_outlined,
                                 color: Colors.orange,
-                                title: 'Menunggu Direview',
+                                title: 'Belum Direview',
                               )),
                               InkWell(
                                   onTap: () {
-                                    PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'direview', titlePage: 'Menunggu Direview',));
+                                    PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'direview', titlePage: 'Direview',));
                                   },
                                   child: PelamarCard(
                                     icon: Icons.work_history_outlined,
                                     color: Colors.orange,
-                                    title: 'Direview        .',
+                                    title: 'Sudah Direview',
                                   )),
                               InkWell(
                                 onTap: () {
@@ -126,41 +126,6 @@ class _PelamarTabState extends State<PelamarTab> {
                     ),
                   ),
                 ),
-                Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-                  color: color.background,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.live_help_outlined,
-                              size: 30,
-                              color: color.primary,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              'Penjelasan Fitur',
-                              style: TextStyle(fontSize: 16),
-                            )
-                          ],
-                        ),
-                        const Divider(),
-                        HelpCard(text: 'Menunggu Direview'),
-                        const Divider(),
-                        HelpCard(text: 'Proses Wawancara'),
-                        const Divider(),
-                        HelpCard(text: 'Pelamar Diterima'),
-                        const Divider(),
-                        HelpCard(text: 'Pelamar Ditolak'),
-                      ],
-                    ),
-                  ),
-                ),
                 InkWell(
                   onTap: () {
                     PublicFunction.navigatorPush(context, const LowonganPage());
@@ -194,6 +159,41 @@ class _PelamarTabState extends State<PelamarTab> {
                           Icon(Icons.navigate_next)
                         ],
                       ),
+                    ),
+                  ),
+                ),
+                Card(
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+                  color: color.background,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.live_help_outlined,
+                              size: 30,
+                              color: color.primary,
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
+                              'Penjelasan Fitur',
+                              style: TextStyle(fontSize: 16),
+                            )
+                          ],
+                        ),
+                        const Divider(),
+                        HelpCard(text: 'Menunggu Direview'),
+                        const Divider(),
+                        HelpCard(text: 'Proses Wawancara'),
+                        const Divider(),
+                        HelpCard(text: 'Pelamar Diterima'),
+                        const Divider(),
+                        HelpCard(text: 'Pelamar Ditolak'),
+                      ],
                     ),
                   ),
                 ),

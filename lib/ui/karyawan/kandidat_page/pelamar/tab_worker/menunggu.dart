@@ -5,7 +5,7 @@ import 'package:get_time_ago/get_time_ago.dart';
 
 import '../../../../../common/app_color.dart';
 import '../../../../../common/public_function.dart';
-import '../../../../../model/worker_application_model.dart';
+import '../../../../../model/worker/worker_application_model.dart';
 import '../../../../../service/api_service.dart';
 import '../detail_pelamar.dart';
 

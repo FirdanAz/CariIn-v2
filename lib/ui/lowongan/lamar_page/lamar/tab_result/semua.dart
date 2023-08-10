@@ -1,9 +1,8 @@
-import 'package:cariin_v2/model/job_application_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
 import '../../../../../common/app_color.dart';
+import '../../../../../model/worker/job_application_model.dart';
 import '../../../../../service/api_service.dart';
 
 class SemuaTabs extends StatefulWidget {
@@ -113,19 +112,31 @@ class _SemuaTabsState extends State<SemuaTabs> {
                         color: color.white
                       ),
                     ),
-                  ) : data.confirmedStatus == 'menunggu' ? Container(padding: EdgeInsets.symmetric(
+                  ) : data.confirmedStatus == 'mengirim' ? Container(padding: EdgeInsets.symmetric(
                     vertical: 5,
                     horizontal: 10,
                   ),
                     color: color.primary,
                     child: Text(
-                      'Menunggu',
+                      'Mengirim',
                       style: TextStyle(
                           fontSize: 13,
                         color: color.white
                       ),
                     ),
-                  ) : Container(padding: EdgeInsets.symmetric(
+                  ) : data.confirmedStatus == 'direview' ? Container(padding: EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 10,
+                  ),
+                    color: color.primary,
+                    child: Text(
+                      'Direview',
+                      style: TextStyle(
+                          fontSize: 13,
+                          color: color.white
+                      ),
+                    ),
+                  ) :  Container(padding: EdgeInsets.symmetric(
                     vertical: 5,
                     horizontal: 10,
                   ),

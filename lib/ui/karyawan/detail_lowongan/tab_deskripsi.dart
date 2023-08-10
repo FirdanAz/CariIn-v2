@@ -8,7 +8,7 @@ import 'package:cariin_v2/ui/widget/svg_icon.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/detail_company_model.dart';
+import '../../../model/company/detail_company_model.dart';
 import '../../../service/api_service.dart';
 
 class TabDeskripsi extends StatefulWidget {

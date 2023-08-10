@@ -2,7 +2,6 @@
 
 import 'dart:io';
 
-import 'package:cariin_v2/model/profil_company_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +9,8 @@ import 'package:image_picker/image_picker.dart';
 import '../../../../common/app_assets.dart';
 import '../../../../common/app_color.dart';
 import '../../../../common/public_function.dart';
-import '../../../../model/job_tag_list_model.dart';
+import '../../../../model/company/job_tag_list_model.dart';
+import '../../../../model/company/profil_company_model.dart';
 import '../../../../service/api_service.dart';
 
 class CreateLowonganPage extends StatefulWidget {

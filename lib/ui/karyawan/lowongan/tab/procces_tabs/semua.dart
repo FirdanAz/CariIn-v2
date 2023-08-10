@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'package:cariin_v2/model/job_company_model.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +8,7 @@ import 'package:get_time_ago/get_time_ago.dart';
 import '../../../../../common/app_assets.dart';
 import '../../../../../common/app_color.dart';
 import '../../../../../common/public_function.dart';
+import '../../../../../model/company/job_company_model.dart';
 import '../../../../../service/api_service.dart';
 import '../../../detail_lowongan/page.dart';
 import '../../../form/lowongan/create_lowongan.dart';

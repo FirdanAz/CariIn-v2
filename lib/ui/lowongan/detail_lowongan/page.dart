@@ -6,10 +6,10 @@ import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/common/responsive.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_deskripsi.dart';
 import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
-import 'package:cariin_v2/model/detail_job_model.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import '../../../common/currency_format.dart';
 import '../../../common/public_function.dart';
+import '../../../model/company/detail_job_model.dart';
 import '../../../service/api_service.dart';
 
 // ignore: must_be_immutable

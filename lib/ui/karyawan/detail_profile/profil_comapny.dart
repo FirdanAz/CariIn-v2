@@ -1,10 +1,11 @@
-import 'package:cariin_v2/model/profil_company_model.dart';
 import 'package:cariin_v2/ui/options/options.dart';
+import 'package:cariin_v2/ui/view_image/view_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
+import '../../../model/company/profil_company_model.dart';
 import '../../../service/api_service.dart';
 
 class ProfilCompanyPage extends StatefulWidget {
@@ -126,10 +127,15 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                         padding: EdgeInsets.only(top: 90),
                         child: Column(
                           children: [
-                            CircleAvatar(
-                              radius: 40,
-                              backgroundImage: NetworkImage(
-                                  'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}'),
+                            InkWell(
+                              onTap: () {
+                                PublicFunction.navigatorPush(context, ViewImagePage(title: 'Foto Profile', urlImage: 'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}'));
+                              },
+                              child: CircleAvatar(
+                                radius: 40,
+                                backgroundImage: NetworkImage(
+                                    'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}'),
+                              ),
                             ),
                             SizedBox(
                               height: 5,
@@ -289,13 +295,18 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                                 fontSize: 14,
                               ),
                             ),
-                            Container(
-                              height: 100,
-                              width: 100,
-                              margin: EdgeInsets.symmetric(vertical: 5),
-                              child: Image.network(
-                                'https://cariin.my.id/storage/${profilCompanyModel!.data!.outsideImage}',
-                                fit: BoxFit.cover,
+                            InkWell(
+                              onTap: () {
+                                PublicFunction.navigatorPush(context, ViewImagePage(title: 'Foto Tampak Luar', urlImage: 'https://cariin.my.id/storage/${profilCompanyModel!.data!.outsideImage}'));
+                              },
+                              child: Container(
+                                height: 100,
+                                width: 100,
+                                margin: EdgeInsets.symmetric(vertical: 5),
+                                child: Image.network(
+                                  'https://cariin.my.id/storage/${profilCompanyModel!.data!.outsideImage}',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             )
                           ],
@@ -320,13 +331,18 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                                 fontSize: 14,
                               ),
                             ),
-                            Container(
-                              height: 100,
-                              width: 100,
-                              margin: EdgeInsets.symmetric(vertical: 5),
-                              child: Image.network(
-                                'https://cariin.my.id/storage/${profilCompanyModel!.data!.insideImage}',
-                                fit: BoxFit.cover,
+                            InkWell(
+                              onTap: () {
+                                PublicFunction.navigatorPush(context, ViewImagePage(title: 'Foto Tampak Dalam', urlImage: 'https://cariin.my.id/storage/${profilCompanyModel!.data!.insideImage}'));
+                              },
+                              child: Container(
+                                height: 100,
+                                width: 100,
+                                margin: EdgeInsets.symmetric(vertical: 5),
+                                child: Image.network(
+                                  'https://cariin.my.id/storage/${profilCompanyModel!.data!.insideImage}',
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                             SizedBox(

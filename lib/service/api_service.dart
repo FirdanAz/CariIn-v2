@@ -2,26 +2,27 @@
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:cariin_v2/model/job_company_model.dart';
-import 'package:cariin_v2/model/all_job_worker_model.dart';
-import 'package:cariin_v2/model/detail_company_model.dart';
-import 'package:cariin_v2/model/detail_job_model.dart';
-import 'package:cariin_v2/model/detail_pelamar_model.dart';
-import 'package:cariin_v2/model/job_application_model.dart';
-import 'package:cariin_v2/model/job_tag_list_model.dart';
-import 'package:cariin_v2/model/list_worker_model.dart';
-import 'package:cariin_v2/model/profil_company_model.dart';
+import 'package:cariin_v2/model/worker/all_job_worker_model.dart';
+import 'package:cariin_v2/model/company/detail_company_model.dart';
+import 'package:cariin_v2/model/worker/cv.dart';
+import 'package:cariin_v2/model/worker/job_application_model.dart';
 import 'package:cariin_v2/model/recruit/recruit_list_model.dart';
 import 'package:cariin_v2/model/recruit/ricruit_detail_model.dart';
-import 'package:cariin_v2/model/worker_application_model.dart';
-import 'package:cariin_v2/model/worker_detail_model.dart';
-import 'package:cariin_v2/model/worker_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../common/public_function.dart';
+import '../model/company/detail_job_model.dart';
+import '../model/company/detail_pelamar_model.dart';
+import '../model/company/job_company_model.dart';
+import '../model/company/job_tag_list_model.dart';
+import '../model/company/list_worker_model.dart';
+import '../model/company/profil_company_model.dart';
+import '../model/worker/worker_application_model.dart';
+import '../model/worker/worker_detail_model.dart';
+import '../model/worker/worker_model.dart';
 
 class ApiService {
   final _baseUrl = "https://cariin.my.id";
@@ -486,34 +487,33 @@ class ApiService {
   }
 
   Future postWorkerJob(
-      BuildContext context, String jobId, String description) async {
+      BuildContext context, String jobId, String description, File cvFile) async {
     var endPoint = '/api/worker/job-applications/create';
-    final url = '$_baseUrl$endPoint';
+    final url = Uri.parse('$_baseUrl$endPoint');
     String token = await PublicFunction.getToken('worker');
-    final body = {
+    var body = {
       'job_id': jobId,
       'description': description,
     };
+
     final headers = {
       'Authorization': 'Bearer $token',
       'Accept': 'application/json'
     };
 
-    try {
-      final response =
-          await http.post(Uri.parse(url), headers: headers, body: body);
-      print(response.statusCode);
-      if (response.statusCode == 201) {
-        print('Lamaran sukses');
-        return true;
-      } else {
-        print(response.statusCode);
-        return false;
-      }
-    } on SocketException {
-      print('Tidak koneksi Internet');
-      return false;
-    } on HttpException {
+    final request = http.MultipartRequest('POST', url)
+      ..headers.addAll(headers)
+      ..fields.addAll(body)
+      ..files.add(await http.MultipartFile.fromPath('cv_file', cvFile.path));
+
+    final response = await request.send().timeout(const Duration(seconds: 15));
+
+    final res = await http.Response.fromStream(response);
+    print(res.body);
+
+    if (res.statusCode == 201) {
+      return true;
+    } else {
       print('HttpException');
       return false;
     }
@@ -960,4 +960,63 @@ class ApiService {
     }
   }
 
+  Future addCV(
+      File file,
+      ) async {
+    var endPoint = '/api/worker/curriculum-vitae/create';
+    final url = Uri.parse('$_baseUrl$endPoint');
+    String token = await PublicFunction.getToken('worker');
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    final request = http.MultipartRequest('POST', url)
+      ..headers.addAll(headers)
+      ..files.add(await http.MultipartFile.fromPath('cv_file', file.path));
+
+    final response = await request.send().timeout(const Duration(seconds: 15));
+
+    final res = await http.Response.fromStream(response);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      print('HttpException');
+      return false;
+    }
+  }
+
+  Future getMyCv() async {
+    const endPoint = '/api/worker/curriculum-vitae';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        await RefreshToken('worker', token);
+        MyCvModel model = MyCvModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      }
+      if (response.statusCode == 401 &&
+          PublicFunction.getToken('worker') != '') {
+        await RefreshToken('worker', token);
+        MyCvModel model = MyCvModel.fromJson(json.decode(response.body));
+        return model;
+      } else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }

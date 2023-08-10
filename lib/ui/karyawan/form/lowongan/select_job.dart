@@ -9,7 +9,7 @@ import 'package:get_time_ago/get_time_ago.dart';
 import '../../../../common/app_assets.dart';
 import '../../../../common/app_color.dart';
 import '../../../../common/public_function.dart';
-import '../../../../model/job_company_model.dart';
+import '../../../../model/company/job_company_model.dart';
 import '../../../../service/api_service.dart';
 import '../../../widget/shimmer_widget.dart';
 import 'create_lowongan.dart';
@@ -26,7 +26,7 @@ class _SelectJobState extends State<SelectJob> {
   bool _isLoad = false;
   JobCompanyModel? allJobCompany;
 
-  Getdata() async {
+  getdata() async {
     _isLoad = true;
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
@@ -44,7 +44,7 @@ class _SelectJobState extends State<SelectJob> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Getdata();
+    getdata();
   }
 
   @override

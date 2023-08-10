@@ -2,6 +2,7 @@
 
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_function.dart';
+import 'package:cariin_v2/model/worker/all_job_worker_model.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/model/all_job_worker_model.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/page.dart';

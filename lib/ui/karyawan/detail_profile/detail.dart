@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable, deprecated_member_use, non_constant_identifier_names
 
 import 'package:cariin_v2/common/app_assets.dart';
-import 'package:cariin_v2/model/worker_detail_model.dart';
 import 'package:cariin_v2/ui/karyawan/form/lowongan/select_job.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
+import '../../../model/worker/worker_detail_model.dart';
 import '../../../service/api_service.dart';
 
 class DetailProfil extends StatefulWidget {

@@ -1,9 +1,8 @@
-import 'package:cariin_v2/model/job_application_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
 import '../../../../../common/app_color.dart';
+import '../../../../../model/worker/job_application_model.dart';
 import '../../../../../service/api_service.dart';
 
 class DiterimaTabs extends StatefulWidget {

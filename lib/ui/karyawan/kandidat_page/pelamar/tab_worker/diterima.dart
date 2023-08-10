@@ -1,4 +1,3 @@
-import 'package:cariin_v2/model/worker_application_model.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/detail_pelamar.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:get_time_ago/get_time_ago.dart';
 import '../../../../../common/app_assets.dart';
 import '../../../../../common/app_color.dart';
 import '../../../../../common/public_function.dart';
+import '../../../../../model/worker/worker_application_model.dart';
 import '../../../../../service/api_service.dart';
 
 class DiterimaTabs extends StatefulWidget {

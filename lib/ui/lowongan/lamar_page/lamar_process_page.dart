@@ -1,13 +1,18 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable
+
+import 'dart:io';
 
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/model/worker/worker_model.dart';
 import 'package:cariin_v2/service/api_service.dart';
-import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
+import '../../../model/worker/cv.dart';
+import '../../bottom_navigation/bottom_navigation.dart';
 
 // ignore: must_be_immutable
 class LamarProcessPage extends StatefulWidget {
@@ -22,6 +27,26 @@ class LamarProcessPage extends StatefulWidget {
 
 class _LamarProccesPageState extends State<LamarProcessPage> {
   final _descriptionController = TextEditingController();
+  File? cvFile;
+  MyCvModel? myCvModel;
+  WorkerModel? workerDetailModel;
+  bool _isLoad = false;
+
+  getData() async {
+    _isLoad = true;
+    WorkerModel model = await ApiService().getWorker();
+    setState(() {
+      workerDetailModel = model;
+    });
+    _isLoad = false;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +58,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
         backgroundColor: color.background,
         title: Row(
           children: [
-            Text(
+            const Text(
               'Lamar ',
               style: TextStyle(fontSize: 18),
             ),
@@ -54,10 +79,11 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
         ),
       ),
       body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 20),
+        child: _isLoad ? const Center(child: CircularProgressIndicator(),) : Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: _isLoad ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+            mainAxisAlignment: _isLoad ? MainAxisAlignment.center : MainAxisAlignment.start,
             children: [
               Text(
                 'Persiapkan CV mu sebelum melamar!',
@@ -80,15 +106,14 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
                       constraints: const BoxConstraints(minHeight: 100),
                       decoration: BoxDecoration(
                         color: color.white,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
+                        borderRadius: const BorderRadius.all(Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
                             color: color.primaryContainer.withOpacity(0.5),
                             spreadRadius: 1,
                             blurRadius: 4,
-                            offset: const Offset(
-                                0, 4), // changes position of shadow
+                            offset:
+                                const Offset(0, 4), // changes position of shadow
                           ),
                         ],
                       ),
@@ -109,13 +134,13 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Beberapa data anda masih kosong!',
+                                Text('Isi Formulir dengan baik!',
                                     style: TextStyle(
                                         color: color.onPrimaryContainer,
                                         fontWeight: FontWeight.w600,
                                         fontSize: 15)),
                                 Text(
-                                    'Lengkapi data CV mu untuk melanjutkan lamaran perkerjaan.',
+                                    'Pilih CV mu untuk melanjutkan lamaran perkerjaan.',
                                     style: TextStyle(
                                         color: color.onPrimaryContainer,
                                         fontSize: 13)),
@@ -136,6 +161,157 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
                   ),
                 ),
               ),
+              const SizedBox(height: 20,),
+              Text(
+                'Tambah CV mu',
+                style: TextStyle(
+                    color: color.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500),
+              ),
+              Text(
+                'Buat Cvmu secara otomatis atau buatan sendiri',
+                style: TextStyle(
+                  color: color.black.withOpacity(0.6),
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: 10,),
+              InkWell(
+                onTap: () async {
+                  if(cvFile == null){
+                    setState(() {
+                      _isLoad = true;
+                    });
+                    MyCvModel model = await ApiService().getMyCv();
+                    setState(() {
+                      myCvModel = model;
+                    });
+                    print(model.data!.cvFile);
+                    setState(() {
+                      _isLoad = false;
+                    });
+                    showDialog(context: context, builder: (context) {
+                      final data = workerDetailModel!.data!;
+                      return _isLoad ? const AlertDialog(actions: [Center(child: CircularProgressIndicator(),)],) : AlertDialog(
+                        title: const Text('Pilih CV', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),),
+                        actions: [
+                          myCvModel!.data!.cvFile!.isNotEmpty ? Column(
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  File files = await PublicFunction.getPdf(data.id!, data.username!, data.interested!, data.age!.toString(), data.address!, '08677281920', data.email!, data.gender!);
+                                  setState(() {
+                                    cvFile = files;
+                                  });
+                                  Navigator.of(context).pop();
+                                },
+                                child: Card(
+                                  child: Container(
+                                    width: double.maxFinite,
+                                    color: color.primaryContainer,
+                                    padding: EdgeInsets.all(10),
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.picture_as_pdf, color: color.primary,),
+                                        const SizedBox(width: 5,),
+                                        SizedBox(width: 150,child: Text(myCvModel!.data!.cvFile.toString(), overflow: TextOverflow.clip,)),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10,),
+                              ElevatedButton(
+                                onPressed: () {},
+                                child: const Text('Tambah dari perangkat'),
+                              )
+                            ],
+                          ) : const SizedBox(
+                            width: double.maxFinite,
+                            height: 30,
+                            child: Text('Tambah Cv'),
+                          )
+                        ],
+                      );
+                    },);
+                  } else {
+                    cvFile = null;
+                  }
+                },
+                child: cvFile != null ? Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CvPage(file: cvFile!),));
+                      },
+                      child: Container(
+                        width: double.maxFinite,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: color.primary,
+                          borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        )),
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(Icons.picture_as_pdf_outlined, color: color.white,),
+                            const SizedBox(width: 10,),
+                            Text(myCvModel!.data!.cvFile!, style: TextStyle(color: color.white),)
+                          ],
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          cvFile = null;
+                        });
+                      },
+                      child: Container(
+                        width: double.maxFinite,
+                        height: 50,
+                        decoration: BoxDecoration(
+                            color: color.primaryContainer,
+                            borderRadius: const BorderRadius.all(Radius.circular(10))
+                        ),
+                        child: Center(
+                          child: Icon(Icons.remove, color: color.primary,),
+                        ),
+                      ),
+                    ),
+                  ],
+                ): Container(
+                  width: double.maxFinite,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: color.primaryContainer,
+                    borderRadius: const BorderRadius.all(Radius.circular(10))
+                  ),
+                  child: Center(
+                    child: Icon(Icons.add, color: color.primary,),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20,),
+              Text(
+                'Alasan',
+                style: TextStyle(
+                    color: color.black,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500),
+              ),
+              Text(
+                'Alasan Pelamar dan tujuan',
+                style: TextStyle(
+                  color: color.black.withOpacity(0.6),
+                  fontSize: 14,
+                ),
+              ),
               Container(
                 margin: EdgeInsets.only(top: 20),
                 width: double.maxFinite,
@@ -154,8 +330,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
                       fontWeight: FontWeight.w500,
                       color: color.black),
                   decoration: const InputDecoration(
-                    hintText:
-                        "Tuliskan alasan anda untuk melamar pekerjaan ini",
+                    hintText: "Tuliskan alasan anda untuk melamar pekerjaan ini",
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     hintStyle: TextStyle(
@@ -174,39 +349,25 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
         color: color.surfaceContainer,
         child: InkWell(
           onTap: () async {
-            bool isSuccess = await ApiService().postWorkerJob(
-                context, widget.jobId.toString(), _descriptionController.text);
-            if (isSuccess == true) {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    content: const Text(
-                      'Menunggu Konfirmasi dari perusahaan',
-                      style: TextStyle(fontSize: 15),
-                    ),
-                    actions: [
-                      TextButton(
-                          onPressed: () => Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    const CustomBottomNavigation(),
-                              ),
-                              (route) => false),
-                          child: const Text("Iya")),
-                    ],
-                  );
-                },
-              );
-            } else {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return PublicFunction.showDialog(
-                      context, 'Anda telah melamar dilowongan ini');
-                },
-              );
+            bool isSuccess = await ApiService().postWorkerJob(context, widget.jobId.toString(), _descriptionController.text, cvFile!);
+            if(isSuccess == true){
+              showDialog(context: context, builder: (context) {
+                return AlertDialog(
+                  content: const Text(
+                    'Menunggu Konfirmasi dari perusahaan',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  actions: [
+                    TextButton(
+                        onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false),
+                        child: const Text("Iya")),
+                  ],
+                );
+              },);
+            }else{
+              showDialog(context: context, builder: (context) {
+                return PublicFunction.showDialog(context, 'Anda telah melamar dilowongan ini');
+              },);
             }
           },
           child: Container(
@@ -224,6 +385,45 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class CvPage extends StatelessWidget {
+  CvPage({Key? key, required this.file}) : super(key: key);
+  File file;
+
+  @override
+  Widget build(BuildContext context) {
+    var color = AppColor.theme(Theme.of(context).brightness);
+
+    return Scaffold(
+      backgroundColor: Colors.grey,
+      appBar: AppBar(
+          title: Text(
+            'CV Firdan',
+            style: TextStyle(color: color.black, fontWeight: FontWeight.w600),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Icon(Icons.print, size: 30,),
+            )
+          ],
+          leading: InkWell(
+            onTap: () => Navigator.of(context).pop(),
+            child: const Icon(
+              Icons.arrow_back_ios_new_rounded,
+            ),
+          )),
+      body: PDFView(
+        autoSpacing: false,
+        enableSwipe: false,
+        swipeHorizontal: true,
+        pageFling: false,
+
+        filePath: file.path,
       ),
     );
   }
