@@ -46,7 +46,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
         backgroundColor: color.surface,
       ),
       body: Container(
-        padding: EdgeInsets.only(left: 15, top: 17, right: 15),
+        padding: EdgeInsets.all(15),
         child: ListView(
           children: [
             Text(
@@ -141,25 +141,6 @@ class _ChangeProfileState extends State<ChangeProfile> {
                 items: dropdownItems,
               ),
             ),
-            SizedBox(height: 30),
-            Text(
-              'Nomor Telepon',
-              style: TextStyle(
-                fontSize: 17,
-                color: color.primary,
-              ),
-            ),
-            SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Nomor Telepon',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: color.primary,
-                  ),
-                ),
-              ),
-            ),
             SizedBox(height: 35),
             MaterialButton(
               height: 50,
@@ -176,7 +157,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            SizedBox(height: 30),
+            SizedBox(height: 10),
           ],
         ),
       ),
