@@ -8,6 +8,7 @@ import 'package:cariin_v2/model/worker/cv.dart';
 import 'package:cariin_v2/model/worker/job_application_model.dart';
 import 'package:cariin_v2/model/recruit/recruit_list_model.dart';
 import 'package:cariin_v2/model/recruit/ricruit_detail_model.dart';
+import 'package:cariin_v2/model/worker/worker_recruit_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -1030,4 +1031,39 @@ class ApiService {
     await file.writeAsBytes(response.bodyBytes, flush: true);
     return file;
   }
+
+  Future getListWorkerRecruit() async {
+    const endPoint = '/api/worker/recruit-workers';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        await RefreshToken('worker', token);
+        WorkerRecruitListModel model =
+        WorkerRecruitListModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      }
+      if (response.statusCode == 401 &&
+          PublicFunction.getToken('worker') != '') {
+        await RefreshToken('worker', token);
+        WorkerRecruitListModel model =
+        WorkerRecruitListModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      } else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
 }

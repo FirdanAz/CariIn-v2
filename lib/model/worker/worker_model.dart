@@ -26,15 +26,15 @@ class Data {
   int? id;
   String? username;
   String? email;
-  Null? profilImage;
-  Null? backdropImage;
+  String? profilImage;
+  String? backdropImage;
   String? gender;
   String? phoneNumber;
   int? age;
   String? address;
   String? bornDate;
   String? interested;
-  Null? description;
+  String? description;
   bool? companyVisible;
   String? createdAt;
 
