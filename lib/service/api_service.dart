@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 import '../common/public_function.dart';
 import '../model/company/detail_job_model.dart';
@@ -1018,5 +1019,15 @@ class ApiService {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Future loadPdf(String url) async {
+    var response = await http.get(Uri.parse(url));
+
+    var dir = await getTemporaryDirectory();
+    File file = new File(dir.path+"cvFile.pdf");
+
+    await file.writeAsBytes(response.bodyBytes, flush: true);
+    return file;
   }
 }

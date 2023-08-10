@@ -3,6 +3,7 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/profil_comapny.dart';
+import 'package:cariin_v2/ui/karyawan/form/lowongan/create_lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:flutter/foundation.dart';
@@ -40,7 +41,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
     JobCompanyModel allJob =
-        await ApiService().jobsCompany(false, 'terverifikasi');
+        await ApiService().jobsCompany(true, 'terverifikasi');
     ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
     WorkerListModel workerList = await ApiService().ListWorkerCompany();
     setState(() {
@@ -225,12 +226,15 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                           itemBuilder: (context, index) {
                             var data = workerListModel!.data![index];
                             return WorkerCards(
-                                id: data.id!,
-                                name: data.username.toString(),
-                                gender: data.gender.toString(),
-                                age: data.age.toString(),
-                                location: data.address.toString(),
-                                selection: data.interested.toString());
+                              id: data.id!,
+                              name: data.username.toString(),
+                              gender: data.gender.toString(),
+                              age: data.age.toString(),
+                              location: data.address.toString(),
+                              selection: data.interested.toString(),
+                              urlProfileImage: data.profilImage.toString(),
+                            )
+                            ;
                           },
                         ))),
             SliverToBoxAdapter(
@@ -270,217 +274,261 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                 ? const SliverToBoxAdapter(
                     child: ShimmerJobCard(),
                   )
-                : SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                        childCount: acceptedJobCompany!.data!.length,
-                        (context, index) {
-                      var data = acceptedJobCompany!.data![index];
-                      int count;
-                      if (data.tags!.length == 1) {
-                        count = 1;
-                      } else if (data.tags!.length == 2) {
-                        count = 2;
-                      } else {
-                        count = 3;
-                      }
-                      DateTime? date =
-                          DateTime.parse(data.createdAt.toString());
-                      if (kDebugMode) {
-                        print(date);
-                      }
-                      return InkWell(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CompanyJobDetailPage(
-                                  id: acceptedJobCompany!.data![index].id!
-                                      .toInt()),
-                            )),
+                : acceptedJobCompany!.data!.isEmpty
+                    ? SliverToBoxAdapter(
                         child: Column(
                           children: [
                             Container(
-                              height: 140,
                               width: double.maxFinite,
-                              margin: const EdgeInsets.only(
-                                  top: 20, left: 15, right: 15),
+                              height: 80,
+                              margin: EdgeInsets.only(top: 10, left: 20, right: 20),
                               decoration: BoxDecoration(
                                 color: color.white,
+                                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                                 boxShadow: [
                                   BoxShadow(
-                                    color:
-                                        color.primaryContainer.withOpacity(0.5),
+                                    color: color.primaryContainer.withOpacity(0.5),
                                     spreadRadius: 1,
                                     blurRadius: 4,
-                                    offset: const Offset(
-                                        2, 2), // changes position of shadow
+                                    offset: const Offset(0, 4), // changes position of shadow
                                   ),
                                 ],
                               ),
+                              child: Center(child: Text('Belum ada lowongan'),),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                PublicFunction.navigatorPush(context, const CreateLowonganPage());
+                              },
                               child: Container(
-                                margin: const EdgeInsets.only(
-                                    top: 10, left: 10, right: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      data.title.toString(),
-                                      style: TextStyle(
-                                          color: color.black,
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 15),
-                                    ),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
+                                width: double.maxFinite,
+                                height: 50,
+                                color: color.primaryContainer,
+                                margin: const EdgeInsets.symmetric(horizontal: 20),
+                                child: Center(child: Text('Buat Lowongan', style: TextStyle(color: color.primary),)),
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    : SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                            childCount: acceptedJobCompany!.data!.length,
+                            (context, index) {
+                          var data = acceptedJobCompany!.data![index];
+                          int count;
+                          if (data.tags!.length == 1) {
+                            count = 1;
+                          } else if (data.tags!.length == 2) {
+                            count = 2;
+                          } else {
+                            count = 3;
+                          }
+                          DateTime? date =
+                              DateTime.parse(data.createdAt.toString());
+                          if (kDebugMode) {
+                            print(date);
+                          }
+                          return InkWell(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CompanyJobDetailPage(
+                                      id: acceptedJobCompany!.data![index].id!
+                                          .toInt()),
+                                )),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 140,
+                                  width: double.maxFinite,
+                                  margin: const EdgeInsets.only(
+                                      top: 20, left: 15, right: 15),
+                                  decoration: BoxDecoration(
+                                    color: color.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: color.primaryContainer
+                                            .withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 4,
+                                        offset: const Offset(
+                                            2, 2), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: Container(
+                                    margin: const EdgeInsets.only(
+                                        top: 10, left: 10, right: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          'Pengalaman',
+                                          data.title.toString(),
                                           style: TextStyle(
-                                              color:
-                                                  color.black.withOpacity(0.6),
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14),
+                                              color: color.black,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15),
                                         ),
                                         const SizedBox(
-                                          width: 5,
+                                          height: 5,
                                         ),
-                                        CircleAvatar(
-                                          radius: 5,
-                                          backgroundColor:
-                                              color.black.withOpacity(0.5),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              'Pengalaman',
+                                              style: TextStyle(
+                                                  color: color.black
+                                                      .withOpacity(0.6),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14),
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            CircleAvatar(
+                                              radius: 5,
+                                              backgroundColor:
+                                                  color.black.withOpacity(0.5),
+                                            ),
+                                            const SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              '1 - 3 Tahun',
+                                              style: TextStyle(
+                                                  color: color.black
+                                                      .withOpacity(0.6),
+                                                  fontWeight: FontWeight.w500,
+                                                  fontSize: 14),
+                                            ),
+                                          ],
                                         ),
                                         const SizedBox(
-                                          width: 5,
+                                          height: 3,
                                         ),
-                                        Text(
-                                          '1 - 3 Tahun',
-                                          style: TextStyle(
-                                              color:
-                                                  color.black.withOpacity(0.6),
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 3,
-                                    ),
-                                    Expanded(
-                                      child: ListView.builder(
-                                        itemCount: count,
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.horizontal,
-                                        itemBuilder: (context, indexs) {
-                                          return Center(
-                                            child: Container(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
+                                        Expanded(
+                                          child: ListView.builder(
+                                            itemCount: count,
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, indexs) {
+                                              return Center(
+                                                child: Container(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
                                                       vertical: 3,
                                                       horizontal: 5),
-                                              margin: const EdgeInsets.only(
-                                                  right: 7),
-                                              decoration: BoxDecoration(
-                                                  color: color.primaryContainer,
-                                                  borderRadius:
-                                                      BorderRadius.circular(5)),
-                                              child: Text(
-                                                '${data.tags![indexs].name}',
-                                                style: const TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.w500),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 7, left: 2, bottom: 10),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Container(
-                                            height: 40,
-                                            width: 4,
-                                            margin: const EdgeInsets.only(
-                                                right: 10),
-                                            decoration: BoxDecoration(
-                                                color: color.tertiary
-                                                    .withOpacity(0.5),
-                                                borderRadius:
-                                                    BorderRadius.circular(2)),
+                                                  margin: const EdgeInsets.only(
+                                                      right: 7),
+                                                  decoration: BoxDecoration(
+                                                      color: color
+                                                          .primaryContainer,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              5)),
+                                                  child: Text(
+                                                    '${data.tags![indexs].name}',
+                                                    style: const TextStyle(
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  ),
+                                                ),
+                                              );
+                                            },
                                           ),
-                                          Column(
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.only(
+                                              top: 7, left: 2, bottom: 10),
+                                          child: Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Text(
-                                                data.company!.name.toString(),
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w600,
+                                              Container(
+                                                height: 40,
+                                                width: 4,
+                                                margin: const EdgeInsets.only(
+                                                    right: 10),
+                                                decoration: BoxDecoration(
                                                     color: color.tertiary
-                                                        .withOpacity(0.8)),
+                                                        .withOpacity(0.5),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            2)),
                                               ),
-                                              Text(
-                                                data.company!.location
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.w500,
-                                                    color: color.tertiary
-                                                        .withOpacity(0.8)),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    data.company!.name
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color: color.tertiary
+                                                            .withOpacity(0.8)),
+                                                  ),
+                                                  Text(
+                                                    data.company!.location
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: color.tertiary
+                                                            .withOpacity(0.8)),
+                                                  )
+                                                ],
                                               )
                                             ],
-                                          )
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 30,
-                              width: double.maxFinite,
-                              margin:
-                                  const EdgeInsets.only(left: 15, right: 15),
-                              decoration: BoxDecoration(
-                                color: color.primary,
-                                borderRadius: const BorderRadius.only(
-                                    bottomRight: Radius.circular(20)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color:
-                                        color.primaryContainer.withOpacity(0.5),
-                                    spreadRadius: 1,
-                                    blurRadius: 4,
-                                    offset: const Offset(
-                                        2, 2), // changes position of shadow
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ],
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Text(GetTimeAgo.parse(date, locale: 'id'),
-                                      style: TextStyle(
-                                          color: color.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 12)),
-                                  const SizedBox(
-                                    width: 13,
-                                  )
-                                ],
-                              ),
+                                ),
+                                Container(
+                                  height: 30,
+                                  width: double.maxFinite,
+                                  margin: const EdgeInsets.only(
+                                      left: 15, right: 15),
+                                  decoration: BoxDecoration(
+                                    color: color.primary,
+                                    borderRadius: const BorderRadius.only(
+                                        bottomRight: Radius.circular(20)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: color.primaryContainer
+                                            .withOpacity(0.5),
+                                        spreadRadius: 1,
+                                        blurRadius: 4,
+                                        offset: const Offset(
+                                            2, 2), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Text(GetTimeAgo.parse(date, locale: 'id'),
+                                          style: TextStyle(
+                                              color: color.white,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 12)),
+                                      const SizedBox(
+                                        width: 13,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
-                      );
-                    }),
-                  )
+                          );
+                        }),
+                      )
           ],
         ),
       ),

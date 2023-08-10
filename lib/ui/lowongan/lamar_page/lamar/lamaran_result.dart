@@ -28,7 +28,7 @@ class _LamaranResultState extends State<LamaranResult> {
       const MenungguTabs(),
       const DitolakTabs(),
     ];
-    return Container(
+    return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

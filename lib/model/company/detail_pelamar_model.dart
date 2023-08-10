@@ -26,6 +26,7 @@ class Data {
   int? id;
   Job? job;
   Worker? worker;
+  String? cvFile;
   String? description;
   String? confirmedStatus;
   String? createdAt;
@@ -34,6 +35,7 @@ class Data {
       {this.id,
         this.job,
         this.worker,
+        this.cvFile,
         this.description,
         this.confirmedStatus,
         this.createdAt});
@@ -43,6 +45,7 @@ class Data {
     job = json['job'] != null ? new Job.fromJson(json['job']) : null;
     worker =
     json['worker'] != null ? new Worker.fromJson(json['worker']) : null;
+    cvFile = json['cv_file'];
     description = json['description'];
     confirmedStatus = json['confirmed_status'];
     createdAt = json['created_at'];
@@ -57,6 +60,7 @@ class Data {
     if (this.worker != null) {
       data['worker'] = this.worker!.toJson();
     }
+    data['cv_file'] = this.cvFile;
     data['description'] = this.description;
     data['confirmed_status'] = this.confirmedStatus;
     data['created_at'] = this.createdAt;

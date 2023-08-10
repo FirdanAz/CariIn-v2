@@ -1,3 +1,4 @@
+import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
@@ -38,7 +39,7 @@ class _LamaranProccesState extends State<LamaranProcces> {
   Widget build(BuildContext context) {
     final color = AppColor.theme(Theme.of(context).brightness);
 
-    return _isLoad ? const Center(child: CircularProgressIndicator(),) : Container(
+    return _isLoad ? const ShimmerJobCard() : Container(
       child: ListView.builder(
         itemCount: allJobWorkerModel!.data!.length,
         itemBuilder: (context, index) {
