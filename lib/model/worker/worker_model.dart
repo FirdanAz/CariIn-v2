@@ -23,58 +23,70 @@ class WorkerModel {
 }
 
 class Data {
+  int? id;
   String? username;
   String? email;
+  Null? profilImage;
+  Null? backdropImage;
   String? gender;
   String? phoneNumber;
-  String? bornDate;
+  int? age;
   String? address;
-  int? companyVisible;
-  String? role;
-  String? updatedAt;
+  String? bornDate;
+  String? interested;
+  Null? description;
+  bool? companyVisible;
   String? createdAt;
-  int? id;
 
   Data(
-      {this.username,
+      {this.id,
+        this.username,
         this.email,
+        this.profilImage,
+        this.backdropImage,
         this.gender,
         this.phoneNumber,
-        this.bornDate,
+        this.age,
         this.address,
+        this.bornDate,
+        this.interested,
+        this.description,
         this.companyVisible,
-        this.role,
-        this.updatedAt,
-        this.createdAt,
-        this.id});
+        this.createdAt});
 
   Data.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     username = json['username'];
     email = json['email'];
+    profilImage = json['profil_image'];
+    backdropImage = json['backdrop_image'];
     gender = json['gender'];
     phoneNumber = json['phone_number'];
-    bornDate = json['born_date'];
+    age = json['age'];
     address = json['address'];
+    bornDate = json['born_date'];
+    interested = json['interested'];
+    description = json['description'];
     companyVisible = json['company_visible'];
-    role = json['role'];
-    updatedAt = json['updated_at'];
     createdAt = json['created_at'];
-    id = json['id'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
     data['username'] = this.username;
     data['email'] = this.email;
+    data['profil_image'] = this.profilImage;
+    data['backdrop_image'] = this.backdropImage;
     data['gender'] = this.gender;
     data['phone_number'] = this.phoneNumber;
-    data['born_date'] = this.bornDate;
+    data['age'] = this.age;
     data['address'] = this.address;
+    data['born_date'] = this.bornDate;
+    data['interested'] = this.interested;
+    data['description'] = this.description;
     data['company_visible'] = this.companyVisible;
-    data['role'] = this.role;
-    data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;
-    data['id'] = this.id;
     return data;
   }
 }

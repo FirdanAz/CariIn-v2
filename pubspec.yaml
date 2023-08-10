@@ -50,6 +50,12 @@ dependencies:
   introduction_screen:
   lottie:
   permission_handler:
+  open_file:
+  pdf:
+  flutter_pdfview: ^1.3.1
+  printing: ^5.11.0
+  uri_to_file:
+  dio:
 
 dev_dependencies:
   flutter_test:
