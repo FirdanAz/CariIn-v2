@@ -1,4 +1,5 @@
 import 'package:cariin_v2/common/app_color.dart';
+import 'package:cariin_v2/ui/lowongan/atur%20cv/cv.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Account_settings.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/about_page.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/change_password.dart';
@@ -63,7 +64,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                   width: 10,
                 ),
                 Text(
-                  "Profil & CV",
+                  "Detail Pribadi",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
@@ -78,18 +79,29 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
             ),
             SizedBox(height: 0),
             SettingContentButton(
-                context: context,
-                title: 'Atur Profil',
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AccountSettings(),
-                    ),
-                  );
-                }),
+              context: context,
+              title: 'Atur Akun & Profil',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AccountSettings(),
+                  ),
+                );
+              },
+            ),
             SettingContentButton(
-                context: context, title: "Atur CV", onTap: () {}),
+              context: context,
+              title: "Atur CV",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AturCvPage(),
+                  ),
+                );
+              },
+            ),
             SizedBox(height: 10),
             Row(
               children: [
