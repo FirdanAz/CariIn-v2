@@ -11,10 +11,12 @@ class ChangeProfile extends StatefulWidget {
 }
 
 class _ChangeProfileState extends State<ChangeProfile> {
-  String selectedValue = "Pria";
+  String selectedValue = "Pilih Jenis Kelamin";
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = const [
+      DropdownMenuItem(
+          child: Text("Pilih Jenis Kelamin"), value: "Pilih Jenis Kelamin"),
       DropdownMenuItem(child: Text("Pria"), value: "Pria"),
       DropdownMenuItem(child: Text("Wanita"), value: "Wanita"),
     ];
@@ -104,7 +106,9 @@ class _ChangeProfileState extends State<ChangeProfile> {
               decoration: InputDecoration(
                 hintText: 'Jl. Kudus',
                 border: OutlineInputBorder(
-                  borderSide: BorderSide(color: color.outline),
+                  borderSide: BorderSide(
+                    color: color.outline,
+                  ),
                 ),
               ),
             ),
@@ -134,9 +138,11 @@ class _ChangeProfileState extends State<ChangeProfile> {
                 style: TextStyle(color: color.black),
                 iconSize: 30,
                 onChanged: (String? value) {
-                  setState(() {
-                    selectedValue = value!;
-                  });
+                  setState(
+                    () {
+                      selectedValue = value!;
+                    },
+                  );
                 },
                 items: dropdownItems,
               ),
@@ -157,7 +163,7 @@ class _ChangeProfileState extends State<ChangeProfile> {
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 30),
           ],
         ),
       ),

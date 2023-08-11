@@ -303,78 +303,114 @@ class _FillDataCompanyState extends State<FillDataCompany> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       InkWell(
-                                        onTap: () async {
-                                          showDialog(context: context, builder: (context) {
-                                            return AlertDialog(
-                                              title: const Text('Pilih Gambar dari'),
-                                              actions: [
-                                                Column(
-                                                  children: [
-                                                    InkWell(
-                                                      onTap: () async {
-                                                        selectedImageInSide = await _pickImageFromGalerys();
-                                                        setState(() {
-                                                          selectedImageInSide;
-                                                        });
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: Container(
-                                                        width: double.maxFinite,
-                                                        padding: const EdgeInsets.all(15),
-                                                        child: Row(
-                                                          children: [
-                                                            Icon(Icons.window, color: color.primary,),
-                                                            const SizedBox(width: 15,),
-                                                            const Text('Galeri'),
-                                                          ],
+                                          onTap: () async {
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Pilih Gambar dari'),
+                                                  actions: [
+                                                    Column(
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            selectedImageInSide =
+                                                                await _pickImageFromGalerys();
+                                                            setState(() {
+                                                              selectedImageInSide;
+                                                            });
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Container(
+                                                            width: double
+                                                                .maxFinite,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.window,
+                                                                  color: color
+                                                                      .primary,
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 15,
+                                                                ),
+                                                                const Text(
+                                                                    'Galeri'),
+                                                              ],
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    InkWell(
-                                                      onTap: () async {
-                                                        selectedImageInSide = await _pickImageFromCamera();
-                                                        setState(() {
-                                                          selectedImageInSide;
-                                                        });
-                                                        Navigator.of(context).pop();
-                                                      },
-                                                      child: Container(
-                                                        width: double.maxFinite,
-                                                        padding: const EdgeInsets.all(15),
-                                                        child: Row(
-                                                          children: [
-                                                            Icon(Icons.camera, color: color.primary,),
-                                                            const SizedBox(width: 15,),
-                                                            const Text('Kamera'),
-                                                          ],
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            selectedImageInSide =
+                                                                await _pickImageFromCamera();
+                                                            setState(() {
+                                                              selectedImageInSide;
+                                                            });
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Container(
+                                                            width: double
+                                                                .maxFinite,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.camera,
+                                                                  color: color
+                                                                      .primary,
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 15,
+                                                                ),
+                                                                const Text(
+                                                                    'Kamera'),
+                                                              ],
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ),
+                                                      ],
+                                                    )
                                                   ],
-                                                )
-                                              ],
+                                                );
+                                              },
                                             );
-                                          },);
-                                        },
-                                        child: selectedImageInSide == null ? Container(
-                                            height: 100,
-                                            width: 100,
-                                            color: color.primaryContainer,
-                                            margin: const EdgeInsets.symmetric(
-                                                vertical: 5),
-                                            child: Container(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 8, horizontal: 10),
-                                              child: Icon(
-                                                Icons.add,
-                                                color: color.primary,
-                                              ),
-                                            )) : SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: Image.file(selectedImageInSide!, fit: BoxFit.cover,),
-                                        )
-                                      ),
+                                          },
+                                          child: selectedImageInSide == null
+                                              ? Container(
+                                                  height: 100,
+                                                  width: 100,
+                                                  color: color.primaryContainer,
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 5),
+                                                  child: Container(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 8,
+                                                        horizontal: 10),
+                                                    child: Icon(
+                                                      Icons.add,
+                                                      color: color.primary,
+                                                    ),
+                                                  ))
+                                              : SizedBox(
+                                                  height: 100,
+                                                  width: 100,
+                                                  child: Image.file(
+                                                    selectedImageInSide!,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                )),
                                       const Text('Tampak Dalam')
                                     ],
                                   ),
@@ -386,77 +422,113 @@ class _FillDataCompanyState extends State<FillDataCompany> {
                                     children: [
                                       InkWell(
                                           onTap: () async {
-                                            showDialog(context: context, builder: (context) {
-                                              return AlertDialog(
-                                                title: const Text('Pilih Gambar dari'),
-                                                actions: [
-                                                  Column(
-                                                    children: [
-                                                      InkWell(
-                                                        onTap: () async {
-                                                          selectedImageOutSide = await _pickImageFromGalerys();
-                                                          setState(() {
-                                                            selectedImageOutSide;
-                                                          });
-                                                          Navigator.of(context).pop();
-                                                        },
-                                                        child: Container(
-                                                          width: double.maxFinite,
-                                                          padding: const EdgeInsets.all(15),
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(Icons.window, color: color.primary,),
-                                                              const SizedBox(width: 15,),
-                                                              const Text('Galeri'),
-                                                            ],
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text(
+                                                      'Pilih Gambar dari'),
+                                                  actions: [
+                                                    Column(
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            selectedImageOutSide =
+                                                                await _pickImageFromGalerys();
+                                                            setState(() {
+                                                              selectedImageOutSide;
+                                                            });
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Container(
+                                                            width: double
+                                                                .maxFinite,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.window,
+                                                                  color: color
+                                                                      .primary,
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 15,
+                                                                ),
+                                                                const Text(
+                                                                    'Galeri'),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                      InkWell(
-                                                        onTap: () async {
-                                                          selectedImageOutSide = await _pickImageFromCamera();
-                                                          setState(() {
-                                                            selectedImageOutSide;
-                                                          });
-                                                          Navigator.of(context).pop();
-                                                        },
-                                                        child: Container(
-                                                          width: double.maxFinite,
-                                                          padding: const EdgeInsets.all(15),
-                                                          child: Row(
-                                                            children: [
-                                                              Icon(Icons.camera, color: color.primary,),
-                                                              const SizedBox(width: 15,),
-                                                              const Text('Kamera'),
-                                                            ],
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            selectedImageOutSide =
+                                                                await _pickImageFromCamera();
+                                                            setState(() {
+                                                              selectedImageOutSide;
+                                                            });
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          child: Container(
+                                                            width: double
+                                                                .maxFinite,
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(15),
+                                                            child: Row(
+                                                              children: [
+                                                                Icon(
+                                                                  Icons.camera,
+                                                                  color: color
+                                                                      .primary,
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 15,
+                                                                ),
+                                                                const Text(
+                                                                    'Kamera'),
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  )
-                                                ],
-                                              );
-                                            },);
+                                                      ],
+                                                    )
+                                                  ],
+                                                );
+                                              },
+                                            );
                                           },
-                                          child: selectedImageOutSide == null ? Container(
-                                              height: 100,
-                                              width: 100,
-                                              color: color.primaryContainer,
-                                              margin: const EdgeInsets.symmetric(
-                                                  vertical: 5),
-                                              child: Container(
-                                                padding: const EdgeInsets.symmetric(
-                                                    vertical: 8, horizontal: 10),
-                                                child: Icon(
-                                                  Icons.add,
-                                                  color: color.primary,
-                                                ),
-                                              )) : SizedBox(
-                                            height: 100,
-                                            width: 100,
-                                            child: Image.file(selectedImageOutSide!, fit: BoxFit.cover,),
-                                          )
-                                      ),
+                                          child: selectedImageOutSide == null
+                                              ? Container(
+                                                  height: 100,
+                                                  width: 100,
+                                                  color: color.primaryContainer,
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 5),
+                                                  child: Container(
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        vertical: 8,
+                                                        horizontal: 10),
+                                                    child: Icon(
+                                                      Icons.add,
+                                                      color: color.primary,
+                                                    ),
+                                                  ))
+                                              : SizedBox(
+                                                  height: 100,
+                                                  width: 100,
+                                                  child: Image.file(
+                                                    selectedImageOutSide!,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                )),
                                       const Text('Tampak Luar')
                                     ],
                                   ),
@@ -657,17 +729,34 @@ class _FillDataCompanyState extends State<FillDataCompany> {
                 child: InkWell(
                     onTap: () async {
                       showLoaderDialog(context);
-                      bool isSuccess = await ApiService().postFillDataCompany(context, selectedImage!, dateString, _numberToRoleMap[selectedRole].toString(), _addressController.text, _descriptionController.text, selectedImageInSide!, selectedImageOutSide!);
-                      if(isSuccess == true){
-                        PublicFunction.navigatorPushAndRemoveUntil(context, KaryawanBottomNavigation(indexs: 0));
-                        showDialog(context: context, builder: (context) {
-                          return PublicFunction.showDialog(context, 'Melengkapi data sukses!');
-                        },);
+                      bool isSuccess = await ApiService().postFillDataCompany(
+                          context,
+                          selectedImage!,
+                          dateString,
+                          _numberToRoleMap[selectedRole].toString(),
+                          _addressController.text,
+                          _descriptionController.text,
+                          selectedImageInSide!,
+                          selectedImageOutSide!);
+                      if (isSuccess == true) {
+                        PublicFunction.navigatorPushAndRemoveUntil(
+                            context, KaryawanBottomNavigation(indexs: 0));
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return PublicFunction.showDialog(
+                                context, 'Melengkapi data sukses!');
+                          },
+                        );
                       } else {
-                        showDialog(context: context, builder: (context) {
-                          Navigator.of(context).pop();
-                          return PublicFunction.showDialog(context, 'Gagal Melengkapi data');
-                        },);
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            Navigator.of(context).pop();
+                            return PublicFunction.showDialog(
+                                context, 'Gagal Melengkapi data');
+                          },
+                        );
                       }
                     },
                     child: Center(
