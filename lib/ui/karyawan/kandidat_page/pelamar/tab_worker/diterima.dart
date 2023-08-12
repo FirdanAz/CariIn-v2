@@ -42,7 +42,7 @@ class _DiterimaTabsState extends State<DiterimaTabs> {
   Widget build(BuildContext context) {
     final color = AppColor.theme(Theme.of(context).brightness);
 
-    return _isLoad ? const ShimmerPelamar() :
+    return _isLoad ? ShimmerPelamar(itemCount: 7,) :
     Container(
       height: double.maxFinite,
       child: SizedBox(

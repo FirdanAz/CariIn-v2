@@ -4,9 +4,10 @@ import '../../common/app_color.dart';
 
 // ignore: must_be_immutable
 class TextFieldComp extends StatefulWidget {
-  TextFieldComp({Key? key, required this.emailController, required this.hintText}) : super(key: key);
+  TextFieldComp({Key? key, required this.emailController, required this.hintText, required this.textInputType}) : super(key: key);
   TextEditingController emailController;
   String hintText;
+  TextInputType textInputType;
 
   @override
   State<TextFieldComp> createState() => _TextFieldCompState();
@@ -21,6 +22,7 @@ class _TextFieldCompState extends State<TextFieldComp> {
       controller: widget.emailController,
       textAlign: TextAlign.left,
       style: const TextStyle(color: Colors.black),
+      keyboardType: widget.textInputType,
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         hintStyle: const TextStyle(color: Colors.black45),

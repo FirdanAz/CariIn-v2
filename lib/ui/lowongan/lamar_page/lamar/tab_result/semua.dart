@@ -1,3 +1,5 @@
+import 'package:cariin_v2/common/public_function.dart';
+import 'package:cariin_v2/ui/lowongan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
@@ -44,7 +46,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
         appBar: AppBar(
           title: Text(widget.titlePage, style: TextStyle(color: color.primary, fontSize: 19),),
         ),
-        body: _isLoad ? const ShimmerPelamar() : RefreshIndicator(
+        body: _isLoad ? ShimmerPelamar(itemCount: 7,) : RefreshIndicator(
             onRefresh: () async {
               setState(() {
                 getdata();
@@ -58,7 +60,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
                 DateTime? date = DateTime.parse(data.createdAt.toString());
                 return InkWell(
                   onTap: () {
-
+                    PublicFunction.navigatorPush(context, JobDetailPage(id: data.job!.id!));
                   },
                   child: Container(
                     decoration: BoxDecoration(
@@ -84,7 +86,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
                                 Container(
                                   margin: const EdgeInsets.only(left: 5),
                                   child: Text(
-                                    '${data.worker!.username}',
+                                    '${data.job!.title}',
                                     style: const TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w400,

@@ -8,6 +8,8 @@ import 'package:cariin_v2/model/worker/cv.dart';
 import 'package:cariin_v2/model/worker/job_application_model.dart';
 import 'package:cariin_v2/model/recruit/recruit_list_model.dart';
 import 'package:cariin_v2/model/recruit/ricruit_detail_model.dart';
+import 'package:cariin_v2/model/worker/skill_list_model.dart';
+import 'package:cariin_v2/model/worker/worker_profile_model.dart';
 import 'package:cariin_v2/model/worker/worker_recruit_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -852,6 +854,7 @@ class ApiService {
       print('status code : ${response.statusCode}');
       if (response.statusCode == 200) {
         final response = await PublicFunction.removeToken(token);
+        await PublicFunction.removeToken(token);
         return true;
       } else {
         return false;
@@ -1057,6 +1060,148 @@ class ApiService {
         WorkerRecruitListModel model =
         WorkerRecruitListModel.fromJson(json.decode(response.body));
         print(model);
+        return model;
+      } else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future ListSkillsWorker() async {
+    const endPoint = '/api/worker/skills';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        await RefreshToken('worker', token);
+        SkillListModel model =
+        SkillListModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      }
+      if (response.statusCode == 401 &&
+          PublicFunction.getToken('worker') != '') {
+        await RefreshToken('worker', token);
+        SkillListModel model =
+        SkillListModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      } else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future addSkillsWorker(String skillName) async {
+    var endPoint = '/api/worker/skills/create';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final body = {'name': skillName};
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response =
+      await http.post(Uri.parse(url), headers: headers, body: body);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print('Skill ditambahkan');
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } on SocketException {
+      print('Tidak koneksi Internet');
+      return false;
+    } on HttpException {
+      print('HttpException');
+      return false;
+    }
+  }
+
+
+  Future deleteSkills(String id) async {
+    var endPoint = '/api/worker/skills/delete/$id';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {'Authorization': 'Bearer $token'};
+    try {
+      var response = await http.delete(Uri.parse(url), headers: headers);
+      if (response.statusCode == 200) {
+        print('delete sukses');
+        return true;
+      } else{
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  Future changeWorkerProfile(File profile,) async {
+    var endPoint = '/api/worker/me/profile-image/edit';
+    final url = Uri.parse('$_baseUrl$endPoint');
+    String token = await PublicFunction.getToken('worker');
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    final request = http.MultipartRequest('POST', url)
+      ..headers.addAll(headers)
+      ..files.add(await http.MultipartFile.fromPath('profile_image', profile.path));
+
+    final response = await request.send().timeout(const Duration(seconds: 15));
+
+    final res = await http.Response.fromStream(response);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      print('HttpException');
+      return false;
+    }
+  }
+
+  Future getWorkerProfile() async {
+    const endPoint = '/api/worker/me/profile-image';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200) {
+        await RefreshToken('worker', token);
+        ProfileWorkerModel model = ProfileWorkerModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      }
+      if (response.statusCode == 401 &&
+          PublicFunction.getToken('worker') != '') {
+        await RefreshToken('worker', token);
+        ProfileWorkerModel model = ProfileWorkerModel.fromJson(json.decode(response.body));
         return model;
       } else {
         throw Exception("Failed to fetch data from API");

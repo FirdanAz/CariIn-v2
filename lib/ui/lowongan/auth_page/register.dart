@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
+import 'package:cariin_v2/ui/karyawan/form/fill_data_worker/fill_data.dart';
 import 'package:cariin_v2/ui/lowongan/auth_page/login.dart';
 import 'package:cariin_v2/ui/widget/auth_text_field.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +25,10 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
   final _addressController = TextEditingController();
   String selectedValue = "pria";
   String dateString = 'Pilih Tanggal';
+  bool obsText = true;
 
   List<DropdownMenuItem<String>> get dropdownItems {
-    List<DropdownMenuItem<String>> menuItems = const[
+    List<DropdownMenuItem<String>> menuItems = const [
       DropdownMenuItem(child: Text("pria"), value: "pria"),
       DropdownMenuItem(child: Text("wanita"), value: "wanita"),
     ];
@@ -58,143 +61,198 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          margin: const EdgeInsets.symmetric(
-              horizontal: 20
-          ),
+          margin: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 70,),
+              SizedBox(
+                height: 70,
+              ),
               Text(
-                'Haii!!',
+                'Daftar',
                 style: TextStyle(
                     color: color.primary,
                     fontSize: 40,
-                    fontWeight: FontWeight.w700
-                ),
+                    fontWeight: FontWeight.w700),
               ),
               const Text(
                 'Daftar Untuk Mencari Lowongan',
-                style: TextStyle(
-                    fontSize: 16
-                ),
+                style: TextStyle(fontSize: 16),
               ),
-              const SizedBox(height: 70,),
+              const SizedBox(
+                height: 70,
+              ),
               Text(
                 'Nama Pengguna',
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: color.primary
-                ),
+                    color: color.primary),
               ),
-              const SizedBox(height: 10,),
-              TextFieldComp(emailController: _userNameController, hintText: 'Nama'),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFieldComp(
+                  emailController: _userNameController, hintText: 'Nama', textInputType: TextInputType.text),
+              const SizedBox(
+                height: 20,
+              ),
               Text(
                 'Email',
                 style: TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500,
-                  color: color.primary
-                ),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: color.primary),
               ),
-              const SizedBox(height: 10,),
-              TextFieldComp(emailController: _emailController, hintText: 'Email'),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFieldComp(
+                  emailController: _emailController, hintText: 'Email', textInputType: TextInputType.emailAddress),
+              const SizedBox(
+                height: 20,
+              ),
               Text(
                 'Password',
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: color.primary
+                    color: color.primary),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              TextField(
+                controller: _passwordController,
+                textAlign: TextAlign.left,
+                style: const TextStyle(color: Colors.black),
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: obsText,
+                decoration: InputDecoration(
+                  suffix: obsText ? InkWell(
+                    overlayColor: MaterialStateProperty.all(Colors.transparent),
+                    onTap: () {
+                      setState(() {
+                        obsText = false;
+                      });
+                    },
+                    child: Icon(Icons.remove_red_eye, color: color.primary,),
+                  ) :
+                  InkWell(
+                    overlayColor: MaterialStateProperty.all(Colors.transparent),
+                    onTap: () {
+                      setState(() {
+                        obsText = true;
+                      });
+                    },
+                    child: Icon(Icons.remove_red_eye_outlined, color: color.primary,),
+                  ),
+                  border: const OutlineInputBorder(),
+                  hintStyle: const TextStyle(color: Colors.black45),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        width: 2,
+                        color: color.secondary.withOpacity(0.2),
+                      ),
+                      borderRadius: BorderRadius.circular(10)),
+                  hintText: 'Password',
                 ),
               ),
-              const SizedBox(height: 10,),
-              TextFieldComp(emailController: _passwordController, hintText: 'Password'),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Text(
                 'Alamat',
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: color.primary
-                ),
+                    color: color.primary),
               ),
-              const SizedBox(height: 10,),
-              TextFieldComp(emailController: _addressController, hintText: 'Jl.Kudus'),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFieldComp(
+                  emailController: _addressController, hintText: 'Jl.Kudus', textInputType: TextInputType.text),
+              const SizedBox(
+                height: 20,
+              ),
               Text(
                 'Jenis Kelamin',
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: color.primary
-                ),
+                    color: color.primary),
               ),
               Container(
                 height: 50,
                 width: double.maxFinite,
                 margin: const EdgeInsets.symmetric(horizontal: 5),
                 child: DropdownButton<String>(
-                    isExpanded: true,
-                    value: selectedValue,
-                    icon: Container(
-                        alignment: Alignment.centerRight,
-                        child: const Icon(Icons.arrow_drop_down)),
-                    elevation: 18,
-                    underline: Container(
-                      height: 2,
-                      color: color.black.withOpacity(0.1),
-                    ),
-                    style:
-                    TextStyle(color: color.black),
-                    iconSize: 30,
-                    onChanged: (String? value) {
-                      // This is called when the user selects an item.
-                      setState(() {
-                        selectedValue = value!;
-                      });
-                    },
+                  isExpanded: true,
+                  value: selectedValue,
+                  icon: Container(
+                      alignment: Alignment.centerRight,
+                      child: const Icon(Icons.arrow_drop_down)),
+                  elevation: 18,
+                  underline: Container(
+                    height: 2,
+                    color: color.black.withOpacity(0.1),
+                  ),
+                  style: TextStyle(color: color.black),
+                  iconSize: 30,
+                  onChanged: (String? value) {
+                    // This is called when the user selects an item.
+                    setState(() {
+                      selectedValue = value!;
+                    });
+                  },
                   items: dropdownItems,
-
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Text(
                 'Nomor Telepon',
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: color.primary
-                ),
+                    color: color.primary),
               ),
-              const SizedBox(height: 10,),
-              TextFieldComp(emailController: _phoneNumberController, hintText: 'Nomor Telepon'),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 10,
+              ),
+              TextFieldComp(
+                  emailController: _phoneNumberController,
+                  hintText: 'Nomor Telepon',
+                textInputType: TextInputType.number,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
               Text(
                 'Tanggal Lahir',
                 style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
-                    color: color.primary
-                ),
+                    color: color.primary),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               InkWell(
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
                       context: context,
-                      initialDate:
-                      DateTime.now(), //get today's date
+                      initialDate: DateTime.now(), //get today's date
                       firstDate: DateTime(
                           2000), //DateTime.now() - not to allow to choose before today.
-                      lastDate: DateTime(2101)
-                  );
+                      lastDate: DateTime(2101));
 
-                  if(pickedDate!= null){
+                  if (pickedDate != null) {
                     setState(() {
-                      dateString = '${pickedDate.year}-${pickedDate.month}-${pickedDate.day}';
+                      dateString =
+                          '${pickedDate.year}-${pickedDate.month}-${pickedDate.day}';
                     });
                   }
                 },
@@ -203,43 +261,43 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
                   height: 60,
                   decoration: BoxDecoration(
                       border: Border.all(color: color.primary, width: 2),
-                      borderRadius: BorderRadius.circular(10)
-                  ),
+                      borderRadius: BorderRadius.circular(10)),
                   child: Center(
                     child: Text(
                       dateString,
                       style: TextStyle(
                           color: color.primary,
                           fontWeight: FontWeight.w500,
-                          fontSize: 15
-                      ),
+                          fontSize: 15),
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               Container(
-                margin: const EdgeInsets.only(
-                    top: 50
-                ),
+                margin: const EdgeInsets.only(top: 50),
                 child: InkWell(
-                  onTap: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const LoginLowonganPage(),), (route) => false),
+                  onTap: () => Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginLowonganPage(),
+                      ),
+                      (route) => false),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
                         'Sudah Punya Akun? ',
-                        style: TextStyle(
-                            fontSize: 15
-                        ),
+                        style: TextStyle(fontSize: 15),
                       ),
                       Text(
                         'Daftar',
                         style: TextStyle(
                             color: color.primary,
                             fontSize: 15,
-                            fontWeight: FontWeight.w500
-                        ),
+                            fontWeight: FontWeight.w500),
                       )
                     ],
                   ),
@@ -248,27 +306,53 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
               Container(
                 height: 50,
                 width: double.maxFinite,
-                margin: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 50
-                ),
+                margin:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 50),
                 decoration: BoxDecoration(
                     color: color.primary,
-                    borderRadius: BorderRadius.circular(10)
-                ),
-                child: InkWell(onTap: () async {
-                  showLoaderDialog(context);
-                  await Future.delayed(const Duration(seconds: 2));
-                  bool condition = await ApiService().postRegisterWorker(context, _emailController.text, _passwordController.text, _userNameController.text, selectedValue, _phoneNumberController.text, dateString, _addressController.text);
-                  await Future.delayed(const Duration(seconds: 1));
-                  if(condition == true){
-                    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false);
-                    Navigator.of(context).pop(true);
-                  } else {
-                    Navigator.of(context).pop(true);
-                    print('isi form dengan lengkap dan benar');
-                  }
-                }, child: Center(child: Text('Daftar', style: TextStyle(color: color.white, fontWeight: FontWeight.w500, fontSize: 16),),)),
+                    borderRadius: BorderRadius.circular(10)),
+                child: InkWell(
+                    onTap: () async {
+                      showLoaderDialog(context);
+                      await Future.delayed(const Duration(seconds: 2));
+                      bool condition = await ApiService().postRegisterWorker(
+                          context,
+                          _emailController.text,
+                          _passwordController.text,
+                          _userNameController.text,
+                          selectedValue,
+                          _phoneNumberController.text,
+                          dateString,
+                          _addressController.text);
+                      await Future.delayed(const Duration(seconds: 1));
+                      if (condition == true) {
+                        await Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const FillDataWorker(),
+                            ),
+                            (route) => false);
+                        Navigator.of(context).pop(true);
+                      } else {
+                        Navigator.of(context).pop(true);
+                        print('isi form dengan lengkap dan benar');
+                      }
+
+                      // showLoaderDialog(context);
+                      // await Future.delayed(Duration(seconds: 2));
+                      // Navigator.of(context).pop();
+                      // await ApiService().postLogin(context, 'gavra@gmail.com', 'password', 'worker');
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => const FillDataWorker(),));
+                    },
+                    child: Center(
+                      child: Text(
+                        'Daftar',
+                        style: TextStyle(
+                            color: color.white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16),
+                      ),
+                    )),
               ),
             ],
           ),

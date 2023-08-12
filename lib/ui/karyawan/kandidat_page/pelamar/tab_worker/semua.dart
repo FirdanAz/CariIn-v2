@@ -48,7 +48,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
       appBar: AppBar(
         title: Text(widget.titlePage, style: TextStyle(color: color.primary, fontSize: 19),),
       ),
-      body: _isLoad ? const ShimmerPelamar() : RefreshIndicator(
+      body: _isLoad ? ShimmerPelamar(itemCount: 7,) : RefreshIndicator(
         onRefresh: () async {
           setState(() {
             getdata();

@@ -46,81 +46,77 @@ class _LamaranProccessState extends State<LamaranProccess> {
 
     return Scaffold(
       body: _isLoad ? Center(child: CircularProgressIndicator(color: color.primary,),) : SingleChildScrollView(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: recruitListModel!.data!.length == 0 ? MainAxisAlignment.center : MainAxisAlignment.start,
-            children: [
-              recruitListModel!.data!.isEmpty ? const Center(child: Text('Data Kosong'),) : ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: recruitListModel!.data!.length,
-                itemBuilder: (context, index) {
-                  var data = recruitListModel!.data![index];
-                  return InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: double.maxFinite,
-                      height: 100,
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        color: color.background,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 4,
-                            offset: const Offset(0, 4), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 20),
-                            child: const CircleAvatar(
-                              radius: 20,
-                              backgroundImage: AssetImage(AppAssets.firdanImg),
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(
-                                vertical: 25, horizontal: 5),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  data.job!.title!,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      color: color.black,
-                                      fontSize: 17),
-                                ),
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(Icons.work, size: 20, color: color.primary,),
-                                    Text(
-                                      ' ${data.job!.title!}',
-                                      style:
-                                      TextStyle(color: color.primary, fontSize: 14),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+        child: Column(
+          children: [
+            recruitListModel!.data!.isEmpty ? Container(margin: EdgeInsets.only(top: 300),child: const Center(child: Text('Data Kosong'),)) : ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: recruitListModel!.data!.length,
+              itemBuilder: (context, index) {
+                var data = recruitListModel!.data![index];
+                return InkWell(
+                  onTap: () {},
+                  child: Container(
+                    width: double.maxFinite,
+                    height: 100,
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                      color: color.background,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 4,
+                          offset: const Offset(0, 4), // changes position of shadow
+                        ),
+                      ],
                     ),
-                  );
-                },
-              )
-            ],
-          ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 20),
+                          child: const CircleAvatar(
+                            radius: 20,
+                            backgroundImage: AssetImage(AppAssets.firdanImg),
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(
+                              vertical: 25, horizontal: 5),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data.job!.title!,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: color.black,
+                                    fontSize: 17),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Icon(Icons.work, size: 20, color: color.primary,),
+                                  Text(
+                                    ' ${data.job!.title!}',
+                                    style:
+                                    TextStyle(color: color.primary, fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              },
+            )
+          ],
         ),
       ),
     );

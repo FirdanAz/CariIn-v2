@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:cariin_v2/common/app_assets.dart';
-import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar_process_page.dart';
 import 'package:flutter/material.dart';
@@ -75,73 +74,6 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                       Navigator.of(context).pop();
                     },
                   ),
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: InkWell(
-                          onTap: () async {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  content: Text(
-                                    'Tolak Lamaran ${detailPelamarModel!.data!.worker!.username}',
-                                    style: const TextStyle(fontSize: 15),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: const Text("Batal"),
-                                    ),
-                                    TextButton(
-                                        onPressed: () async {
-                                          bool isSuccess = await ApiService()
-                                              .defineConfirmation(
-                                                  context,
-                                                  'ditolak',
-                                                  '${detailPelamarModel!.data!.id}');
-                                          if (isSuccess == true) {
-                                            setState(() {
-                                              getdata();
-                                            });
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return PublicFunction
-                                                    .showDialog(context,
-                                                        'Lamaran Ditolak');
-                                              },
-                                            );
-                                            Navigator.pushAndRemoveUntil(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      KaryawanBottomNavigation(
-                                                          indexs: 1),
-                                                ),
-                                                (route) => false);
-                                          }
-                                        },
-                                        child: Text(
-                                          "Iya",
-                                          style: TextStyle(color: color.error),
-                                        )),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: Icon(
-                            detailPelamarModel!.data!.confirmedStatus ==
-                                    'direview'
-                                ? Icons.folder_delete
-                                : null,
-                            color: color.error,
-                            size: 30,
-                          )),
-                    )
-                  ],
                 ),
                 SliverToBoxAdapter(
                   child: Container(
@@ -198,17 +130,6 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                                         ),
                                       ],
                                     ),
-                                    InkWell(
-                                      child: SvgPicture.asset(
-                                        AppAssets.cvIcon,
-                                        width: 25,
-                                        color: color.primary,
-                                      ),
-                                      onTap: () async {
-                                        File file = await ApiService().loadPdf('https://cariin.my.id/storage/${detailPelamarModel!.data!.cvFile}');
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => CvPage(file: file),));
-                                      },
-                                    )
                                   ],
                                 ),
                               ),
@@ -273,10 +194,13 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                 ),
                 SliverToBoxAdapter(
                   child: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 20),
+                      margin: EdgeInsets.symmetric(horizontal: 20),
                       child: InkWell(
                         onTap: () {
-                          PublicFunction.navigatorPush(context, CompanyJobDetailPage(id: detailPelamarModel!.data!.job!.id!));
+                          PublicFunction.navigatorPush(
+                              context,
+                              CompanyJobDetailPage(
+                                  id: detailPelamarModel!.data!.job!.id!));
                         },
                         child: Row(
                           children: [
@@ -285,7 +209,9 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                             ),
                             Text(
                               '${detailPelamarModel!.data!.job!.title}',
-                              style: TextStyle(color: color.primary, fontWeight: FontWeight.w600),
+                              style: TextStyle(
+                                  color: color.primary,
+                                  fontWeight: FontWeight.w600),
                             ),
                           ],
                         ),
@@ -294,6 +220,49 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                 SliverToBoxAdapter(
                   child: Column(
                     children: [
+                      InkWell(
+                        onTap: () async {
+                          File file = await ApiService().loadPdf(
+                              'https://cariin.my.id/storage/${detailPelamarModel!.data!.cvFile}');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    CvPage(file: file),
+                              ));
+                        },
+                        overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                        child: Container(
+                          width: double.maxFinite,
+                          height: 50,
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                          ),
+                          child: Card(
+                            color: color.white,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      SvgPicture.asset(AppAssets.cvIcon, height: 25, color: color.primary,),
+                                      SizedBox(width: 10,),
+                                      Text('Curriculum Vitae ', style: TextStyle(color: color.black),),
+                                      Text(detailPelamarModel!.data!.worker!.username!, style: TextStyle(color: color.primary),)
+                                    ],
+                                  ),
+                                  Icon(
+                                    Icons.navigate_next,
+                                    color: color.black,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                       ProfileCard(
                           context,
                           AppAssets.activityIcon,
@@ -390,54 +359,125 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                   }
                 },
                 hoverColor: Colors.black,
-                child: Container(
-                    alignment: Alignment.center,
-                    width: double.maxFinite,
-                    height: 18,
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                        color: detailPelamarModel!.data!.confirmedStatus ==
-                                'ditolak'
-                            ? color.primary.withOpacity(0.4)
-                            : color.primary,
-                        borderRadius: BorderRadius.circular(12)),
-                    child: detailPelamarModel!.data!.confirmedStatus ==
-                            'diterima'
-                        ? Text(
-                            'Mulai Kontak',
-                            style: TextStyle(
-                                color: color.white,
-                                fontWeight: FontWeight.bold),
-                          )
-                        : detailPelamarModel!.data!.confirmedStatus == 'ditolak'
-                            ? Text(
-                                'Terima Pelamar',
-                                style: TextStyle(
-                                    color: color.white,
-                                    fontWeight: FontWeight.bold),
-                              )
-                            : detailPelamarModel!.data!.confirmedStatus ==
-                                    'direview'
+                child: SizedBox(
+                  width: double.maxFinite,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Container(
+                            alignment: Alignment.center,
+                            width: double.maxFinite,
+                            margin: const EdgeInsets.symmetric(horizontal: 10),
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            decoration: BoxDecoration(
+                                color: detailPelamarModel!.data!.confirmedStatus ==
+                                        'ditolak'
+                                    ? color.primary.withOpacity(0.4)
+                                    : color.primary,
+                                borderRadius: BorderRadius.circular(12)),
+                            child: detailPelamarModel!.data!.confirmedStatus ==
+                                    'diterima'
                                 ? Text(
-                                    'Terima Pelamar',
+                                    'Mulai Kontak',
                                     style: TextStyle(
                                         color: color.white,
                                         fontWeight: FontWeight.bold),
                                   )
-                                : detailPelamarModel!.data!.confirmedStatus ==
-                                        'wawancara'
+                                : detailPelamarModel!.data!.confirmedStatus == 'ditolak'
                                     ? Text(
                                         'Terima Pelamar',
                                         style: TextStyle(
                                             color: color.white,
                                             fontWeight: FontWeight.bold),
                                       )
-                                    : Text(
-                                        'Undang Wawancara',
-                                        style: TextStyle(
-                                            color: color.white,
-                                            fontWeight: FontWeight.bold),
-                                      )),
+                                    : detailPelamarModel!.data!.confirmedStatus ==
+                                            'direview'
+                                        ? Text(
+                                            'Terima Pelamar',
+                                            style: TextStyle(
+                                                color: color.white,
+                                                fontWeight: FontWeight.bold),
+                                          )
+                                        : detailPelamarModel!.data!.confirmedStatus ==
+                                                'wawancara'
+                                            ? Text(
+                                                'Terima Pelamar',
+                                                style: TextStyle(
+                                                    color: color.white,
+                                                    fontWeight: FontWeight.bold),
+                                              )
+                                            : Text(
+                                                'Undang Wawancara',
+                                                style: TextStyle(
+                                                    color: color.white,
+                                                    fontWeight: FontWeight.bold),
+                                              )),
+                      ),
+                      detailPelamarModel!.data!.confirmedStatus ==
+                          'direview' ?
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text(
+                                    'Tolak Lamaran ${detailPelamarModel!.data!.worker!.username}',
+                                    style: const TextStyle(fontSize: 15),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: const Text("Batal"),
+                                    ),
+                                    TextButton(
+                                        onPressed: () async {
+                                          bool isSuccess = await ApiService()
+                                              .defineConfirmation(
+                                              context,
+                                              'ditolak',
+                                              '${detailPelamarModel!.data!.id}');
+                                          if (isSuccess == true) {
+                                            setState(() {
+                                              getdata();
+                                            });
+                                            Navigator.of(context).pop();
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return PublicFunction
+                                                    .showDialog(context,
+                                                    'Lamaran Ditolak');
+                                              },
+                                            );
+                                          }
+                                        },
+                                        child: Text(
+                                          "Iya",
+                                          style: TextStyle(color: color.error),
+                                        )),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: double.maxFinite,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: color.primaryContainer,
+                              borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Text('Tolak Lamaran', style: TextStyle(color: color.error, fontWeight: FontWeight.w600),),
+                          ),
+                        ),
+                      ) : Container()
+                    ],
+                  ),
+                ),
               ),
             ),
           );

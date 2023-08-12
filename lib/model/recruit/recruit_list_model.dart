@@ -63,7 +63,7 @@ class Data {
 class Worker {
   int? id;
   String? username;
-  Null? profileImage;
+  String? profileImage;
 
   Worker({this.id, this.username, this.profileImage});
 
