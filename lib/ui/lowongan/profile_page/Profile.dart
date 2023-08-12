@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/model/worker/worker_profile_model.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Keterampilan.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Pencapaian.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Pendidikan.dart';
@@ -22,7 +23,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final ValueNotifier<int> _tabIndex = ValueNotifier<int>(0);
-  WorkerModel? workerModel;
+  WorkerModel? workerModels;
+  ProfileWorkerModel? profileWorkerModel;
   bool _isLoad = false;
 
   final List<Widget> _tabView = const [
@@ -35,8 +37,10 @@ class _ProfilePageState extends State<ProfilePage> {
   getdata() async {
     _isLoad = true;
     WorkerModel workerData = await ApiService().getWorker();
+    ProfileWorkerModel workerModel = await ApiService().getWorkerProfile();
     setState(() {
-      workerModel = workerData;
+      workerModels = workerData;
+      profileWorkerModel = workerModel;
     });
     _isLoad = false;
   }
@@ -116,10 +120,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                     child: ClipRRect(
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(20)),
-                                      child: Image.asset(
+                                      child: profileWorkerModel!.data!.profileImage == 'null' ? Image.asset(
                                         AppAssets.firdanImg,
                                         fit: BoxFit.cover,
-                                      ),
+                                      ): Image.network('https://cariin.my.id/storage/${profileWorkerModel!.data!.profileImage}', fit: BoxFit.cover,),
                                     ),
                                   ),
                                 ),
@@ -131,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        workerModel!.data!.username.toString(),
+                                        workerModels!.data!.username.toString(),
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w600,
@@ -167,7 +171,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 width: 3,
                                               ),
                                               Text(
-                                                '${workerModel!.data!.address}, Indonesia',
+                                                '${workerModels!.data!.address}, Indonesia',
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     color: color.white),
@@ -185,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 width: 3,
                                               ),
                                               Text(
-                                                '${workerModel!.data!.gender}',
+                                                '${workerModels!.data!.gender}',
                                                 style: TextStyle(
                                                     fontSize: 13,
                                                     color: color.white),
@@ -210,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             width: 3,
                                           ),
                                           Text(
-                                            '${workerModel!.data!.email}',
+                                            '${workerModels!.data!.email}',
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 color: color.primary),

@@ -42,7 +42,7 @@ class _MenungguTabsState extends State<MenungguTabs> {
   Widget build(BuildContext context) {
     final color = AppColor.theme(Theme.of(context).brightness);
 
-    return _isLoad ? const ShimmerPelamar() :
+    return _isLoad ? ShimmerPelamar(itemCount: 7,) :
     SizedBox(
       child: RefreshIndicator(
         onRefresh: () async {

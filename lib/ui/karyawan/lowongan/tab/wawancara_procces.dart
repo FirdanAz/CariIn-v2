@@ -45,8 +45,8 @@ class _LowonganProccesPageState extends State<LowonganProccesPage> {
                 ),
                 tabLabels: const [
                   "Semua",
-                  "Menunggu",
-                  "Diterima"
+                  "Belum Terverifikasi",
+                  "Terverifikasi"
                 ],
                 onTap: (value) => _tabIndex.value = value,
               ),

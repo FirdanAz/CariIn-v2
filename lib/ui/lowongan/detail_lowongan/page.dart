@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_perusahaan.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar_process_page.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +44,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
     getdata();
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -286,6 +289,26 @@ class _JobDetailPageState extends State<JobDetailPage> {
     final TextStyle textStyle = TextStyle(
         fontSize: Responsive.fontSize(14), fontWeight: FontWeight.w500);
 
+    showLoaderDialog(BuildContext context) {
+      AlertDialog alert = AlertDialog(
+        content: Row(
+          children: [
+            CircularProgressIndicator(backgroundColor: color.secondary),
+            const SizedBox(width: 14),
+            const Text("Loading..."),
+          ],
+        ),
+      );
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
+
     return BottomAppBar(
       height: Responsive.byWidth(70),
       color: color.surfaceContainer,
@@ -296,11 +319,11 @@ class _JobDetailPageState extends State<JobDetailPage> {
             height: Responsive.byWidth(50),
             width: Responsive.byWidth(160),
             child: FilledButton(
-              onPressed: () {
+              onPressed: () async {
+                showLoaderDialog(context);
+                await Future.delayed(const Duration(seconds: 2));
+                Navigator.of(context).pop();
                 Navigator.push(context, MaterialPageRoute(builder: (context) => LamarProcessPage(title: '${jobDetailModel!.data!.title}', jobId: jobDetailModel!.data!.id!.toInt()),));
-                showDialog(context: context, builder: (context) {
-                  return PublicFunction.showDialog(context, 'Isi formulir dengan benar!');
-                },);
               },
               style: FilledButton.styleFrom(
                 shape: RoundedRectangleBorder(

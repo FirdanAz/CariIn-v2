@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -127,7 +129,8 @@ class ShimmerJobCard extends StatelessWidget {
 }
 
 class ShimmerPelamar extends StatelessWidget {
-  const ShimmerPelamar({Key? key}) : super(key: key);
+  ShimmerPelamar({Key? key, required this.itemCount}) : super(key: key);
+  int itemCount;
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +139,7 @@ class ShimmerPelamar extends StatelessWidget {
       highlightColor: Colors.grey.shade100,
       child: ListView.builder(
         shrinkWrap: true,
-        itemCount: 7,
+        itemCount: itemCount,
         itemBuilder: (context, index) {
           return Container(
             width: double.maxFinite,

@@ -96,7 +96,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
                 'CV yang lengkap dapat membantu kamu menjadi kandidat ungguilan. Silahkan review CV mu dan lengkapi sekarang!',
                 style: TextStyle(fontSize: 15, color: color.onSurface),
               ),
-              Container(
+              cvFile != null ? Container() : Container(
                 margin: const EdgeInsets.only(top: 20),
                 child: InkWell(
                   onTap: () {},
@@ -147,7 +147,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
                                 const SizedBox(
                                   height: 5,
                                 ),
-                                Text('Perbarui Sekarang',
+                                Text('Pilih Cv Sekarang',
                                     style: TextStyle(
                                         color: color.primary,
                                         fontWeight: FontWeight.w500,
@@ -299,14 +299,14 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
               ),
               const SizedBox(height: 20,),
               Text(
-                'Alasan',
+                'Deskripsi',
                 style: TextStyle(
                     color: color.black,
                     fontSize: 15,
                     fontWeight: FontWeight.w500),
               ),
               Text(
-                'Alasan Pelamar dan tujuan',
+                'Deskipsi tentang lamaran',
                 style: TextStyle(
                   color: color.black.withOpacity(0.6),
                   fontSize: 14,
@@ -330,7 +330,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
                       fontWeight: FontWeight.w500,
                       color: color.black),
                   decoration: const InputDecoration(
-                    hintText: "Tuliskan alasan anda untuk melamar pekerjaan ini",
+                    hintText: "Beritahu Perusahaan mengenai lamaranmu",
                     enabledBorder: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     hintStyle: TextStyle(
@@ -349,25 +349,29 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
         color: color.surfaceContainer,
         child: InkWell(
           onTap: () async {
-            bool isSuccess = await ApiService().postWorkerJob(context, widget.jobId.toString(), _descriptionController.text, cvFile!);
-            if(isSuccess == true){
-              showDialog(context: context, builder: (context) {
-                return AlertDialog(
-                  content: const Text(
-                    'Menunggu Konfirmasi dari perusahaan',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  actions: [
-                    TextButton(
-                        onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false),
-                        child: const Text("Iya")),
-                  ],
-                );
-              },);
-            }else{
-              showDialog(context: context, builder: (context) {
-                return PublicFunction.showDialog(context, 'Anda telah melamar dilowongan ini');
-              },);
+            if(cvFile != null && _descriptionController.text.isNotEmpty){
+              bool isSuccess = await ApiService().postWorkerJob(context, widget.jobId.toString(), _descriptionController.text, cvFile!);
+              if(isSuccess == true){
+                showDialog(context: context, builder: (context) {
+                  return AlertDialog(
+                    content: const Text(
+                      'Menunggu Konfirmasi dari perusahaan',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    actions: [
+                      TextButton(
+                          onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false),
+                          child: const Text("Iya")),
+                    ],
+                  );
+                },);
+              }else{
+                showDialog(context: context, builder: (context) {
+                  return PublicFunction.showDialog(context, 'Anda telah melamar dilowongan ini');
+                },);
+              }
+            } else {
+              showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Isi Formulir dengan lengkap!'),);
             }
           },
           child: Container(
