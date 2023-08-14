@@ -1,21 +1,47 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/model/company/list_worker_model.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../common/app_color.dart';
+import '../../../service/api_service.dart';
 
-class ListKaryawan extends StatelessWidget {
+class ListKaryawan extends StatefulWidget {
   const ListKaryawan({Key? key}) : super(key: key);
+
+  @override
+  State<ListKaryawan> createState() => _ListKaryawanState();
+}
+
+class _ListKaryawanState extends State<ListKaryawan> {
+  WorkerListModel? workerListModel;
+  bool _isLoad = false;
+
+  getData() async {
+    _isLoad = true;
+    WorkerListModel model = await ApiService().ListWorkerCompany();
+    setState(() {
+      workerListModel = model;
+    });
+    _isLoad = false;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
 
     return Scaffold(
-      body: CustomScrollView(
+      body: _isLoad ? const Center(child: Text('Loading..')) : CustomScrollView(
         slivers: [
           SliverAppBar(
             systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: color.primaryContainer),
@@ -30,9 +56,10 @@ class ListKaryawan extends StatelessWidget {
           ),
           SliverList(
             delegate: SliverChildBuilderDelegate((context, index) {
-              return KaryawanListCard(context);
+              final data = workerListModel!.data![index];
+              return KaryawanListCard(context, 'https://cariin.my.id/storage/${data.profilImage!}', data.username!, data.address!, data.age!.toString(), data.id!);
             },
-              childCount: 10
+              childCount: workerListModel!.data!.length
             ),
           )
         ],
@@ -41,11 +68,11 @@ class ListKaryawan extends StatelessWidget {
   }
 }
 
-Widget KaryawanListCard(BuildContext context) {
+Widget KaryawanListCard(BuildContext context, String urlImage, String workerName, String address, String age, int id) {
   var color = AppColor.theme(Theme.of(context).brightness);
 
   return InkWell(
-    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DetailProfil(id: 1),)),
+    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => DetailProfil(id: id),)),
     child: Container(
       width: double.maxFinite,
       height: 150,
@@ -70,9 +97,9 @@ Widget KaryawanListCard(BuildContext context) {
             margin: const EdgeInsets.symmetric(
                 horizontal: 20
             ),
-            child: const CircleAvatar(
+            child: CircleAvatar(
               radius: 50,
-              backgroundImage: AssetImage(AppAssets.firdanImg),
+              backgroundImage: NetworkImage(urlImage),
             ),
           ),
           Container(
@@ -84,7 +111,7 @@ Widget KaryawanListCard(BuildContext context) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Kalam',
+                  workerName,
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       color: color.black,
@@ -93,7 +120,7 @@ Widget KaryawanListCard(BuildContext context) {
                 ),
                 const SizedBox(height: 5,),
                 Text(
-                  '99 Tahun',
+                  '$age Tahun',
                   style: TextStyle(
                       color: color.black,
                       fontSize: 14
@@ -102,7 +129,7 @@ Widget KaryawanListCard(BuildContext context) {
                 Row(
                   children: [
                     Text(
-                      'Kudus, Jawa Tengah, ',
+                      '$address, ',
                       style: TextStyle(
                           color: color.black,
                           fontSize: 14

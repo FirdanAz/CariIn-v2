@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/profil_comapny.dart';
 import 'package:cariin_v2/ui/karyawan/form/lowongan/create_lowongan.dart';
@@ -105,7 +106,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
               actions: [
                 InkWell(
                   onTap: () {
-                    _logOut();
+                    PublicFunction.navigatorPushAndRemoveUntil(context, KaryawanBottomNavigation(indexs: 2));
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20),
@@ -120,7 +121,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(top: 20, bottom: 10),
+                          padding: const EdgeInsets.only(top: 20, bottom: 10),
                           child: CircleAvatar(
                             radius: 25,
                             foregroundImage: NetworkImage(
@@ -281,10 +282,10 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                             Container(
                               width: double.maxFinite,
                               height: 80,
-                              margin: EdgeInsets.only(top: 10, left: 20, right: 20),
+                              margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
                               decoration: BoxDecoration(
                                 color: color.white,
-                                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                                borderRadius: const BorderRadius.only(topLeft: Radius.circular(10), topRight: Radius.circular(10)),
                                 boxShadow: [
                                   BoxShadow(
                                     color: color.primaryContainer.withOpacity(0.5),
@@ -294,7 +295,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                                   ),
                                 ],
                               ),
-                              child: Center(child: Text('Belum ada lowongan'),),
+                              child: const Center(child: Text('Belum ada lowongan'),),
                             ),
                             InkWell(
                               onTap: () {

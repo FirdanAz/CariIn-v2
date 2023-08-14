@@ -1,12 +1,14 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/model/worker/worker_profile_model.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Keterampilan.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Pencapaian.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Pendidikan.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/profile_settings.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Pengalaman.dart';
+import 'package:cariin_v2/ui/view_image/view_image.dart';
 import 'package:cariin_v2/ui/widget/chip_tab_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -114,16 +116,19 @@ class _ProfilePageState extends State<ProfilePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Center(
-                                  child: Container(
-                                    width: 130,
-                                    height: 200,
-                                    child: ClipRRect(
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(20)),
-                                      child: profileWorkerModel!.data!.profileImage == 'null' ? Image.asset(
-                                        AppAssets.firdanImg,
-                                        fit: BoxFit.cover,
-                                      ): Image.network('https://cariin.my.id/storage/${profileWorkerModel!.data!.profileImage}', fit: BoxFit.cover,),
+                                  child: InkWell(
+                                    onTap: () => PublicFunction.navigatorPush(context, ViewImagePage(title: '${workerModels!.data!.username}', urlImage: 'https://cariin.my.id/storage/${profileWorkerModel!.data!.profileImage}')),
+                                    child: Container(
+                                      width: 130,
+                                      height: 200,
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(20)),
+                                        child: profileWorkerModel!.data!.profileImage == 'null' ? Image.asset(
+                                          AppAssets.firdanImg,
+                                          fit: BoxFit.cover,
+                                        ): Image.network('https://cariin.my.id/storage/${profileWorkerModel!.data!.profileImage}', fit: BoxFit.cover,),
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -170,11 +175,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                               const SizedBox(
                                                 width: 3,
                                               ),
-                                              Text(
-                                                '${workerModels!.data!.address}, Indonesia',
-                                                style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: color.white),
+                                              SizedBox(
+                                                width: 100,
+                                                child: Text(
+                                                  '${workerModels!.data!.address}, Indonesia',
+                                                  overflow: TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: color.white),
+                                                ),
                                               )
                                             ],
                                           ),

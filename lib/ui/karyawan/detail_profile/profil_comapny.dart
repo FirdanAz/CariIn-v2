@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cariin_v2/ui/options/options.dart';
 import 'package:cariin_v2/ui/view_image/view_image.dart';
 import 'package:flutter/material.dart';
@@ -33,9 +35,17 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                 onPressed: () => Navigator.of(context).pop(),
                 child: const Text("No")),
             TextButton(
-                onPressed: () async => await PublicFunction.removeToken('token')
-                    .then((value) => PublicFunction.navigatorPushAndRemoved(
-                        context, const OptionsPage())),
+                onPressed: () async {
+                  bool isLogout = await ApiService().logoutAuth('company');
+                  if(isLogout){
+                    await PublicFunction.removeToken('token')
+                        .then((value) => PublicFunction.navigatorPushAndRemoved(
+                        context, const OptionsPage()));
+                    showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Logout Berhasil'),);
+                  } else {
+                    showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Logout Gagal'),);
+                  }
+                },
                 child: const Text("Yes", style: TextStyle(color: Colors.red))),
           ],
         );
