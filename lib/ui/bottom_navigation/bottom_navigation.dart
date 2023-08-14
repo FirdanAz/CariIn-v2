@@ -1,4 +1,5 @@
 import 'package:cariin_v2/common/app_color.dart';
+import 'package:cariin_v2/model/worker/worker_profile_model.dart';
 import 'package:cariin_v2/ui/lowongan/chat_page/chat.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/home.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamaran.dart';

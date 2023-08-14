@@ -840,10 +840,10 @@ class ApiService {
     }
   }
 
-   Future logoutWorker() async {
-    const endPoint = '/api/worker/logout';
+   Future logoutAuth(String role) async {
+    final endPoint = '/api/$role/logout';
     final url = '$_baseUrl$endPoint';
-    String token = await PublicFunction.getToken('worker');
+    String token = await PublicFunction.getToken(role);
 
     final headers = {
       'Authorization' : 'Bearer $token'
@@ -853,7 +853,6 @@ class ApiService {
       final response = await http.get(Uri.parse(url), headers: headers);
       print('status code : ${response.statusCode}');
       if (response.statusCode == 200) {
-        final response = await PublicFunction.removeToken(token);
         await PublicFunction.removeToken(token);
         return true;
       } else {

@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/service/api_service.dart';
@@ -163,8 +165,9 @@ class _AccountSettingsState extends State<AccountSettings> {
                         ),
                         TextButton(
                           onPressed: () async {
-                            bool islogout = await ApiService().logoutWorker();
+                            bool islogout = await ApiService().logoutAuth('worker');
                             if (islogout) {
+                              await PublicFunction.removeToken('token');
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(

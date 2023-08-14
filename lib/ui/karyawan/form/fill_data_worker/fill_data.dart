@@ -65,7 +65,7 @@ class _FillDataWorkerState extends State<FillDataWorker> {
 
     return IntroductionScreen(
       showBackButton: true,
-      showNextButton: true,
+      showNextButton: profileImage == null ? false : true,
       showSkipButton: false,
       showDoneButton: true,
       back: const Text("Kembali"),

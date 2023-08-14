@@ -1,9 +1,10 @@
-// ignore_for_file: deprecated_member_use, non_constant_identifier_names
+// ignore_for_file: deprecated_member_use, non_constant_identifier_names, use_build_context_synchronously
 
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_function.dart';
 import 'package:cariin_v2/model/worker/all_job_worker_model.dart';
 import 'package:cariin_v2/common/public_function.dart';
+import 'package:cariin_v2/ui/karyawan/form/fill_data_worker/fill_data.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/all_categories.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/search/search_page.dart';
@@ -16,6 +17,7 @@ import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../common/app_color.dart';
+import '../../../model/worker/worker_profile_model.dart';
 import '../../../service/api_service.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,15 +30,38 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   AllJobWorkerModel? allJobWorkerModel;
   bool _isLoad = false;
+  ProfileWorkerModel? profileWorkerModel;
 
   getdata() async {
     _isLoad = true;
     final token = await PublicFunction.getToken('worker');
     await ApiService().RefreshToken('worker', token);
     AllJobWorkerModel allJob = await ApiService().AllJobsWorker();
+    ProfileWorkerModel workerModel = await ApiService().getWorkerProfile();
     setState(() {
       allJobWorkerModel = allJob;
+      profileWorkerModel = workerModel;
     });
+    if(workerModel.data!.profileImage == 'null'){
+      showDialog(context: context, builder: (context) {
+        return AlertDialog(
+          title: const Text('Lengkapi Profilmu!', style: TextStyle(fontSize: 16, color: Colors.black),),
+          actions: [
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text('lengkapi datamu sekarang'),
+                SizedBox(height: 20,)
+              ],
+            ),
+            ElevatedButton(onPressed: () {
+              PublicFunction.navigatorPush(context, const FillDataWorker());
+            }, child: const Text('Lengkapi'))
+          ],
+        );
+      },);
+    }
     _isLoad = false;
   }
 
