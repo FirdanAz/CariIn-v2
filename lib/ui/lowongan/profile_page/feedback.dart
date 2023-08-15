@@ -38,7 +38,7 @@ class _FeedBackPageState extends State<FeedBackPage> {
         padding: EdgeInsets.all(15),
         child: ListView(
           children: [
-            SizedBox(height: 10),
+            SizedBox(height: 5),
             Text(
               'Nama',
               style: TextStyle(
@@ -57,7 +57,64 @@ class _FeedBackPageState extends State<FeedBackPage> {
                   ),
                 ),
               ),
-            )
+            ),
+            SizedBox(height: 30),
+            Text(
+              'Email',
+              style: TextStyle(
+                fontSize: 17,
+                color: color.primary,
+              ),
+            ),
+            SizedBox(height: 10),
+            TextField(
+              decoration: InputDecoration(
+                hintText: 'Isi Email',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: color.outline,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 30),
+            Text(
+              'Umpan Balik',
+              style: TextStyle(
+                fontSize: 17,
+                color: color.primary,
+              ),
+            ),
+            SizedBox(height: 10),
+            TextField(
+              decoration: InputDecoration(
+                hintText: 'Kirim Saran atau Masukan',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: color.primary,
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 45),
+            MaterialButton(
+              height: 50,
+              minWidth: double.infinity,
+              onPressed: () {},
+              color: color.primary,
+              child: Text(
+                'Kirim Saran',
+                style: TextStyle(
+                  color: color.surface,
+                ),
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            SizedBox(height: 30),
           ],
         ),
       ),
