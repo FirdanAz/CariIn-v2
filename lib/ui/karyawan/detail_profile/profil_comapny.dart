@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cariin_v2/ui/karyawan/location/location_page.dart';
 import 'package:cariin_v2/ui/options/options.dart';
 import 'package:cariin_v2/ui/view_image/view_image.dart';
 import 'package:flutter/material.dart';
@@ -182,11 +183,15 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                                   color: color.white,
                                   size: 18,
                                 ),
-                                Text(
-                                  profilCompanyModel!.data!.location.toString(),
-                                  style: TextStyle(
-                                    color: color.white,
-                                    fontSize: 14,
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: 200),
+                                  child: Text(
+                                    profilCompanyModel!.data!.location.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                      color: color.white,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 ),
                               ],

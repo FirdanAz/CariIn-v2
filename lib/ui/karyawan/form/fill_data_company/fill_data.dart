@@ -3,8 +3,7 @@
 import 'dart:io';
 
 import 'package:cariin_v2/common/public_function.dart';
-import 'package:cariin_v2/service/api_service.dart';
-import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
+import 'package:cariin_v2/ui/karyawan/location/location_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:group_button/group_button.dart';
@@ -27,7 +26,6 @@ class _FillDataCompanyState extends State<FillDataCompany> {
   int percentValue = 10;
   String dateString = 'Pilih Tanggal';
   int selectedRole = 0;
-  final _addressController = TextEditingController();
   final _descriptionController = TextEditingController();
 
   final _numberToRoleMap = {0: 'pemilik', 1: 'pengelola', 2: 'HRD'};
@@ -569,38 +567,6 @@ class _FillDataCompanyState extends State<FillDataCompany> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Tambahkan Alamat Perusahaan',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                        color: color.black),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextField(
-                    controller: _addressController,
-                    textAlign: TextAlign.left,
-                    style: const TextStyle(color: Colors.black),
-                    decoration: InputDecoration(
-                      border: const OutlineInputBorder(),
-                      hintStyle:
-                          const TextStyle(color: Colors.black45, fontSize: 16),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 2,
-                            color: color.secondary.withOpacity(0.2),
-                          ),
-                          borderRadius: BorderRadius.circular(10)),
-                      hintText: 'Jl.Jurang Colo Dawe Kudus',
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
                   const SizedBox(
                     height: 20,
                   ),
@@ -656,18 +622,12 @@ class _FillDataCompanyState extends State<FillDataCompany> {
                     borderRadius: BorderRadius.circular(10)),
                 child: InkWell(
                     onTap: () async {
-                      showLoaderDialog(context);
-                      bool isSuccess = await ApiService().postFillDataCompany(context, selectedImage!, dateString, _numberToRoleMap[selectedRole].toString(), _addressController.text, _descriptionController.text, selectedImageInSide!, selectedImageOutSide!);
-                      if(isSuccess == true){
-                        PublicFunction.navigatorPushAndRemoveUntil(context, KaryawanBottomNavigation(indexs: 0));
-                        showDialog(context: context, builder: (context) {
-                          return PublicFunction.showDialog(context, 'Melengkapi data sukses!');
-                        },);
+                      if(selectedImage != null || selectedImageInSide != null || selectedImageOutSide != null || _descriptionController.text.isNotEmpty){
+                        showLoaderDialog(context);
+                        await Future.delayed(const Duration(seconds: 2));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LocationPage(selectedImage: selectedImage!, dateString: dateString, roleSelected: _numberToRoleMap[selectedRole].toString(), descCompany: _descriptionController.text, selectedImageInSide: selectedImageInSide!, selectedImageOutSide: selectedImageOutSide!),));
                       } else {
-                        showDialog(context: context, builder: (context) {
-                          Navigator.of(context).pop();
-                          return PublicFunction.showDialog(context, 'Gagal Melengkapi data');
-                        },);
+                        showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Data tidak boleh kosong'),);
                       }
                     },
                     child: Center(

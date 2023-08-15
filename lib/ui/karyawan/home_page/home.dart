@@ -1,9 +1,10 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/profil_comapny.dart';
+import 'package:cariin_v2/ui/karyawan/form/fill_data_company/fill_data.dart';
 import 'package:cariin_v2/ui/karyawan/form/lowongan/create_lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
@@ -21,7 +22,6 @@ import '../../../model/company/list_worker_model.dart';
 import '../../../model/company/profil_company_model.dart';
 import '../../../service/api_service.dart';
 import '../../widget/shimmer_widget.dart';
-import '../auth/login.dart';
 
 class HomePageKaryawan extends StatefulWidget {
   const HomePageKaryawan({Key? key}) : super(key: key);
@@ -51,6 +51,11 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
       workerListModel = workerList;
     });
 
+    if(profilCompany.data!.profileImage! == 'null'){
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const FillDataCompany(),), (route) => false);
+    } else {
+      _isLoad = false;
+    }
     _isLoad = false;
   }
 
@@ -59,30 +64,6 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
     // TODO: implement initState
     getdata();
     super.initState();
-  }
-
-  void _logOut() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: const Text(
-            "Ingin keluar dari akun ini ?",
-            style: TextStyle(fontSize: 15),
-          ),
-          actions: [
-            TextButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text("No")),
-            TextButton(
-                onPressed: () async => await PublicFunction.removeToken('token')
-                    .then((value) => PublicFunction.navigatorPushAndRemoved(
-                        context, const LoginKaryawanPage())),
-                child: const Text("Yes", style: TextStyle(color: Colors.red))),
-          ],
-        );
-      },
-    );
   }
 
   @override
