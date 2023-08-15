@@ -64,7 +64,7 @@ class Data {
     id = json['id'];
     name = json['name'];
     email = json['email'];
-    profileImage = json['profile_image'];
+    profileImage = json['profile_image'] ?? 'null';
     field = json['field'];
     foundingDate = json['founding_date'];
     userType = json['user_type'];
