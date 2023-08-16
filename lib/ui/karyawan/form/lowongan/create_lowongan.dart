@@ -3,10 +3,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../../common/app_assets.dart';
 import '../../../../common/app_color.dart';
 import '../../../../common/public_function.dart';
 import '../../../../model/company/job_tag_list_model.dart';
@@ -28,6 +25,9 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
   String selectedValueTags = "1";
   bool _isLoad = false;
   File? selectedImage;
+  File? compressSelectedImage;
+  File? backdropImage;
+  File? compressBackdropImage;
   final _formState = GlobalKey<FormState>();
   final _namaController = TextEditingController();
   final _addressController = TextEditingController();
@@ -68,17 +68,13 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
   Future _pickImageFromGalery() async {
     final returnImage = await ImagePicker().pickImage(source: ImageSource.gallery);
 
-    setState(() {
-      selectedImage = File(returnImage!.path);
-    });
+    return File(returnImage!.path);
   }
 
   Future _pickImageFromCamera() async {
     final returnImage = await ImagePicker().pickImage(source: ImageSource.camera);
 
-    setState(() {
-      selectedImage = File(returnImage!.path);
-    });
+    return File(returnImage!.path);
   }
 
   @override
@@ -146,7 +142,10 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      _pickImageFromGalery();
+                                      selectedImage = await _pickImageFromGalery();
+                                      setState(() {
+                                        selectedImage;
+                                      });
                                       Navigator.of(context).pop();
                                     },
                                     child: Container(
@@ -163,7 +162,10 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
                                   ),
                                   InkWell(
                                     onTap: () async {
-                                      _pickImageFromCamera();
+                                      selectedImage = await _pickImageFromCamera();
+                                      setState(() {
+                                        selectedImage;
+                                      });
                                       Navigator.of(context).pop();
                                     },
                                     child: Container(
@@ -188,7 +190,9 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
                     child: selectedImage != null ? SizedBox(
                       height: 100,
                       width: 100,
-                      child: Image.file(selectedImage!, fit: BoxFit.cover,),
+                      child: InkWell(
+                        child: Image.file(selectedImage!, fit: BoxFit.cover,)
+                      ),
                     ):
                     Container(
                       height: 100,
@@ -208,7 +212,106 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
                                 borderRadius: BorderRadius.circular(10)
                             ),
                             // ignore: deprecated_member_use
-                            child: SvgPicture.asset(AppAssets.companyIcon, color: color.primary),
+                            child: Icon(Icons.add, color: color.primary,),
+                          )
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10,),
+                const Text(
+                  'Tambahkan Foto untuk latar belakang',
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500
+                  ),
+                ),
+                Center(
+                  child: InkWell(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Pilih Gambar dari'),
+                            actions: [
+                              Column(
+                                children: [
+                                  InkWell(
+                                    onTap: () async {
+                                      backdropImage = await _pickImageFromGalery();
+                                      setState(() {
+                                        backdropImage;
+                                      });
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      width: double.maxFinite,
+                                      padding: const EdgeInsets.all(15),
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.window, color: color.primary,),
+                                          const SizedBox(width: 15,),
+                                          const Text('Galeri'),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () async {
+                                      backdropImage = await _pickImageFromCamera();
+                                      setState(() {
+                                        backdropImage;
+                                      });
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Container(
+                                      width: double.maxFinite,
+                                      padding: const EdgeInsets.all(15),
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.camera, color: color.primary,),
+                                          const SizedBox(width: 15,),
+                                          const Text('Kamera'),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: backdropImage != null ? SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: InkWell(
+                          child: Image.file(backdropImage!, fit: BoxFit.cover,)
+                      ),
+                    ):
+                    Container(
+                      height: 100,
+                      width: 100,
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 20
+                      ),
+                      color: color.primary,
+                      child: Center(
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 8,
+                                horizontal: 10
+                            ),
+                            decoration: BoxDecoration(
+                                color: color.white,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            // ignore: deprecated_member_use
+                            child: Icon(Icons.add, color: color.primary,),
                           )
                       ),
                     ),
@@ -454,11 +557,15 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
         height: 80,
         child: InkWell(
           onTap: () async {
+
+            compressSelectedImage = await PublicFunction.compressImage(selectedImage!, 50);
+            compressBackdropImage = await PublicFunction.compressImage(backdropImage!, 50);
+
             bool isSuccess = await ApiService().postcreateLowongan(
               context,
               _namaController.text,
-              selectedImage!,
-              selectedImage!,
+              compressSelectedImage!,
+              compressBackdropImage!,
               _addressController.text,
               selectedValueTime,
               _salaryController.text,
@@ -471,7 +578,6 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
               [1,4,7],
               'true',
             );
-            print(isSuccess);
             if(isSuccess == true){
               setState(() {
                 Navigator.of(context).pop();
