@@ -1,6 +1,7 @@
 // ignore_for_file: must_be_immutable, deprecated_member_use, non_constant_identifier_names
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/karyawan/form/lowongan/select_job.dart';
+import 'package:cariin_v2/ui/view_image/view_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -73,9 +74,12 @@ class _DetailProfilState extends State<DetailProfil> {
                       margin: const EdgeInsets.only(
                           right: 5
                       ),
-                      child: CircleAvatar(
-                        backgroundImage: workerDetailModel!.data!.profilImage == 'null' ? const NetworkImage('https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png') : NetworkImage('https://cariin.my.id/storage/${workerDetailModel!.data!.profilImage!}'),
-                        radius: 60,
+                      child: InkWell(
+                        onTap: () => PublicFunction.navigatorPush(context, ViewImagePage(title: workerDetailModel!.data!.username!, urlImage: 'https://cariin.my.id/storage/${workerDetailModel!.data!.profilImage!}')),
+                        child: CircleAvatar(
+                          backgroundImage: workerDetailModel!.data!.profilImage == 'null' ? const NetworkImage('https://www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png') : NetworkImage('https://cariin.my.id/storage/${workerDetailModel!.data!.profilImage!}'),
+                          radius: 60,
+                        ),
                       )
                   ),
                   Container(

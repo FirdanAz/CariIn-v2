@@ -9,6 +9,7 @@ import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/widget/auth_text_field.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:introduction_screen/introduction_screen.dart';
@@ -25,9 +26,11 @@ class FillDataWorker extends StatefulWidget {
 
 class _FillDataWorkerState extends State<FillDataWorker> {
   File? profileImage;
+  File? profileImageCompressed;
   SkillListModel? skillListModel;
   bool _isLoad = false;
   final _nameController = TextEditingController();
+
 
   getdata() async {
     _isLoad = true;
@@ -81,7 +84,11 @@ class _FillDataWorkerState extends State<FillDataWorker> {
               borderRadius: BorderRadius.all(Radius.circular(25)))),
       onDone: () async {
         if(profileImage != null){
-          bool isSucces = await ApiService().changeWorkerProfile(profileImage!);
+          profileImageCompressed = await PublicFunction.compressImage(profileImage!, 50);
+          setState(() {
+            profileImageCompressed;
+          });
+          bool isSucces = await ApiService().changeWorkerProfile(profileImageCompressed!);
           if(isSucces == true){
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false);
             showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Sukses Melengkapi Profile!'),);

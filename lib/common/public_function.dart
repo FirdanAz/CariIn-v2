@@ -5,6 +5,7 @@ import 'package:cariin_v2/common/app_assets.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:printing/printing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -291,5 +292,18 @@ class PublicFunction {
       print(file.path);
     }
     return file;
+  }
+
+  static Future compressImage(File originalImage, int quality) async {
+    String compressedImagePath = '/storage/emulated/0/Download/';
+    String date = '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}${DateTime.now().second}';
+
+    final file = await FlutterImageCompress.compressAndGetFile(
+        originalImage.path,
+        '$compressedImagePath/Cariin_$date.jpg',
+        quality: quality
+    );
+
+    return File(file!.path);
   }
 }
