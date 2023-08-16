@@ -6,6 +6,7 @@ import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/ui/karyawan/location/location_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:group_button/group_button.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,12 +22,16 @@ class FillDataCompany extends StatefulWidget {
 class _FillDataCompanyState extends State<FillDataCompany> {
   File? selectedImage;
   File? selectedImageInSide;
+  File? compressedSelectedImageInSide;
   File? selectedImageOutSide;
+  File? compressedSelectedImageOutSide;
   double indicatorValue = 0.1;
   int percentValue = 10;
   String dateString = 'Pilih Tanggal';
   int selectedRole = 0;
   final _descriptionController = TextEditingController();
+  String compressedImagePath = '/storage/emulated/0/Download/';
+  String date = '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}${DateTime.now().second}';
 
   final _numberToRoleMap = {0: 'pemilik', 1: 'pengelola', 2: 'HRD'};
 
@@ -34,8 +39,14 @@ class _FillDataCompanyState extends State<FillDataCompany> {
     final returnImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
+    final file = await FlutterImageCompress.compressAndGetFile(
+        returnImage!.path,
+        '$compressedImagePath/Cariin_$date.jpg',
+        quality: 50
+    );
+
     setState(() {
-      selectedImage = File(returnImage!.path);
+      selectedImage = File(file!.path);
       showDialog(
         context: context,
         builder: (context) {
@@ -623,9 +634,11 @@ class _FillDataCompanyState extends State<FillDataCompany> {
                 child: InkWell(
                     onTap: () async {
                       if(selectedImage != null || selectedImageInSide != null || selectedImageOutSide != null || _descriptionController.text.isNotEmpty){
+                        compressedSelectedImageInSide = await PublicFunction.compressImage(selectedImageInSide!, 50);
+                        compressedSelectedImageOutSide = await PublicFunction.compressImage(selectedImageOutSide!, 50);
                         showLoaderDialog(context);
                         await Future.delayed(const Duration(seconds: 2));
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => LocationPage(selectedImage: selectedImage!, dateString: dateString, roleSelected: _numberToRoleMap[selectedRole].toString(), descCompany: _descriptionController.text, selectedImageInSide: selectedImageInSide!, selectedImageOutSide: selectedImageOutSide!),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => LocationPage(selectedImage: selectedImage!, dateString: dateString, roleSelected: _numberToRoleMap[selectedRole].toString(), descCompany: _descriptionController.text, selectedImageInSide: compressedSelectedImageInSide!, selectedImageOutSide: compressedSelectedImageOutSide!),));
                       } else {
                         showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Data tidak boleh kosong'),);
                       }
