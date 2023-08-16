@@ -85,7 +85,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                   SystemUiOverlayStyle(statusBarColor: color.primaryContainer),
               pinned: false,
               actions: [
-                InkWell(
+                _isLoad ? const ShimmerHomeIconCard() : InkWell(
                   onTap: () {
                     PublicFunction.navigatorPushAndRemoveUntil(context, KaryawanBottomNavigation(indexs: 2));
                   },
@@ -155,7 +155,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                 ? const SliverToBoxAdapter(child: ShimmerHomeCard())
                 : const HomeCard(),
             SliverToBoxAdapter(
-              child: Container(
+              child: _isLoad ? const ShimmerTextHomeCard() : Container(
                 width: double.maxFinite,
                 margin: const EdgeInsets.only(top: 10, left: 15, right: 15),
                 child: Row(
@@ -220,7 +220,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                           },
                         ))),
             SliverToBoxAdapter(
-              child: Container(
+              child: _isLoad ? const ShimmerTextHomeCard() : Container(
                 width: double.maxFinite,
                 margin: const EdgeInsets.only(top: 15, left: 15, right: 15),
                 child: Row(
