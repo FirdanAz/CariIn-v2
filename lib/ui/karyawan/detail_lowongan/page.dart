@@ -1,6 +1,8 @@
 import 'package:cariin_v2/common/currency_format.dart';
+import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/service/api_service.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/tab_perusahaan.dart';
+import 'package:cariin_v2/ui/view_image/view_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cariin_v2/common/app_color.dart';
@@ -196,7 +198,10 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
             decoration: BoxDecoration(
                 color: color.surfaceContainer, shape: BoxShape.circle),
           ),
-          CircleAvatar(radius: 37.5, foregroundImage: NetworkImage(url))
+          InkWell(
+            onTap: () => PublicFunction.navigatorPush(context, ViewImagePage(title: 'Foto Cover', urlImage: url)),
+            child: CircleAvatar(radius: 37.5, foregroundImage: NetworkImage(url))
+          )
         ],
       ),
     );

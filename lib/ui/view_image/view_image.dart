@@ -24,7 +24,7 @@ class _ViewImagePageState extends State<ViewImagePage> with SingleTickerProvider
     super.initState();
 
     controller = TransformationController();
-    animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300))..addListener(() {
+    animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 100))..addListener(() {
       controller.value = animation!.value;
     });
   }
