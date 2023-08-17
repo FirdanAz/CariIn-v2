@@ -57,6 +57,11 @@ dependencies:
   uri_to_file:
   dio:
   flutter_image_compress:
+  carousel_slider:
+  firebase_messaging:
+  firebase_core:
+  flutter_local_notifications:
+
 
 dev_dependencies:
   flutter_test:

@@ -41,7 +41,7 @@ class _PengalamanPageState extends State<PengalamanPage> {
                         color: color.black,
                         borderRadius: BorderRadius.circular(10)
                       ),
-                      child: SvgPicture.asset(AppAssets.GDriveIcon, color: color.white,)
+                      child: SvgPicture.asset(AppAssets.gsDriveIcon, color: color.white,)
                     ),
                     ]
                     ),

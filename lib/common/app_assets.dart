@@ -55,5 +55,7 @@ class AppAssets {
   static const String lottieBackground2 = "assets/lottie/lottie_background2.json";
   static const String lottieSearchJob = "assets/lottie/lottie_search.json";
   static const String lottieSearchWorker = "assets/lottie/lottie_searchWorker.json";
-  static const String GDriveIcon = "assets/icons/GDrive_icon.svg";
+  static const String gsDriveIcon = "assets/icons/GDrive_icon.svg";
+
+  static const String sliderImage = "assets/images/slider_image.jpg";
 }
