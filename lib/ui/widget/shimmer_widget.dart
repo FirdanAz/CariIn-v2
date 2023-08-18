@@ -228,3 +228,26 @@ class ShimmerHomeIconCard extends StatelessWidget {
   }
 }
 
+class CustomShimmer extends StatelessWidget {
+  CustomShimmer({Key? key, required this.width, required this.height, required this.radius}) : super(key: key);
+  double width;
+  double height;
+  double radius;
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        width: width,
+        height: height,
+        margin: const EdgeInsets.symmetric(horizontal: 5),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(radius)),
+      ),
+    );
+  }
+}
+
+
