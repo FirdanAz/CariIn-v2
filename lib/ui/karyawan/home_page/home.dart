@@ -290,8 +290,8 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
             ),
             //sementara
             _isLoad
-                ? const SliverToBoxAdapter(
-                    child: ShimmerJobCard(),
+                ? SliverToBoxAdapter(
+                    child: ShimmerJobCard(marginHorizon: 20),
                   )
                 : acceptedJobCompany!.data!.isEmpty
                     ? SliverToBoxAdapter(

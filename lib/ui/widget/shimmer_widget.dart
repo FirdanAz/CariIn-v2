@@ -102,7 +102,8 @@ class ShimmerHomeCard extends StatelessWidget {
 }
 
 class ShimmerJobCard extends StatelessWidget {
-  const ShimmerJobCard({Key? key}) : super(key: key);
+  ShimmerJobCard({Key? key, required this.marginHorizon}) : super(key: key);
+  double marginHorizon;
 
   @override
   Widget build(BuildContext context) {
@@ -242,7 +243,6 @@ class CustomShimmer extends StatelessWidget {
       child: Container(
         width: width,
         height: height,
-        margin: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(radius)),
       ),

@@ -53,7 +53,7 @@ class _SelectJobState extends State<SelectJob> {
 
     return Scaffold(
       appBar: AppBar(),
-      body: _isLoad ? const ShimmerJobCard() : allJobCompany!.data!.isNotEmpty ?
+      body: _isLoad ? ShimmerJobCard(marginHorizon: 20,) : allJobCompany!.data!.isNotEmpty ?
       SingleChildScrollView(
         child: SizedBox(
           child: ListView.builder(

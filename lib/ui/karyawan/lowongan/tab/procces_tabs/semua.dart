@@ -48,7 +48,7 @@ class _ProccesSemuaTabState extends State<ProccesSemuaTab> {
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
 
-    return _isLoad ? const ShimmerJobCard() : allJobCompany!.data!.isNotEmpty ?
+    return _isLoad ? ShimmerJobCard(marginHorizon: 20,) : allJobCompany!.data!.isNotEmpty ?
     SizedBox(
       child: ListView.builder(
         shrinkWrap: true,
