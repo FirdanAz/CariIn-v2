@@ -19,6 +19,7 @@ class _SendNotifExampleState extends State<SendNotifExample> {
   getData() async {
     _isLoad = true;
     final fcmToken = await FirebaseMessaging.instance.getToken();
+    print(fcmToken);
     setState(() {
       deviceToken = fcmToken;
     });

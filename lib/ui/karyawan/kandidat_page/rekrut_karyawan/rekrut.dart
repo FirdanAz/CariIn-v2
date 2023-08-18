@@ -82,9 +82,9 @@ class _RekrutKaryawanPageState extends State<RekrutKaryawanPage> {
                         children: [
                           Container(
                             margin: const EdgeInsets.symmetric(horizontal: 20),
-                            child: const CircleAvatar(
+                            child: CircleAvatar(
                               radius: 50,
-                              backgroundImage: AssetImage(AppAssets.firdanImg),
+                              backgroundImage: NetworkImage('https://cariin.my.id/storage/${data.worker!.profileImage}'),
                             ),
                           ),
                           Container(
@@ -110,7 +110,7 @@ class _RekrutKaryawanPageState extends State<RekrutKaryawanPage> {
                                 Row(
                                   children: [
                                     Text(
-                                      'Kudus, Jawa Tengah, ',
+                                      '${data.worker!.address}, ',
                                       style:
                                       TextStyle(color: color.black, fontSize: 14),
                                     ),

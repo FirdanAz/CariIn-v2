@@ -17,13 +17,13 @@ class FirebaseApiService {
       "notification": {
         "title": title,
         "body": desc,
+        "image": "<https://marketplace.canva.com/EAEVmoaVxDQ/2/0/800w/canva-logo-acara-catur-sederhana-%26-melingkar-arang-dan-krem-Bdn6Im6_-Ts.jpg>",
         "mutable_content": true,
         "sound": "Tri-tone"
       },
 
       "data": {
-        "url": "https://thumbor.prod.vidiocdn.com/ntRQxnctRXWEH92zWYshePjMk8A=/smart/filters:strip_icc():quality(70)/vidio-web-prod-user/uploads/user/avatar/16858810/uhuy-productions-fb4687.jpg",
-        "dl": "<deeplink action on tap of notification>"
+        "image": "<https://example.com/image.jpg>"
       }
     };
 
