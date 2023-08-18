@@ -11,10 +11,13 @@ class ChangeProfile extends StatefulWidget {
 }
 
 class _ChangeProfileState extends State<ChangeProfile> {
-  String selectedValue = "Pria";
+  String selectedValue = "Pilih Jenis Kelamin";
+  String dateString = "Pilih Tanggal";
 
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = const [
+      DropdownMenuItem(
+          child: Text("Pilih Jenis Kelamin"), value: "Pilih Jenis Kelamin"),
       DropdownMenuItem(child: Text("Pria"), value: "Pria"),
       DropdownMenuItem(child: Text("Wanita"), value: "Wanita"),
     ];
@@ -134,11 +137,64 @@ class _ChangeProfileState extends State<ChangeProfile> {
                 style: TextStyle(color: color.black),
                 iconSize: 30,
                 onChanged: (String? value) {
-                  setState(() {
-                    selectedValue = value!;
-                  });
+                  setState(
+                    () {
+                      selectedValue = value!;
+                    },
+                  );
                 },
                 items: dropdownItems,
+              ),
+            ),
+            SizedBox(height: 30),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Tanggal Lahir',
+                  style: TextStyle(
+                    color: color.primary,
+                    fontSize: 17,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            InkWell(
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(2101),
+                );
+                if (pickedDate != null) {
+                  setState(() {
+                    dateString =
+                        '${pickedDate.year}-${pickedDate.month}-${pickedDate.day}';
+                  });
+                }
+              },
+              child: Container(
+                width: double.maxFinite,
+                height: 60,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: color.outline,
+                    width: 2,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    dateString,
+                    style: TextStyle(
+                      color: color.outline,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 35),

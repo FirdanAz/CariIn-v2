@@ -3,6 +3,7 @@ import 'package:cariin_v2/ui/lowongan/atur%20cv/cv.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Account_settings.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/about_page.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/change_password.dart';
+import 'package:cariin_v2/ui/lowongan/profile_page/feedback.dart';
 import 'package:cariin_v2/ui/options/options.dart';
 import 'package:cariin_v2/ui/widget/setting_content_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -135,7 +136,16 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
             SettingContentButton(
                 context: context, title: "Bantuan", onTap: () {}),
             SettingContentButton(
-                context: context, title: "Umpan Balik", onTap: () {}),
+                context: context,
+                title: "Umpan Balik",
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => FeedBackPage(),
+                    ),
+                  );
+                }),
             SettingContentButton(
                 context: context,
                 title: "Tentang Kami",
