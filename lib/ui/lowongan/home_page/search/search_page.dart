@@ -10,7 +10,8 @@ import '../../../../service/api_service.dart';
 import '../../detail_lowongan/page.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  SearchPage({Key? key, required this.value}) : super(key: key);
+  String value;
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -25,7 +26,7 @@ class _SearchPageState extends State<SearchPage> {
     if(value.isNotEmpty){
       _isLoad = true;
       setState(() {
-        allJobWorkerModel!.data = allJobWorkerModel!.data!.where((element) => element.title!.toLowerCase().contains(value.toLowerCase())).toList();
+        allJobWorkerModel!.data = allJobWorkerModel!.data!.where((element) => element.title!.toLowerCase().contains(value.toLowerCase())).toList()..where((element) => element.company!.name!.toLowerCase().contains(value.toLowerCase())).toList();
       });
       _isLoad = false;
     } else {
@@ -50,6 +51,10 @@ class _SearchPageState extends State<SearchPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    setState(() {
+      _searchTextController.text = widget.value;
+    });
+
     getData();
   }
 
@@ -60,11 +65,9 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: color.background,
-        leading: Container(
-          child: InkWell(
-            onTap: () => Navigator.of(context).pop(true),
-            child: Icon(Icons.arrow_back_ios),
-          ),
+        leading: InkWell(
+          onTap: () => Navigator.of(context).pop(true),
+          child: const Icon(Icons.arrow_back_ios),
         ),
         title: Text(
           "Search",
@@ -81,29 +84,32 @@ class _SearchPageState extends State<SearchPage> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 20),
+                padding: const EdgeInsets.only(top: 10, bottom: 20),
                 child: Column(
                   children: [
                     Container(
                       height: 60,
                       alignment: Alignment.centerLeft,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      margin: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
                       decoration: BoxDecoration(
                         color: color.secondaryContainer,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: TextField(
-                        onChanged: (value) => updateList(value),
+                        controller: _searchTextController,
+                        onChanged: (value) => updateList(_searchTextController.text),
                         style: TextStyle(
                             color: color.primary, fontSize: 14),
                         decoration: InputDecoration(
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
-                          suffix: SizedBox(width: 10),
-                          prefixIcon: Icon(
-                            Icons.search,
-                            size: 20,
+                          suffix: const SizedBox(width: 10),
+                          prefixIcon: const InkWell(
+                            child: Icon(
+                              Icons.search,
+                              size: 20,
+                            ),
                           ),
                           prefixIconColor: color.secondary.withOpacity(0.5),
                           hintText: "Cari loker atau perusahaan",
@@ -150,7 +156,7 @@ class _SearchPageState extends State<SearchPage> {
               ),
               _isLoad ? Center(child: ShimmerJobCard(marginHorizon: 0),) : ListView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemCount: allJobWorkerModel!.data!.length,
                 itemBuilder: (context, index) {
                   var data = allJobWorkerModel!.data!;

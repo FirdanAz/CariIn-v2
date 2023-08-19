@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const SearchPage(),
+                        builder: (context) => new SearchPage(value: ''),
                       )),
                   child: Container(
                     width: double.maxFinite,
@@ -235,7 +235,8 @@ class _HomePageState extends State<HomePage> {
                           _isLoad ? Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4.5),
                             child: CustomShimmer(width: 90, height: 110, radius: 10),
-                          ): CategoryCard('Code', AppAssets.codeIcon, context),
+                          ): InkWell(
+                              child: CategoryCard('Code', AppAssets.codeIcon, context)),
                           _isLoad ? Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4.5),
                             child: CustomShimmer(width: 90, height: 110, radius: 10),
@@ -489,35 +490,38 @@ class _HomePageState extends State<HomePage> {
 
 Widget CategoryCard(String title, String assetsName, BuildContext context) {
   var color = AppColor.theme(Theme.of(context).brightness);
-  return Container(
-    height: 110,
-    constraints: const BoxConstraints(minWidth: 90),
-    padding: const EdgeInsets.all(15),
-    alignment: Alignment.center,
-    margin: const EdgeInsets.symmetric(horizontal: 4.5),
-    decoration: BoxDecoration(
-        color: color.primary, borderRadius: BorderRadius.circular(10)),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CircleAvatar(
-            radius: 22,
-            backgroundColor: color.white,
-            child: SvgPicture.asset(
-              assetsName,
-              color: color.primary,
-            )),
-        const SizedBox(
-          height: 9.5,
-        ),
-        Text(
-          title.toString(),
-          style: const TextStyle(
-            fontSize: 15,
-            color: Colors.white,
+  return InkWell(
+    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new SearchPage(value: title),)),
+    child: Container(
+      height: 110,
+      constraints: const BoxConstraints(minWidth: 90),
+      padding: const EdgeInsets.all(15),
+      alignment: Alignment.center,
+      margin: const EdgeInsets.symmetric(horizontal: 4.5),
+      decoration: BoxDecoration(
+          color: color.primary, borderRadius: BorderRadius.circular(10)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+              radius: 22,
+              backgroundColor: color.white,
+              child: SvgPicture.asset(
+                assetsName,
+                color: color.primary,
+              )),
+          const SizedBox(
+            height: 9.5,
           ),
-        )
-      ],
+          Text(
+            title.toString(),
+            style: const TextStyle(
+              fontSize: 15,
+              color: Colors.white,
+            ),
+          )
+        ],
+      ),
     ),
   );
 }

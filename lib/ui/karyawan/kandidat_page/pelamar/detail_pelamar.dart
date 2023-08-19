@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar_process_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -27,6 +28,7 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
   DetailPelamarModel? detailPelamarModel;
   bool _isLoad = false;
   PdfDocument? document;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   getdata() async {
     _isLoad = true;
@@ -308,6 +310,10 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                       setState(() {
                         getdata();
                       });
+                      await _firestore.collection('users').doc('${detailPelamarModel!.data!.worker!.id}_${detailPelamarModel!.data!.job!.id}').set({
+                        'uid' : detailPelamarModel!.data!..worker!.id,
+                        'userName' : detailPelamarModel!.data!.worker!.username
+                      });
                       showDialog(
                         context: context,
                         builder: (context) {
@@ -329,6 +335,10 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                     bool isSuccess = await ApiService().defineConfirmation(
                         context, 'diterima', '${detailPelamarModel!.data!.id}');
                     if (isSuccess == true) {
+                      await _firestore.collection('users').doc('${detailPelamarModel!.data!.worker!.id}_${detailPelamarModel!.data!.job!.id}').set({
+                        'uid' : detailPelamarModel!.data!.id,
+                        'userName' : detailPelamarModel!.data!.worker!.username
+                      }, SetOptions(merge: true));
                       setState(() {
                         getdata();
                       });
@@ -394,7 +404,7 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                                     : detailPelamarModel!.data!.confirmedStatus ==
                                             'direview'
                                         ? Text(
-                                            'Terima Pelamar',
+                                            'Mulai Wawancara',
                                             style: TextStyle(
                                                 color: color.white,
                                                 fontWeight: FontWeight.bold),

@@ -30,7 +30,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    cvFile = json['cv_file'];
+    cvFile = json['cv_file'] ?? null;
   }
 
   Map<String, dynamic> toJson() {

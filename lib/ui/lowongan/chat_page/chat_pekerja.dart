@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class ChatPekerja extends StatelessWidget {
-  ChatPekerja({Key? key, required this.message}) : super(key: key);
-
-  String message;
+  ChatPekerja({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +45,7 @@ class ChatPekerja extends StatelessWidget {
           color: color.primary,
         ),
         child: Text(
-          message,
+          'message',
           style: TextStyle(color: Colors.white),
         ),
       ),

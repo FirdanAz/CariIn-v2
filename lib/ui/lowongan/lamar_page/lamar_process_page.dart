@@ -179,9 +179,13 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
               const SizedBox(height: 10,),
               InkWell(
                 onTap: () async {
+                  File files = await PublicFunction.getPdf(workerDetailModel!.data!.id!, workerDetailModel!.data!.username!, workerDetailModel!.data!.interested!, workerDetailModel!.data!.age!.toString(), workerDetailModel!.data!.address!, '08677281920', workerDetailModel!.data!.email!, workerDetailModel!.data!.gender!);
+                  print(files);
+                  await ApiService().addCV(files);
                   if(cvFile == null){
                     setState(() {
                       _isLoad = true;
+                      cvFile = files;
                     });
                     MyCvModel model = await ApiService().getMyCv();
                     setState(() {
@@ -261,7 +265,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
                           children: [
                             Icon(Icons.picture_as_pdf_outlined, color: color.white,),
                             const SizedBox(width: 10,),
-                            Text(myCvModel!.data!.cvFile!, style: TextStyle(color: color.white),)
+                            Expanded(child: Text(myCvModel!.data!.cvFile!, style: TextStyle(color: color.white), overflow: TextOverflow.ellipsis,))
                           ],
                         ),
                       ),
