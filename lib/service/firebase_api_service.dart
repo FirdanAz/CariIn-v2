@@ -17,14 +17,10 @@ class FirebaseApiService {
       "notification": {
         "title": title,
         "body": desc,
-        "image": "<https://marketplace.canva.com/EAEVmoaVxDQ/2/0/800w/canva-logo-acara-catur-sederhana-%26-melingkar-arang-dan-krem-Bdn6Im6_-Ts.jpg>",
+        "image" : "https://img.icons8.com/?size=512&id=gru7KpAmjzjS&format=png",
         "mutable_content": true,
         "sound": "Tri-tone"
       },
-
-      "data": {
-        "image": "<https://example.com/image.jpg>"
-      }
     };
 
     try {

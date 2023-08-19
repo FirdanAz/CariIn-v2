@@ -474,6 +474,67 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                             child: Text('Tolak Lamaran', style: TextStyle(color: color.error, fontWeight: FontWeight.w600),),
                           ),
                         ),
+                      ) : Container(),
+                      detailPelamarModel!.data!.confirmedStatus ==
+                          'wawancara' ?
+                      Expanded(
+                        child: InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text(
+                                    'Tolak Lamaran ${detailPelamarModel!.data!.worker!.username}',
+                                    style: const TextStyle(fontSize: 15),
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                      child: const Text("Batal"),
+                                    ),
+                                    TextButton(
+                                        onPressed: () async {
+                                          bool isSuccess = await ApiService()
+                                              .defineConfirmation(
+                                              context,
+                                              'ditolak',
+                                              '${detailPelamarModel!.data!.id}');
+                                          if (isSuccess == true) {
+                                            setState(() {
+                                              getdata();
+                                            });
+                                            Navigator.of(context).pop();
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return PublicFunction
+                                                    .showDialog(context,
+                                                    'Lamaran Ditolak');
+                                              },
+                                            );
+                                          }
+                                        },
+                                        child: Text(
+                                          "Iya",
+                                          style: TextStyle(color: color.error),
+                                        )),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: Container(
+                            width: double.maxFinite,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                color: color.primaryContainer,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: Text('Tolak Lamaran', style: TextStyle(color: color.error, fontWeight: FontWeight.w600),),
+                          ),
+                        ),
                       ) : Container()
                     ],
                   ),
