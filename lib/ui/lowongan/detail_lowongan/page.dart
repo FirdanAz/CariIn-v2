@@ -3,6 +3,7 @@
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_perusahaan.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar_process_page.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/pkl/lamar_pkl.dart';
+import 'package:cariin_v2/ui/lowongan/lamar_page/pkl/lamar_proccess.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cariin_v2/common/app_color.dart';
@@ -345,7 +346,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
                   showLoaderDialog(context);
                   await Future.delayed(const Duration(seconds: 2));
                   Navigator.of(context).pop();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const LamarPklPage(),));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PklLamarPage(jobId: jobDetailModel!.data!.id.toString(), companyId: jobDetailModel!.data!.company!.id.toString(),)));
                 } else {}
 
               },
