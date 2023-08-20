@@ -64,13 +64,15 @@ class Worker {
   int? id;
   String? username;
   String? profileImage;
+  String? address;
 
-  Worker({this.id, this.username, this.profileImage});
+  Worker({this.id, this.username, this.profileImage, this.address});
 
   Worker.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     username = json['username'];
     profileImage = json['profile_image'];
+    address = json['address'];
   }
 
   Map<String, dynamic> toJson() {
@@ -78,6 +80,7 @@ class Worker {
     data['id'] = this.id;
     data['username'] = this.username;
     data['profile_image'] = this.profileImage;
+    data['address'] = this.address;
     return data;
   }
 }
@@ -85,18 +88,21 @@ class Worker {
 class Job {
   int? id;
   String? title;
+  String? coverImage;
 
-  Job({this.id, this.title});
+  Job({this.id, this.title, this.coverImage});
 
   Job.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
+    coverImage = json['cover_image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
+    data['cover_image'] = this.coverImage;
     return data;
   }
 }

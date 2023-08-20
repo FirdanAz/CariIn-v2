@@ -1,8 +1,10 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cariin_v2/ui/karyawan/detail_profile/send_notif_example.dart';
 import 'package:cariin_v2/ui/karyawan/location/location_page.dart';
 import 'package:cariin_v2/ui/options/options.dart';
 import 'package:cariin_v2/ui/view_image/view_image.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -279,10 +281,13 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                             'Sebagai',
                             profilCompanyModel!.data!.userType.toString(),
                             Icons.assignment_ind_rounded),
-                        _profileItems(
-                            'Peran',
-                            profilCompanyModel!.data!.role.toString(),
-                            Icons.supervised_user_circle),
+                        InkWell(
+                          onTap: () => PublicFunction.navigatorPush(context, const SendNotifExample()),
+                          child: _profileItems(
+                              'Peran',
+                              profilCompanyModel!.data!.role.toString(),
+                              Icons.supervised_user_circle),
+                        ),
                       ],
                     ),
                   ),

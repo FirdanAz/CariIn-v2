@@ -233,9 +233,9 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
       children: [
         Text(company, style: textStyle),
         dot,
-        Text(city, style: textStyle),
+        Container(constraints: const BoxConstraints(maxWidth: 100),child: Text(city, style: textStyle, overflow: TextOverflow.ellipsis)),
         dot,
-        Text(uploadDistance, style: textStyle),
+        Container(constraints: const BoxConstraints(maxWidth: 100),child: Text(uploadDistance, style: textStyle, overflow: TextOverflow.ellipsis)),
       ],
     );
   }

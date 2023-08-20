@@ -1,12 +1,14 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/lowongan/lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/tab_worker/semua.dart';
-import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
+import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/app_color.dart';
+import '../../../bottom_navigation/bottom_navigation_karyawan.dart';
 
 class PelamarTab extends StatefulWidget {
   const PelamarTab({Key? key}) : super(key: key);
@@ -16,6 +18,22 @@ class PelamarTab extends StatefulWidget {
 }
 
 class _PelamarTabState extends State<PelamarTab> {
+  bool _isLoad = false;
+
+  waiting() async {
+    _isLoad = true;
+    await Future.delayed(Duration(seconds: 1));
+    setState(() {
+      _isLoad = false;
+    });;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    waiting();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,184 +41,183 @@ class _PelamarTabState extends State<PelamarTab> {
     final color = AppColor.theme(Theme.of(context).brightness);
 
     return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 5),
-            width: double.maxFinite,
-            child: Column(
-              children: [
-                Card(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0)),
-                  color: color.background,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Row(
+      body: RefreshIndicator(
+        onRefresh: () =>
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 1),), (route) => false),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 5),
+                width: double.maxFinite,
+                child: Column(
+                  children: [
+                    _isLoad ? CustomShimmer(width: double.maxFinite, height: 300, radius: 0) : Card(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(0)),
+                      color: color.background,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(
-                              Icons.description_outlined,
-                              size: 30,
-                              color: color.primary,
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.description_outlined,
+                                  size: 30,
+                                  color: color.secondary,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const Text(
+                                  'Pelamar Perusahaan',
+                                  style: TextStyle(fontSize: 16),
+                                )
+                              ],
                             ),
-                            const SizedBox(
-                              width: 10,
+                            const Divider(),
+                            GridView.count(
+                              shrinkWrap: true,
+                              crossAxisCount: 3,
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: [
+                                InkWell(
+                                    onTap: () {
+                                      PublicFunction.navigatorPush(context, SemuaTabs(all: true, value: 'null', titlePage: 'Semua Pelamar',));
+                                    },
+                                    child: PelamarCard(
+                                      icon: AppAssets.flaticonSemuaWorker,
+                                      title: 'Semua Pelamar',
+                                    )),
+                                InkWell(
+                                    onTap: () {
+                                      PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'mengirim', titlePage: 'Belum Direview',));
+                                    },
+                                    child: PelamarCard(
+                                      icon: AppAssets.flaticonSedangReview,
+                                      title: 'Belum Direview',
+                                    )),
+                                InkWell(
+                                    onTap: () {
+                                      PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'direview', titlePage: 'Direview',));
+                                    },
+                                    child: PelamarCard(
+                                      icon: AppAssets.flaticonSudahReview,
+                                      title: 'Sudah Direview',
+                                    )),
+                                InkWell(
+                                  onTap: () {
+                                    PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'wawancara', titlePage: 'Proses Wawancara',));
+                                  },
+                                  child: PelamarCard(
+                                    icon: AppAssets.flaticonWawancaraWorker,
+                                    title: 'Proses Wawancara',
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'diterima', titlePage: 'Pelamar Diterima',));
+                                  },
+                                  child: PelamarCard(
+                                    icon: AppAssets.flaticonPelamarDiterima,
+                                    title: 'Pelamar Diterima',
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'ditolak', titlePage: 'Pelamar Ditolak'));
+                                  },
+                                  child: PelamarCard(
+                                    icon: AppAssets.flaticonPelamarDitolak,
+                                    title: 'Pelamar Ditolak',
+                                  ),
+                                ),
+                              ],
                             ),
-                            const Text(
-                              'Pelamar Perusahaan',
-                              style: TextStyle(fontSize: 16),
-                            )
                           ],
                         ),
-                        const Divider(),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              InkWell(
-                                  onTap: () {
-                                    PublicFunction.navigatorPush(context, SemuaTabs(all: true, value: 'null', titlePage: 'Semua Pelamar',));
-                                  },
-                                  child: PelamarCard(
-                                    icon: Icons.work_history_outlined,
-                                    color: color.black,
-                                    title: 'Semua Pelamar',
-                                  )),
-                              InkWell(
-                                onTap: () {
-                                  PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'mengirim', titlePage: 'Belum Direview',));
-                                },
-                                child: PelamarCard(
-                                icon: Icons.work_history_outlined,
-                                color: Colors.orange,
-                                title: 'Belum Direview',
-                              )),
-                              InkWell(
-                                  onTap: () {
-                                    PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'direview', titlePage: 'Direview',));
-                                  },
-                                  child: PelamarCard(
-                                    icon: Icons.work_history_outlined,
-                                    color: Colors.orange,
-                                    title: 'Sudah Direview',
-                                  )),
-                              InkWell(
-                                onTap: () {
-                                  PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'wawancara', titlePage: 'Proses Wawancara',));
-                                },
-                                child: PelamarCard(
-                                  icon: Icons.work_history_outlined,
-                                  color: color.primary,
-                                  title: 'Proses Wawancara',
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'diterima', titlePage: 'Pelamar Diterima',));
-                                },
-                                child: PelamarCard(
-                                  icon: Icons.work_history_outlined,
-                                  color: Colors.green,
-                                  title: 'Pelamar Diterima',
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'ditolak', titlePage: 'Pelamar Ditolak'));
-                                },
-                                child: PelamarCard(
-                                  icon: Icons.work_history_outlined,
-                                  color: Colors.red,
-                                  title: 'Pelamar Ditolak',
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    PublicFunction.navigatorPush(context, const LowonganPage());
-                  },
-                  child: Card(
-                    color: color.background,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(
-                                Icons.check_circle,
-                                size: 30,
-                                color: Colors.green,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                'Hasil Lamaran',
-                                style: TextStyle(fontSize: 16),
-                              )
-                            ],
-                          ),
-                          Icon(Icons.navigate_next)
-                        ],
                       ),
                     ),
-                  ),
-                ),
-                Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-                  color: color.background,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        Row(
+                    _isLoad ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: CustomShimmer(width: double.maxFinite, height: 40, radius: 0),
+                    ) : InkWell(
+                      onTap: () {
+                        PublicFunction.navigatorPush(context, const LowonganPage());
+                      },
+                      child: Card(
+                        color: color.background,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.check_circle,
+                                    size: 30,
+                                    color: Colors.green,
+                                  ),
+                                  SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    'Hasil Lamaran',
+                                    style: TextStyle(fontSize: 16),
+                                  )
+                                ],
+                              ),
+                              Icon(Icons.navigate_next)
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    _isLoad ? CustomShimmer(width: double.maxFinite, height: 100, radius: 0) : Card(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+                      color: color.background,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
                           children: [
-                            Icon(
-                              Icons.live_help_outlined,
-                              size: 30,
-                              color: color.primary,
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.live_help_outlined,
+                                  size: 30,
+                                  color: color.primary,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                const Text(
+                                  'Penjelasan Fitur',
+                                  style: TextStyle(fontSize: 16),
+                                )
+                              ],
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              'Penjelasan Fitur',
-                              style: TextStyle(fontSize: 16),
-                            )
+                            const Divider(),
+                            HelpCard(text: 'Menunggu Direview'),
                           ],
                         ),
-                        const Divider(),
-                        HelpCard(text: 'Menunggu Direview'),
-                        const Divider(),
-                        HelpCard(text: 'Proses Wawancara'),
-                        const Divider(),
-                        HelpCard(text: 'Pelamar Diterima'),
-                        const Divider(),
-                        HelpCard(text: 'Pelamar Ditolak'),
-                      ],
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
-          )
-        ],
+              )
+            ],
+          ),
+        ),
       ),
     );
 
@@ -251,36 +268,29 @@ class _PelamarTabState extends State<PelamarTab> {
 
 class PelamarCard extends StatelessWidget {
   PelamarCard(
-      {Key? key, required this.icon, required this.color, required this.title})
+      {Key? key, required this.icon, required this.title})
       : super(key: key);
-  IconData icon;
-  Color color;
+  String icon;
   String title;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(maxWidth: 110),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                color: color,
-                size: 30,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-              )
-            ],
-          ),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(child: Image.asset(icon, width: double.maxFinite,)),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+            )
+          ],
         ),
       ),
     );

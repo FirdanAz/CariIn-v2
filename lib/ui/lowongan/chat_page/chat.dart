@@ -51,7 +51,7 @@ class _ChatPageState extends State<ChatPage> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          ChatPekerja(message: 'message')));
+                                          ChatPekerja()));
                             },
                             child: Container(
                                 decoration: BoxDecoration(

@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/service/edit_service.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/profil_comapny.dart';
@@ -8,12 +9,15 @@ import 'package:cariin_v2/ui/karyawan/form/fill_data_company/fill_data.dart';
 import 'package:cariin_v2/ui/karyawan/form/lowongan/create_lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
@@ -45,6 +49,8 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
         await ApiService().jobsCompany(true, 'terverifikasi');
     ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
     WorkerListModel workerList = await ApiService().ListWorkerCompany();
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    await EditService().editMyDeviceToken(fcmToken!, 'company');
     setState(() {
       acceptedJobCompany = allJob;
       profilCompanyModel = profilCompany;
@@ -58,6 +64,12 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
     }
     _isLoad = false;
   }
+
+  List<String> imagesUrl = [
+    AppAssets.sliderImage,
+    AppAssets.sliderImage,
+    AppAssets.sliderImage,
+  ];
 
   @override
   void initState() {
@@ -151,9 +163,38 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                       ],
                     ),
             ),
-            _isLoad
-                ? const SliverToBoxAdapter(child: ShimmerHomeCard())
-                : const HomeCard(),
+            const SliverToBoxAdapter(child: SizedBox(height: 20,),),
+             SliverToBoxAdapter(
+              child: CarouselSlider.builder(
+                itemCount: _isLoad ? 3 : imagesUrl.length,
+                options: CarouselOptions(
+                  height: 120.0,
+                  enlargeCenterPage: true,
+                  autoPlay: true,
+                  aspectRatio: 16 / 9,
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enableInfiniteScroll: true,
+                ),
+                itemBuilder: (context, index, realIndex) {
+                  return _isLoad ? Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      height: 80,
+                      color: Colors.red,
+                    ),
+                  ): SizedBox(
+                    height: 80,
+                    child: Image.asset(
+                      imagesUrl[index],
+                      fit: BoxFit.cover,
+                      width: 1000,
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SliverToBoxAdapter(child: SizedBox(height: 20,),),
             SliverToBoxAdapter(
               child: _isLoad ? const ShimmerTextHomeCard() : Container(
                 width: double.maxFinite,
@@ -253,8 +294,8 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
             ),
             //sementara
             _isLoad
-                ? const SliverToBoxAdapter(
-                    child: ShimmerJobCard(),
+                ? SliverToBoxAdapter(
+                    child: ShimmerJobCard(marginHorizon: 20),
                   )
                 : acceptedJobCompany!.data!.isEmpty
                     ? SliverToBoxAdapter(

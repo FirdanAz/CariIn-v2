@@ -2,6 +2,7 @@
 
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_perusahaan.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar_process_page.dart';
+import 'package:cariin_v2/ui/lowongan/lamar_page/pkl/lamar_pkl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cariin_v2/common/app_color.dart';
@@ -229,9 +230,9 @@ class _JobDetailPageState extends State<JobDetailPage> {
       children: [
         Text(company, style: textStyle),
         dot,
-        Text(city, style: textStyle),
+        Container(constraints: const BoxConstraints(maxWidth: 100),child: Text(city, style: textStyle, overflow: TextOverflow.ellipsis)),
         dot,
-        Text(uploadDistance, style: textStyle),
+        Container(constraints: const BoxConstraints(maxWidth: 100),child: Text(uploadDistance, style: textStyle, overflow: TextOverflow.ellipsis)),
       ],
     );
   }
@@ -315,40 +316,47 @@ class _JobDetailPageState extends State<JobDetailPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SizedBox(
-            height: Responsive.byWidth(50),
-            width: Responsive.byWidth(160),
-            child: FilledButton(
-              onPressed: () async {
-                showLoaderDialog(context);
-                await Future.delayed(const Duration(seconds: 2));
-                Navigator.of(context).pop();
-                Navigator.push(context, MaterialPageRoute(builder: (context) => LamarProcessPage(title: '${jobDetailModel!.data!.title}', jobId: jobDetailModel!.data!.id!.toInt()),));
-              },
-              style: FilledButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
+          Expanded(
+            child: SizedBox(
+              height: Responsive.byWidth(50),
+              width: Responsive.byWidth(160),
+              child: FilledButton(
+                onPressed: () async {
+                  showLoaderDialog(context);
+                  await Future.delayed(const Duration(seconds: 2));
+                  Navigator.of(context).pop();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LamarProcessPage(title: '${jobDetailModel!.data!.title}', jobId: jobDetailModel!.data!.id!.toInt(), companyId: jobDetailModel!.data!.company!.id!),));
+                },
+                style: FilledButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+                child: Text("Lamar", style: textStyle),
               ),
-              child: Text("Lamar", style: textStyle),
             ),
           ),
-          SizedBox(
+          Container(
             height: Responsive.byWidth(50),
             width: Responsive.byWidth(160),
+            margin: const EdgeInsets.symmetric(horizontal: 5),
             child: OutlinedButton(
-              onPressed: () {
-                showDialog(context: context, builder: (context) {
-                  return PublicFunction.showDialog(context, 'Belum Tersedia :)');
-                },);
+              onPressed: () async {
+                if(jobDetailModel!.data!.pklStatus == true) {
+                  showLoaderDialog(context);
+                  await Future.delayed(const Duration(seconds: 2));
+                  Navigator.of(context).pop();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const LamarPklPage(),));
+                } else {}
+
               },
               style: OutlinedButton.styleFrom(
-                side: BorderSide(color: color.primary),
+                side: BorderSide(color: jobDetailModel!.data!.pklStatus == false ? color.primary.withOpacity(0.5) : color.primary),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10)),
               ),
-              child: Text("PKL", style: textStyle),
+              child: jobDetailModel!.data!.pklStatus == false ?  Text("PKL", style: TextStyle(fontSize: Responsive.fontSize(14), fontWeight: FontWeight.w500, color: color.primary.withOpacity(0.5))) : Text("PKL", style: textStyle),
             ),
-          ),
+          )
         ],
       ),
     );

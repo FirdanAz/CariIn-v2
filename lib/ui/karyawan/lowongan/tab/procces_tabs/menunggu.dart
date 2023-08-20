@@ -50,7 +50,7 @@ class _ProccesMenungguTabState extends State<ProccesMenungguTab> {
     var color = AppColor.theme(Theme.of(context).brightness);
 
     return _isLoad
-        ? const ShimmerJobCard()
+        ? ShimmerJobCard(marginHorizon: 20,)
         : allJobCompany!.data!.isNotEmpty ? ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),

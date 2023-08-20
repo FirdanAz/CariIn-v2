@@ -139,12 +139,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        workerModels!.data!.username.toString(),
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600,
-                                            color: color.white),
+                                      Container(
+                                        constraints: BoxConstraints(maxWidth: 200),
+                                        child: Text(
+                                          workerModels!.data!.username.toString(),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600,
+                                              color: color.white),
+                                        ),
                                       ),
                                       const SizedBox(
                                         height: 6,

@@ -3,8 +3,10 @@
 import 'dart:io';
 
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/service/edit_service.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar_process_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,7 +15,9 @@ import 'package:pdf/pdf.dart';
 import '../../../../common/app_color.dart';
 import '../../../../common/public_function.dart';
 import '../../../../model/company/detail_pelamar_model.dart';
+import '../../../../model/company/profil_company_model.dart';
 import '../../../../service/api_service.dart';
+import '../../../../service/firebase_api_service.dart';
 
 class DetailPelamarPage extends StatefulWidget {
   DetailPelamarPage({Key? key, required this.id}) : super(key: key);
@@ -25,16 +29,24 @@ class DetailPelamarPage extends StatefulWidget {
 
 class _DetailPelamarPageState extends State<DetailPelamarPage> {
   DetailPelamarModel? detailPelamarModel;
+  ProfilCompanyModel? profilCompanyModel;
   bool _isLoad = false;
   PdfDocument? document;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  String? workerDeviceToken;
 
   getdata() async {
     _isLoad = true;
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
     DetailPelamarModel detail = await ApiService().detailPelamar(widget.id);
+    ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
+    var token =
+        await EditService().getWorkerDevice(detail.data!.worker!.id.toString());
     setState(() {
       detailPelamarModel = detail;
+      profilCompanyModel = profilCompany;
+      workerDeviceToken = token;
     });
     _isLoad = false;
   }
@@ -227,30 +239,44 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    CvPage(file: file),
+                                builder: (context) => CvPage(file: file),
                               ));
                         },
-                        overlayColor: MaterialStateProperty.all<Color>(Colors.transparent),
+                        overlayColor: MaterialStateProperty.all<Color>(
+                            Colors.transparent),
                         child: Container(
                           width: double.maxFinite,
                           height: 50,
                           margin: EdgeInsets.symmetric(horizontal: 10),
-                          decoration: BoxDecoration(
-                          ),
+                          decoration: BoxDecoration(),
                           child: Card(
                             color: color.white,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 15),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
-                                      SvgPicture.asset(AppAssets.cvIcon, height: 25, color: color.primary,),
-                                      SizedBox(width: 10,),
-                                      Text('Curriculum Vitae ', style: TextStyle(color: color.black),),
-                                      Text(detailPelamarModel!.data!.worker!.username!, style: TextStyle(color: color.primary),)
+                                      SvgPicture.asset(
+                                        AppAssets.cvIcon,
+                                        height: 25,
+                                        color: color.primary,
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text(
+                                        'Curriculum Vitae ',
+                                        style: TextStyle(color: color.black),
+                                      ),
+                                      Text(
+                                        detailPelamarModel!
+                                            .data!.worker!.username!,
+                                        style: TextStyle(color: color.primary),
+                                      )
                                     ],
                                   ),
                                   Icon(
@@ -305,8 +331,21 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                         'wawancara',
                         '${detailPelamarModel!.data!.id}');
                     if (isSuccess == true) {
+                      await FirebaseApiService().firebaseSendNotif(
+                          workerDeviceToken!,
+                          'Lamaran masuk sesi Wawancara',
+                          'Selamat, lamaranmu sudah mencapai sesi wawancara, tunggu informasi dari perusahaan melalui email',
+                          'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}');
                       setState(() {
                         getdata();
+                      });
+                      await _firestore
+                          .collection('users')
+                          .doc(
+                              '${detailPelamarModel!.data!.worker!.id}_${detailPelamarModel!.data!.job!.id}')
+                          .set({
+                        'uid': detailPelamarModel!.data!..worker!.id,
+                        'userName': detailPelamarModel!.data!.worker!.username
                       });
                       showDialog(
                         context: context,
@@ -329,6 +368,19 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                     bool isSuccess = await ApiService().defineConfirmation(
                         context, 'diterima', '${detailPelamarModel!.data!.id}');
                     if (isSuccess == true) {
+                      await FirebaseApiService().firebaseSendNotif(
+                          workerDeviceToken!,
+                          'Lamaranmu Diterima!!',
+                          'Selamat, lamaran pekerjaan ${detailPelamarModel!.data!.job!.title} di perusahaan ${detailPelamarModel!.data!.job!.company!.name} Sudah diterima oleh perusahaan!',
+                          'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}');
+                      await _firestore
+                          .collection('users')
+                          .doc(
+                              '${detailPelamarModel!.data!.worker!.id}_${detailPelamarModel!.data!.job!.id}')
+                          .set({
+                        'uid': detailPelamarModel!.data!.id,
+                        'userName': detailPelamarModel!.data!.worker!.username
+                      }, SetOptions(merge: true));
                       setState(() {
                         getdata();
                       });
@@ -371,10 +423,11 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                             margin: const EdgeInsets.symmetric(horizontal: 10),
                             padding: EdgeInsets.symmetric(horizontal: 20),
                             decoration: BoxDecoration(
-                                color: detailPelamarModel!.data!.confirmedStatus ==
-                                        'ditolak'
-                                    ? color.primary.withOpacity(0.4)
-                                    : color.primary,
+                                color:
+                                    detailPelamarModel!.data!.confirmedStatus ==
+                                            'ditolak'
+                                        ? color.primary.withOpacity(0.4)
+                                        : color.primary,
                                 borderRadius: BorderRadius.circular(12)),
                             child: detailPelamarModel!.data!.confirmedStatus ==
                                     'diterima'
@@ -384,97 +437,178 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                                         color: color.white,
                                         fontWeight: FontWeight.bold),
                                   )
-                                : detailPelamarModel!.data!.confirmedStatus == 'ditolak'
+                                : detailPelamarModel!.data!.confirmedStatus ==
+                                        'ditolak'
                                     ? Text(
                                         'Terima Pelamar',
                                         style: TextStyle(
                                             color: color.white,
                                             fontWeight: FontWeight.bold),
                                       )
-                                    : detailPelamarModel!.data!.confirmedStatus ==
+                                    : detailPelamarModel!
+                                                .data!.confirmedStatus ==
                                             'direview'
                                         ? Text(
-                                            'Terima Pelamar',
+                                            'Mulai Wawancara',
                                             style: TextStyle(
                                                 color: color.white,
                                                 fontWeight: FontWeight.bold),
                                           )
-                                        : detailPelamarModel!.data!.confirmedStatus ==
+                                        : detailPelamarModel!
+                                                    .data!.confirmedStatus ==
                                                 'wawancara'
                                             ? Text(
                                                 'Terima Pelamar',
                                                 style: TextStyle(
                                                     color: color.white,
-                                                    fontWeight: FontWeight.bold),
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               )
                                             : Text(
                                                 'Undang Wawancara',
                                                 style: TextStyle(
                                                     color: color.white,
-                                                    fontWeight: FontWeight.bold),
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               )),
                       ),
-                      detailPelamarModel!.data!.confirmedStatus ==
-                          'direview' ?
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  content: Text(
-                                    'Tolak Lamaran ${detailPelamarModel!.data!.worker!.username}',
-                                    style: const TextStyle(fontSize: 15),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: const Text("Batal"),
-                                    ),
-                                    TextButton(
-                                        onPressed: () async {
-                                          bool isSuccess = await ApiService()
-                                              .defineConfirmation(
-                                              context,
-                                              'ditolak',
-                                              '${detailPelamarModel!.data!.id}');
-                                          if (isSuccess == true) {
-                                            setState(() {
-                                              getdata();
-                                            });
-                                            Navigator.of(context).pop();
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) {
-                                                return PublicFunction
-                                                    .showDialog(context,
-                                                    'Lamaran Ditolak');
+                      detailPelamarModel!.data!.confirmedStatus == 'direview'
+                          ? Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: Text(
+                                          'Tolak Lamaran ${detailPelamarModel!.data!.worker!.username}',
+                                          style: const TextStyle(fontSize: 15),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            child: const Text("Batal"),
+                                          ),
+                                          TextButton(
+                                              onPressed: () async {
+                                                bool isSuccess = await ApiService()
+                                                    .defineConfirmation(
+                                                        context,
+                                                        'ditolak',
+                                                        '${detailPelamarModel!.data!.id}');
+                                                if (isSuccess == true) {
+                                                  await FirebaseApiService().firebaseSendNotif(
+                                                      workerDeviceToken!,
+                                                      'Lamaranmu Ditolak!!',
+                                                      'Sayang sekali, lamaran pekerjaan ${detailPelamarModel!.data!.job!.title} di perusahaan ${detailPelamarModel!.data!.job!.company!.name} Ditolak oleh perushaan',
+                                                      'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}');
+                                                  setState(() {
+                                                    getdata();
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return PublicFunction
+                                                          .showDialog(context,
+                                                              'Lamaran Ditolak');
+                                                    },
+                                                  );
+                                                }
                                               },
-                                            );
-                                          }
-                                        },
-                                        child: Text(
-                                          "Iya",
-                                          style: TextStyle(color: color.error),
-                                        )),
-                                  ],
-                                );
-                              },
-                            );
-                          },
-                          child: Container(
-                            width: double.maxFinite,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              color: color.primaryContainer,
-                              borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: Text('Tolak Lamaran', style: TextStyle(color: color.error, fontWeight: FontWeight.w600),),
-                          ),
-                        ),
-                      ) : Container()
+                                              child: Text(
+                                                "Iya",
+                                                style: TextStyle(
+                                                    color: color.error),
+                                              )),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  width: double.maxFinite,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: color.primaryContainer,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Text(
+                                    'Tolak Lamaran',
+                                    style: TextStyle(
+                                        color: color.error,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container(),
+                      detailPelamarModel!.data!.confirmedStatus == 'wawancara'
+                          ? Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: Text(
+                                          'Tolak Lamaran ${detailPelamarModel!.data!.worker!.username}',
+                                          style: const TextStyle(fontSize: 15),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.of(context).pop(),
+                                            child: const Text("Batal"),
+                                          ),
+                                          TextButton(
+                                              onPressed: () async {
+                                                bool isSuccess = await ApiService()
+                                                    .defineConfirmation(
+                                                        context,
+                                                        'ditolak',
+                                                        '${detailPelamarModel!.data!.id}');
+                                                if (isSuccess == true) {
+                                                  setState(() {
+                                                    getdata();
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return PublicFunction
+                                                          .showDialog(context,
+                                                              'Lamaran Ditolak');
+                                                    },
+                                                  );
+                                                }
+                                              },
+                                              child: Text(
+                                                "Iya",
+                                                style: TextStyle(
+                                                    color: color.error),
+                                              )),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  width: double.maxFinite,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      color: color.primaryContainer,
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Text(
+                                    'Tolak Lamaran',
+                                    style: TextStyle(
+                                        color: color.error,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                ),
+                              ),
+                            )
+                          : Container()
                     ],
                   ),
                 ),

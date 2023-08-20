@@ -55,5 +55,15 @@ class AppAssets {
   static const String lottieBackground2 = "assets/lottie/lottie_background2.json";
   static const String lottieSearchJob = "assets/lottie/lottie_search.json";
   static const String lottieSearchWorker = "assets/lottie/lottie_searchWorker.json";
-  static const String GDriveIcon = "assets/icons/GDrive_icon.svg";
+  static const String gsDriveIcon = "assets/icons/GDrive_icon.svg";
+
+  static const String sliderImage = "assets/images/slider_image.jpg";
+
+
+  static const String flaticonSemuaWorker = "assets/icons/flaticon/all_worker_icon.png";
+  static const String flaticonSudahReview = "assets/icons/flaticon/complete_review_icon.png";
+  static const String flaticonSedangReview = "assets/icons/flaticon/on_review_icon.png";
+  static const String flaticonWawancaraWorker = "assets/icons/flaticon/wawancara_icon.png";
+  static const String flaticonPelamarDiterima = "assets/icons/flaticon/worker_accept_icon.png";
+  static const String flaticonPelamarDitolak = "assets/icons/flaticon/worker_reject_icon.png";
 }

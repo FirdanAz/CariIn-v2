@@ -102,7 +102,8 @@ class ShimmerHomeCard extends StatelessWidget {
 }
 
 class ShimmerJobCard extends StatelessWidget {
-  const ShimmerJobCard({Key? key}) : super(key: key);
+  ShimmerJobCard({Key? key, required this.marginHorizon}) : super(key: key);
+  double marginHorizon;
 
   @override
   Widget build(BuildContext context) {
@@ -227,4 +228,26 @@ class ShimmerHomeIconCard extends StatelessWidget {
     );
   }
 }
+
+class CustomShimmer extends StatelessWidget {
+  CustomShimmer({Key? key, required this.width, required this.height, required this.radius}) : super(key: key);
+  double width;
+  double height;
+  double radius;
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(radius)),
+      ),
+    );
+  }
+}
+
 
