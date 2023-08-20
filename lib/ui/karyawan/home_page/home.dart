@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/service/edit_service.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/profil_comapny.dart';
@@ -9,6 +10,7 @@ import 'package:cariin_v2/ui/karyawan/form/lowongan/create_lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,6 +49,8 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
         await ApiService().jobsCompany(true, 'terverifikasi');
     ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
     WorkerListModel workerList = await ApiService().ListWorkerCompany();
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    await EditService().editMyDeviceToken(fcmToken!, 'company');
     setState(() {
       acceptedJobCompany = allJob;
       profilCompanyModel = profilCompany;

@@ -4,12 +4,14 @@ import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_function.dart';
 import 'package:cariin_v2/model/worker/all_job_worker_model.dart';
 import 'package:cariin_v2/common/public_function.dart';
+import 'package:cariin_v2/service/edit_service.dart';
 import 'package:cariin_v2/ui/karyawan/form/fill_data_worker/fill_data.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/all_categories.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/search/search_page.dart';
 import 'package:cariin_v2/ui/lowongan/notification/notification_lowongan.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,10 +41,14 @@ class _HomePageState extends State<HomePage> {
     await ApiService().RefreshToken('worker', token);
     AllJobWorkerModel allJob = await ApiService().AllJobsWorker();
     ProfileWorkerModel workerModel = await ApiService().getWorkerProfile();
+    final fcmToken = await FirebaseMessaging.instance.getToken();
+    //upload device token
+    await EditService().editMyDeviceToken(fcmToken!, 'worker');
     setState(() {
       allJobWorkerModel = allJob;
       profileWorkerModel = workerModel;
     });
+
     if(workerModel.data!.profileImage == 'null'){
       showDialog(context: context, builder: (context) {
         return AlertDialog(

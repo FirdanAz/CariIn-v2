@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/worker/worker_model.dart';
 import 'package:cariin_v2/service/api_service.dart';
+import 'package:cariin_v2/service/edit_service.dart';
+import 'package:cariin_v2/service/firebase_api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_svg/svg.dart';
@@ -16,10 +18,11 @@ import '../../bottom_navigation/bottom_navigation.dart';
 
 // ignore: must_be_immutable
 class LamarProcessPage extends StatefulWidget {
-  LamarProcessPage({Key? key, required this.title, required this.jobId})
+  LamarProcessPage({Key? key, required this.title, required this.jobId, required this.companyId})
       : super(key: key);
   String title;
   int jobId;
+  int companyId;
 
   @override
   State<LamarProcessPage> createState() => _LamarProccesPageState();
@@ -31,12 +34,15 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
   MyCvModel? myCvModel;
   WorkerModel? workerDetailModel;
   bool _isLoad = false;
+  String? deviceToken;
 
   getData() async {
     _isLoad = true;
     WorkerModel model = await ApiService().getWorker();
+    String token = await EditService().getCompanyDevice(widget.companyId.toString());
     setState(() {
       workerDetailModel = model;
+      deviceToken = token;
     });
     _isLoad = false;
   }
@@ -356,6 +362,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
             if(cvFile != null && _descriptionController.text.isNotEmpty){
               bool isSuccess = await ApiService().postWorkerJob(context, widget.jobId.toString(), _descriptionController.text, cvFile!);
               if(isSuccess == true){
+                await FirebaseApiService().firebaseSendNotif(deviceToken!, 'Kamu mendapat lamaran baru', '${workerDetailModel!.data!.username} baru saja melamar di salah satu pekerjaanmu!!', 'https://cariin.my.id/storage/${workerDetailModel!.data!.profilImage}');
                 showDialog(context: context, builder: (context) {
                   return AlertDialog(
                     content: const Text(

@@ -325,7 +325,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
                   showLoaderDialog(context);
                   await Future.delayed(const Duration(seconds: 2));
                   Navigator.of(context).pop();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LamarProcessPage(title: '${jobDetailModel!.data!.title}', jobId: jobDetailModel!.data!.id!.toInt()),));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LamarProcessPage(title: '${jobDetailModel!.data!.title}', jobId: jobDetailModel!.data!.id!.toInt(), companyId: jobDetailModel!.data!.company!.id!),));
                 },
                 style: FilledButton.styleFrom(
                   shape: RoundedRectangleBorder(

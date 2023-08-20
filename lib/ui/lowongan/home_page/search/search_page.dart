@@ -25,13 +25,15 @@ class _SearchPageState extends State<SearchPage> {
   void updateList(String value) async {
     if(value.isNotEmpty){
       _isLoad = true;
+      AllJobWorkerModel allJob = await ApiService().AllJobsWorker();
       setState(() {
-        allJobWorkerModel!.data = allJobWorkerModel!.data!.where((element) => element.title!.toLowerCase().contains(value.toLowerCase())).toList()..where((element) => element.company!.name!.toLowerCase().contains(value.toLowerCase())).toList();
+        allJobWorkerModel!.data = allJob.data!.where((element) => element.title!.toLowerCase().contains(value.toLowerCase())).toList()..where((element) => element.company!.name!.toLowerCase().contains(value.toLowerCase())).toList();
       });
       _isLoad = false;
     } else {
+      AllJobWorkerModel allJob = await ApiService().AllJobsWorker();
       setState(() {
-        getData();
+        allJobWorkerModel = allJob;
       });
     }
   }

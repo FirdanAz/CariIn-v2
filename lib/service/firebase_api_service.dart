@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 class FirebaseApiService {
-  Future firebaseSendNotif(String deviceToken, String title, String desc) async {
+  Future firebaseSendNotif(String deviceToken, String title, String desc, String image) async {
     final headers = {
       "Content-Type": "application/json",
       "Authorization": "key=AAAAHWSPaCs:APA91bGgTL5ml9QkaTwFc4J7p5LPkOFsSGrlXu8zI4NOL7XeUu2nftv7CNAuyZcg6U2m3gqpEMrZiCYI_U2EQ4KD3cGeW9BRUckATNA9KO4jq_io10ovLGQagZLOiAbhhDCwmQY0d66B"
@@ -17,7 +17,7 @@ class FirebaseApiService {
       "notification": {
         "title": title,
         "body": desc,
-        "image" : "https://img.icons8.com/?size=512&id=gru7KpAmjzjS&format=png",
+        "image" : image,
         "mutable_content": true,
         "sound": "Tri-tone"
       },

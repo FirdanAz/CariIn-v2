@@ -39,7 +39,7 @@ class _SendNotifExampleState extends State<SendNotifExample> {
       body: Center(
         child: _isLoad ? const Text('Memuat...') : ElevatedButton(
           onPressed: () async {
-            bool isSuccess = await FirebaseApiService().firebaseSendNotif(deviceToken!, 'Send notif', 'Bakso bakso');
+            bool isSuccess = await FirebaseApiService().firebaseSendNotif(deviceToken!, 'Send notif', 'Bakso bakso', 'https://img.icons8.com/?size=512&id=gru7KpAmjzjS&format=png');
             if(isSuccess){
               showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Kirim Notif bisa'),);
             } else {
