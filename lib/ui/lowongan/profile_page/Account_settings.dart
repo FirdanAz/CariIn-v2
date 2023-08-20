@@ -165,22 +165,25 @@ class _AccountSettingsState extends State<AccountSettings> {
                         ),
                         TextButton(
                           onPressed: () async {
-                            bool islogout = await ApiService().logoutAuth('worker');
-                            if (islogout) {
-                              await PublicFunction.removeToken('token');
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OptionsPage(),
-                                  ),
-                                  (route) => false);
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return PublicFunction.showDialog(
-                                      context, 'Berhasil Logout');
-                                },
-                              );
+                            bool isdeleteToken = await ApiService().deleteDeviceToken('worker');
+                            if (isdeleteToken) {
+                              bool islogout = await ApiService().logoutAuth('worker');
+                              if(islogout) {
+                                await PublicFunction.removeToken('token');
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => OptionsPage(),
+                                    ),
+                                        (route) => false);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return PublicFunction.showDialog(
+                                        context, 'Berhasil Logout');
+                                  },
+                                );
+                              }
                             } else {
                               showDialog(
                                 context: context,
