@@ -66,7 +66,14 @@ class _LamaranResultState extends State<LamaranResult> {
                             children: [
                               InkWell(
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: true, value: 'null', titlePage: 'Semua Lamaran'),));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SemuaTabs(
+                                              all: true,
+                                              value: 'null',
+                                              titlePage: 'Semua Lamaran'),
+                                        ));
                                   },
                                   child: PelamarCard(
                                     icon: Icons.work_history_outlined,
@@ -75,7 +82,14 @@ class _LamaranResultState extends State<LamaranResult> {
                                   )),
                               InkWell(
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: false, value: 'mengirim', titlePage: 'Belum Direview'),));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SemuaTabs(
+                                              all: false,
+                                              value: 'mengirim',
+                                              titlePage: 'Belum Direview'),
+                                        ));
                                   },
                                   child: PelamarCard(
                                     icon: Icons.work_history_outlined,
@@ -84,7 +98,14 @@ class _LamaranResultState extends State<LamaranResult> {
                                   )),
                               InkWell(
                                   onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: false, value: 'direview', titlePage: 'Sedang Direview'),));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SemuaTabs(
+                                              all: false,
+                                              value: 'direview',
+                                              titlePage: 'Sedang Direview'),
+                                        ));
                                   },
                                   child: PelamarCard(
                                     icon: Icons.work_history_outlined,
@@ -93,7 +114,14 @@ class _LamaranResultState extends State<LamaranResult> {
                                   )),
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: false, value: 'wawancara', titlePage: 'Wawancara'),));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SemuaTabs(
+                                            all: false,
+                                            value: 'wawancara',
+                                            titlePage: 'Wawancara'),
+                                      ));
                                 },
                                 child: PelamarCard(
                                   icon: Icons.work_history_outlined,
@@ -103,7 +131,14 @@ class _LamaranResultState extends State<LamaranResult> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: false, value: 'diterima', titlePage: 'Lamaran Diterima'),));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SemuaTabs(
+                                            all: false,
+                                            value: 'diterima',
+                                            titlePage: 'Lamaran Diterima'),
+                                      ));
                                 },
                                 child: PelamarCard(
                                   icon: Icons.work_history_outlined,
@@ -113,7 +148,14 @@ class _LamaranResultState extends State<LamaranResult> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: false, value: 'ditolak', titlePage: 'Lamaran Ditolak'),));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => SemuaTabs(
+                                            all: false,
+                                            value: 'ditolak',
+                                            titlePage: 'Lamaran Ditolak'),
+                                      ));
                                 },
                                 child: PelamarCard(
                                   icon: Icons.work_history_outlined,
@@ -129,12 +171,11 @@ class _LamaranResultState extends State<LamaranResult> {
                   ),
                 ),
                 InkWell(
-                  onTap: () {
-
-                  },
+                  onTap: () {},
                   child: Card(
                     color: color.background,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(0)),
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Row(
@@ -165,7 +206,8 @@ class _LamaranResultState extends State<LamaranResult> {
                   ),
                 ),
                 Card(
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(0)),
                   color: color.background,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -285,4 +327,3 @@ class HelpCard extends StatelessWidget {
     );
   }
 }
-
