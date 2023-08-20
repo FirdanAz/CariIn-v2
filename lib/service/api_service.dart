@@ -1210,4 +1210,26 @@ class ApiService {
     }
   }
 
+  Future deleteDeviceToken(String role) async {
+    final endPoint = '/api/$role/me/device-token/delete';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken(role);
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+    try {
+      var response = await http.delete(Uri.parse(url), headers: headers);
+      if (response.statusCode == 200) {
+        print('delete sukses');
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
 }

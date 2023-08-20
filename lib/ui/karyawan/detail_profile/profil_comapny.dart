@@ -39,12 +39,15 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                 child: const Text("No")),
             TextButton(
                 onPressed: () async {
-                  bool isLogout = await ApiService().logoutAuth('company');
-                  if(isLogout){
-                    await PublicFunction.removeToken('token')
-                        .then((value) => PublicFunction.navigatorPushAndRemoved(
-                        context, const OptionsPage()));
-                    showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Logout Berhasil'),);
+                  bool isDeleteToken = await ApiService().deleteDeviceToken('company');
+                  if(isDeleteToken){
+                    bool isLogout = await ApiService().logoutAuth('company');
+                    if(isLogout){
+                      await PublicFunction.removeToken('token')
+                          .then((value) => PublicFunction.navigatorPushAndRemoved(
+                          context, const OptionsPage()));
+                      showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Logout Berhasil'),);
+                    }
                   } else {
                     showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Logout Gagal'),);
                   }
