@@ -745,10 +745,8 @@ class ApiService {
     final request = http.MultipartRequest('POST', url)
       ..headers.addAll(headers)
       ..fields.addAll(body)
-      ..files.add(
-          await http.MultipartFile.fromPath('cover_image', coverImage.path))
-      ..files.add(await http.MultipartFile.fromPath(
-          'backdrop_image', backdropImage.path));
+      ..files.add(await http.MultipartFile.fromPath('cover_image', coverImage.path))
+      ..files.add(await http.MultipartFile.fromPath('backdrop_image', backdropImage.path));
 
     final response = await request.send().timeout(const Duration(seconds: 15));
 

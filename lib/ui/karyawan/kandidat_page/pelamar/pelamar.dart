@@ -3,6 +3,7 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/lowongan/lowongan.dart';
+import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/pkl/pkl_page.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/tab_worker/semua.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
@@ -149,12 +150,12 @@ class _PelamarTabState extends State<PelamarTab> {
                       child: CustomShimmer(width: double.maxFinite, height: 40, radius: 0),
                     ) : InkWell(
                       onTap: () {
-                        PublicFunction.navigatorPush(context, const LowonganPage());
+                        PublicFunction.navigatorPush(context, const ListWorkerPkl());
                       },
                       child: Card(
                         color: color.background,
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-                        child: const Padding(
+                        child: Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -164,20 +165,20 @@ class _PelamarTabState extends State<PelamarTab> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    Icons.check_circle,
+                                    Icons.work,
                                     size: 30,
-                                    color: Colors.green,
+                                    color: color.primary,
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     width: 10,
                                   ),
-                                  Text(
-                                    'Hasil Lamaran',
+                                  const Text(
+                                    'Pelamar PKL',
                                     style: TextStyle(fontSize: 16),
                                   )
                                 ],
                               ),
-                              Icon(Icons.navigate_next)
+                              const Icon(Icons.navigate_next)
                             ],
                           ),
                         ),

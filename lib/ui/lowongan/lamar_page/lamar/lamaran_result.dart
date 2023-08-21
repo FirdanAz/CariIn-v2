@@ -1,3 +1,4 @@
+import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/pkl_page.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/tab_result/diterima.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/tab_result/ditolak.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/tab_result/menunggu.dart';
@@ -139,12 +140,12 @@ class _LamaranResultState extends State<LamaranResult> {
                   child: CustomShimmer(width: double.maxFinite, height: 40, radius: 0),
                 ) : InkWell(
                   onTap: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const PklPage(),));
                   },
                   child: Card(
                     color: color.background,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -154,20 +155,20 @@ class _LamaranResultState extends State<LamaranResult> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.check_circle,
+                                Icons.school,
                                 size: 30,
-                                color: Colors.green,
+                                color: color.primary,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
-                              Text(
-                                'Hasil Lamaran',
+                              const Text(
+                                'Lamaran PKL',
                                 style: TextStyle(fontSize: 16),
                               )
                             ],
                           ),
-                          Icon(Icons.navigate_next)
+                          const Icon(Icons.navigate_next)
                         ],
                       ),
                     ),
