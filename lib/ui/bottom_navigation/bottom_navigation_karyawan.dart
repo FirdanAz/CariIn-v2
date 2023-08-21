@@ -5,6 +5,7 @@ import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/ui/karyawan/home_page/home.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/kandidat.dart';
 import 'package:cariin_v2/ui/karyawan/notification/notification.dart';
+import 'package:cariin_v2/ui/karyawan/notification/notifikasi/notif_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -23,7 +24,7 @@ class _KaryawanBottomNavigationState extends State<KaryawanBottomNavigation> {
     const HomePageKaryawan(),
     const KandidatPage(),
     const LowonganPage(),
-    NotificationPage()
+    const NotifPage()
   ];
 
   Future<bool> _onWillPop() async {
@@ -90,7 +91,7 @@ class _KaryawanBottomNavigationState extends State<KaryawanBottomNavigation> {
                   color: widget.indexs == 3
                       ? color.white
                       : Theme.of(context).iconTheme.color!.withOpacity(0.5),),
-                label: "Kontak"
+                label: "Kotak Masuk"
             ),
           ],
           onDestinationSelected: (value) => setState(() {

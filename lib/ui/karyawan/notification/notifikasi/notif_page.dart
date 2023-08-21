@@ -11,6 +11,9 @@ class NotifPage extends StatelessWidget {
     var color = AppColor.theme(Theme.of(context).brightness);
 
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Kotak Masuk'),
+      ),
       body: Container(
         margin: const EdgeInsets.symmetric(
           horizontal: 15,
@@ -20,7 +23,7 @@ class NotifPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Hari Ini',
+              'Terbaru',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w400,
@@ -29,7 +32,7 @@ class NotifPage extends StatelessWidget {
             ),
             ListView.builder(
               physics: const BouncingScrollPhysics(),
-              itemCount: 3,
+              itemCount: 1,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return Container(
@@ -54,7 +57,7 @@ class NotifPage extends StatelessWidget {
                               margin: const EdgeInsets.only(left: 5),
                               width: double.maxFinite,
                               child: const Text(
-                                'Muhammad Firdan tertarik dengan perusahaanmu!!',
+                                'Muhammad Firdan Melamar disalahsatu lowongan!!',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400,
