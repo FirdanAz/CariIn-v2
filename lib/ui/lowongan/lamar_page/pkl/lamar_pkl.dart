@@ -1,7 +1,11 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable
 
 import 'dart:io';
 
+import 'package:cariin_v2/service/edit_service.dart';
+import 'package:cariin_v2/service/firebase_api_service.dart';
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/app_color.dart';
@@ -12,7 +16,11 @@ import '../../../../service/api_service.dart';
 import '../lamar_process_page.dart';
 
 class LamarPklPage extends StatefulWidget {
-  const LamarPklPage({Key? key}) : super(key: key);
+  LamarPklPage({Key? key, required this.educationInstitution, required this.description, required this.jobId, required this.companyId}) : super(key: key);
+  String educationInstitution;
+  String description;
+  String jobId;
+  String companyId;
 
   @override
   State<LamarPklPage> createState() => _LamarPklPageState();
@@ -24,11 +32,19 @@ class _LamarPklPageState extends State<LamarPklPage> {
   WorkerModel? workerDetailModel;
   bool _isLoad = false;
 
+  File? potoFile;
+  File? suratLamaranFile;
+  File? suratBuktiFile;
+
+  String? deviceToken;
+
   getData() async {
     _isLoad = true;
     WorkerModel model = await ApiService().getWorker();
+    String token = await EditService().getCompanyDevice(widget.companyId);
     setState(() {
       workerDetailModel = model;
+      deviceToken = token;
     });
     _isLoad = false;
   }
@@ -40,13 +56,41 @@ class _LamarPklPageState extends State<LamarPklPage> {
     getData();
   }
 
+  _pickFile() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['pdf'],);
+    if (result != null) {
+      return File(result.files.single.path!);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final color = AppColor.theme(Theme.of(context).brightness);
 
+    showLoaderDialog(BuildContext context) {
+      AlertDialog alert = AlertDialog(
+        content: Row(
+          children: [
+            CircularProgressIndicator(backgroundColor: color.secondary),
+            const SizedBox(width: 14),
+            const Text("Loading..."),
+          ],
+        ),
+      );
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lamar Pkl', style: TextStyle(color: color.primary, fontSize: 18),),
+        title: Text('Lengkapi File', style: TextStyle(color: color.primary, fontSize: 18),),
         leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.arrow_back_ios_new))
       ),
       body: SingleChildScrollView(
@@ -140,7 +184,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
                       children: [
                         InkWell(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CvPage(file: cvFile!),));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => CvPage(filePath: cvFile!.path),));
                           },
                           child: Container(
                             width: double.maxFinite,
@@ -214,19 +258,45 @@ class _LamarPklPageState extends State<LamarPklPage> {
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: double.maxFinite,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: color.primaryContainer,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Center(
-                        child: Icon(Icons.add, color: color.primary,),
-                      ),
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      potoFile != null ?
+                      InkWell(
+                        onTap: () async {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CvPage(filePath: potoFile!.path),));
+                        },
+                        child: Container(
+                          width: double.maxFinite,
+                          height: 40,
+                          color: color.primary,
+                          child: Center(child: Text(potoFile!.path, overflow: TextOverflow.ellipsis, style: TextStyle(color: color.white),)),
+                        ),
+                      ) : Container(),
+                      InkWell(
+                        onTap: () async {
+                          if (potoFile == null){
+                            potoFile = await _pickFile();
+                            setState(() {
+                              potoFile;
+                            });
+                          }
+                        },
+                        child: Container(
+                          width: double.maxFinite,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: color.primaryContainer,
+                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10))
+                          ),
+                          child: Center(
+                            child: potoFile != null ? InkWell(onTap: () {
+                              potoFile = null;
+                            },child: Icon(Icons.remove, color: color.primary,)) : Icon(Icons.add, color: color.primary,),
+                          ),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),
@@ -249,19 +319,45 @@ class _LamarPklPageState extends State<LamarPklPage> {
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: double.maxFinite,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: color.primaryContainer,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Center(
-                        child: Icon(Icons.add, color: color.primary,),
-                      ),
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      suratLamaranFile != null ?
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CvPage(filePath: suratLamaranFile!.path),));
+                        },
+                        child: Container(
+                          width: double.maxFinite,
+                          height: 40,
+                          color: color.primary,
+                          child: Center(child: Text(potoFile!.path, overflow: TextOverflow.ellipsis, style: TextStyle(color: color.white),)),
+                        ),
+                      ) : Container(),
+                      InkWell(
+                        onTap: () async {
+                          if (suratLamaranFile == null){
+                            suratLamaranFile = await _pickFile();
+                            setState(() {
+                              suratLamaranFile;
+                            });
+                          }
+                        },
+                        child: Container(
+                          width: double.maxFinite,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: color.primaryContainer,
+                              borderRadius: const BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10))
+                          ),
+                          child: Center(
+                            child: suratLamaranFile != null ? InkWell(onTap: () {
+                              suratLamaranFile = null;
+                            },child: Icon(Icons.remove, color: color.primary,)) : Icon(Icons.add, color: color.primary,),
+                          ),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),
@@ -284,23 +380,69 @@ class _LamarPklPageState extends State<LamarPklPage> {
                     ),
                   ),
                   const SizedBox(height: 10,),
-                  InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: double.maxFinite,
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: color.primaryContainer,
-                          borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Center(
-                        child: Icon(Icons.add, color: color.primary,),
-                      ),
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      suratBuktiFile != null ?
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => CvPage(filePath: suratBuktiFile!.path),));
+                        },
+                        child: Container(
+                          width: double.maxFinite,
+                          height: 40,
+                          color: color.primary,
+                          child: Center(child: Text(suratBuktiFile!.path, overflow: TextOverflow.ellipsis, style: TextStyle(color: color.white),)),
+                        ),
+                      ) : Container(),
+                      InkWell(
+                        onTap: () async {
+                          if (suratBuktiFile == null){
+                            suratBuktiFile = await _pickFile();
+                            setState(() {
+                              suratBuktiFile;
+                            });
+                          }
+                        },
+                        child: Container(
+                          width: double.maxFinite,
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: color.primaryContainer,
+                              borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10))
+                          ),
+                          child: Center(
+                            child: suratBuktiFile != null ? InkWell(onTap: () {
+                              suratBuktiFile = null;
+                            },child: Icon(Icons.remove, color: color.primary,)) : Icon(Icons.add, color: color.primary,),
+                          ),
+                        ),
+                      )
+                    ],
                   )
                 ],
               ),
               const SizedBox(height: 40,),
+
+              SizedBox(
+                height: 50,
+                child: ElevatedButton(
+                  style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(color.primary), shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)))),
+                  onPressed: () async {
+                    showLoaderDialog(context);
+                    bool isSucces = await EditService().createPkl(widget.jobId, widget.educationInstitution, widget.description, cvFile!, potoFile!, suratLamaranFile!, suratBuktiFile!);
+                    if(isSucces){
+                      await FirebaseApiService().firebaseSendNotif(deviceToken!, 'Kamu mendapatkan lamaran baru', '${workerDetailModel!.data!.username} baru saja melamar (PKL) di salah satu Lowongan', 'https://cariin.my.id/storage/${workerDetailModel!.data!.profilImage}');
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false);
+                      showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Lamar Pkl Sukses'),);
+                    } else {
+                      showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Anda Sudah melamar disini!'),);
+                    }
+                  },
+                  child: Center(child: Text('Kirim lamaran', style: TextStyle(color: color.white),),),
+                ),
+              ),
+              const SizedBox(height: 60,),
             ],
           ),
         ),

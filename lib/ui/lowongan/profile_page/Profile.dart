@@ -226,11 +226,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                           const SizedBox(
                                             width: 3,
                                           ),
-                                          Text(
-                                            '${workerModels!.data!.email}',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: color.primary),
+                                          Container(
+                                            width: 130,
+                                            child: Text(
+                                              '${workerModels!.data!.email}',
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: color.primary),
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -250,7 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                             width: 3,
                                           ),
                                           Text(
-                                            '19 Tahun',
+                                            '${workerModels!.data!.age} Tahun',
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 color: color.primary),

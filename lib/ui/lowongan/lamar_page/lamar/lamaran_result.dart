@@ -1,13 +1,16 @@
+import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/pkl_page.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/tab_result/diterima.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/tab_result/ditolak.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/tab_result/menunggu.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/tab_result/semua.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../common/app_assets.dart';
 import '../../../../common/app_color.dart';
 import '../../../../common/public_function.dart';
 import '../../../../common/responsive.dart';
 import '../../../widget/chip_tab_bar.dart';
+import '../../../widget/shimmer_widget.dart';
 
 class LamaranResult extends StatefulWidget {
   const LamaranResult({Key? key}) : super(key: key);
@@ -18,6 +21,15 @@ class LamaranResult extends StatefulWidget {
 
 class _LamaranResultState extends State<LamaranResult> {
   final ValueNotifier<int> _tabIndex = ValueNotifier<int>(0);
+  bool _isLoad = false;
+
+  waiting() async {
+    _isLoad = true;
+    await Future.delayed(const Duration(seconds: 1));
+    setState(() {
+      _isLoad = false;
+    });;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,136 +47,134 @@ class _LamaranResultState extends State<LamaranResult> {
             width: double.maxFinite,
             child: Column(
               children: [
-                Card(
+                _isLoad ? CustomShimmer(width: double.maxFinite, height: 300, radius: 0) : Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(0)),
                   color: color.background,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
                           children: [
                             Icon(
                               Icons.description_outlined,
                               size: 30,
-                              color: color.primary,
+                              color: color.secondary,
                             ),
                             const SizedBox(
                               width: 10,
                             ),
                             const Text(
-                              'Hasil Lamaran',
+                              'Pelamar Perusahaan',
                               style: TextStyle(fontSize: 16),
                             )
                           ],
                         ),
                         const Divider(),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              InkWell(
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: true, value: 'null', titlePage: 'Semua Lamaran'),));
-                                  },
-                                  child: PelamarCard(
-                                    icon: Icons.work_history_outlined,
-                                    color: color.black,
-                                    title: 'Semua Lamaran',
-                                  )),
-                              InkWell(
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: false, value: 'mengirim', titlePage: 'Belum Direview'),));
-                                  },
-                                  child: PelamarCard(
-                                    icon: Icons.work_history_outlined,
-                                    color: Colors.orange,
-                                    title: 'Belum Direview',
-                                  )),
-                              InkWell(
-                                  onTap: () {
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: false, value: 'direview', titlePage: 'Sedang Direview'),));
-                                  },
-                                  child: PelamarCard(
-                                    icon: Icons.work_history_outlined,
-                                    color: Colors.orange,
-                                    title: 'Sedang Direview',
-                                  )),
-                              InkWell(
+                        GridView.count(
+                          shrinkWrap: true,
+                          crossAxisCount: 3,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            InkWell(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: false, value: 'wawancara', titlePage: 'Wawancara'),));
+                                  PublicFunction.navigatorPush(context, SemuaTabs(all: true, value: 'null', titlePage: 'Semua Lamaran',));
                                 },
                                 child: PelamarCard(
-                                  icon: Icons.work_history_outlined,
-                                  color: color.primary,
-                                  title: 'Proses Wawancara',
-                                ),
-                              ),
-                              InkWell(
+                                  icon: AppAssets.flaticonSemuaWorker,
+                                  title: 'Semua Lamaran',
+                                )),
+                            InkWell(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: false, value: 'diterima', titlePage: 'Lamaran Diterima'),));
+                                  PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'mengirim', titlePage: 'Lamaran Belum Direview',));
                                 },
                                 child: PelamarCard(
-                                  icon: Icons.work_history_outlined,
-                                  color: Colors.green,
-                                  title: 'Lamaran Diterima',
-                                ),
-                              ),
-                              InkWell(
+                                  icon: AppAssets.flaticonSedangReview,
+                                  title: 'Belum Direview',
+                                )),
+                            InkWell(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => SemuaTabs(all: false, value: 'ditolak', titlePage: 'Lamaran Ditolak'),));
+                                  PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'direview', titlePage: 'Lamaran Sudah Direview',));
                                 },
                                 child: PelamarCard(
-                                  icon: Icons.work_history_outlined,
-                                  color: Colors.red,
-                                  title: 'Lamaran Ditolak',
-                                ),
+                                  icon: AppAssets.flaticonSudahReview,
+                                  title: 'Lamaran Direview',
+                                )),
+                            InkWell(
+                              onTap: () {
+                                PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'wawancara', titlePage: 'Proses Wawancara',));
+                              },
+                              child: PelamarCard(
+                                icon: AppAssets.flaticonWawancaraWorker,
+                                title: 'Proses Wawancara',
                               ),
-                            ],
-                          ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'diterima', titlePage: 'Lamaran Diterima',));
+                              },
+                              child: PelamarCard(
+                                icon: AppAssets.flaticonPelamarDiterima,
+                                title: 'Lamaran Diterima',
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                PublicFunction.navigatorPush(context, SemuaTabs(all: false, value: 'ditolak', titlePage: 'Lamaran Ditolak'));
+                              },
+                              child: PelamarCard(
+                                icon: AppAssets.flaticonPelamarDitolak,
+                                title: 'Lamaran Ditolak',
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
                 ),
-                InkWell(
+                _isLoad ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: CustomShimmer(width: double.maxFinite, height: 40, radius: 0),
+                ) : InkWell(
                   onTap: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const PklPage(),));
                   },
                   child: Card(
                     color: color.background,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-                    child: const Padding(
+                    child: Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.check_circle,
+                                Icons.school,
                                 size: 30,
-                                color: Colors.green,
+                                color: color.primary,
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
-                              Text(
-                                'Pekerjaan Dilamar',
+                              const Text(
+                                'Lamaran PKL',
                                 style: TextStyle(fontSize: 16),
                               )
                             ],
                           ),
-                          Icon(Icons.navigate_next)
+                          const Icon(Icons.navigate_next)
                         ],
                       ),
                     ),
                   ),
                 ),
-                Card(
+                _isLoad ? CustomShimmer(width: double.maxFinite, height: 100, radius: 0) : Card(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                   color: color.background,
                   child: Padding(
@@ -194,8 +204,7 @@ class _LamaranResultState extends State<LamaranResult> {
                   ),
                 ),
               ],
-            ),
-          )
+            ),          )
         ],
       ),
     );
@@ -204,36 +213,29 @@ class _LamaranResultState extends State<LamaranResult> {
 
 class PelamarCard extends StatelessWidget {
   PelamarCard(
-      {Key? key, required this.icon, required this.color, required this.title})
+      {Key? key, required this.icon, required this.title})
       : super(key: key);
-  IconData icon;
-  Color color;
+  String icon;
   String title;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: const BoxConstraints(maxWidth: 110),
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                icon,
-                color: color,
-                size: 30,
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-              )
-            ],
-          ),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(child: Image.asset(icon, width: double.maxFinite,)),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+            )
+          ],
         ),
       ),
     );

@@ -1,11 +1,11 @@
-class DetailPelamarModel {
+class PklDetailModel {
   bool? success;
   String? message;
   Data? data;
 
-  DetailPelamarModel({this.success, this.message, this.data});
+  PklDetailModel({this.success, this.message, this.data});
 
-  DetailPelamarModel.fromJson(Map<String, dynamic> json) {
+  PklDetailModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
@@ -27,6 +27,10 @@ class Data {
   Job? job;
   Worker? worker;
   String? cvFile;
+  String? portfolioFile;
+  String? applicationLetterFile;
+  String? studentEvidenceFile;
+  String? educationalInstitution;
   String? description;
   String? confirmedStatus;
   String? createdAt;
@@ -36,6 +40,10 @@ class Data {
         this.job,
         this.worker,
         this.cvFile,
+        this.portfolioFile,
+        this.applicationLetterFile,
+        this.studentEvidenceFile,
+        this.educationalInstitution,
         this.description,
         this.confirmedStatus,
         this.createdAt});
@@ -46,6 +54,10 @@ class Data {
     worker =
     json['worker'] != null ? new Worker.fromJson(json['worker']) : null;
     cvFile = json['cv_file'];
+    portfolioFile = json['portfolio_file'];
+    applicationLetterFile = json['application_letter_file'];
+    studentEvidenceFile = json['student_evidence_file'];
+    educationalInstitution = json['educational_institution'];
     description = json['description'];
     confirmedStatus = json['confirmed_status'];
     createdAt = json['created_at'];
@@ -61,6 +73,10 @@ class Data {
       data['worker'] = this.worker!.toJson();
     }
     data['cv_file'] = this.cvFile;
+    data['portfolio_file'] = this.portfolioFile;
+    data['application_letter_file'] = this.applicationLetterFile;
+    data['student_evidence_file'] = this.studentEvidenceFile;
+    data['educational_institution'] = this.educationalInstitution;
     data['description'] = this.description;
     data['confirmed_status'] = this.confirmedStatus;
     data['created_at'] = this.createdAt;
@@ -102,15 +118,13 @@ class Job {
 class Company {
   int? id;
   String? name;
-  Null? profileImage;
   String? location;
 
-  Company({this.id, this.name, this.profileImage, this.location});
+  Company({this.id, this.name, this.location});
 
   Company.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    profileImage = json['profile_image'];
     location = json['location'];
   }
 
@@ -118,7 +132,6 @@ class Company {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
-    data['profile_image'] = this.profileImage;
     data['location'] = this.location;
     return data;
   }

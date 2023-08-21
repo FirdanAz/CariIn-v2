@@ -254,7 +254,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => CvPage(file: cvFile!),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => CvPage(filePath: cvFile!.path),));
                       },
                       child: Container(
                         width: double.maxFinite,
@@ -406,8 +406,8 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
 }
 
 class CvPage extends StatelessWidget {
-  CvPage({Key? key, required this.file}) : super(key: key);
-  File file;
+  CvPage({Key? key, required this.filePath}) : super(key: key);
+  String filePath;
 
   @override
   Widget build(BuildContext context) {
@@ -438,7 +438,7 @@ class CvPage extends StatelessWidget {
         swipeHorizontal: true,
         pageFling: false,
 
-        filePath: file.path,
+        filePath: filePath,
       ),
     );
   }

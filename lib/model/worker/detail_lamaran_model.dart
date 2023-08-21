@@ -1,11 +1,11 @@
-class DetailPelamarModel {
+class DetailLamaranModel {
   bool? success;
   String? message;
   Data? data;
 
-  DetailPelamarModel({this.success, this.message, this.data});
+  DetailLamaranModel({this.success, this.message, this.data});
 
-  DetailPelamarModel.fromJson(Map<String, dynamic> json) {
+  DetailLamaranModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];
     message = json['message'];
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;

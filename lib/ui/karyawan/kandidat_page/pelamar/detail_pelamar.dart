@@ -39,7 +39,7 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
     _isLoad = true;
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
-    DetailPelamarModel detail = await ApiService().detailPelamar(widget.id);
+    DetailPelamarModel detail = await ApiService().detailPelamar(widget.id, 'company');
     ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
     var token =
         await EditService().getWorkerDevice(detail.data!.worker!.id.toString());
@@ -239,7 +239,7 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => CvPage(file: file),
+                                builder: (context) => CvPage(filePath: file.path),
                               ));
                         },
                         overlayColor: MaterialStateProperty.all<Color>(

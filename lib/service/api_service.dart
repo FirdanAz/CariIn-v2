@@ -638,10 +638,10 @@ class ApiService {
     }
   }
 
-  Future detailPelamar(int id) async {
-    var endPoint = '/api/company/job-applications/$id';
+  Future detailPelamar(int id, String role) async {
+    var endPoint = '/api/$role/job-applications/$id';
     final url = '$_baseUrl$endPoint';
-    String token = await PublicFunction.getToken('company');
+    String token = await PublicFunction.getToken(role);
     final headers = {
       'Authorization': 'Bearer $token',
       'Accept': 'application/json'
@@ -651,14 +651,14 @@ class ApiService {
       final response = await http.get(Uri.parse(url), headers: headers);
       print('status code : ${response.statusCode}');
       if (response.statusCode == 200 && token != '') {
-        await RefreshToken('company', token);
+        await RefreshToken(role, token);
         DetailPelamarModel model =
             DetailPelamarModel.fromJson(json.decode(response.body));
         print(model);
         return model;
       }
       if (response.statusCode == 401 && token != '') {
-        await RefreshToken('company', token);
+        await RefreshToken(role, token);
         DetailPelamarModel model =
             DetailPelamarModel.fromJson(json.decode(response.body));
         return model;
@@ -745,10 +745,8 @@ class ApiService {
     final request = http.MultipartRequest('POST', url)
       ..headers.addAll(headers)
       ..fields.addAll(body)
-      ..files.add(
-          await http.MultipartFile.fromPath('cover_image', coverImage.path))
-      ..files.add(await http.MultipartFile.fromPath(
-          'backdrop_image', backdropImage.path));
+      ..files.add(await http.MultipartFile.fromPath('cover_image', coverImage.path))
+      ..files.add(await http.MultipartFile.fromPath('backdrop_image', backdropImage.path));
 
     final response = await request.send().timeout(const Duration(seconds: 15));
 

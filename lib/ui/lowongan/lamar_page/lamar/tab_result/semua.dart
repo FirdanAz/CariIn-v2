@@ -1,5 +1,6 @@
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/page.dart';
+import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/tab_result/detail_lamaran.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
@@ -60,7 +61,8 @@ class _SemuaTabsState extends State<SemuaTabs> {
                 DateTime? date = DateTime.parse(data.createdAt.toString());
                 return InkWell(
                   onTap: () {
-                    PublicFunction.navigatorPush(context, JobDetailPage(id: data.job!.id!));
+                    //PublicFunction.navigatorPush(context, JobDetailPage(id: data.job!.id!));
+                    PublicFunction.navigatorPush(context, DetailLamaran(id: data.id!,));
                   },
                   child: Container(
                     decoration: BoxDecoration(
