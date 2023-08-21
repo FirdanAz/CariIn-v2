@@ -324,4 +324,36 @@ class EditService {
     }
   }
 
+  Future pklDefineConfirmation(String confirmValue, String id) async {
+    var endPoint = '/api/company/field-practices/$id/define-confirmation';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('company');
+    final body = {'confirmed_status': confirmValue};
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response =
+      await http.post(Uri.parse(url), headers: headers, body: body);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print('Define Confirmation Success');
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } on SocketException {
+      print('Tidak koneksi Internet');
+      return false;
+    } on HttpException {
+      print('HttpException');
+      return false;
+    }
+  }
+
+
+
 }
