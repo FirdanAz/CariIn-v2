@@ -174,7 +174,7 @@ class _ListWorkerPklState extends State<ListWorkerPkl> {
                       final data = direview!.data![index];
                       return InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPklPage(id: data.id.toString()),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PklDetailPage(id: data.id.toString()),));
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(vertical: 5),
@@ -221,7 +221,7 @@ class _ListWorkerPklState extends State<ListWorkerPkl> {
                       final data = wawancara!.data![index];
                       return InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPklPage(id: data.id.toString()),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PklDetailPage(id: data.id.toString()),));
                         },
                         child: Container(
                           margin: const EdgeInsets.symmetric(vertical: 5),
