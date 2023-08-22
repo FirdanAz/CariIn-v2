@@ -64,247 +64,261 @@ class _ListWorkerPklState extends State<ListWorkerPkl> {
           },
         ),
       ),
-      body: _isLoad ? const Center(child: CircularProgressIndicator(),) : SingleChildScrollView(
-        child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Diterima (${diterima!.data!.length})'),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: diterima!.data!.length,
-                    itemBuilder: (context, index) {
-                      final data = diterima!.data![index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PklDetailPage(id: data.id.toString()),));
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                              color: color.primaryContainer,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: color.primary,
-                              backgroundImage: NetworkImage('https://cariin.my.id/storage/${data.job!.coverImage}'),
+      body: _isLoad ? const Center(child: CircularProgressIndicator(),) :
+      RefreshIndicator(
+        onRefresh: () async {
+          setState(() {
+            getData();
+          });
+        },
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Diterima (${diterima!.data!.length})'),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: diterima!.data!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final data = diterima!.data![index];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PklDetailPage(id: data.id.toString()),));
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                                color: color.primaryContainer,
+                                borderRadius: BorderRadius.circular(10)
                             ),
-                            title: Text(data.worker!.username!),
-                            trailing: Container(
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  color: color.primary,
-                                  borderRadius: BorderRadius.circular(5)
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: color.primary,
+                                backgroundImage: NetworkImage('https://cariin.my.id/storage/${data.worker!.profilImage}'),
                               ),
-                              child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
-                            ),
-                            subtitle: Row(
-                              children: [
-                                Icon(Icons.work, color: color.primary, size: 18,),
-                                const SizedBox(width: 5,),
-                                Text(data.job!.title!)
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Menunggu (${pklListModel!.data!.length})'),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: pklListModel!.data!.length,
-                    itemBuilder: (context, index) {
-                      final data = pklListModel!.data![index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PklDetailPage(id: data.id.toString()),));
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                              color: color.primaryContainer,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: color.primary,
-                              backgroundImage: NetworkImage('https://cariin.my.id/storage/${data.job!.coverImage}'),
-                            ),
-                            title: Text(data.worker!.username!),
-                            trailing: Container(
-                              child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  color: color.primary,
-                                  borderRadius: BorderRadius.circular(5)
+                              title: Text(data.worker!.username!),
+                              trailing: Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: color.primary,
+                                    borderRadius: BorderRadius.circular(5)
+                                ),
+                                child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Icon(Icons.work, color: color.primary, size: 18,),
+                                  const SizedBox(width: 5,),
+                                  Text(data.job!.title!)
+                                ],
                               ),
                             ),
-                            subtitle: Row(
-                              children: [
-                                Icon(Icons.work, color: color.primary, size: 18,),
-                                const SizedBox(width: 5,),
-                                Text(data.job!.title!)
-                              ],
-                            ),
                           ),
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Direview (${direview!.data!.length})'),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: direview!.data!.length,
-                    itemBuilder: (context, index) {
-                      final data = direview!.data![index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PklDetailPage(id: data.id.toString()),));
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                              color: color.primaryContainer,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: color.primary,
-                              backgroundImage: NetworkImage('https://cariin.my.id/storage/${data.job!.coverImage}'),
+                        );
+                      },
+                    )
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Menunggu (${pklListModel!.data!.length})'),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: pklListModel!.data!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final data = pklListModel!.data![index];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PklDetailPage(id: data.id.toString()),));
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                                color: color.primaryContainer,
+                                borderRadius: BorderRadius.circular(10)
                             ),
-                            title: Text(data.worker!.username!),
-                            trailing: Container(
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  color: color.primary,
-                                  borderRadius: BorderRadius.circular(5)
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: color.primary,
+                                backgroundImage: NetworkImage('https://cariin.my.id/storage/${data.worker!.profilImage}'),
                               ),
-                              child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
-                            ),
-                            subtitle: Row(
-                              children: [
-                                Icon(Icons.work, color: color.primary, size: 18,),
-                                const SizedBox(width: 5,),
-                                Text(data.job!.title!)
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Wawancara (${wawancara!.data!.length})'),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: wawancara!.data!.length,
-                    itemBuilder: (context, index) {
-                      final data = wawancara!.data![index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PklDetailPage(id: data.id.toString()),));
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                              color: color.primaryContainer,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: color.primary,
-                              backgroundImage: NetworkImage('https://cariin.my.id/storage/${data.job!.coverImage}'),
-                            ),
-                            title: Text(data.worker!.username!),
-                            trailing: Container(
-                              child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  color: color.primary,
-                                  borderRadius: BorderRadius.circular(5)
+                              title: Text(data.worker!.username!),
+                              trailing: Container(
+                                child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: color.primary,
+                                    borderRadius: BorderRadius.circular(5)
+                                ),
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Icon(Icons.work, color: color.primary, size: 18,),
+                                  const SizedBox(width: 5,),
+                                  Text(data.job!.title!)
+                                ],
                               ),
                             ),
-                            subtitle: Row(
-                              children: [
-                                Icon(Icons.work, color: color.primary, size: 18,),
-                                const SizedBox(width: 5,),
-                                Text(data.job!.title!)
-                              ],
-                            ),
                           ),
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Ditolak (${ditolak!.data!.length})'),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: ditolak!.data!.length,
-                    itemBuilder: (context, index) {
-                      final data = ditolak!.data![index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPklPage(id: data.id.toString()),));
-                        },
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(vertical: 5),
-                          decoration: BoxDecoration(
-                              color: color.primaryContainer,
-                              borderRadius: BorderRadius.circular(10)
-                          ),
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundColor: color.primary,
-                              backgroundImage: NetworkImage('https://cariin.my.id/storage/${data.job!.coverImage}'),
+                        );
+                      },
+                    )
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Direview (${direview!.data!.length})'),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: direview!.data!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final data = direview!.data![index];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PklDetailPage(id: data.id.toString()),));
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                                color: color.primaryContainer,
+                                borderRadius: BorderRadius.circular(10)
                             ),
-                            title: Text(data.worker!.username!),
-                            trailing: Container(
-                              child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
-                              padding: EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                  color: color.primary,
-                                  borderRadius: BorderRadius.circular(5)
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: color.primary,
+                                backgroundImage: NetworkImage('https://cariin.my.id/storage/${data.worker!.profilImage}'),
+                              ),
+                              title: Text(data.worker!.username!),
+                              trailing: Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: color.primary,
+                                    borderRadius: BorderRadius.circular(5)
+                                ),
+                                child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Icon(Icons.work, color: color.primary, size: 18,),
+                                  const SizedBox(width: 5,),
+                                  Text(data.job!.title!)
+                                ],
                               ),
                             ),
-                            subtitle: Row(
-                              children: [
-                                Icon(Icons.work, color: color.primary, size: 18,),
-                                const SizedBox(width: 5,),
-                                Text(data.job!.title!)
-                              ],
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Wawancara (${wawancara!.data!.length})'),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: wawancara!.data!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final data = wawancara!.data![index];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PklDetailPage(id: data.id.toString()),));
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                                color: color.primaryContainer,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: color.primary,
+                                backgroundImage: NetworkImage('https://cariin.my.id/storage/${data.worker!.profilImage}'),
+                              ),
+                              title: Text(data.worker!.username!),
+                              trailing: Container(
+                                child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: color.primary,
+                                    borderRadius: BorderRadius.circular(5)
+                                ),
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Icon(Icons.work, color: color.primary, size: 18,),
+                                  const SizedBox(width: 5,),
+                                  Text(data.job!.title!)
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
-            ],
+                        );
+                      },
+                    )
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Ditolak (${ditolak!.data!.length})'),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: ditolak!.data!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final data = ditolak!.data![index];
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => DetailPklPage(id: data.id.toString()),));
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                                color: color.primaryContainer,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: color.primary,
+                                backgroundImage: NetworkImage('https://cariin.my.id/storage/${data.worker!.profilImage}'),
+                              ),
+                              title: Text(data.worker!.username!),
+                              trailing: Container(
+                                child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: color.primary,
+                                    borderRadius: BorderRadius.circular(5)
+                                ),
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Icon(Icons.work, color: color.primary, size: 18,),
+                                  const SizedBox(width: 5,),
+                                  Text(data.job!.title!)
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
