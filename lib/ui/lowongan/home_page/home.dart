@@ -8,6 +8,7 @@ import 'package:cariin_v2/service/edit_service.dart';
 import 'package:cariin_v2/ui/karyawan/form/fill_data_worker/fill_data.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/all_categories.dart';
+import 'package:cariin_v2/ui/lowongan/home_page/search/custom_search.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/search/search_page.dart';
 import 'package:cariin_v2/ui/lowongan/notification/notification_lowongan.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
@@ -35,7 +36,7 @@ class _HomePageState extends State<HomePage> {
   bool _isLoad = false;
   ProfileWorkerModel? profileWorkerModel;
 
-  getdata() async {
+  getData() async {
     _isLoad = true;
     final token = await PublicFunction.getToken('worker');
     await ApiService().RefreshToken('worker', token);
@@ -75,7 +76,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    getdata();
+    getData();
     super.initState();
   }
 
@@ -86,7 +87,7 @@ class _HomePageState extends State<HomePage> {
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {
-            getdata();
+            getData();
           });
         },
         child: CustomScrollView(
@@ -143,11 +144,9 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: CustomShimmer(width: double.maxFinite, height: 70, radius: 10),
                 ) :  InkWell(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => new SearchPage(value: ''),
-                      )),
+                  onTap: () {
+                    showSearch(context: context, delegate: CustomSearch());
+                  },
                   child: Container(
                     width: double.maxFinite,
                     height: 70,
@@ -242,21 +241,21 @@ class _HomePageState extends State<HomePage> {
                             padding: EdgeInsets.symmetric(horizontal: 4.5),
                             child: CustomShimmer(width: 90, height: 110, radius: 10),
                           ): InkWell(
-                              child: CategoryCard('Code', AppAssets.codeIcon, context)),
+                              child: CategoryCard('Developer', AppAssets.codeIcon, context)),
                           _isLoad ? Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4.5),
                             child: CustomShimmer(width: 90, height: 110, radius: 10),
-                          ) : CategoryCard('Design', AppAssets.designIcon, context),
-                          _isLoad ? Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 4.5),
-                            child: CustomShimmer(width: 90, height: 110, radius: 10),
-                          ) : CategoryCard(
-                              'Teacher', AppAssets.teacherIcon, context),
+                          ) : CategoryCard('Designer', AppAssets.designIcon, context),
                           _isLoad ? Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4.5),
                             child: CustomShimmer(width: 90, height: 110, radius: 10),
                           ) : CategoryCard(
-                              'Medical', AppAssets.medicalIcon, context),
+                              'Guru', AppAssets.teacherIcon, context),
+                          _isLoad ? Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4.5),
+                            child: CustomShimmer(width: 90, height: 110, radius: 10),
+                          ) : CategoryCard(
+                              'Medis', AppAssets.medicalIcon, context),
                         ],
                       ),
                     )),
@@ -505,25 +504,25 @@ Widget CategoryCard(String title, String assetsName, BuildContext context) {
       alignment: Alignment.center,
       margin: const EdgeInsets.symmetric(horizontal: 4.5),
       decoration: BoxDecoration(
-          color: color.primary, borderRadius: BorderRadius.circular(10)),
+          color: color.primaryContainer, borderRadius: BorderRadius.circular(10)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircleAvatar(
               radius: 22,
-              backgroundColor: color.white,
+              backgroundColor: color.primary,
               child: SvgPicture.asset(
                 assetsName,
-                color: color.primary,
+                color: color.white,
               )),
           const SizedBox(
             height: 9.5,
           ),
           Text(
             title.toString(),
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 15,
-              color: Colors.white,
+              color: color.primary,
             ),
           )
         ],

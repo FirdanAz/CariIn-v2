@@ -72,7 +72,7 @@ class _SearchPageState extends State<SearchPage> {
           child: const Icon(Icons.arrow_back_ios),
         ),
         title: Text(
-          "Search",
+          widget.value,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w600,
