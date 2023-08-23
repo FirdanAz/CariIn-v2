@@ -38,6 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   getdata() async {
     _isLoad = true;
+    await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     WorkerModel workerData = await ApiService().getWorker();
     ProfileWorkerModel workerModel = await ApiService().getWorkerProfile();
     setState(() {

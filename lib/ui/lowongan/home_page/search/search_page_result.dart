@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
 import '../../../../common/app_color.dart';
+import '../../../../common/public_function.dart';
+import '../../../../service/api_service.dart';
 import '../../../widget/shimmer_widget.dart';
 import '../../detail_lowongan/page.dart';
 
@@ -50,6 +52,7 @@ class _ListSearchResultState extends State<ListSearchResult> {
 
   getData() async {
     _isLoad = true;
+    await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     WorkerSearchModel searchModel = await EditService().getListSearch(widget.query);
     setState(() {
       workerSearchModel = searchModel;

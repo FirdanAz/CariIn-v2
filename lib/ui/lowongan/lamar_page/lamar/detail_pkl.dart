@@ -7,6 +7,7 @@ import 'package:cariin_v2/service/edit_service.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/app_color.dart';
+import '../../../../common/public_function.dart';
 import '../../../../service/api_service.dart';
 import '../../detail_lowongan/page.dart';
 import '../lamar_process_page.dart';
@@ -25,6 +26,7 @@ class _DetailPklPageState extends State<DetailPklPage> {
 
   getData() async {
     _isLoad = true;
+    await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     PklDetailModel detailModel = await EditService().getDetailPkl(int.parse(widget.id), 'worker');
     setState(() {
       pklDetailModel = detailModel;

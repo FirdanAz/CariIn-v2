@@ -4,6 +4,8 @@ import 'package:cariin_v2/ui/lowongan/lamar_page/lamar/detail_pkl.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/app_color.dart';
+import '../../../../common/public_function.dart';
+import '../../../../service/api_service.dart';
 
 class PklPage extends StatefulWidget {
   const PklPage({Key? key}) : super(key: key);
@@ -22,6 +24,7 @@ class _PklPageState extends State<PklPage> {
 
   getData() async {
     _isLoad = true;
+    await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     PklListModel listModel = await EditService().getPklList(false, 'mengirim', 'worker');
     PklListModel listModel1 = await EditService().getPklList(false, 'direview', 'worker');
     PklListModel listModel2 = await EditService().getPklList(false, 'wawancara', 'worker');

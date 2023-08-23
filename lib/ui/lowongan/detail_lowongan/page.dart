@@ -15,6 +15,7 @@ import '../../../common/currency_format.dart';
 import '../../../common/public_function.dart';
 import '../../../model/company/detail_job_model.dart';
 import '../../../service/api_service.dart';
+import '../../../service/edit_service.dart';
 
 // ignore: must_be_immutable
 class JobDetailPage extends StatefulWidget {
@@ -30,13 +31,17 @@ class _JobDetailPageState extends State<JobDetailPage> {
   JobDetailModel? jobDetailModel;
   bool _isLoad = false;
   DateTime? date;
+  String? deviceToken;
 
   getdata() async {
     _isLoad = true;
+    await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     JobDetailModel detailJob = await ApiService().jobDetailWorker(widget.id);
+    var token = await EditService().getCompanyDevice(detailJob.data!.company!.id.toString());
     setState(() {
       jobDetailModel = detailJob;
       date = DateTime.parse(detailJob.data!.jobCreated.toString());
+      deviceToken = token.toString();
     });
     _isLoad = false;
   }
@@ -326,7 +331,36 @@ class _JobDetailPageState extends State<JobDetailPage> {
                   showLoaderDialog(context);
                   await Future.delayed(const Duration(seconds: 2));
                   Navigator.of(context).pop();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LamarProcessPage(title: '${jobDetailModel!.data!.title}', jobId: jobDetailModel!.data!.id!.toInt(), companyId: jobDetailModel!.data!.company!.id!),));
+                  if(deviceToken == 'null'){
+                    setState(() {
+                      showDialog(context: context, builder: (context) => AlertDialog(
+                        title: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Peringatan!!', style: TextStyle(color: Colors.red, fontSize: 17),),
+                            Text('Status Perusahaan sedang tidak aktif!', style: TextStyle(color: Colors.black, fontSize: 15),),
+                          ],
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => LamarProcessPage(title: '${jobDetailModel!.data!.title}', jobId: jobDetailModel!.data!.id!.toInt(), companyId: jobDetailModel!.data!.company!.id!),));
+                            },
+                            child: Text('Tetap Melamar'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Batal'),
+                          ),
+                        ],
+                      ),);
+                    });
+                  } else {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LamarProcessPage(title: '${jobDetailModel!.data!.title}', jobId: jobDetailModel!.data!.id!.toInt(), companyId: jobDetailModel!.data!.company!.id!),));
+                  }
                 },
                 style: FilledButton.styleFrom(
                   shape: RoundedRectangleBorder(
