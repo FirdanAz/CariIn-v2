@@ -14,14 +14,12 @@ class PklLamarPage extends StatefulWidget {
 }
 
 class _PklLamarPageState extends State<PklLamarPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController educationInstitution = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final color = AppColor.theme(Theme.of(context).brightness);
-    final educationInstitution = TextEditingController();
-    final descriptionController = TextEditingController();
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -47,20 +45,17 @@ class _PklLamarPageState extends State<PklLamarPage> {
               const SizedBox(
                 height: 20,
               ),
-              Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _customTextField(
-                        educationInstitution, 'Asal Sekolah', 'Nama Sekolah Asal', 0),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    _customTextField(
-                        descriptionController, 'Deskripsi', 'Deskripsi Lamaran', 200),
-                  ],
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _customTextField(
+                      educationInstitution, 'Asal Sekolah', 'Nama Sekolah Asal', 0, TextInputType.text),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  _customTextField(
+                      descriptionController, 'Deskripsi', 'Deskripsi Lamaran', 200, TextInputType.text),
+                ],
               ),
               Container(
                   height: 50,
@@ -101,7 +96,7 @@ class _PklLamarPageState extends State<PklLamarPage> {
   }
 
   Widget _customTextField(TextEditingController editingController,
-      String hintText, String title, double minHeight) {
+      String hintText, String title, double minHeight, TextInputType type) {
     final color = AppColor.theme(Theme.of(context).brightness);
     TextStyle textStyle = TextStyle(fontSize: 17, color: color.primary);
 
@@ -121,10 +116,9 @@ class _PklLamarPageState extends State<PklLamarPage> {
               color: color.primary.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10)),
           child: TextField(
+            keyboardType: type,
             cursorColor: color.primary,
             controller: editingController,
-            maxLines: null,
-            keyboardType: TextInputType.multiline,
             style: TextStyle(
                 fontSize: 14, fontWeight: FontWeight.w500, color: color.black),
             decoration: InputDecoration(

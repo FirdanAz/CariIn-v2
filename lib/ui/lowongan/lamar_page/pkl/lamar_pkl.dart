@@ -40,11 +40,12 @@ class _LamarPklPageState extends State<LamarPklPage> {
 
   getData() async {
     _isLoad = true;
+    await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     WorkerModel model = await ApiService().getWorker();
-    String token = await EditService().getCompanyDevice(widget.companyId);
+    var token = await EditService().getCompanyDevice(widget.companyId);
     setState(() {
       workerDetailModel = model;
-      deviceToken = token;
+      deviceToken = token.toString();
     });
     _isLoad = false;
   }
@@ -59,7 +60,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
   _pickFile() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ['pdf'],);
+      allowedExtensions: ['pdf']);
     if (result != null) {
       return File(result.files.single.path!);
     }
@@ -93,7 +94,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
         title: Text('Lengkapi File', style: TextStyle(color: color.primary, fontSize: 18),),
         leading: IconButton(onPressed: () => Navigator.of(context).pop(), icon: const Icon(Icons.arrow_back_ios_new))
       ),
-      body: SingleChildScrollView(
+      body: _isLoad ? const Center(child: CircularProgressIndicator(),) : SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
@@ -120,17 +121,16 @@ class _LamarPklPageState extends State<LamarPklPage> {
                   const SizedBox(height: 10,),
                   InkWell(
                     onTap: () async {
+                      File files = await PublicFunction.getPdf(workerDetailModel!.data!.id!, workerDetailModel!.data!.username!, workerDetailModel!.data!.interested!, workerDetailModel!.data!.age!.toString(), workerDetailModel!.data!.address!, '08677281920', workerDetailModel!.data!.email!, workerDetailModel!.data!.gender!);
+                      print(files);
+                      await ApiService().addCV(files);
                       if(cvFile == null){
-                        setState(() {
-                          _isLoad = true;
-                        });
+                        showLoaderDialog(context);
                         MyCvModel model = await ApiService().getMyCv();
                         setState(() {
                           myCvModel = model;
                         });
-                        setState(() {
-                          _isLoad = false;
-                        });
+                        Navigator.of(context).pop();
                         showDialog(context: context, builder: (context) {
                           final data = workerDetailModel!.data!;
                           return _isLoad ? const AlertDialog(actions: [Center(child: CircularProgressIndicator(),)],) : AlertDialog(
@@ -140,7 +140,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      File files = await PublicFunction.getPdf(data.id!, data.username!, data.interested!, data.age!.toString(), data.address!, '08677281920', data.email!, data.gender!);
+                                      File files = await PublicFunction.getPdf(data.id!, data.username!, data.interested!, data.age!.toString(), data.address!, data.phoneNumber! , data.email!, data.gender!);
                                       setState(() {
                                         cvFile = files;
                                       });
@@ -280,6 +280,10 @@ class _LamarPklPageState extends State<LamarPklPage> {
                             setState(() {
                               potoFile;
                             });
+                          } else if(potoFile != null) {
+                            setState(() {
+                              potoFile = null;
+                            });
                           }
                         },
                         child: Container(
@@ -290,9 +294,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
                               borderRadius: BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10))
                           ),
                           child: Center(
-                            child: potoFile != null ? InkWell(onTap: () {
-                              potoFile = null;
-                            },child: Icon(Icons.remove, color: color.primary,)) : Icon(Icons.add, color: color.primary,),
+                            child: potoFile != null ? Icon(Icons.remove, color: color.primary,) : Icon(Icons.add, color: color.primary,),
                           ),
                         ),
                       )
@@ -341,6 +343,10 @@ class _LamarPklPageState extends State<LamarPklPage> {
                             setState(() {
                               suratLamaranFile;
                             });
+                          } else if(suratLamaranFile != null){
+                            setState(() {
+                              suratLamaranFile = null;
+                            });
                           }
                         },
                         child: Container(
@@ -351,9 +357,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
                               borderRadius: const BorderRadius.only(bottomRight: Radius.circular(10), bottomLeft: Radius.circular(10))
                           ),
                           child: Center(
-                            child: suratLamaranFile != null ? InkWell(onTap: () {
-                              suratLamaranFile = null;
-                            },child: Icon(Icons.remove, color: color.primary,)) : Icon(Icons.add, color: color.primary,),
+                            child: suratLamaranFile != null ? Icon(Icons.remove, color: color.primary,) : Icon(Icons.add, color: color.primary,),
                           ),
                         ),
                       )
@@ -401,6 +405,10 @@ class _LamarPklPageState extends State<LamarPklPage> {
                             suratBuktiFile = await _pickFile();
                             setState(() {
                               suratBuktiFile;
+                            });
+                          } else if(suratBuktiFile != null){
+                            setState(() {
+                              suratBuktiFile = null;
                             });
                           }
                         },

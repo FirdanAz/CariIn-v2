@@ -10,6 +10,7 @@ import 'package:cariin_v2/ui/lowongan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/all_categories.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/search/custom_search.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/search/search_page.dart';
+import 'package:cariin_v2/ui/lowongan/home_page/search/search_page_result.dart';
 import 'package:cariin_v2/ui/lowongan/notification/notification_lowongan.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -496,7 +497,7 @@ class _HomePageState extends State<HomePage> {
 Widget CategoryCard(String title, String assetsName, BuildContext context) {
   var color = AppColor.theme(Theme.of(context).brightness);
   return InkWell(
-    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => new SearchPage(value: title),)),
+    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SearchResultPage(value: title),)),
     child: Container(
       height: 110,
       constraints: const BoxConstraints(minWidth: 90),

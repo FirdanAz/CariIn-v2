@@ -25,6 +25,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
 
   getdata() async {
     _isLoad = true;
+    await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     JobApplicationModel allJob = await ApiService().getLamaranResult(widget.all, widget.value);
     setState(() {
       jobApplicationModel = allJob;
