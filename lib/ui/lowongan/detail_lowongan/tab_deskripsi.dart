@@ -1,6 +1,7 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/common/responsive.dart';
+import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:cariin_v2/ui/widget/svg_icon.dart';
 import 'package:flutter/material.dart';
 
@@ -53,7 +54,7 @@ class _TabDeskripsiState extends State<TabDeskripsi> {
     final screenSize = MediaQuery.of(context).size;
     final color = AppColor.theme(Theme.of(context).brightness);
 
-    return _isLoad ? const Center(child: CircularProgressIndicator(),) : Padding(
+    return _isLoad ? Container(height: 1000,) : Padding(
       padding: EdgeInsets.symmetric(
         horizontal: Responsive.byWidth(15),
         vertical: Responsive.byWidth(10),
@@ -168,7 +169,6 @@ class _TabDeskripsiState extends State<TabDeskripsi> {
         ],
       );
     }
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -178,6 +178,38 @@ class _TabDeskripsiState extends State<TabDeskripsi> {
         ),
         const SizedBox(height: 8),
         for (int i = 0; i < responsibility.length; i++) content(i),
+        const SizedBox(height: 10,),
+        Text(
+          'Tags :',
+          style: _textStyle(color.onSurface, FontWeight.w500),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: jobDetailModel!.data!.description!.tags!.length,
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          itemBuilder: (context, index) {
+            var data = jobDetailModel!.data!.description!.tags![index];
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 7),
+                  child: Icon(Icons.circle,
+                      size: Responsive.byWidth(8), color: color.onSurfaceVariant),
+                ),
+                const SizedBox(width: 1),
+                SizedBox(
+                  width: Responsive.byWidth(297),
+                  child: Text(
+                    data.name!,
+                    textAlign: TextAlign.justify,
+                    style: _textStyle(color.onSurfaceVariant, FontWeight.w400),
+                  ),
+                ),
+              ],
+            );
+          },
+        )
       ],
     );
   }

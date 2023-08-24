@@ -2,6 +2,7 @@
 
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_color.dart';
+import 'package:cariin_v2/ui/lowongan/home_page/search/search_page_result.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -77,53 +78,56 @@ class CategoriesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
-    return Container(
-      padding: EdgeInsets.all(15),
-      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-      decoration: BoxDecoration(
-        color: color.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Stack(
-            children: [
-              Container(
-                height: 70,
-                width: 70,
-                decoration: BoxDecoration(
-                    color: color.primaryContainer,
-                    borderRadius: BorderRadius.circular(10)),
-              ),
-              Container(
-                margin: EdgeInsets.only(top: 30, left: 25),
-                child: SvgPicture.asset(
-                  image,
-                  height: 80,
-                  color: color.primary,
-                ),
-              ),
-            ],
-          ),
-          Container(
-            width: double.maxFinite,
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: color.primaryContainer),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return InkWell(
+      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => SearchResultPage(value: title),)),
+      child: Container(
+        padding: EdgeInsets.all(15),
+        margin: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+        decoration: BoxDecoration(
+          color: color.white,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Stack(
               children: [
-                Text(
-                  title,
-                  style: TextStyle(),
+                Container(
+                  height: 70,
+                  width: 70,
+                  decoration: BoxDecoration(
+                      color: color.primaryContainer,
+                      borderRadius: BorderRadius.circular(10)),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 30, left: 25),
+                  child: SvgPicture.asset(
+                    image,
+                    height: 80,
+                    color: color.primary,
+                  ),
                 ),
               ],
             ),
-          )
-        ],
+            Container(
+              width: double.maxFinite,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: color.primaryContainer),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

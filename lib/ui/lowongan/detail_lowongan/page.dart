@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_location.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/tab_perusahaan.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar_process_page.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/pkl/lamar_pkl.dart';
@@ -61,9 +62,8 @@ class _JobDetailPageState extends State<JobDetailPage> {
     // Ditaruh di build biar bisa menerima model
     final List<Widget> tabView = [
       TabDeskripsi(id: widget.id),
-      const TabPerusahaan(),
-      SizedBox(height: screenSize.height, child: const Text('Tab 3')),
-      SizedBox(height: screenSize.height, child: const Text('Tab 4')),
+      TabPerusahaan(id: widget.id),
+      TabLocationWorker(id: widget.id)
     ];
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
@@ -149,7 +149,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
                             Align(
                               alignment: Alignment.centerLeft,
                               child: ChipTabBar(
-                                length: 4,
+                                length: 3,
                                 itemDistance: Responsive.byWidth(12),
                                 padding: EdgeInsets.symmetric(
                                   horizontal: Responsive.byWidth(15),
@@ -159,7 +159,6 @@ class _JobDetailPageState extends State<JobDetailPage> {
                                   "Deskripsi",
                                   "Perusahaan",
                                   "Lokasi",
-                                  "Lainnya",
                                 ],
                                 onTap: (value) => _tabIndex.value = value,
                               ),
@@ -338,7 +337,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Peringatan!!', style: TextStyle(color: Colors.red, fontSize: 17),),
-                            Text('Status Perusahaan sedang tidak aktif!', style: TextStyle(color: Colors.black, fontSize: 15),),
+                            Text('Status Perusahaan diluar autentifikasi!', style: TextStyle(color: Colors.black, fontSize: 15),),
                           ],
                         ),
                         actions: [
@@ -380,7 +379,36 @@ class _JobDetailPageState extends State<JobDetailPage> {
                   showLoaderDialog(context);
                   await Future.delayed(const Duration(seconds: 2));
                   Navigator.of(context).pop();
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PklLamarPage(jobId: jobDetailModel!.data!.id.toString(), companyId: jobDetailModel!.data!.company!.id.toString(),)));
+                  if(deviceToken == 'null'){
+                    setState(() {
+                      showDialog(context: context, builder: (context) => AlertDialog(
+                        title: const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Peringatan!!', style: TextStyle(color: Colors.red, fontSize: 17),),
+                            Text('Status Perusahaan diluar autentifikasi!', style: TextStyle(color: Colors.black, fontSize: 15),),
+                          ],
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => PklLamarPage(jobId: jobDetailModel!.data!.id.toString(), companyId: jobDetailModel!.data!.company!.id.toString(),)));
+                            },
+                            child: Text('Tetap Melamar'),
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('Batal'),
+                          ),
+                        ],
+                      ),);
+                    });
+                  } else {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PklLamarPage(jobId: jobDetailModel!.data!.id.toString(), companyId: jobDetailModel!.data!.company!.id.toString(),)));
+                  }
                 } else {}
 
               },
