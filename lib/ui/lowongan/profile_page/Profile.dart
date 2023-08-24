@@ -32,8 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final List<Widget> _tabView = const [
     PengalamanPage(),
     PendidikanPage(),
-    KeterampilanPage(),
-    PencapaianPage(),
+    KeterampilanPage()
   ];
 
   getdata() async {
@@ -280,12 +279,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         alignment: Alignment.centerLeft,
                         child: ChipTabBar(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
-                            length: 4,
+                            length: 3,
                             tabLabels: const [
                               'Pengalaman',
                               'Pendidikan',
-                              'Keterampilan',
-                              'Pencapaian'
+                              'Keterampilan'
                             ],
                             onTap: (value) => _tabIndex.value = value),
                       ),
