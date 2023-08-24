@@ -84,7 +84,7 @@ class _FillDataWorkerState extends State<FillDataWorker> {
               borderRadius: BorderRadius.all(Radius.circular(25)))),
       onDone: () async {
         if(profileImage != null){
-          profileImageCompressed = await PublicFunction.compressImage(profileImage!, 50);
+          profileImageCompressed = await PublicFunction.compressImage(profileImage!, 50, 'profile');
           setState(() {
             profileImageCompressed;
           });

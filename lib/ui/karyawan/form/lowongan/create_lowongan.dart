@@ -630,9 +630,9 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
               child: InkWell(
                 onTap: () async {
                   compressSelectedImage =
-                      await PublicFunction.compressImage(selectedImage!, 50);
+                      await PublicFunction.compressImage(selectedImage!, 50, 'cover');
                   compressBackdropImage =
-                      await PublicFunction.compressImage(backdropImage!, 50);
+                      await PublicFunction.compressImage(backdropImage!, 50, 'backdrop');
 
                   bool isSuccess = await ApiService().postcreateLowongan(
                     context,

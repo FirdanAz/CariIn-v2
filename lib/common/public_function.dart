@@ -335,13 +335,13 @@ class PublicFunction {
     return file;
   }
 
-  static Future compressImage(File originalImage, int quality) async {
+  static Future compressImage(File originalImage, int quality, String title) async {
     String compressedImagePath = '/storage/emulated/0/Download/';
     String date = '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}${DateTime.now().second}';
 
     final file = await FlutterImageCompress.compressAndGetFile(
         originalImage.path,
-        '$compressedImagePath/Cariin_$date.jpg',
+        '$compressedImagePath/Cariin_${title}_$date.jpg',
         quality: quality
     );
 

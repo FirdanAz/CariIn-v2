@@ -1,6 +1,8 @@
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_color.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:cariin_v2/model/worker/experience/experience_list.dart';
+import 'package:cariin_v2/service/edit_service.dart';
+import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -12,131 +14,157 @@ class PengalamanPage extends StatefulWidget {
 }
 
 class _PengalamanPageState extends State<PengalamanPage> {
+  ListExperienceModel? listExperienceModel;
+  bool _isLoad = false;
+  final List<String> menuItems = ['Option 1', 'Option 2', 'Option 3'];
+
+  getData() async {
+    _isLoad = true;
+    ListExperienceModel experienceModel =
+        await EditService().getListExperience();
+    setState(() {
+      listExperienceModel = experienceModel;
+    });
+    _isLoad = false;
+  }
+
+  void _showPopupMenu(BuildContext context, Offset position) async {
+    var color = AppColor.theme(Theme.of(context).brightness);
+    await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(position.dx, position.dy, 0, 0),
+      color: color.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      items: [
+        PopupMenuItem<String>(
+          value: 'edit',
+          child: Text('Ubah'),
+          labelTextStyle: MaterialStatePropertyAll(TextStyle(color: color.primary)),
+
+        ),
+        PopupMenuItem<String>(
+          value: 'delete',
+          child: Text('Hapus'),
+          labelTextStyle: MaterialStatePropertyAll(TextStyle(color: color.error)),
+        ),
+      ],
+    );
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
-    return Column(
+    return _isLoad
+        ? SizedBox(height: 400, child: Center(child: CircularProgressIndicator()),)
+        : Column(
             children: [
               Container(
-                decoration: BoxDecoration(
-                  color: color.primaryContainer,
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                height: 60,
                 width: double.maxFinite,
-                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(padding: const EdgeInsets.all(5)),
-                    Container(
-                      width: 50,
-                      height: 50,
-                      padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: color.black,
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: SvgPicture.asset(AppAssets.gsDriveIcon, color: color.white,)
-                    ),
-                    ]
-                    ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(padding: const EdgeInsets.all(1)),
-                          Container(
-                            margin: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              'Sr. Visual Designer',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          Padding(padding: const EdgeInsets.all(1)),
-                          Container(
-                            margin: const EdgeInsets.only(left: 10),
-                            child: Text('AirBNB | Feb 2019 - 2020',
-                            style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                          Padding(padding: const EdgeInsets.all(1)),
-                          Container(
-                            margin: const EdgeInsets.only(left: 10),
-                            child: Text('Selamat datang di Google Drive, tempat perpaduan kreatif dan teknologi terbaik untuk mendorong batas inovasi.',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-              ]
-            )
-          ),
+                padding: const EdgeInsets.all(10),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(color.primaryContainer),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)))),
+                  onPressed: () {},
+                  child: const Text('Tambah Pengalaman'),
+                ),
+              ),
               Container(
-                  decoration: BoxDecoration(
-                      color: color.primaryContainer,
-                      borderRadius: BorderRadius.circular(10)),
-                  width: double.maxFinite,
-                  height: 115,
-                  margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: 0),
+                  scrollDirection: Axis.vertical,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: listExperienceModel!.data!.length,
+                  itemBuilder: (context, index) {
+                    var data = listExperienceModel!.data![index];
+                    return Container(
+                        decoration: BoxDecoration(
+                          color: color.primary,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        width: double.maxFinite,
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        margin: const EdgeInsets.symmetric(vertical: 5),
+                        child: Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                              Row(
                                 children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      'UI/UX Designer',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                      ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin: const EdgeInsets.only(left: 10, top: 5),
+                                          child: Text(
+                                            data.title!,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                                color: color.white
+                                            ),
+                                          ),
+                                        ),
+                                        const Padding(padding: EdgeInsets.all(1)),
+                                        Container(
+                                          margin: const EdgeInsets.only(left: 10),
+                                          child: Text(
+                                            '${data.location!} | ${data.startAt} - ${data.endAt}',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                color: color.primaryContainer
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 5),
-                                    child: Text('Google Drive | Feb 2020 - Now',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                      ),
+                                  Center(
+                                    child: GestureDetector(
+                                      onTapUp: (TapUpDetails details) {
+                                        _showPopupMenu(context, details.globalPosition);
+                                      },
+                                      child: Icon(Icons.more_vert, color: color.white,)
                                     ),
                                   ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 5),
-                                    child: Text('Selamat datang di Google Drive.....',
-                                    style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400
-                                    ),
-                                    ),
-                                  )
                                 ],
+                              ),
+                              const Padding(padding: EdgeInsets.all(1)),
+                              Container(
+                                margin: const EdgeInsets.only(left: 10),
+                                padding: const EdgeInsets.only(right: 10, bottom: 10),
+                                child: Text(
+                                  'Selamat datang di Google Drive, tempat perpaduan kreatif dan teknologi terbaik untuk mendorong batas inovasi.',
+                                  textAlign: TextAlign.justify,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 3,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                    color: color.surfaceContainer
+                                  ),
+                                ),
                               )
-                            ]
-                        )
-                      ]
-                  )
-              )
-      ]
-    );
+                            ],
+                          ),
+                        ));
+                  },
+                ),
+              ),
+            ],
+          );
   }
 }

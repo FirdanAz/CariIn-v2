@@ -13,6 +13,7 @@ import '../common/public_function.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/worker/edit_data_model/search_model.dart';
+import '../model/worker/experience/experience_list.dart';
 
 class EditService {
   final _baseUrl = "https://cariin.my.id";
@@ -402,6 +403,38 @@ class EditService {
         } else {
           throw Exception("Failed to fetch data from API");
         }
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future getListExperience() async {
+    const endPoint = '/api/worker/experiences';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200 && token != '') {
+        await ApiService().RefreshToken('worker', token);
+        ListExperienceModel model =
+        ListExperienceModel.fromJson(json.decode(response.body));
+        print(model);
+        return model;
+      }
+      if (response.statusCode == 401 && PublicFunction.getToken('worker') != '') {
+        await ApiService().RefreshToken('worker', token);
+        ListExperienceModel model =
+        ListExperienceModel.fromJson(json.decode(response.body));
+        return model;
+      } else {
+        throw Exception("Failed to fetch data from API");
       }
     } catch (e) {
       print(e.toString());

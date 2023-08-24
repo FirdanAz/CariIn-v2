@@ -634,8 +634,8 @@ class _FillDataCompanyState extends State<FillDataCompany> {
                 child: InkWell(
                     onTap: () async {
                       if(selectedImage != null || selectedImageInSide != null || selectedImageOutSide != null || _descriptionController.text.isNotEmpty){
-                        compressedSelectedImageInSide = await PublicFunction.compressImage(selectedImageInSide!, 50);
-                        compressedSelectedImageOutSide = await PublicFunction.compressImage(selectedImageOutSide!, 50);
+                        compressedSelectedImageInSide = await PublicFunction.compressImage(selectedImageInSide!, 50, 'inside');
+                        compressedSelectedImageOutSide = await PublicFunction.compressImage(selectedImageOutSide!, 50, 'outside');
                         showLoaderDialog(context);
                         await Future.delayed(const Duration(seconds: 2));
                         Navigator.push(context, MaterialPageRoute(builder: (context) => LocationPage(selectedImage: selectedImage!, dateString: dateString, roleSelected: _numberToRoleMap[selectedRole].toString(), descCompany: _descriptionController.text, selectedImageInSide: compressedSelectedImageInSide!, selectedImageOutSide: compressedSelectedImageOutSide!),));
