@@ -350,7 +350,7 @@ class _PklDetailPageState extends State<PklDetailPage> {
               child: Row(
                 children: [
                   Expanded(
-                    child: Container(
+                    child: SizedBox(
                       height: 60,
                       child: ElevatedButton(
                         style: ButtonStyle(

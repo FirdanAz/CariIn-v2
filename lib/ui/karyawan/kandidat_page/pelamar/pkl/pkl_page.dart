@@ -106,7 +106,7 @@ class _ListWorkerPklState extends State<ListWorkerPkl> {
                               trailing: Container(
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                    color: color.primary,
+                                    color: Colors.green,
                                     borderRadius: BorderRadius.circular(5)
                                 ),
                                 child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
@@ -299,7 +299,7 @@ class _ListWorkerPklState extends State<ListWorkerPkl> {
                                 child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                    color: color.primary,
+                                    color: color.error,
                                     borderRadius: BorderRadius.circular(5)
                                 ),
                               ),

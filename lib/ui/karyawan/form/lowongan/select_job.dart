@@ -286,8 +286,8 @@ class _SelectJobState extends State<SelectJob> {
                 child: SvgPicture.asset(AppAssets.wIcon, width: 40,),
               ),
             ),
-            SizedBox(height: 25,),
-            Text(
+            const SizedBox(height: 25,),
+            const Text(
               'Belum ada pelamar',
               style: TextStyle(
                   fontSize: 21,

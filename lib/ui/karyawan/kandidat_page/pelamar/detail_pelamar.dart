@@ -32,7 +32,7 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
   ProfilCompanyModel? profilCompanyModel;
   bool _isLoad = false;
   PdfDocument? document;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  //final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String? workerDeviceToken;
 
   getdata() async {
@@ -46,7 +46,7 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
     setState(() {
       detailPelamarModel = detail;
       profilCompanyModel = profilCompany;
-      workerDeviceToken = token;
+      workerDeviceToken = token.toString();
     });
     _isLoad = false;
   }
@@ -331,21 +331,15 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                         'wawancara',
                         '${detailPelamarModel!.data!.id}');
                     if (isSuccess == true) {
-                      await FirebaseApiService().firebaseSendNotif(
-                          workerDeviceToken!,
-                          'Lamaran masuk sesi Wawancara',
-                          'Selamat, lamaranmu sudah mencapai sesi wawancara, tunggu informasi dari perusahaan melalui email',
-                          'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}');
+                      if(workerDeviceToken != 'null'){
+                        await FirebaseApiService().firebaseSendNotif(
+                            workerDeviceToken!,
+                            'Lamaran masuk sesi Wawancara',
+                            'Selamat, lamaranmu sudah mencapai sesi wawancara, tunggu informasi dari perusahaan melalui email',
+                            'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}');
+                      }
                       setState(() {
                         getdata();
-                      });
-                      await _firestore
-                          .collection('users')
-                          .doc(
-                              '${detailPelamarModel!.data!.worker!.id}_${detailPelamarModel!.data!.job!.id}')
-                          .set({
-                        'uid': detailPelamarModel!.data!..worker!.id,
-                        'userName': detailPelamarModel!.data!.worker!.username
                       });
                       showDialog(
                         context: context,
@@ -368,19 +362,14 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                     bool isSuccess = await ApiService().defineConfirmation(
                         context, 'diterima', '${detailPelamarModel!.data!.id}');
                     if (isSuccess == true) {
-                      await FirebaseApiService().firebaseSendNotif(
-                          workerDeviceToken!,
-                          'Lamaranmu Diterima!!',
-                          'Selamat, lamaran pekerjaan ${detailPelamarModel!.data!.job!.title} di perusahaan ${detailPelamarModel!.data!.job!.company!.name} Sudah diterima oleh perusahaan!',
-                          'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}');
-                      await _firestore
-                          .collection('users')
-                          .doc(
-                              '${detailPelamarModel!.data!.worker!.id}_${detailPelamarModel!.data!.job!.id}')
-                          .set({
-                        'uid': detailPelamarModel!.data!.id,
-                        'userName': detailPelamarModel!.data!.worker!.username
-                      }, SetOptions(merge: true));
+                      if(workerDeviceToken != 'null'){
+                        await FirebaseApiService().firebaseSendNotif(
+                            workerDeviceToken!,
+                            'Lamaranmu Diterima!!',
+                            'Selamat, lamaran pekerjaan ${detailPelamarModel!.data!.job!.title} di perusahaan ${detailPelamarModel!.data!.job!.company!.name} Sudah diterima oleh perusahaan!',
+                            'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}'
+                        );
+                      }
                       setState(() {
                         getdata();
                       });
