@@ -88,8 +88,8 @@ class _FillDataWorkerState extends State<FillDataWorker> {
           setState(() {
             profileImageCompressed;
           });
-          bool isSucces = await ApiService().changeWorkerProfile(profileImageCompressed!);
-          if(isSucces == true){
+          bool isSuccess = await ApiService().changeWorkerProfile(profileImageCompressed!);
+          if(isSuccess == true){
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false);
             showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Sukses Melengkapi Profile!'),);
           } else{

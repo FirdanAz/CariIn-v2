@@ -114,15 +114,15 @@ class PublicFunction {
   }
 
   static Future<File> getPdf(
-      int uId,
-      String userName,
-      String field,
-      String bornDate,
-      String address,
-      String phoneNumber,
-      String email,
-      String gender,
-      ) async {
+    int uId,
+    String userName,
+    String field,
+    String bornDate,
+    String address,
+    String phoneNumber,
+    String email,
+    String gender,
+  ) async {
     final pdf = pw.Document(compress: false);
     var data = await rootBundle.load("assets/fonts/outfit/Outfit-Regular.ttf");
     var myFont = pw.Font.ttf(data);
@@ -155,167 +155,302 @@ class PublicFunction {
                               crossAxisAlignment: pw.CrossAxisAlignment.start,
                               children: [
                             pw.Row(
-                              crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                mainAxisAlignment:
-                                    pw.MainAxisAlignment.start,
+                                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                mainAxisAlignment: pw.MainAxisAlignment.start,
                                 children: [
                                   pw.Column(
-                                    crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                      mainAxisAlignment: pw.MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          pw.CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          pw.MainAxisAlignment.start,
                                       children: [
-                                    pw.Container(
-                                        width: 100,
-                                        height: 150,
-                                        alignment: pw.Alignment.center,
-                                        decoration: pw.BoxDecoration(
-                                            color: PdfColors.white,
-                                            borderRadius:
-                                                pw.BorderRadius.circular(100)),
-                                        child: pw.Image(netImage,
-                                            fit: pw.BoxFit.cover)),
-                                    pw.SizedBox(height: 20),
-                                    pw.Text(userName,
-                                        textAlign: pw.TextAlign.center,
-                                        style: pw.TextStyle(
-                                            font: myFont,
-                                            fontWeight: pw.FontWeight.bold,
-                                            fontSize: 18)),
-                                    pw.Text(field,
-                                        textAlign: pw.TextAlign.center,
-                                        style: pw.TextStyle(
-                                            font: myFont,
-                                            fontWeight: pw.FontWeight.bold,
-                                            fontSize: 16,
-                                            color: PdfColors.blue900)),
-                                  ]),
+                                        pw.Container(
+                                            width: 100,
+                                            height: 150,
+                                            alignment: pw.Alignment.center,
+                                            decoration: pw.BoxDecoration(
+                                                color: PdfColors.white,
+                                                borderRadius:
+                                                    pw.BorderRadius.circular(
+                                                        100)),
+                                            child: pw.Image(netImage,
+                                                fit: pw.BoxFit.cover)),
+                                        pw.SizedBox(height: 20),
+                                        pw.Text(userName,
+                                            textAlign: pw.TextAlign.center,
+                                            style: pw.TextStyle(
+                                                font: myFont,
+                                                fontWeight: pw.FontWeight.bold,
+                                                fontSize: 18)),
+                                        pw.Text(field,
+                                            textAlign: pw.TextAlign.center,
+                                            style: pw.TextStyle(
+                                                font: myFont,
+                                                fontWeight: pw.FontWeight.bold,
+                                                fontSize: 16,
+                                                color: PdfColors.blue900)),
+                                      ]),
                                   pw.SizedBox(width: 30),
                                   pw.Container(
-                                    width: 200,
-                                    child: pw.Column(
-                                      children: [
+                                      width: 200,
+                                      child: pw.Column(children: [
                                         pw.Column(
-                                            crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                pw.CrossAxisAlignment.start,
                                             children: [
-                                              pw.Text('Data Pribadi', style: pw.TextStyle(font: myFont, fontSize: 17)),
+                                              pw.Text('Data Pribadi',
+                                                  style: pw.TextStyle(
+                                                      font: myFont,
+                                                      fontSize: 17)),
                                               pw.Column(
-                                                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                                                mainAxisAlignment: pw.MainAxisAlignment.start,
-                                                children: [
-                                                  pw.Row(
-                                                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        pw.Row(
-                                                          children: [
+                                                  crossAxisAlignment: pw
+                                                      .CrossAxisAlignment.start,
+                                                  mainAxisAlignment: pw
+                                                      .MainAxisAlignment.start,
+                                                  children: [
+                                                    pw.Row(
+                                                        mainAxisAlignment: pw
+                                                            .MainAxisAlignment
+                                                            .spaceBetween,
+                                                        children: [
+                                                          pw.Row(children: [
                                                             pw.Divider(),
-                                                            pw.Text('  Umur', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                            pw.Text(' : ', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                          ]
-                                                        ),
-                                                        pw.Text(' $bornDate Tahun', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                      ]
-                                                  ),
-                                                  pw.Row(
-                                                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        pw.Row(
-                                                          children: [
+                                                            pw.Text('  Umur',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                            pw.Text(' : ',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                          ]),
+                                                          pw.Text(
+                                                              ' $bornDate Tahun',
+                                                              style:
+                                                                  pw.TextStyle(
+                                                                      font:
+                                                                          myFont,
+                                                                      fontSize:
+                                                                          11)),
+                                                        ]),
+                                                    pw.Row(
+                                                        mainAxisAlignment: pw
+                                                            .MainAxisAlignment
+                                                            .spaceBetween,
+                                                        children: [
+                                                          pw.Row(children: [
                                                             pw.Divider(),
-                                                            pw.Text('  Alamat', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                            pw.Text(' : ', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                          ]
-                                                        ),
-                                                        pw.Text(' $address', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                      ]
-                                                  ),
-                                                  pw.Row(
-                                                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        pw.Row(
-                                                          children: [
+                                                            pw.Text('  Alamat',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                            pw.Text(' : ',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                          ]),
+                                                          pw.Text(' $address',
+                                                              style:
+                                                                  pw.TextStyle(
+                                                                      font:
+                                                                          myFont,
+                                                                      fontSize:
+                                                                          11)),
+                                                        ]),
+                                                    pw.Row(
+                                                        mainAxisAlignment: pw
+                                                            .MainAxisAlignment
+                                                            .spaceBetween,
+                                                        children: [
+                                                          pw.Row(children: [
                                                             pw.Divider(),
-                                                            pw.Text('  Nomor Telephone', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                            pw.Text(' : ', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                          ]
-                                                        ),
-                                                        pw.Text(' $phoneNumber', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                      ]
-                                                  ),
-                                                  pw.Row(
-                                                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        pw.Row(
-                                                          children: [
+                                                            pw.Text(
+                                                                '  Nomor Telephone',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                            pw.Text(' : ',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                          ]),
+                                                          pw.Text(
+                                                              ' $phoneNumber',
+                                                              style:
+                                                                  pw.TextStyle(
+                                                                      font:
+                                                                          myFont,
+                                                                      fontSize:
+                                                                          11)),
+                                                        ]),
+                                                    pw.Row(
+                                                        mainAxisAlignment: pw
+                                                            .MainAxisAlignment
+                                                            .spaceBetween,
+                                                        children: [
+                                                          pw.Row(children: [
                                                             pw.Divider(),
-                                                            pw.Text('  Agama', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                            pw.Text(' : ', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                          ]
-                                                        ),
-                                                        pw.Text(' Islam', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                      ]
-                                                  ),
-                                                  pw.Row(
-                                                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        pw.Row(
-                                                          children: [
+                                                            pw.Text('  Agama',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                            pw.Text(' : ',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                          ]),
+                                                          pw.Text(' Islam',
+                                                              style:
+                                                                  pw.TextStyle(
+                                                                      font:
+                                                                          myFont,
+                                                                      fontSize:
+                                                                          11)),
+                                                        ]),
+                                                    pw.Row(
+                                                        mainAxisAlignment: pw
+                                                            .MainAxisAlignment
+                                                            .spaceBetween,
+                                                        children: [
+                                                          pw.Row(children: [
                                                             pw.Divider(),
-                                                            pw.Text('  Kewarga Negaraan', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                            pw.Text(' : ', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                          ]
-                                                        ),
-                                                        pw.Text(' Indonesia', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                      ]
-                                                  ),
-                                                  pw.Row(
-                                                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        pw.Row(
-                                                          children: [
+                                                            pw.Text(
+                                                                '  Kewarga Negaraan',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                            pw.Text(' : ',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                          ]),
+                                                          pw.Text(' Indonesia',
+                                                              style:
+                                                                  pw.TextStyle(
+                                                                      font:
+                                                                          myFont,
+                                                                      fontSize:
+                                                                          11)),
+                                                        ]),
+                                                    pw.Row(
+                                                        mainAxisAlignment: pw
+                                                            .MainAxisAlignment
+                                                            .spaceBetween,
+                                                        children: [
+                                                          pw.Row(
+                                                            children: [
+                                                              pw.Divider(),
+                                                              pw.Text('  Email',
+                                                                  style: pw.TextStyle(
+                                                                      font:
+                                                                          myFont,
+                                                                      fontSize:
+                                                                          11)),
+                                                              pw.Text(' : ',
+                                                                  style: pw.TextStyle(
+                                                                      font:
+                                                                          myFont,
+                                                                      fontSize:
+                                                                          11)),
+                                                            ],
+                                                          ),
+                                                          pw.Text(' $email',
+                                                              style:
+                                                                  pw.TextStyle(
+                                                                      font:
+                                                                          myFont,
+                                                                      fontSize:
+                                                                          11)),
+                                                        ]),
+                                                    pw.Row(
+                                                        mainAxisAlignment: pw
+                                                            .MainAxisAlignment
+                                                            .spaceBetween,
+                                                        children: [
+                                                          pw.Row(children: [
                                                             pw.Divider(),
-                                                            pw.Text('  Email', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                            pw.Text(' : ', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                          ],
-                                                        ),
-                                                        pw.Text(' $email', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                      ]
-                                                  ),
-                                                  pw.Row(
-                                                      mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
-                                                      children: [
-                                                        pw.Row(
-                                                          children: [
-                                                            pw.Divider(),
-                                                            pw.Text('  Jenis Kelamin', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                            pw.Text(' : ', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                          ]
-                                                        ),
-                                                        pw.Text(' $gender', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                      ]
-                                                  ),
-                                                ]
-                                              ),
+                                                            pw.Text(
+                                                                '  Jenis Kelamin',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                            pw.Text(' : ',
+                                                                style: pw.TextStyle(
+                                                                    font:
+                                                                        myFont,
+                                                                    fontSize:
+                                                                        11)),
+                                                          ]),
+                                                          pw.Text(' $gender',
+                                                              style:
+                                                                  pw.TextStyle(
+                                                                      font:
+                                                                          myFont,
+                                                                      fontSize:
+                                                                          11)),
+                                                        ]),
+                                                  ]),
                                               pw.SizedBox(height: 20),
-                                              pw.Text('Pengalaman', style: pw.TextStyle(font: myFont, fontSize: 17)),
+                                              pw.Text('Pengalaman',
+                                                  style: pw.TextStyle(
+                                                      font: myFont,
+                                                      fontSize: 17)),
                                               pw.Row(
-                                                  mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
+                                                  mainAxisAlignment: pw
+                                                      .MainAxisAlignment
+                                                      .spaceEvenly,
                                                   children: [
                                                     pw.Divider(),
-                                                    pw.Text('  Membantu mengembangkan flutter', style: pw.TextStyle(font: myFont, fontSize: 11)),
-                                                  ]
-                                              ),
+                                                    pw.Text(
+                                                        '  Membantu mengembangkan flutter',
+                                                        style: pw.TextStyle(
+                                                            font: myFont,
+                                                            fontSize: 11)),
+                                                  ]),
                                               pw.Row(
-                                                  mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
-                                                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                                                  mainAxisAlignment: pw
+                                                      .MainAxisAlignment
+                                                      .spaceEvenly,
+                                                  crossAxisAlignment: pw
+                                                      .CrossAxisAlignment.start,
                                                   children: [
                                                     pw.Divider(),
-                                                    pw.SizedBox(width: 250, child: pw.Text('  Membuat design/ui aplikasi dengan sangat menarik', overflow: pw.TextOverflow.clip, style: pw.TextStyle(font: myFont, fontSize: 11)),)
-                                                  ]
-                                              ),
-                                            ]
-                                        )
-                                      ]
-                                    )
-                                  )
+                                                    pw.SizedBox(
+                                                      width: 250,
+                                                      child: pw.Text(
+                                                          '  Membuat design/ui aplikasi dengan sangat menarik',
+                                                          overflow: pw
+                                                              .TextOverflow
+                                                              .clip,
+                                                          style: pw.TextStyle(
+                                                              font: myFont,
+                                                              fontSize: 11)),
+                                                    )
+                                                  ]),
+                                            ])
+                                      ]))
                                 ])
                           ])),
                     )
@@ -335,17 +470,25 @@ class PublicFunction {
     return file;
   }
 
-  static Future compressImage(File originalImage, int quality, String title) async {
+  static Future compressImage(
+      File originalImage, int quality, String title) async {
+    // Directory baseDir = await getTemporaryDirectory();
+    // String newDirectoryName = 'Cariin';
+    // Directory newDir = Directory('${baseDir.path}/$newDirectoryName');
+    // if (await newDir.exists()) {
+    //   print('Directory already exists.');
+    //   return;
+    // }
+    // newDir.create();
+    // print('New directory created: ${newDir.path}');
     String compressedImagePath = '/storage/emulated/0/Download/';
-    String date = '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}${DateTime.now().second}';
+    String date =
+        '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}${DateTime.now().second}';
 
     final file = await FlutterImageCompress.compressAndGetFile(
-        originalImage.path,
-        '$compressedImagePath/Cariin_${title}_$date.jpg',
-        quality: quality
-    );
+        originalImage.path, '$compressedImagePath/Cariin_${title}_$date.jpg',
+        quality: quality);
 
     return File(file!.path);
   }
-
 }

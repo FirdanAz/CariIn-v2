@@ -53,7 +53,7 @@ class _ListSearchResultState extends State<ListSearchResult> {
   getData() async {
     _isLoad = true;
     await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
-    WorkerSearchModel searchModel = await EditService().getListSearch(widget.query);
+    WorkerSearchModel searchModel = await DataService().getListSearch(widget.query);
     setState(() {
       workerSearchModel = searchModel;
     });

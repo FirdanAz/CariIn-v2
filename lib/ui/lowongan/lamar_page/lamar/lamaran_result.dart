@@ -28,7 +28,7 @@ class _LamaranResultState extends State<LamaranResult> {
     await Future.delayed(const Duration(seconds: 1));
     setState(() {
       _isLoad = false;
-    });;
+    });
   }
 
   @override

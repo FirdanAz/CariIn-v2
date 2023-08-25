@@ -28,11 +28,11 @@ class _ListWorkerPklState extends State<ListWorkerPkl> {
     _isLoad = true;
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
-    PklListModel listModel = await EditService().getPklList(false, 'mengirim', 'company');
-    PklListModel listModel1 = await EditService().getPklList(false, 'direview', 'company');
-    PklListModel listModel2 = await EditService().getPklList(false, 'wawancara', 'company');
-    PklListModel listModel3 = await EditService().getPklList(false, 'diterima', 'company');
-    PklListModel listModel4 = await EditService().getPklList(false, 'ditolak', 'company');
+    PklListModel listModel = await DataService().getPklList(false, 'mengirim', 'company');
+    PklListModel listModel1 = await DataService().getPklList(false, 'direview', 'company');
+    PklListModel listModel2 = await DataService().getPklList(false, 'wawancara', 'company');
+    PklListModel listModel3 = await DataService().getPklList(false, 'diterima', 'company');
+    PklListModel listModel4 = await DataService().getPklList(false, 'ditolak', 'company');
     setState(() {
       pklListModel = listModel;
       direview = listModel1;
@@ -106,7 +106,7 @@ class _ListWorkerPklState extends State<ListWorkerPkl> {
                               trailing: Container(
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                    color: color.primary,
+                                    color: Colors.green,
                                     borderRadius: BorderRadius.circular(5)
                                 ),
                                 child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
@@ -299,7 +299,7 @@ class _ListWorkerPklState extends State<ListWorkerPkl> {
                                 child: Text(data.confirmedStatus!, style: TextStyle(color: color.white),),
                                 padding: EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                    color: color.primary,
+                                    color: color.error,
                                     borderRadius: BorderRadius.circular(5)
                                 ),
                               ),

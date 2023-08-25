@@ -48,7 +48,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hari Ini',
+                    'Hari ini',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w400,
@@ -57,72 +57,7 @@ class _NotificationPageState extends State<NotificationPage> {
                   ),
                   ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemCount: 3,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                            color: color.surface,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: double.maxFinite,
-                        height: 75,
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage(AppAssets.firdanImg),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 5),
-                                    width: double.maxFinite,
-                                    child: const Text(
-                                      'Kamu menerima bayaran sebesar Rp.50.000',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 5),
-                                    width: double.maxFinite,
-                                    child: const Text(
-                                      '09:21 AM',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  )
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Kemarin',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w400,
-                      color: color.primary,
-                    ),
-                  ),
-                  ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: 3,
+                    itemCount: 1,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
                       return Container(
@@ -174,71 +109,6 @@ class _NotificationPageState extends State<NotificationPage> {
                   )
                 ],
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Bulan Lalu',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w400,
-                      color: color.primary,
-                    ),
-                  ),
-                  ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: 3,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        decoration: BoxDecoration(
-                            color: color.surface,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: double.maxFinite,
-                        height: 75,
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage(AppAssets.firdanImg),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 5),
-                                    width: double.maxFinite,
-                                    child: const Text(
-                                      'Follow',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 5),
-                                    width: double.maxFinite,
-                                    child: const Text(
-                                      '09:21 AM',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                  )
-                ],
-              )
             ],
           ),
         ),

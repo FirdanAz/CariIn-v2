@@ -40,7 +40,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
     _isLoad = true;
     await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     WorkerModel model = await ApiService().getWorker();
-    var token = await EditService().getCompanyDevice(widget.companyId.toString());
+    var token = await DataService().getCompanyDevice(widget.companyId.toString());
     setState(() {
       workerDetailModel = model;
       deviceToken = token.toString();

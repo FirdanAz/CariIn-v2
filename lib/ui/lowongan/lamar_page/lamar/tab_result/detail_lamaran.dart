@@ -23,7 +23,7 @@ class _DetailLamaranState extends State<DetailLamaran> {
 
   getData() async {
     _isLoad = true;
-    DetailLamaranModel detail = await EditService().detailLamaran(widget.id, 'worker');
+    DetailLamaranModel detail = await DataService().detailLamaran(widget.id, 'worker');
     setState(() {
       detailPelamarModel = detail;
     });

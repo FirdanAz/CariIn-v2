@@ -21,7 +21,7 @@ class _PengalamanPageState extends State<PengalamanPage> {
   getData() async {
     _isLoad = true;
     ListExperienceModel experienceModel =
-        await EditService().getListExperience();
+        await DataService().getListExperience();
     setState(() {
       listExperienceModel = experienceModel;
     });
@@ -91,7 +91,7 @@ class _PengalamanPageState extends State<PengalamanPage> {
                     var data = listExperienceModel!.data![index];
                     return Container(
                         decoration: BoxDecoration(
-                          color: color.primary,
+                          color: color.primaryContainer,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         width: double.maxFinite,
@@ -114,7 +114,7 @@ class _PengalamanPageState extends State<PengalamanPage> {
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w600,
-                                                color: color.white
+                                                color: color.primary
                                             ),
                                           ),
                                         ),
@@ -125,7 +125,7 @@ class _PengalamanPageState extends State<PengalamanPage> {
                                             '${data.location!} | ${data.startAt} - ${data.endAt}',
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w400,
-                                                color: color.primaryContainer
+                                                color: color.secondary
                                             ),
                                           ),
                                         ),
@@ -137,7 +137,7 @@ class _PengalamanPageState extends State<PengalamanPage> {
                                       onTapUp: (TapUpDetails details) {
                                         _showPopupMenu(context, details.globalPosition);
                                       },
-                                      child: Icon(Icons.more_vert, color: color.white,)
+                                      child: Icon(Icons.more_vert, color: color.primary,)
                                     ),
                                   ),
                                 ],
@@ -147,14 +147,14 @@ class _PengalamanPageState extends State<PengalamanPage> {
                                 margin: const EdgeInsets.only(left: 10),
                                 padding: const EdgeInsets.only(right: 10, bottom: 10),
                                 child: Text(
-                                  'Selamat datang di Google Drive, tempat perpaduan kreatif dan teknologi terbaik untuk mendorong batas inovasi.',
+                                  data.description!,
                                   textAlign: TextAlign.justify,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 3,
                                   style: TextStyle(
-                                    fontSize: 14,
+                                    fontSize: 15,
                                     fontWeight: FontWeight.w400,
-                                    color: color.surfaceContainer
+                                    color: color.secondary
                                   ),
                                 ),
                               )

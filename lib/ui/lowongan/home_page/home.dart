@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
     ProfileWorkerModel workerModel = await ApiService().getWorkerProfile();
     final fcmToken = await FirebaseMessaging.instance.getToken();
     //upload device token
-    await EditService().editMyDeviceToken(fcmToken!, 'worker');
+    await DataService().editMyDeviceToken(fcmToken!, 'worker');
     setState(() {
       allJobWorkerModel = allJob;
       profileWorkerModel = workerModel;

@@ -182,6 +182,38 @@ class _TabDeskripsiState extends State<TabDeskripsi> {
         ),
         const SizedBox(height: 8),
         for (int i = 0; i < responsibility.length; i++) content(i),
+        const SizedBox(height: 8,),
+        Text(
+          'Tags :',
+          style: _textStyle(color.onSurface, FontWeight.w500),
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: detailCompanyModel!.data!.description!.tags!.length,
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          itemBuilder: (context, index) {
+            var data = detailCompanyModel!.data!.description!.tags![index];
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 7),
+                  child: Icon(Icons.circle,
+                      size: Responsive.byWidth(8), color: color.onSurfaceVariant),
+                ),
+                const SizedBox(width: 1),
+                SizedBox(
+                  width: Responsive.byWidth(297),
+                  child: Text(
+                    data.name!,
+                    textAlign: TextAlign.justify,
+                    style: _textStyle(color.onSurfaceVariant, FontWeight.w400),
+                  ),
+                ),
+              ],
+            );
+          },
+        )
       ],
     );
   }

@@ -50,7 +50,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
     ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
     WorkerListModel workerList = await ApiService().ListWorkerCompany();
     final fcmToken = await FirebaseMessaging.instance.getToken();
-    await EditService().editMyDeviceToken(fcmToken!, 'company');
+    await DataService().editMyDeviceToken(fcmToken!, 'company');
     setState(() {
       acceptedJobCompany = allJob;
       profilCompanyModel = profilCompany;

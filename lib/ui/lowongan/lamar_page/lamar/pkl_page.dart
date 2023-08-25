@@ -25,11 +25,11 @@ class _PklPageState extends State<PklPage> {
   getData() async {
     _isLoad = true;
     await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
-    PklListModel listModel = await EditService().getPklList(false, 'mengirim', 'worker');
-    PklListModel listModel1 = await EditService().getPklList(false, 'direview', 'worker');
-    PklListModel listModel2 = await EditService().getPklList(false, 'wawancara', 'worker');
-    PklListModel listModel3 = await EditService().getPklList(false, 'diterima', 'worker');
-    PklListModel listModel4 = await EditService().getPklList(false, 'ditolak', 'worker');
+    PklListModel listModel = await DataService().getPklList(false, 'mengirim', 'worker');
+    PklListModel listModel1 = await DataService().getPklList(false, 'direview', 'worker');
+    PklListModel listModel2 = await DataService().getPklList(false, 'wawancara', 'worker');
+    PklListModel listModel3 = await DataService().getPklList(false, 'diterima', 'worker');
+    PklListModel listModel4 = await DataService().getPklList(false, 'ditolak', 'worker');
     setState(() {
       pklListModel = listModel;
       direview = listModel1;
