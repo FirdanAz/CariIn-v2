@@ -29,7 +29,7 @@ class _PklDetailPageState extends State<PklDetailPage> {
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
     PklDetailModel detailModel =
-        await EditService().getDetailPkl(int.parse(widget.id), 'company');
+        await DataService().getDetailPkl(int.parse(widget.id), 'company');
     setState(() {
       pklDetailModel = detailModel;
     });
@@ -362,7 +362,7 @@ class _PklDetailPageState extends State<PklDetailPage> {
                         onPressed: () async {
                           if (pklDetailModel!.data!.confirmedStatus ==
                               'direview') {
-                            bool isSuccess = await EditService()
+                            bool isSuccess = await DataService()
                                 .pklDefineConfirmation('wawancara',
                                     pklDetailModel!.data!.id!.toString());
                             if (isSuccess) {
@@ -384,7 +384,7 @@ class _PklDetailPageState extends State<PklDetailPage> {
                           }
                           if (pklDetailModel!.data!.confirmedStatus ==
                               'wawancara') {
-                            bool isSuccess = await EditService()
+                            bool isSuccess = await DataService()
                                 .pklDefineConfirmation('diterima',
                                     pklDetailModel!.data!.id!.toString());
                             if (isSuccess) {
@@ -467,7 +467,7 @@ class _PklDetailPageState extends State<PklDetailPage> {
                                             ElevatedButton(
                                                 onPressed: () async {
                                                   bool isSuccess =
-                                                      await EditService()
+                                                      await DataService()
                                                           .pklDefineConfirmation(
                                                               'ditolak',
                                                               pklDetailModel!

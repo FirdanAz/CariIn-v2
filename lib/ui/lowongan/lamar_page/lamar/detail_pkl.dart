@@ -27,7 +27,7 @@ class _DetailPklPageState extends State<DetailPklPage> {
   getData() async {
     _isLoad = true;
     await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
-    PklDetailModel detailModel = await EditService().getDetailPkl(int.parse(widget.id), 'worker');
+    PklDetailModel detailModel = await DataService().getDetailPkl(int.parse(widget.id), 'worker');
     setState(() {
       pklDetailModel = detailModel;
     });

@@ -42,7 +42,7 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
     DetailPelamarModel detail = await ApiService().detailPelamar(widget.id, 'company');
     ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
     var token =
-        await EditService().getWorkerDevice(detail.data!.worker!.id.toString());
+        await DataService().getWorkerDevice(detail.data!.worker!.id.toString());
     setState(() {
       detailPelamarModel = detail;
       profilCompanyModel = profilCompany;

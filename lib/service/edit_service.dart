@@ -3,6 +3,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cariin_v2/model/company/inbox/list.dart';
 import 'package:cariin_v2/model/worker/detail_lamaran_model.dart';
 import 'package:cariin_v2/model/worker/edit_data_model/pkl_detail_model.dart';
 import 'package:cariin_v2/model/worker/edit_data_model/pkl_list_model.dart';
@@ -15,7 +16,7 @@ import 'package:http/http.dart' as http;
 import '../model/worker/edit_data_model/search_model.dart';
 import '../model/worker/experience/experience_list.dart';
 
-class EditService {
+class DataService {
   final _baseUrl = "https://cariin.my.id";
 
   Future getMyDeviceToken(String role) async {
@@ -440,4 +441,65 @@ class EditService {
       print(e.toString());
     }
   }
+
+  Future getInboxList(String role) async {
+    final endPoint = '/api/$role/inbox';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken(role);
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      print('status code : ${response.statusCode}');
+      if (response.statusCode == 200 && token != '') {
+        await ApiService().RefreshToken(role, token);
+        ListInboxModel model =
+        ListInboxModel.fromJson(json.decode(response.body));
+        return model;
+      }
+      if (response.statusCode == 401 && PublicFunction.getToken('worker') != '') {
+        await ApiService().RefreshToken(role, token);
+        ListInboxModel model =
+        ListInboxModel.fromJson(json.decode(response.body));
+        return model;
+      } else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future postReadInbox(String inboxId, String role) async {
+    var endPoint = '/api/$role/inbox/$inboxId/read';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken(role);
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response =
+      await http.post(Uri.parse(url), headers: headers);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print('Define Confirmation Success');
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } on SocketException {
+      print('Tidak koneksi Internet');
+      return false;
+    } on HttpException {
+      print('HttpException');
+      return false;
+    }
+  }
+
 }

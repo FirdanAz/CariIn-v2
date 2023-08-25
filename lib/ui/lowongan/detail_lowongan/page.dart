@@ -38,7 +38,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
     _isLoad = true;
     await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     JobDetailModel detailJob = await ApiService().jobDetailWorker(widget.id);
-    var token = await EditService().getCompanyDevice(detailJob.data!.company!.id.toString());
+    var token = await DataService().getCompanyDevice(detailJob.data!.company!.id.toString());
     setState(() {
       jobDetailModel = detailJob;
       date = DateTime.parse(detailJob.data!.jobCreated.toString());

@@ -42,7 +42,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
     _isLoad = true;
     await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     WorkerModel model = await ApiService().getWorker();
-    var token = await EditService().getCompanyDevice(widget.companyId);
+    var token = await DataService().getCompanyDevice(widget.companyId);
     setState(() {
       workerDetailModel = model;
       deviceToken = token.toString();
@@ -438,7 +438,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
                   style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(color.primary), shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)))),
                   onPressed: () async {
                     showLoaderDialog(context);
-                    bool isSucces = await EditService().createPkl(widget.jobId, widget.educationInstitution, widget.description, cvFile!, potoFile!, suratLamaranFile!, suratBuktiFile!);
+                    bool isSucces = await DataService().createPkl(widget.jobId, widget.educationInstitution, widget.description, cvFile!, potoFile!, suratLamaranFile!, suratBuktiFile!);
                     if(isSucces){
                       await FirebaseApiService().firebaseSendNotif(deviceToken!, 'Kamu mendapatkan lamaran baru', '${workerDetailModel!.data!.username} baru saja melamar (PKL) di salah satu Lowongan', 'https://cariin.my.id/storage/${workerDetailModel!.data!.profilImage}');
                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false);

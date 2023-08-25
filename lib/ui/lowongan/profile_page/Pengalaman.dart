@@ -21,7 +21,7 @@ class _PengalamanPageState extends State<PengalamanPage> {
   getData() async {
     _isLoad = true;
     ListExperienceModel experienceModel =
-        await EditService().getListExperience();
+        await DataService().getListExperience();
     setState(() {
       listExperienceModel = experienceModel;
     });
