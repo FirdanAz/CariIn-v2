@@ -1,5 +1,3 @@
-import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
-import 'package:cariin_v2/ui/karyawan/kandidat_page/lowongan/lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/pelamar.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/rekrut_karyawan/rekrut.dart';
 import 'package:flutter/material.dart';

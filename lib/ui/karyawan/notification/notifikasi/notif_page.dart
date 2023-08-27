@@ -1,14 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/service/api_service.dart';
 import 'package:cariin_v2/service/edit_service.dart';
-import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/send_notif_example.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
-import '../../../../common/app_assets.dart';
 import '../../../../common/app_color.dart';
 import '../../../../model/company/inbox/list.dart';
 
@@ -116,7 +116,7 @@ class _NotifPageState extends State<NotifPage> {
                       },
                       borderRadius: BorderRadius.circular(100),
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
                           border: Border.all(color: color.primary, width: 1)
@@ -133,123 +133,136 @@ class _NotifPageState extends State<NotifPage> {
                   ],
                 ),
                 listInboxModel!.data!.isEmpty ? const Center(child: Text('Tidak ada Pemberitahuan'),) :
-                RefreshIndicator(
-                  onRefresh: () async {
-                    setState(() {
-                      getData();
-                    });
-                  },
-                  child: ListView.builder(
-                    reverse: _reverse,
-                    physics: const BouncingScrollPhysics(),
-                    itemCount: listInboxModel!.data!.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      final data = listInboxModel!.data![index];
-                      DateTime? date =
-                      DateTime.parse(data.sentDate.toString());
-                      return data.read == true ?
-                      Container(
-                          decoration: BoxDecoration(
-                              color: color.surface,
-                              borderRadius: BorderRadius.circular(10)),
-                          width: double.maxFinite,
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          child: ListTile(
-                            title: Text(
-                              data.subject!,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: color.black.withOpacity(0.8), fontWeight: FontWeight.w600, fontSize: 17),
+                ListView.builder(
+                  reverse: _reverse,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: listInboxModel!.data!.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final data = listInboxModel!.data![index];
+                    DateTime currentDate = DateTime.now();
+                    DateTime dates = DateTime.parse(data.sentDate!);
+                    DateTime? date =
+                    DateTime.parse(data.sentDate.toString());
+                    return data.read == true ?
+                    Container(
+                        decoration: BoxDecoration(
+                            color: color.surface,
+                            borderRadius: BorderRadius.circular(10)),
+                        width: double.maxFinite,
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: color.white,
+                            radius: 25,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: SvgPicture.asset(AppAssets.appsLogo),
                             ),
-                            subtitle: Text(
-                                data.message!,
-                              style: TextStyle(
-                                color: color.black.withOpacity(0.8),
-                              ),
-                            ),
-                            trailing: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  GetTimeAgo.parse(date, locale: 'id'),
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                  ),
-                                ),
-                                const SizedBox(height: 5,),
-                                Text(
-                                  'Dibaca',
-                                  style: TextStyle(
-                                      color: color.secondary
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                      ):
-                      InkWell(
-                        onTap: () async {
-                          if(data.read == false){
-                            bool isSuccess = await DataService().postReadInbox(data.id!.toString(), 'company');
-                            if(isSuccess == true){
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const SendNotifExample(),));
-                              setState(() {
-                                getData();
-                              });
-                            }
-                          }
-                        },
-                        overlayColor: const MaterialStatePropertyAll(Colors.transparent),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: color.surface,
-                              borderRadius: BorderRadius.circular(10)),
-                          width: double.maxFinite,
-                          margin: const EdgeInsets.symmetric(vertical: 8),
-                          child: ListTile(
-                            title: Text(
-                              data.subject!,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: color.black, fontWeight: FontWeight.w700, fontSize: 17),
-                            ),
-                            subtitle: Text(
+                          ),
+                          title: Text(
+                            data.subject!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: color.black.withOpacity(0.8), fontWeight: FontWeight.w600, fontSize: 17),
+                          ),
+                          subtitle: Text(
                               data.message!,
-                              style: TextStyle(
-                                color: color.black,
-                                fontWeight: FontWeight.w600
+                            style: TextStyle(
+                              color: color.black.withOpacity(0.8),
+                            ),
+                          ),
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                GetTimeAgo.parse(date, locale: 'id'),
+                                style: TextStyle(
+                                    fontSize: 13,
+                                ),
                               ),
-                            ),
-                            trailing: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  GetTimeAgo.parse(date, locale: 'id'),
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                              const SizedBox(height: 5,),
+                              Text(
+                                'Dibaca',
+                                style: TextStyle(
+                                    color: color.secondary
                                 ),
-                                const SizedBox(height: 5,),
-                                Text(
-                                  'Baru',
-                                  style: TextStyle(
-                                    color: color.secondary,
-                                    fontWeight: FontWeight.w600
-                                  ),
-                                ),
-                              ],
+                              )
+                            ],
+                          ),
+                        )
+                    ):
+                    InkWell(
+                      onTap: () async {
+                        if(data.read == false){
+                          bool isSuccess = await DataService().postReadInbox(data.id!.toString(), 'company');
+                          if(isSuccess == true){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SendNotifExample(),));
+                            setState(() {
+                              getData();
+                            });
+                          }
+                        }
+                      },
+                      overlayColor: const MaterialStatePropertyAll(Colors.transparent),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: color.surface,
+                            borderRadius: BorderRadius.circular(10)),
+                        width: double.maxFinite,
+                        margin: const EdgeInsets.symmetric(vertical: 8),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: color.white,
+                            radius: 25,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: SvgPicture.asset(AppAssets.appsLogo),
                             ),
-                          )
-                        ),
-                      );
-                    },
-                  ),
+                          ),
+                          title: Text(
+                            data.subject!,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(color: color.black, fontWeight: FontWeight.w700, fontSize: 17),
+                          ),
+                          subtitle: Text(
+                            data.message!,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: color.black,
+                              fontWeight: FontWeight.w600
+                            ),
+                          ),
+                          trailing: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                GetTimeAgo.parse(date, locale: 'id'),
+                                style: const TextStyle(
+                                    fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 5,),
+                              Text(
+                                'Baru',
+                                style: TextStyle(
+                                  color: color.secondary,
+                                  fontWeight: FontWeight.w600
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ),
+                    );
+                  },
                 ),
-                Container(constraints: BoxConstraints(minHeight: 400),)
+                Container(constraints: const BoxConstraints(minHeight: 400),)
               ],
             ),
           ),

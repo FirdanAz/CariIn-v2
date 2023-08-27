@@ -102,7 +102,7 @@ class Job {
 class Company {
   int? id;
   String? name;
-  Null? profileImage;
+  String? profileImage;
   String? location;
 
   Company({this.id, this.name, this.profileImage, this.location});
