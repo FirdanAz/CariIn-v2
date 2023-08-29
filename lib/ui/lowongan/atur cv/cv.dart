@@ -334,7 +334,7 @@ class _AturCvPageState extends State<AturCvPage> {
                   showLoaderDialog(context);
                   await Future.delayed(const Duration(seconds: 2));
                   Navigator.of(context).pop(true);
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(),), (route) => false);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(indexs: 0),), (route) => false);
                 },
                 child: Center(
                   child: Text(

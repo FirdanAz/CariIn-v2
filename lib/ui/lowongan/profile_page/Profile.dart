@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
     KeterampilanPage()
   ];
 
-  getdata() async {
+  getData() async {
     _isLoad = true;
     await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     WorkerModel workerData = await ApiService().getWorker();
@@ -50,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     // TODO: implement initState
-    getdata();
+    getData();
     super.initState();
   }
 
@@ -132,136 +132,139 @@ class _ProfilePageState extends State<ProfilePage> {
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        constraints: BoxConstraints(maxWidth: 200),
-                                        child: Text(
-                                          workerModels!.data!.username.toString(),
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600,
-                                              color: color.white),
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: 6,
-                                      ),
-                                      Text(
-                                        'Front end developer',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                            color: color.white),
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    child: Expanded(
+                                      child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
+                                          Text(
+                                            workerModels!.data!.username.toString(),
+                                            overflow: TextOverflow.ellipsis,
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                                color: color.white),
+                                          ),
+                                          const SizedBox(
+                                            height: 6,
+                                          ),
+                                          Text(
+                                            workerModels!.data!.interested!,
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.w400,
+                                                color: color.white),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Expanded(
+                                                child: Row(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.location_on_rounded,
+                                                      color: color.white,
+                                                      size: 14,
+                                                    ),
+                                                    const SizedBox(
+                                                      width: 3,
+                                                    ),
+                                                    Expanded(
+                                                      child: Text(
+                                                        '${workerModels!.data!.address}, Indonesia',
+                                                        overflow: TextOverflow.ellipsis,
+                                                        style: TextStyle(
+                                                            fontSize: 13,
+                                                            color: color.white),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.man,
+                                                    color: color.white,
+                                                    size: 16,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 3,
+                                                  ),
+                                                  Text(
+                                                    '${workerModels!.data!.gender}',
+                                                    style: TextStyle(
+                                                        fontSize: 13,
+                                                        color: color.white),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            height: 25,
+                                          ),
                                           Row(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
                                               Icon(
-                                                Icons.location_on_rounded,
-                                                color: color.white,
-                                                size: 14,
+                                                Icons.email,
+                                                size: 17,
+                                                color: color.primary,
                                               ),
                                               const SizedBox(
                                                 width: 3,
                                               ),
-                                              SizedBox(
-                                                width: 100,
+                                              Container(
+                                                width: 130,
                                                 child: Text(
-                                                  '${workerModels!.data!.address}, Indonesia',
+                                                  '${workerModels!.data!.email}',
                                                   overflow: TextOverflow.ellipsis,
                                                   style: TextStyle(
-                                                      fontSize: 13,
-                                                      color: color.white),
+                                                      fontSize: 15,
+                                                      color: color.primary),
                                                 ),
-                                              )
+                                              ),
                                             ],
                                           ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
                                           Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
                                             children: [
                                               Icon(
-                                                Icons.man,
-                                                color: color.white,
-                                                size: 16,
+                                                Icons.sentiment_dissatisfied,
+                                                size: 17,
+                                                color: color.primary,
                                               ),
                                               const SizedBox(
                                                 width: 3,
                                               ),
                                               Text(
-                                                '${workerModels!.data!.gender}',
+                                                '${workerModels!.data!.age} Tahun',
                                                 style: TextStyle(
-                                                    fontSize: 13,
-                                                    color: color.white),
-                                              )
+                                                    fontSize: 15,
+                                                    color: color.primary),
+                                              ),
                                             ],
-                                          )
-                                        ],
-                                      ),
-                                      const SizedBox(
-                                        height: 25,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.email,
-                                            size: 17,
-                                            color: color.primary,
-                                          ),
-                                          const SizedBox(
-                                            width: 3,
-                                          ),
-                                          Container(
-                                            width: 130,
-                                            child: Text(
-                                              '${workerModels!.data!.email}',
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: color.primary),
-                                            ),
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.sentiment_dissatisfied,
-                                            size: 17,
-                                            color: color.primary,
-                                          ),
-                                          const SizedBox(
-                                            width: 3,
-                                          ),
-                                          Text(
-                                            '${workerModels!.data!.age} Tahun',
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                color: color.primary),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 )
                               ],

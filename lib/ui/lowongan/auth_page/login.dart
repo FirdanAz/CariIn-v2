@@ -158,7 +158,7 @@ class _LoginLowonganPageState extends State<LoginLowonganPage> {
                   await ApiService().postLogin(context, _emailController.text, _passwordController.text, 'worker');
                   await Future.delayed(const Duration(seconds: 1));
                   if(await PublicFunction.getToken('worker') != ''){
-                    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false);
+                    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(indexs: 0),), (route) => false);
                     Navigator.of(context).pop(true);
                   } else {
                     Navigator.of(context).pop(true);

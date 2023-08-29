@@ -98,14 +98,14 @@ class _NotifPageState extends State<NotifPage> {
                     ),
                     InkWell(
                       onTap: () async {
-                        if(_reverse == false){
+                        if(_reverse == false && listInboxModel!.data!.isNotEmpty){
                           showLoaderDialog(context);
                           await Future.delayed(const Duration(milliseconds: 500));
                           Navigator.of(context).pop();
                           setState(() {
                             _reverse = true;
                           });
-                        } else if(_reverse == true){
+                        } else if(_reverse == true && listInboxModel!.data!.isNotEmpty){
                           showLoaderDialog(context);
                           await Future.delayed(const Duration(milliseconds: 500));
                           Navigator.of(context).pop();
@@ -132,7 +132,16 @@ class _NotifPageState extends State<NotifPage> {
                     )
                   ],
                 ),
-                listInboxModel!.data!.isEmpty ? const Center(child: Text('Tidak ada Pemberitahuan'),) :
+                listInboxModel!.data!.isEmpty ?
+                Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: color.error.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: const Center(child: Text('Tidak ada Pemberitahuan'),),
+                ) :
                 ListView.builder(
                   reverse: _reverse,
                   physics: const BouncingScrollPhysics(),

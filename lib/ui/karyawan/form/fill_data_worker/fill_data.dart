@@ -87,7 +87,7 @@ class _FillDataWorkerState extends State<FillDataWorker> {
           });
           bool isSuccess = await ApiService().changeWorkerProfile(profileImageCompressed!);
           if(isSuccess == true){
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(indexs: 0),), (route) => false);
             showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Sukses Melengkapi Profile!'),);
           } else{
             showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Gagal Melengkapi Profile!'),);

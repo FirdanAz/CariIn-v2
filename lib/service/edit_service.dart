@@ -502,4 +502,37 @@ class DataService {
     }
   }
 
+  Future sendInbox(String idUser, String role, String subject, String message) async {
+    var endPoint = role == 'company' ? '/api/company/workers/$idUser/send-inbox' : '/api/worker/companies/$idUser/send-inbox';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken(role);
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+    final body = {
+      'subject' : subject,
+      'message' : message
+    };
+
+    try {
+      final response =
+      await http.post(Uri.parse(url), headers: headers, body: body);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print('Define Confirmation Success');
+        return true;
+      } else {
+        print(response.statusCode);
+        return false;
+      }
+    } on SocketException {
+      print('Tidak koneksi Internet');
+      return false;
+    } on HttpException {
+      print('HttpException');
+      return false;
+    }
+  }
+
 }

@@ -386,7 +386,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Peringatan!!', style: TextStyle(color: Colors.red, fontSize: 17),),
-                            Text('Status Perusahaan diluar autentifikasi!', style: TextStyle(color: Colors.black, fontSize: 15),),
+                            Text('Status Perusahaan sedang tidak aktif!', style: TextStyle(color: Colors.black, fontSize: 15),),
                           ],
                         ),
                         actions: [

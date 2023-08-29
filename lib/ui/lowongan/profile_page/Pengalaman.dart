@@ -68,7 +68,8 @@ class _PengalamanPageState extends State<PengalamanPage> {
               Container(
                 height: 60,
                 width: double.maxFinite,
-                padding: const EdgeInsets.all(10),
+                margin: EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: ElevatedButton(
                   style: ButtonStyle(
                       backgroundColor:
@@ -79,6 +80,13 @@ class _PengalamanPageState extends State<PengalamanPage> {
                   child: const Text('Tambah Pengalaman'),
                 ),
               ),
+              listExperienceModel!.data!.isEmpty ?
+              Container(
+                color: color.error.withOpacity(0.2),
+                margin: EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.all(10),
+                child: Center(child: Text('Belum ada pengalaman'),),
+              ) :
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: ListView.builder(
