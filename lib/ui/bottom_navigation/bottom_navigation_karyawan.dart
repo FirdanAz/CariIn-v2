@@ -4,7 +4,6 @@ import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_color.dart';
 import 'package:cariin_v2/ui/karyawan/home_page/home.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/kandidat.dart';
-import 'package:cariin_v2/ui/karyawan/notification/notification.dart';
 import 'package:cariin_v2/ui/karyawan/notification/notifikasi/notif_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';

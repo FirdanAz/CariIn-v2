@@ -1,6 +1,5 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/model/company/list_worker_model.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/detail.dart';
 import 'package:flutter/material.dart';

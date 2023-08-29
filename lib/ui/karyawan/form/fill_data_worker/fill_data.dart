@@ -2,15 +2,12 @@
 
 import 'dart:io';
 
-import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/model/worker/skill_list_model.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/widget/auth_text_field.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
@@ -90,7 +87,7 @@ class _FillDataWorkerState extends State<FillDataWorker> {
           });
           bool isSuccess = await ApiService().changeWorkerProfile(profileImageCompressed!);
           if(isSuccess == true){
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(indexs: 0),), (route) => false);
             showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Sukses Melengkapi Profile!'),);
           } else{
             showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Gagal Melengkapi Profile!'),);

@@ -2,7 +2,6 @@
 
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/public_function.dart';
-import 'package:cariin_v2/ui/karyawan/kandidat_page/lowongan/lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/pkl/pkl_page.dart';
 import 'package:cariin_v2/ui/karyawan/kandidat_page/pelamar/tab_worker/semua.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';

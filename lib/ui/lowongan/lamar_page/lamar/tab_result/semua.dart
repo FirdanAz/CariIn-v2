@@ -23,7 +23,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
   JobApplicationModel? jobApplicationModel;
   bool _isLoad = false;
 
-  getdata() async {
+  getData() async {
     _isLoad = true;
     await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
     JobApplicationModel allJob = await ApiService().getLamaranResult(widget.all, widget.value);
@@ -36,7 +36,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
   @override
   void initState() {
     // TODO: implement initState
-    getdata();
+    getData();
     super.initState();
   }
 
@@ -51,7 +51,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
         body: _isLoad ? ShimmerPelamar(itemCount: 7,) : RefreshIndicator(
             onRefresh: () async {
               setState(() {
-                getdata();
+                getData();
               });
             },
             child: jobApplicationModel!.data!.length != 0 ? ListView.builder(

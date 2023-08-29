@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';

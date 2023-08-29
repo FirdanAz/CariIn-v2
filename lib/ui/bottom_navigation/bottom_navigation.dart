@@ -6,7 +6,8 @@ import 'package:cariin_v2/ui/lowongan/profile_page/Profile.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavigation extends StatefulWidget {
-  const CustomBottomNavigation({super.key});
+  CustomBottomNavigation({super.key, required this.indexs});
+  int indexs;
 
   @override
   State<CustomBottomNavigation> createState() => _CustomBottomNavigationState();
@@ -45,18 +46,24 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
 
+    setState(() {
+      widget.indexs = widget.indexs;
+    });
+
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        body: _page[_pageIndex],
+        // body: _page[_pageIndex],
+        body: _page[widget.indexs],
         bottomNavigationBar: NavigationBar(
-          selectedIndex: _pageIndex,
+          backgroundColor: color.background,
+          selectedIndex: widget.indexs,
           height: 73,
           destinations: [
             NavigationDestination(
                 icon: Icon(
                   Icons.home_filled,
-                  color: _pageIndex == 0
+                  color: widget.indexs == 0
                       ? color.white
                       : Theme.of(context).iconTheme.color!.withOpacity(0.5),
                 ),
@@ -64,7 +71,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
             NavigationDestination(
                 icon: Icon(
                   Icons.work,
-                  color: _pageIndex == 1
+                  color: widget.indexs == 1
                       ? color.white
                       : Theme.of(context).iconTheme.color!.withOpacity(0.5),
                 ),
@@ -72,7 +79,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
             NavigationDestination(
                 icon: Icon(
                   Icons.message,
-                  color: _pageIndex == 2
+                  color: widget.indexs == 2
                       ? color.white
                       : Theme.of(context).iconTheme.color!.withOpacity(0.5),
                 ),
@@ -80,14 +87,14 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
             NavigationDestination(
                 icon: Icon(
                   Icons.person,
-                  color: _pageIndex == 3
+                  color: widget.indexs == 3
                       ? color.white
                       : Theme.of(context).iconTheme.color!.withOpacity(0.5),
                 ),
                 label: "Profil"),
           ],
           onDestinationSelected: (value) => setState(() {
-            _pageIndex = value;
+            widget.indexs = value;
           }),
         ),
       ),

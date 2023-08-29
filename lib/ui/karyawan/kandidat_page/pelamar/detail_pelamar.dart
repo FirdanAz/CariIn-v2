@@ -6,7 +6,6 @@ import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/service/edit_service.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamar_process_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';

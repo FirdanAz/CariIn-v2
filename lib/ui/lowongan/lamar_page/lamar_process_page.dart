@@ -363,6 +363,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
             if(cvFile != null && _descriptionController.text.isNotEmpty){
               bool isSuccess = await ApiService().postWorkerJob(context, widget.jobId.toString(), _descriptionController.text, cvFile!);
               if(isSuccess == true){
+                await DataService().sendInbox(widget.companyId.toString(), 'worker', 'Lamaran Baru!', '${workerDetailModel!.data!.username!} baru saja melamar di salah satu pekerjaanmu!!');
                 await FirebaseApiService().firebaseSendNotif(deviceToken!, 'Kamu mendapat lamaran baru', '${workerDetailModel!.data!.username} baru saja melamar di salah satu pekerjaanmu!!', 'https://cariin.my.id/storage/${workerDetailModel!.data!.profilImage}');
                 showDialog(context: context, builder: (context) {
                   return AlertDialog(
@@ -372,7 +373,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
                     ),
                     actions: [
                       TextButton(
-                          onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const CustomBottomNavigation(),), (route) => false),
+                          onPressed: () => Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(indexs: 1),), (route) => false),
                           child: const Text("Iya")),
                     ],
                   );
