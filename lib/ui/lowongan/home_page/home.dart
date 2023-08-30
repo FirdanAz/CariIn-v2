@@ -48,6 +48,7 @@ class _HomePageState extends State<HomePage> {
     await DataService().editMyDeviceToken(fcmToken!, 'worker');
     setState(() {
       allJobWorkerModel = allJob;
+      allJobWorkerModel!.data = allJob.data!.where((element) => element.company!.id!.toString().toLowerCase() == '1'.toLowerCase()).toList();
       profileWorkerModel = workerModel;
     });
 
