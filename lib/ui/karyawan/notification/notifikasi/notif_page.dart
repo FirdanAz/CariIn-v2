@@ -30,6 +30,7 @@ class _NotifPageState extends State<NotifPage> {
     ListInboxModel inboxModel = await DataService().getInboxList('company');
     setState(() {
       listInboxModel = inboxModel;
+      //listInboxModel!.data?.sort((a, b) => a.read.toString().compareTo('false'));
     });
     _isLoad = false;
   }
@@ -89,7 +90,7 @@ class _NotifPageState extends State<NotifPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      _reverse ? 'Terbaru' : 'Terlama',
+                      _reverse ? 'Terbaru' :'Terlama',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w400,

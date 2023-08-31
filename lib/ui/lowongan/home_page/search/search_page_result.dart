@@ -183,7 +183,7 @@ class _ListSearchResultState extends State<ListSearchResult> {
                               height: 140,
                               width: double.maxFinite,
                               margin:
-                              const EdgeInsets.only(top: 20),
+                              const EdgeInsets.only(top: 10),
                               decoration: BoxDecoration(
                                 color: color.white,
                                 boxShadow: [

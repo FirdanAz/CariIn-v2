@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
     await DataService().editMyDeviceToken(fcmToken!, 'worker');
     setState(() {
       allJobWorkerModel = allJob;
-      allJobWorkerModel!.data = allJob.data!.where((element) => element.company!.id!.toString().toLowerCase() == '1'.toLowerCase()).toList();
+      allJobWorkerModel!.data = allJob.data!.where((element) => element.confirmedStatus!.toLowerCase().toString().contains('terverifikasi'.toLowerCase())).toList();
       profileWorkerModel = workerModel;
     });
 
@@ -323,7 +323,7 @@ class _HomePageState extends State<HomePage> {
                             margin:
                             const EdgeInsets.only(top: 20, left: 10, right: 10),
                             decoration: BoxDecoration(
-                              color: color.white,
+                              color: allJobWorkerModel!.data![index].confirmedStatus == 'terverifikasi '? Colors.green : color.white,
                               boxShadow: [
                                 BoxShadow(
                                   color: color.primaryContainer.withOpacity(0.5),
