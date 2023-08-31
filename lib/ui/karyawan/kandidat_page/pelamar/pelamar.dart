@@ -8,6 +8,8 @@ import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../common/app_color.dart';
+import '../../../../model/worker/worker_application_model.dart';
+import '../../../../service/api_service.dart';
 import '../../../bottom_navigation/bottom_navigation_karyawan.dart';
 
 class PelamarTab extends StatefulWidget {
@@ -19,13 +21,32 @@ class PelamarTab extends StatefulWidget {
 
 class _PelamarTabState extends State<PelamarTab> {
   bool _isLoad = false;
+  WorkerApplicationModel? jobApplicationModel;
+  WorkerApplicationModel? belumDireview;
+  WorkerApplicationModel? sudahDireview;
+  WorkerApplicationModel? prosessWawancara;
+  WorkerApplicationModel? pelamarDiterima;
+  WorkerApplicationModel? pelamarDitolak;
 
   waiting() async {
     _isLoad = true;
-    await Future.delayed(Duration(seconds: 1));
+    String oldToken = await PublicFunction.getToken('company');
+    await ApiService().RefreshToken('company', oldToken);
+    WorkerApplicationModel allJob = await ApiService().getWorkerResult(true, '');
+    WorkerApplicationModel job1 = await ApiService().getWorkerResult(false, 'mengirim');
+    WorkerApplicationModel job2 = await ApiService().getWorkerResult(false, 'direview');
+    WorkerApplicationModel job3 = await ApiService().getWorkerResult(false, 'wawancara');
+    WorkerApplicationModel job4 = await ApiService().getWorkerResult(false, 'diterima');
+    WorkerApplicationModel job5 = await ApiService().getWorkerResult(false, 'ditolak');
     setState(() {
-      _isLoad = false;
-    });;
+      jobApplicationModel = allJob;
+      belumDireview = job1;
+      sudahDireview = job2;
+      prosessWawancara = job3;
+      pelamarDiterima = job4;
+      pelamarDitolak = job5;
+    });
+    _isLoad = false;
   }
 
   @override
@@ -94,6 +115,7 @@ class _PelamarTabState extends State<PelamarTab> {
                                     child: PelamarCard(
                                       icon: AppAssets.flaticonSemuaWorker,
                                       title: 'Semua Pelamar',
+                                      value: jobApplicationModel!.data!.length,
                                     )),
                                 InkWell(
                                     onTap: () {
@@ -102,6 +124,7 @@ class _PelamarTabState extends State<PelamarTab> {
                                     child: PelamarCard(
                                       icon: AppAssets.flaticonSedangReview,
                                       title: 'Belum Direview',
+                                      value: belumDireview!.data!.length,
                                     )),
                                 InkWell(
                                     onTap: () {
@@ -110,6 +133,7 @@ class _PelamarTabState extends State<PelamarTab> {
                                     child: PelamarCard(
                                       icon: AppAssets.flaticonSudahReview,
                                       title: 'Sudah Direview',
+                                      value: sudahDireview!.data!.length,
                                     )),
                                 InkWell(
                                   onTap: () {
@@ -118,6 +142,7 @@ class _PelamarTabState extends State<PelamarTab> {
                                   child: PelamarCard(
                                     icon: AppAssets.flaticonWawancaraWorker,
                                     title: 'Proses Wawancara',
+                                    value: prosessWawancara!.data!.length,
                                   ),
                                 ),
                                 InkWell(
@@ -127,6 +152,7 @@ class _PelamarTabState extends State<PelamarTab> {
                                   child: PelamarCard(
                                     icon: AppAssets.flaticonPelamarDiterima,
                                     title: 'Pelamar Diterima',
+                                    value: pelamarDiterima!.data!.length,
                                   ),
                                 ),
                                 InkWell(
@@ -136,6 +162,7 @@ class _PelamarTabState extends State<PelamarTab> {
                                   child: PelamarCard(
                                     icon: AppAssets.flaticonPelamarDitolak,
                                     title: 'Pelamar Ditolak',
+                                    value: pelamarDitolak!.data!.length,
                                   ),
                                 ),
                               ],
@@ -268,28 +295,43 @@ class _PelamarTabState extends State<PelamarTab> {
 
 class PelamarCard extends StatelessWidget {
   PelamarCard(
-      {Key? key, required this.icon, required this.title})
+      {Key? key, required this.icon, required this.title, required this.value})
       : super(key: key);
   String icon;
   String title;
+  int value;
 
   @override
   Widget build(BuildContext context) {
+    final color = AppColor.theme(Theme.of(context).brightness);
     return Container(
       constraints: const BoxConstraints(maxWidth: 110),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
+          alignment: Alignment.topRight,
           children: [
-            Expanded(child: Image.asset(icon, width: double.maxFinite,)),
-            const SizedBox(
-              height: 20,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(child: Image.asset(icon, width: double.maxFinite,)),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  title,
+                  textAlign: TextAlign.center,
+                )
+              ],
             ),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-            )
+            value != 0 ? CircleAvatar(
+              backgroundColor: color.primaryContainer,
+              radius: 10,
+              child: Text('$value', style: TextStyle(
+                color: color.primary,
+                fontSize: 10
+              ),),
+            ) : Container()
           ],
         ),
       ),

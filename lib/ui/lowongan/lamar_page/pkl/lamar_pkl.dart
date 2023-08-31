@@ -37,6 +37,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
   File? suratBuktiFile;
 
   String? deviceToken;
+  String cvPath = 'cariin/cv/aplikasi';
 
   getData() async {
     _isLoad = true;
@@ -143,6 +144,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
                                       File files = await PublicFunction.getPdf(data.id!, data.username!, data.interested!, data.age!.toString(), data.address!, data.phoneNumber! , data.email!, data.gender!);
                                       setState(() {
                                         cvFile = files;
+                                        cvPath = files.path;
                                       });
                                       Navigator.of(context).pop();
                                     },
@@ -164,7 +166,14 @@ class _LamarPklPageState extends State<LamarPklPage> {
                                   ),
                                   const SizedBox(height: 10,),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () async {
+                                      cvFile = await _pickFile();
+                                      Navigator.of(context).pop();
+                                      setState(() {
+                                        cvFile;
+                                        cvPath = cvFile!.path;
+                                      });
+                                    },
                                     child: const Text('Tambah dari perangkat'),
                                   )
                                 ],
@@ -201,7 +210,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
                               children: [
                                 Icon(Icons.picture_as_pdf_outlined, color: color.white,),
                                 const SizedBox(width: 10,),
-                                Text(myCvModel!.data!.cvFile!, style: TextStyle(color: color.white),)
+                                Expanded(child: Text(cvPath, maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(color: color.white),))
                               ],
                             ),
                           ),
