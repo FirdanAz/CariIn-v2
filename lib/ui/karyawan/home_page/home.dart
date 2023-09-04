@@ -6,6 +6,7 @@ import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/karyawan/detail_profile/profil_comapny.dart';
 import 'package:cariin_v2/ui/karyawan/form/fill_data_company/fill_data.dart';
+import 'package:cariin_v2/ui/karyawan/form/lowongan/create/lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/form/lowongan/create_lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/list_karyawan/karyawan_list_all.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
@@ -321,7 +322,7 @@ class _HomePageKaryawanState extends State<HomePageKaryawan> {
                             ),
                             InkWell(
                               onTap: () {
-                                PublicFunction.navigatorPush(context, const CreateLowonganPage());
+                                PublicFunction.navigatorPush(context, const CreateLowongan());
                               },
                               child: Container(
                                 width: double.maxFinite,

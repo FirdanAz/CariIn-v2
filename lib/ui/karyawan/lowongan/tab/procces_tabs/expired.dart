@@ -14,14 +14,14 @@ import '../../../../../service/api_service.dart';
 import '../../../detail_lowongan/page.dart';
 import '../../../form/lowongan/create_lowongan.dart';
 
-class ProccesSemuaTab extends StatefulWidget {
-  const ProccesSemuaTab({Key? key}) : super(key: key);
+class ProccessExpiredTab extends StatefulWidget {
+  const ProccessExpiredTab({Key? key}) : super(key: key);
 
   @override
-  State<ProccesSemuaTab> createState() => _ProccesSemuaTabState();
+  State<ProccessExpiredTab> createState() => _ProccessExpiredTabState();
 }
 
-class _ProccesSemuaTabState extends State<ProccesSemuaTab> {
+class _ProccessExpiredTabState extends State<ProccessExpiredTab> {
   bool _isLoad = false;
   JobCompanyModel? allJobCompany;
 
@@ -32,6 +32,11 @@ class _ProccesSemuaTabState extends State<ProccesSemuaTab> {
     JobCompanyModel allJob = await ApiService().jobsCompany(true, '');
     setState(() {
       allJobCompany = allJob;
+      allJobCompany!.data = allJob.data!.where((element) {
+        DateTime expDate = DateTime.parse(element.expiredDate.toString());
+        DateTime currentDate = DateTime.now();
+        return expDate.isBefore(currentDate);
+      },).toList();
     });
     if (kDebugMode) {
       print(allJob);
@@ -58,7 +63,7 @@ class _ProccesSemuaTabState extends State<ProccesSemuaTab> {
         itemCount: allJobCompany!.data!.length,
         itemBuilder: (context, index) {
           var job = allJobCompany!.data![index];
-          DateTime? date = DateTime.parse(job.createdAt.toString());
+          DateTime? date = DateTime.parse(job.expiredDate.toString());
           return InkWell(
             onTap: () => Navigator.push(
                 context,
@@ -223,7 +228,7 @@ class _ProccesSemuaTabState extends State<ProccesSemuaTab> {
                   width: double.maxFinite,
                   margin: EdgeInsets.only(left: 15, right: 15),
                   decoration: BoxDecoration(
-                    color: color.primary,
+                    color: Colors.orange,
                     borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(20)),
                     boxShadow: [
@@ -239,7 +244,7 @@ class _ProccesSemuaTabState extends State<ProccesSemuaTab> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(GetTimeAgo.parse(date, locale: 'id'),
+                      Text('Kadaluarsa ${GetTimeAgo.parse(date, locale: 'id')}',
                           style: TextStyle(
                               color: color.white,
                               fontWeight: FontWeight.w500,

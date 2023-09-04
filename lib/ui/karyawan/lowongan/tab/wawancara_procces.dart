@@ -2,6 +2,7 @@
 
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/lowongan/tab/procces_tabs/diterima.dart';
+import 'package:cariin_v2/ui/karyawan/lowongan/tab/procces_tabs/expired.dart';
 import 'package:cariin_v2/ui/karyawan/lowongan/tab/procces_tabs/menunggu.dart';
 import 'package:cariin_v2/ui/karyawan/lowongan/tab/procces_tabs/semua.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +24,8 @@ class _LowonganProccesPageState extends State<LowonganProccesPage> {
     final List<Widget> tabView = [
       const ProccesSemuaTab(),
       const ProccesMenungguTab(),
-      const ProccesDiterimaTab()
+      const ProccesDiterimaTab(),
+      const ProccessExpiredTab()
     ];
     return RefreshIndicator(
       onRefresh: () async {
@@ -37,7 +39,7 @@ class _LowonganProccesPageState extends State<LowonganProccesPage> {
             Align(
               alignment: Alignment.centerLeft,
               child: ChipTabBar(
-                length: 3,
+                length: 4,
                 itemDistance: Responsive.byWidth(12),
                 padding: EdgeInsets.symmetric(
                   horizontal: Responsive.byWidth(15),
@@ -46,7 +48,8 @@ class _LowonganProccesPageState extends State<LowonganProccesPage> {
                 tabLabels: const [
                   "Semua",
                   "Belum Terverifikasi",
-                  "Terverifikasi"
+                  "Terverifikasi",
+                  "Kadaluarsa"
                 ],
                 onTap: (value) => _tabIndex.value = value,
               ),
