@@ -11,6 +11,8 @@ import 'package:cariin_v2/model/recruit/ricruit_detail_model.dart';
 import 'package:cariin_v2/model/worker/skill_list_model.dart';
 import 'package:cariin_v2/model/worker/worker_profile_model.dart';
 import 'package:cariin_v2/model/worker/worker_recruit_list.dart';
+import 'package:cariin_v2/ui/karyawan/auth/login.dart';
+import 'package:cariin_v2/ui/lowongan/auth_page/login.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -164,7 +166,7 @@ class ApiService {
       if (response.statusCode == 200) {
         String token = json.decode(response.body)['data']['token'];
         await PublicFunction.setTokenCompany(token, role);
-      } else if (role == 'comapany') {
+      } else {
         if (kDebugMode) {
           print('error auth');
         }
@@ -447,25 +449,13 @@ class ApiService {
     }
   }
 
-  Future postRegisterWorker(
-      BuildContext context,
-      String email,
-      String password,
-      String name,
-      String gender,
-      String phone_number,
-      String born_date,
-      String address) async {
+  Future postRegisterWorker(BuildContext context, String email, String password, String name) async {
     var endPoint = '/api/worker/register';
     final url = '$_baseUrl$endPoint';
     final body = {
       'username': name,
       'email': email,
-      'password': password,
-      'gender': gender,
-      'phone_number': phone_number,
-      'born_date': born_date,
-      'address': address
+      'password': password
     };
     final headers = {'Accept': 'application/json'};
 
@@ -716,7 +706,10 @@ class ApiService {
       String maximum_age,
       String description,
       List<int> tags,
-      String pkl_status) async {
+      String pkl_status,
+      String expDate,
+      String workerAvailable
+      ) async {
     var endPoint = '/api/company/jobs/create';
     final url = Uri.parse('$_baseUrl$endPoint');
     String token = await PublicFunction.getToken('company');
@@ -734,7 +727,9 @@ class ApiService {
       "tags[0]": '1',
       "tags[1]": '4',
       "tags[2]": '7',
-      "pkl_status": pkl_status
+      "pkl_status": pkl_status,
+      "expired_date" : expDate,
+      "worker_available" : workerAvailable
     };
 
     final headers = {
@@ -824,6 +819,49 @@ class ApiService {
       ..files.add(await http.MultipartFile.fromPath('profile_image', profilImage.path))
       ..files.add(await http.MultipartFile.fromPath('inside_image', insideImage.path))
       ..files.add(await http.MultipartFile.fromPath('outside_image', outsideImage.path));
+
+    final response = await request.send().timeout(const Duration(seconds: 15));
+
+    final res = await http.Response.fromStream(response);
+    print(res.body);
+
+    if (res.statusCode == 201) {
+      return true;
+    } else {
+      print('HttpException');
+      return false;
+    }
+  }
+
+  Future postFillDataWorker(
+      BuildContext context,
+      File profileImage,
+      String gender,
+      String phoneNumber,
+      String bornDate,
+      String address,
+      String interested
+      ) async {
+    var endPoint = '/api/worker/fill-data';
+    final url = Uri.parse('$_baseUrl$endPoint');
+    String token = await PublicFunction.getToken('worker');
+    var body = {
+      'gender': gender,
+      'phone_number': phoneNumber,
+      'born_date': bornDate,
+      'address': address,
+      'interested': interested,
+    };
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    final request = http.MultipartRequest('POST', url)
+      ..headers.addAll(headers)
+      ..fields.addAll(body)
+      ..files.add(await http.MultipartFile.fromPath('profile_image', profileImage.path));
 
     final response = await request.send().timeout(const Duration(seconds: 15));
 

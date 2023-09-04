@@ -625,72 +625,72 @@ class _CreateLowonganPageState extends State<CreateLowonganPage> {
                 ),
               ),
             ),
-            bottomNavigationBar: BottomAppBar(
-              height: 80,
-              child: InkWell(
-                onTap: () async {
-                  compressSelectedImage =
-                      await PublicFunction.compressImage(selectedImage!, 50, 'cover');
-                  compressBackdropImage =
-                      await PublicFunction.compressImage(backdropImage!, 50, 'backdrop');
-
-                  bool isSuccess = await ApiService().postcreateLowongan(
-                    context,
-                    _namaController.text,
-                    compressSelectedImage!,
-                    compressBackdropImage!,
-                    _addressController.text,
-                    selectedValueTime,
-                    _salaryController.text,
-                    profilCompanyModel!.data!.id!.toString(),
-                    selectedValue,
-                    'bebas',
-                    _minAgeController.text,
-                    _maxAgeController.text,
-                    _descriptionController.text,
-                    [1, 4, 7],
-                    _selectedValue.toString(),
-                  );
-                  if (isSuccess == true) {
-                    setState(() {
-                      Navigator.of(context).pop();
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return PublicFunction.showDialog(context,
-                              'Menunggu 1x24 Jam untuk dikonfirmasi oleh admin');
-                        },
-                      );
-                    });
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return PublicFunction.showDialog(
-                            context, 'Lowongan Gagal dibuat');
-                      },
-                    );
-                  }
-                },
-                child: Container(
-                  height: 60,
-                  width: double.maxFinite,
-                  decoration: BoxDecoration(
-                      color: color.primary,
-                      borderRadius: BorderRadius.circular(10)),
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Center(
-                    child: Text(
-                      'Buat Lowongan',
-                      style: TextStyle(
-                          color: color.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            // bottomNavigationBar: BottomAppBar(
+            //   height: 80,
+            //   child: InkWell(
+            //     onTap: () async {
+            //       compressSelectedImage =
+            //           await PublicFunction.compressImage(selectedImage!, 50, 'cover');
+            //       compressBackdropImage =
+            //           await PublicFunction.compressImage(backdropImage!, 50, 'backdrop');
+            //
+            //       bool isSuccess = await ApiService().postcreateLowongan(
+            //         context,
+            //         _namaController.text,
+            //         compressSelectedImage!,
+            //         compressBackdropImage!,
+            //         _addressController.text,
+            //         selectedValueTime,
+            //         _salaryController.text,
+            //         profilCompanyModel!.data!.id!.toString(),
+            //         selectedValue,
+            //         'bebas',
+            //         _minAgeController.text,
+            //         _maxAgeController.text,
+            //         _descriptionController.text,
+            //         [1, 4, 7],
+            //         _selectedValue.toString(),
+            //       );
+            //       if (isSuccess == true) {
+            //         setState(() {
+            //           Navigator.of(context).pop();
+            //           showDialog(
+            //             context: context,
+            //             builder: (context) {
+            //               return PublicFunction.showDialog(context,
+            //                   'Menunggu 1x24 Jam untuk dikonfirmasi oleh admin');
+            //             },
+            //           );
+            //         });
+            //       } else {
+            //         showDialog(
+            //           context: context,
+            //           builder: (context) {
+            //             return PublicFunction.showDialog(
+            //                 context, 'Lowongan Gagal dibuat');
+            //           },
+            //         );
+            //       }
+            //     },
+            //     child: Container(
+            //       height: 60,
+            //       width: double.maxFinite,
+            //       decoration: BoxDecoration(
+            //           color: color.primary,
+            //           borderRadius: BorderRadius.circular(10)),
+            //       margin: const EdgeInsets.symmetric(horizontal: 10),
+            //       child: Center(
+            //         child: Text(
+            //           'Buat Lowongan',
+            //           style: TextStyle(
+            //               color: color.white,
+            //               fontSize: 18,
+            //               fontWeight: FontWeight.w500),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           );
   }
 }

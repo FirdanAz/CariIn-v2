@@ -14,14 +14,14 @@ import 'package:introduction_screen/introduction_screen.dart';
 import '../../../../common/app_color.dart';
 import '../../../../service/api_service.dart';
 
-class FillDataWorker extends StatefulWidget {
-  const FillDataWorker({Key? key}) : super(key: key);
+class FillDataProfileWorker extends StatefulWidget {
+  const FillDataProfileWorker({Key? key}) : super(key: key);
 
   @override
-  State<FillDataWorker> createState() => _FillDataWorkerState();
+  State<FillDataProfileWorker> createState() => _FillDataProfileWorkerState();
 }
 
-class _FillDataWorkerState extends State<FillDataWorker> {
+class _FillDataProfileWorkerState extends State<FillDataProfileWorker> {
   File? profileImage;
   File? profileImageCompressed;
   SkillListModel? skillListModel;

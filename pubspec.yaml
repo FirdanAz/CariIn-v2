@@ -62,6 +62,7 @@ dependencies:
   firebase_core:
   flutter_local_notifications:
   cloud_firestore:
+  lecle_downloads_path_provider: ^0.0.2+8
 
 
 dev_dependencies:

@@ -31,6 +31,11 @@ class _SemuaTabsState extends State<SemuaTabs> {
     WorkerApplicationModel allJob = await ApiService().getWorkerResult(widget.all, widget.value);
     setState(() {
       jobApplicationModel = allJob;
+      jobApplicationModel!.data!.sort((a, b) {
+        DateTime dateA = DateTime.parse(a.createdAt.toString());
+        DateTime dateB = DateTime.parse(b.createdAt.toString());
+        return dateB.compareTo(dateA);
+      },);
     });
     _isLoad = false;
   }
@@ -82,38 +87,43 @@ class _SemuaTabsState extends State<SemuaTabs> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 30,
-                          backgroundImage: NetworkImage('https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg'),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                '${data.worker!.username}',
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w400,
+                    Expanded(
+                      child: Row(
+                        children: [
+                          const CircleAvatar(
+                            radius: 30,
+                            backgroundImage: NetworkImage('https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg'),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(left: 5),
+                                  child: Text(
+                                    '${data.worker!.username}',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                GetTimeAgo.parse(date, locale: 'id'),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w400,
+                                Container(
+                                  margin: const EdgeInsets.only(left: 5),
+                                  child: Text(
+                                    GetTimeAgo.parse(date, locale: 'id'),
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              ],
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                        ],
+                      ),
                     ),
                     data.confirmedStatus == 'diterima' ? Container(padding: const EdgeInsets.symmetric(
                       vertical: 5,
