@@ -30,10 +30,12 @@ class JobCompanyModel {
 class Data {
   int? id;
   String? title;
+  String? coverImage;
   String? description;
   int? salary;
   List<Tags>? tags;
   Company? company;
+  String? expiredDate;
   bool? pklStatus;
   String? confirmedStatus;
   String? createdAt;
@@ -41,10 +43,12 @@ class Data {
   Data(
       {this.id,
         this.title,
+        this.coverImage,
         this.description,
         this.salary,
         this.tags,
         this.company,
+        this.expiredDate,
         this.pklStatus,
         this.confirmedStatus,
         this.createdAt});
@@ -52,6 +56,7 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
+    coverImage = json['cover_image'];
     description = json['description'];
     salary = json['salary'];
     if (json['tags'] != null) {
@@ -62,6 +67,7 @@ class Data {
     }
     company =
     json['company'] != null ? new Company.fromJson(json['company']) : null;
+    expiredDate = json['expired_date'];
     pklStatus = json['pkl_status'];
     confirmedStatus = json['confirmed_status'];
     createdAt = json['created_at'];
@@ -71,6 +77,7 @@ class Data {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
+    data['cover_image'] = this.coverImage;
     data['description'] = this.description;
     data['salary'] = this.salary;
     if (this.tags != null) {
@@ -79,6 +86,7 @@ class Data {
     if (this.company != null) {
       data['company'] = this.company!.toJson();
     }
+    data['expired_date'] = this.expiredDate;
     data['pkl_status'] = this.pklStatus;
     data['confirmed_status'] = this.confirmedStatus;
     data['created_at'] = this.createdAt;

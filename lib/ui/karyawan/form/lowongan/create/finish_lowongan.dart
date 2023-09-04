@@ -463,8 +463,6 @@ class _FillFinishLowonganState extends State<FillFinishLowongan> {
               backdropImage != null &&
               _descriptionController.text.isNotEmpty) {
             showLoaderDialog(context);
-            await Future.delayed(const Duration(seconds: 2));
-            Navigator.of(context).pop();
             compressSelectedImage =
                 await PublicFunction.compressImage(selectedImage!, 50, 'cover');
             compressBackdropImage = await PublicFunction.compressImage(
@@ -488,6 +486,7 @@ class _FillFinishLowonganState extends State<FillFinishLowongan> {
                 widget.expDate,
                 widget.workerAvailable
             );
+            Navigator.of(context).pop();
             if (success == true) {
               setState(() {
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 2),), (route) => false);

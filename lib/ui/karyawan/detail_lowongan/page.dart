@@ -1,6 +1,7 @@
 import 'package:cariin_v2/common/currency_format.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/service/api_service.dart';
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:cariin_v2/ui/karyawan/detail_lowongan/tab_perusahaan.dart';
 import 'package:cariin_v2/ui/view_image/view_image.dart';
 import 'package:flutter/material.dart';
@@ -322,11 +323,41 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
             width: Responsive.byWidth(160),
             child: OutlinedButton(
               onPressed: () async {
-                ApiService().deleteJob(context: context, id: widget.id.toString());
-                Navigator.of(context).pop();
-                setState(() {
-                  Navigator.of(context).initState();
-                });
+                showDialog(context: context, builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Hapus Lowongan', style: TextStyle(fontSize: 15),),
+                    actions: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text('Yakin untuk menghapush Lowongan ini?', style: TextStyle(color: Colors.black.withOpacity(0.5)),),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('Batal'),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    ApiService().deleteJob(context: context, id: widget.id.toString());
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => KaryawanBottomNavigation(indexs: 2),), (route) => false);
+                                    setState(() {
+                                      Navigator.of(context).initState();
+                                    });
+                                  },
+                                  child: Text('Hapus'),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                },);
               },
               style: OutlinedButton.styleFrom(
                 side: BorderSide(color: color.error),

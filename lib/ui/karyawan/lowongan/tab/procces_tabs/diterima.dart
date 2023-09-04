@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cariin_v2/ui/karyawan/form/lowongan/create/lowongan.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -52,6 +53,7 @@ class _ProccesDiterimaTabState extends State<ProccesDiterimaTab> {
     return _isLoad
         ? ShimmerJobCard(marginHorizon: 20,)
         : allJobCompany!.data!.isNotEmpty ? ListView.builder(
+      reverse: true,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: allJobCompany!.data!.length,
@@ -291,7 +293,7 @@ class _ProccesDiterimaTabState extends State<ProccesDiterimaTab> {
                 horizontal: 40
             ),
             child: InkWell(
-              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateLowonganPage(),)),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateLowongan(),)),
               child: Container(
                 width: double.maxFinite,
                 height: 50,

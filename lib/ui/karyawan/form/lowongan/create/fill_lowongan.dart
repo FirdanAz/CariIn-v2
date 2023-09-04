@@ -1,13 +1,24 @@
 // ignore_for_file: must_be_immutable, use_build_context_synchronously
 
+import 'dart:math';
+
 import 'package:cariin_v2/ui/karyawan/form/lowongan/create/finish_lowongan.dart';
 import 'package:flutter/material.dart';
+import 'package:get_time_ago/get_time_ago.dart';
 
 import '../../../../../common/app_color.dart';
 import '../../../../../common/public_function.dart';
 
 class FillLowongan extends StatefulWidget {
-  FillLowongan({Key? key, required this.title, required this.location, required this.timeType, required this.gender, required this.education, required this.workerAvailable}) : super(key: key);
+  FillLowongan(
+      {Key? key,
+      required this.title,
+      required this.location,
+      required this.timeType,
+      required this.gender,
+      required this.education,
+      required this.workerAvailable})
+      : super(key: key);
   String title;
   String location;
   String timeType;
@@ -32,7 +43,10 @@ class _FillLowonganState extends State<FillLowongan> {
   bool pklStatus = false;
 
   String dateString = 'Pilih Tanggal';
-  String date = '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}${DateTime.now().second}';
+  String dateValue = '';
+  DateTime dateTime = DateTime.now();
+  String date =
+      '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}${DateTime.now().second}';
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +57,13 @@ class _FillLowonganState extends State<FillLowongan> {
         backgroundColor: color.background,
         title: Row(
           children: [
-            const Text('Buat Lowo...', style: TextStyle(fontSize: 17),),
-            Expanded(child: Text(widget.title, style: TextStyle(fontSize: 17, color: color.primary)))
+            const Text(
+              'Buat Lowo...',
+              style: TextStyle(fontSize: 17),
+            ),
+            Expanded(
+                child: Text(widget.title,
+                    style: TextStyle(fontSize: 17, color: color.primary)))
           ],
         ),
         leading: InkWell(
@@ -58,7 +77,9 @@ class _FillLowonganState extends State<FillLowongan> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _dropDown('Gaji(*Perkiraan)', 'Gaji perkiraan akan ditampikan setiap Pelamar sedang mencari lowongan',
+              _dropDown(
+                'Gaji(*Perkiraan)',
+                'Gaji perkiraan akan ditampikan setiap Pelamar sedang mencari lowongan',
                 SizedBox(
                   height: 70,
                   width: double.maxFinite,
@@ -85,49 +106,53 @@ class _FillLowonganState extends State<FillLowongan> {
                       items: salary),
                 ),
               ),
-              _dropDown('Umur Minimal', 'Umur Minimal(Wajib Diisi) digunakan untuk mencari karyawan yang sesuai',
+              _dropDown(
+                'Umur Minimal',
+                'Umur Minimal(Wajib Diisi) digunakan untuk mencari karyawan yang sesuai',
                 SizedBox(
                   height: 70,
                   width: double.maxFinite,
                   child: DropdownButton<String>(
-                    itemHeight: 50,
-                    isExpanded: true,
-                    value: selectedAge,
-                    onChanged: (newValue) {
-                      setState(() {
-                        selectedAge = newValue!;
-                      });
-                    },
-                    icon: Container(
-                        alignment: Alignment.centerRight,
-                        child: const Icon(Icons.arrow_drop_down)),
-                    style: TextStyle(color: color.black),
-                    items: ageMin
-                  ),
+                      itemHeight: 50,
+                      isExpanded: true,
+                      value: selectedAge,
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedAge = newValue!;
+                        });
+                      },
+                      icon: Container(
+                          alignment: Alignment.centerRight,
+                          child: const Icon(Icons.arrow_drop_down)),
+                      style: TextStyle(color: color.black),
+                      items: ageMin),
                 ),
               ),
-              _dropDown('Umur Maximal (Opsional)', 'Umur Maximal(Tidak Wajib Diisi) digunakan untuk mencari karyawan yang sesuai',
+              _dropDown(
+                'Umur Maximal (Opsional)',
+                'Umur Maximal(Tidak Wajib Diisi) digunakan untuk mencari karyawan yang sesuai',
                 SizedBox(
                   height: 70,
                   width: double.maxFinite,
                   child: DropdownButton<String>(
-                    itemHeight: 50,
-                    isExpanded: true,
-                    value: selectedMaxAge,
-                    onChanged: (newValue) {
-                      setState(() {
-                        selectedMaxAge = newValue!;
-                      });
-                    },
-                    icon: Container(
-                        alignment: Alignment.centerRight,
-                        child: const Icon(Icons.arrow_drop_down)),
-                    style: TextStyle(color: color.black),
-                    items: ageMax
-                  ),
+                      itemHeight: 50,
+                      isExpanded: true,
+                      value: selectedMaxAge,
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedMaxAge = newValue!;
+                        });
+                      },
+                      icon: Container(
+                          alignment: Alignment.centerRight,
+                          child: const Icon(Icons.arrow_drop_down)),
+                      style: TextStyle(color: color.black),
+                      items: ageMax),
                 ),
               ),
-              _dropDown('Opsi Praktik Kerja Lowongan(PKL)', 'Apakah Pekerjaan ini Menerima Lamaran PKL? Jika iya, Pilih opsi "Menerima" untuk Membuat Lowongan PKL',
+              _dropDown(
+                'Opsi Praktik Kerja Lowongan(PKL)',
+                'Apakah Pekerjaan ini Menerima Lamaran PKL? Jika iya, Pilih opsi "Menerima" untuk Membuat Lowongan PKL',
                 SizedBox(
                   height: 70,
                   width: double.maxFinite,
@@ -139,9 +164,9 @@ class _FillLowonganState extends State<FillLowongan> {
                         setState(() {
                           selectedPKL = newValue!;
                         });
-                        if(selectedPKL == 'true'){
+                        if (selectedPKL == 'true') {
                           pklStatus = true;
-                        } else if(selectedPKL == 'false'){
+                        } else if (selectedPKL == 'false') {
                           pklStatus = false;
                         }
                       },
@@ -149,8 +174,7 @@ class _FillLowonganState extends State<FillLowongan> {
                           alignment: Alignment.centerRight,
                           child: const Icon(Icons.arrow_drop_down)),
                       style: TextStyle(color: color.black),
-                      items: pkl
-                  ),
+                      items: pkl),
                 ),
               ),
               Text(
@@ -160,7 +184,10 @@ class _FillLowonganState extends State<FillLowongan> {
                     fontWeight: FontWeight.w600,
                     color: color.primary),
               ),
-              _subtitleText('Pilih Tanggal Kaldaluarsa (Lowongan otomatis NonAktif ketika sudah masuk tanggal Kaldaluarsa)', 14, 0.5),
+              _subtitleText(
+                  'Pilih Tanggal Kaldaluarsa (Lowongan otomatis NonAktif ketika sudah masuk tanggal Kaldaluarsa)',
+                  14,
+                  0.5),
               const SizedBox(
                 height: 10,
               ),
@@ -168,15 +195,15 @@ class _FillLowonganState extends State<FillLowongan> {
                 onTap: () async {
                   DateTime? pickedDate = await showDatePicker(
                       context: context,
-                      initialDate: DateTime.now(), //get today's date
-                      firstDate: DateTime(
-                          2000), //DateTime.now() - not to allow to choose before today.
+                      initialDate: dateTime, //get today's date
+                      firstDate: DateTime.now(), //DateTime.now() - not to allow to choose before today.
                       lastDate: DateTime(2101));
 
                   if (pickedDate != null) {
                     setState(() {
-                      dateString =
-                      '${pickedDate.year}-${pickedDate.month}-${pickedDate.day}';
+                      dateTime = pickedDate;
+                      dateValue = pickedDate.toString();
+                      dateString = GetTimeAgo.parse(pickedDate);
                     });
                   }
                 },
@@ -197,22 +224,29 @@ class _FillLowonganState extends State<FillLowongan> {
                   ),
                 ),
               ),
-              const SizedBox(height: 40,),
+              const SizedBox(
+                height: 40,
+              ),
               _nextButton(),
-              const SizedBox(height: 50,)
+              const SizedBox(
+                height: 50,
+              )
             ],
           ),
         ),
       ),
     );
   }
+
   Widget _subtitleText(String subtitle, double fontSize, double opacity) {
     return Text(
       subtitle,
       textAlign: TextAlign.justify,
-      style: TextStyle(fontSize: fontSize, color: Colors.black.withOpacity(opacity)),
+      style: TextStyle(
+          fontSize: fontSize, color: Colors.black.withOpacity(opacity)),
     );
   }
+
   Widget _dropDown(String title, String subTitle, Widget widget) {
     var color = AppColor.theme(Theme.of(context).brightness);
     return Column(
@@ -221,9 +255,7 @@ class _FillLowonganState extends State<FillLowongan> {
         Text(
           title,
           style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              color: color.primary),
+              fontSize: 16, fontWeight: FontWeight.w600, color: color.primary),
         ),
         const SizedBox(
           height: 5,
@@ -235,7 +267,6 @@ class _FillLowonganState extends State<FillLowongan> {
   }
 
   Widget _nextButton() {
-
     showLoaderDialog(BuildContext context) {
       var color = AppColor.theme(Theme.of(context).brightness);
       AlertDialog alert = AlertDialog(
@@ -262,7 +293,7 @@ class _FillLowonganState extends State<FillLowongan> {
       height: 50,
       child: ElevatedButton(
         onPressed: () async {
-          if(selectedPKL == 'false'){
+          if (selectedPKL == 'false') {
             setState(() {
               pklStatus = false;
             });
@@ -271,35 +302,56 @@ class _FillLowonganState extends State<FillLowongan> {
               pklStatus = true;
             });
           }
-          if(dateString != 'Pilih Tanggal') {
+          if (dateString != 'Pilih Tanggal') {
             showLoaderDialog(context);
             await Future.delayed(const Duration(seconds: 1));
             Navigator.of(context).pop();
-            PublicFunction.navigatorPush(context, FillFinishLowongan(title: widget.title, location: widget.location, timeType: widget.timeType, gender: widget.gender, education: widget.education, workerAvailable: widget.workerAvailable, salary: selectedSalary, ageMin: selectedAge, ageMax: selectedMaxAge, pklStatus: pklStatus, expDate: dateString));
+            PublicFunction.navigatorPush(
+                context,
+                FillFinishLowongan(
+                    title: widget.title,
+                    location: widget.location,
+                    timeType: widget.timeType,
+                    gender: widget.gender,
+                    education: widget.education,
+                    workerAvailable: widget.workerAvailable,
+                    salary: selectedSalary,
+                    ageMin: selectedAge,
+                    ageMax: selectedMaxAge,
+                    pklStatus: pklStatus,
+                    expDate: dateValue));
           } else {
-            showDialog(context: context, builder: (context) {
-              return AlertDialog(
-                title: const Text('Pilih Tanggal Kaldaluarsa', style: TextStyle(fontSize: 15),),
-                actions: [
-                  ElevatedButton(onPressed: () async {
-                    Navigator.of(context).pop();
-                    DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(), //get today's date
-                        firstDate: DateTime(
-                            2000), //DateTime.now() - not to allow to choose before today.
-                        lastDate: DateTime(2101));
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text(
+                      'Pilih Tanggal Kaldaluarsa',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    actions: [
+                      ElevatedButton(
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(), //get today's date
+                                firstDate: DateTime(
+                                    2000), //DateTime.now() - not to allow to choose before today.
+                                lastDate: DateTime(2101));
 
-                    if (pickedDate != null) {
-                      setState(() {
-                        dateString =
-                        '${pickedDate.year}-${pickedDate.month}-${pickedDate.day}';
-                      });
-                    }
-                  }, child: const Text('Pilih'))
-                ],
-              );
-            });
+                            if (pickedDate != null) {
+                              setState(() {
+                                dateValue = pickedDate.toString();
+                                dateString =
+                                    '${pickedDate.year}-${pickedDate.month}-${pickedDate.day}';
+                              });
+                            }
+                          },
+                          child: const Text('Pilih'))
+                    ],
+                  );
+                });
           }
         },
         style: ButtonStyle(
@@ -330,8 +382,15 @@ List<DropdownMenuItem<String>> get getSalaryDropdownItems {
 
 List<DropdownMenuItem<String>> get getPklDropdownItems {
   List<DropdownMenuItem<String>> menuItems = const [
-    DropdownMenuItem(value: 'false', child: Text("Tidak Menerima(PKL) Praktik Kerja Lapangan")),
-    DropdownMenuItem(value: "true", child: Text("Menerima(PKL) Praktik Kerja Lapangan", style: TextStyle(color: Colors.green),)),
+    DropdownMenuItem(
+        value: 'false',
+        child: Text("Tidak Menerima(PKL) Praktik Kerja Lapangan")),
+    DropdownMenuItem(
+        value: "true",
+        child: Text(
+          "Menerima(PKL) Praktik Kerja Lapangan",
+          style: TextStyle(color: Colors.green),
+        )),
   ];
   return menuItems;
 }
