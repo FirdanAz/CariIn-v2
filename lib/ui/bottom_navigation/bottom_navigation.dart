@@ -5,6 +5,8 @@ import 'package:cariin_v2/ui/lowongan/lamar_page/lamaran.dart';
 import 'package:cariin_v2/ui/lowongan/profile_page/Profile.dart';
 import 'package:flutter/material.dart';
 
+import '../lowongan/notification/notification_lowongan.dart';
+
 class CustomBottomNavigation extends StatefulWidget {
   CustomBottomNavigation({super.key, required this.indexs});
   int indexs;
@@ -18,7 +20,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
   final List<Widget> _page = [
     const HomePage(),
     LamaranPage(),
-    const ChatPage(),
+    const NotificationPage(),
     const ProfilePage()
   ];
 
@@ -78,12 +80,12 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
                 label: "Pekerjaan"),
             NavigationDestination(
                 icon: Icon(
-                  Icons.message,
+                  Icons.notifications_active,
                   color: widget.indexs == 2
                       ? color.white
                       : Theme.of(context).iconTheme.color!.withOpacity(0.5),
                 ),
-                label: "Pesan"),
+                label: "Kotak Masuk"),
             NavigationDestination(
                 icon: Icon(
                   Icons.person,

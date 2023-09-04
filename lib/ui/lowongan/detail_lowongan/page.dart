@@ -330,6 +330,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
                   showLoaderDialog(context);
                   await Future.delayed(const Duration(seconds: 2));
                   Navigator.of(context).pop();
+                  print('deviceceeee  $deviceToken' );
                   if(deviceToken == 'null'){
                     setState(() {
                       showDialog(context: context, builder: (context) => AlertDialog(

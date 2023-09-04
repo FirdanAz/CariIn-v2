@@ -1,4 +1,9 @@
 import 'package:cariin_v2/common/app_assets.dart';
+import 'package:cariin_v2/common/public_function.dart';
+import 'package:cariin_v2/model/company/inbox/list.dart';
+import 'package:cariin_v2/service/api_service.dart';
+import 'package:cariin_v2/service/edit_service.dart';
+import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -14,52 +19,119 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+  ListInboxModel? listInboxModel;
+  bool _isLoad = false;
+  bool _reverse = true;
+
+  getData() async {
+    _isLoad = true;
+    await ApiService().RefreshToken('worker', await PublicFunction.getToken('worker'));
+    ListInboxModel inboxModel = await DataService().getInboxList('worker');
+    setState(() {
+      listInboxModel = inboxModel;
+    });
+    _isLoad = false;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
+    showLoaderDialog(BuildContext context) {
+      AlertDialog alert = AlertDialog(
+        content: Row(
+          children: [
+            CircularProgressIndicator(backgroundColor: color.secondary),
+            const SizedBox(width: 14),
+            const Text("Loading..."),
+          ],
+        ),
+      );
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
     return Scaffold(
-      backgroundColor: color.surfaceContainer,
+      backgroundColor: color.background,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        leading: Container(
-          margin: const EdgeInsets.only(left: 15),
-          child: InkWell(
-            onTap: () => Navigator.of(context).pop(true),
-            child: const Icon(Icons.arrow_back_ios),
-          ),
-        ),
-        centerTitle: true,
-        title: const Text(
-          'Kotak Masuk',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        toolbarHeight: 80,
-        backgroundColor: color.surface,
+        toolbarHeight: 10,
+        backgroundColor: color.background,
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
+          padding: EdgeInsets.symmetric(horizontal: _isLoad ? 10 : 15, vertical: 9),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Hari ini',
+                  _isLoad ? CustomShimmer(width: 100, height: 36, radius: 0) :  Text(
+                    _reverse ? 'Terbaru' :'Terlama',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w400,
                       color: color.primary,
                     ),
                   ),
-                  ListView.builder(
+                  _isLoad ? CustomShimmer(width: 110, height: 36, radius: 100) : InkWell(
+                    onTap: () async {
+                      if(_reverse == false && listInboxModel!.data!.isNotEmpty){
+                        showLoaderDialog(context);
+                        await Future.delayed(const Duration(milliseconds: 500));
+                        Navigator.of(context).pop();
+                        setState(() {
+                          _reverse = true;
+                        });
+                      } else if(_reverse == true && listInboxModel!.data!.isNotEmpty){
+                        showLoaderDialog(context);
+                        await Future.delayed(const Duration(milliseconds: 500));
+                        Navigator.of(context).pop();
+                        setState(() {
+                          _reverse = false;
+                        });
+                      }
+                    },
+                    borderRadius: BorderRadius.circular(100),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          border: Border.all(color: color.primary, width: 1)
+                      ),
+                      child: Row(
+                        children: [
+                          Text('Urutkan', style: TextStyle(color: color.primary),),
+                          const SizedBox(width: 6,),
+                          Icon(Icons.change_circle, color: color.primary,)
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _isLoad ? Padding(
+                    padding: const EdgeInsets.only(top: 10.0),
+                    child: ShimmerPelamar(itemCount: 2),
+                  ) : listInboxModel!.data!.isEmpty ? const SizedBox(height: 500, child: Center(child: Text('Tidak ada Kotak Masuk'),)) : ListView.builder(
                     physics: const BouncingScrollPhysics(),
-                    itemCount: 1,
+                    itemCount: listInboxModel!.data!.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
+                      var data = listInboxModel!.data![index];
                       return Container(
                         decoration: BoxDecoration(
                             color: color.surface,
@@ -70,7 +142,7 @@ class _NotificationPageState extends State<NotificationPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 8),
                         child: Row(
                           children: [
-                            CircleAvatar(
+                            const CircleAvatar(
                               radius: 30,
                               backgroundImage: AssetImage(AppAssets.firdanImg),
                             ),
@@ -81,9 +153,9 @@ class _NotificationPageState extends State<NotificationPage> {
                                   Container(
                                     margin: const EdgeInsets.only(left: 5),
                                     width: double.maxFinite,
-                                    child: const Text(
-                                      'Lamaran pekerjaanmu telah diterima oleh Perusahaan!',
-                                      style: TextStyle(
+                                    child: Text(
+                                      data.subject!,
+                                      style: const TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
                                       ),

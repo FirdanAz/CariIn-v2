@@ -89,7 +89,6 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                 SliverToBoxAdapter(
                   child: Container(
                     width: double.maxFinite,
-                    height: 140,
                     margin: const EdgeInsets.symmetric(horizontal: 13),
                     child: Row(
                       children: [
@@ -120,26 +119,28 @@ class _DetailPelamarPageState extends State<DetailPelamarPage> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          '${detailPelamarModel!.data!.worker!.username}',
-                                          style: TextStyle(
-                                              color: color.black,
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 17),
-                                        ),
-                                        const SizedBox(
-                                          height: 7,
-                                        ),
-                                        Text(
-                                          '${detailPelamarModel!.data!.worker!.age} Tahun',
-                                          style: TextStyle(
-                                              color: color.black, fontSize: 14),
-                                        ),
-                                      ],
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${detailPelamarModel!.data!.worker!.username}',
+                                            style: TextStyle(
+                                                color: color.black,
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 17),
+                                          ),
+                                          const SizedBox(
+                                            height: 7,
+                                          ),
+                                          Text(
+                                            '${detailPelamarModel!.data!.worker!.age} Tahun',
+                                            style: TextStyle(
+                                                color: color.black, fontSize: 14),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

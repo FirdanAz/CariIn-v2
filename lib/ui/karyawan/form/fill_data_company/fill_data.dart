@@ -144,7 +144,7 @@ class _FillDataCompanyState extends State<FillDataCompany> {
         child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
             child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
                 'Lengkapi Data',
                 style: TextStyle(

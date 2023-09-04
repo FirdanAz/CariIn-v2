@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:cariin_v2/ui/karyawan/form/lowongan/create/lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/form/lowongan/create_lowongan.dart';
 import 'package:cariin_v2/ui/karyawan/lowongan/tab/lowongan_result.dart';
 import 'package:cariin_v2/ui/karyawan/lowongan/tab/wawancara_procces.dart';
@@ -25,6 +28,25 @@ class _LowonganPageState extends State<LowonganPage> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
+
+    showLoaderDialog(BuildContext context) {
+      AlertDialog alert = AlertDialog(
+        content: Row(
+          children: [
+            CircularProgressIndicator(backgroundColor: color.secondary),
+            const SizedBox(width: 14),
+            const Text("Loading..."),
+          ],
+        ),
+      );
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -67,8 +89,11 @@ class _LowonganPageState extends State<LowonganPage> with TickerProviderStateMix
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateLowonganPage(),));
+        onPressed: () async {
+          showLoaderDialog(context);
+          await Future.delayed(const Duration(seconds: 2));
+          Navigator.of(context).pop();
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const CreateLowongan(),));
         },
         backgroundColor: color.white,
         elevation: 2,

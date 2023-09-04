@@ -5,7 +5,9 @@ import 'package:cariin_v2/common/app_function.dart';
 import 'package:cariin_v2/model/worker/all_job_worker_model.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/service/edit_service.dart';
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/karyawan/form/fill_data_worker/fill_data.dart';
+import 'package:cariin_v2/ui/lowongan/auth_page/fill_data_worker.dart';
 import 'package:cariin_v2/ui/lowongan/detail_lowongan/page.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/all_categories.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/search/custom_search.dart';
@@ -103,8 +105,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 35, top: 30),
                   child: InkWell(
-                    onTap: () =>
-                        Navigate.push(context, const NotificationPage()),
+                    onTap: () => PublicFunction.navigatorPushAndRemoveUntil(context, CustomBottomNavigation(indexs: 2)),
                     child: _isLoad ? CustomShimmer(width: 30, height: 30, radius: 0) : const Icon(Icons.notifications),
                   ),
                 ),
