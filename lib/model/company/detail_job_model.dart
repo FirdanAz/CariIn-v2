@@ -36,6 +36,8 @@ class Data {
   Description? description;
   Company? company;
   Location? location;
+  String? expiredDate;
+  int? workerAvailable;
   bool? pklStatus;
   String? confirmedStatus;
 
@@ -53,6 +55,8 @@ class Data {
         this.description,
         this.company,
         this.location,
+        this.expiredDate,
+        this.workerAvailable,
         this.pklStatus,
         this.confirmedStatus});
 
@@ -75,6 +79,8 @@ class Data {
     location = json['location'] != null
         ? new Location.fromJson(json['location'])
         : null;
+    expiredDate = json['expired_date'];
+    workerAvailable = json['worker_available'];
     pklStatus = json['pkl_status'];
     confirmedStatus = json['confirmed_status'];
   }
@@ -100,6 +106,8 @@ class Data {
     if (this.location != null) {
       data['location'] = this.location!.toJson();
     }
+    data['expired_date'] = this.expiredDate;
+    data['worker_available'] = this.workerAvailable;
     data['pkl_status'] = this.pklStatus;
     data['confirmed_status'] = this.confirmedStatus;
     return data;
@@ -179,7 +187,7 @@ class Tags {
 
 class Company {
   int? id;
-  String? url;
+  Null? url;
   String? location;
   String? foundingDate;
   int? employees;

@@ -50,7 +50,11 @@ class _HomePageState extends State<HomePage> {
     await DataService().editMyDeviceToken(fcmToken!, 'worker');
     setState(() {
       allJobWorkerModel = allJob;
-      allJobWorkerModel!.data = allJob.data!.where((element) => element.confirmedStatus!.toLowerCase().toString().contains('terverifikasi'.toLowerCase())).toList();
+      allJobWorkerModel!.data = allJob.data!.where((element) {
+        DateTime expDate = DateTime.parse(element.expiredDate.toString());
+        DateTime currentDate = DateTime.now();
+        return expDate.isAfter(currentDate);
+      },).toList();
       profileWorkerModel = workerModel;
     });
 

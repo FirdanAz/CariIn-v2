@@ -63,6 +63,11 @@ class _ListSearchResultState extends State<ListSearchResult> {
       WorkerSearchModel searchModel2 = await DataService().getListSearch(widget.query);
       setState(() {
         workerSearchModel = searchModel1;
+        workerSearchModel!.data!.jobs = searchModel1.data!.jobs!.where((element) {
+          DateTime expDate = DateTime.parse(element.expiredDate.toString());
+          DateTime currentDate = DateTime.now();
+          return expDate.isAfter(currentDate);
+        },).toList();
         workerSearchModel!.data!.jobs?.sort((a, b) => a.company!.name!.toLowerCase().toString().compareTo(widget.query.toLowerCase().toString()));
         //workerSearchModel!.data!.jobs = searchModel1.data!.jobs!.where((element) => element.company!.name!.toLowerCase().toString().contains(widget.query.toLowerCase().toString())).toList();
       });

@@ -5,6 +5,7 @@ import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 
+import '../../../../../common/app_assets.dart';
 import '../../../../../common/app_color.dart';
 import '../../../../../model/worker/job_application_model.dart';
 import '../../../../../service/api_service.dart';
@@ -55,6 +56,7 @@ class _SemuaTabsState extends State<SemuaTabs> {
               });
             },
             child: jobApplicationModel!.data!.length != 0 ? ListView.builder(
+              reverse: true,
               shrinkWrap: true,
               itemCount: jobApplicationModel!.data!.length,
               itemBuilder: (context, index) {
@@ -79,9 +81,10 @@ class _SemuaTabsState extends State<SemuaTabs> {
                         Expanded(
                           child: Row(
                             children: [
-                              const CircleAvatar(
+                              CircleAvatar(
                                 radius: 30,
-                                backgroundImage: NetworkImage('https://static01.nyt.com/images/2021/05/02/business/00google-office1/00google-office1-videoSixteenByNineJumbo1600.jpg'),
+                                backgroundColor: color.primaryContainer,
+                                child: Icon(Icons.file_present, color: color.primary,),
                               ),
                               Expanded(
                                 child: Column(
@@ -91,12 +94,13 @@ class _SemuaTabsState extends State<SemuaTabs> {
                                     Container(
                                       margin: const EdgeInsets.only(left: 5),
                                       child: Text(
-                                        '${data.job!.title}',
+                                        data.job != null ?'${data.job!.title}' : 'Pekrjaan Tidak Tersedia',
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.w400,
+                                          color: data.job != null ? color.black : color.black.withOpacity(0.5)
                                         ),
                                       ),
                                     ),
@@ -104,8 +108,9 @@ class _SemuaTabsState extends State<SemuaTabs> {
                                       margin: const EdgeInsets.only(left: 5),
                                       child: Text(
                                         GetTimeAgo.parse(date, locale: 'id'),
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontWeight: FontWeight.w400,
+                                          color: data.job != null ? color.black : color.black.withOpacity(0.5)
                                         ),
                                       ),
                                     ),

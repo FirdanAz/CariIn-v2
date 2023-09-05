@@ -5,6 +5,7 @@ import 'dart:math';
 import 'package:cariin_v2/ui/karyawan/form/lowongan/create/finish_lowongan.dart';
 import 'package:flutter/material.dart';
 import 'package:get_time_ago/get_time_ago.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../../common/app_color.dart';
 import '../../../../../common/public_function.dart';
@@ -44,7 +45,8 @@ class _FillLowonganState extends State<FillLowongan> {
 
   String dateString = 'Pilih Tanggal';
   String dateValue = '';
-  DateTime dateTime = DateTime.now();
+  DateTime dateTime = DateTime(DateTime.now().year, DateTime.now().month, (DateTime.now().day+1));
+  DateTime dateTimes = DateTime(DateTime.now().year, DateTime.now().month, (DateTime.now().day+1));
   String date =
       '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}${DateTime.now().second}';
 
@@ -196,14 +198,15 @@ class _FillLowonganState extends State<FillLowongan> {
                   DateTime? pickedDate = await showDatePicker(
                       context: context,
                       initialDate: dateTime, //get today's date
-                      firstDate: DateTime.now(), //DateTime.now() - not to allow to choose before today.
+                      firstDate: dateTimes, //DateTime.now() - not to allow to choose before today.
                       lastDate: DateTime(2101));
 
                   if (pickedDate != null) {
+                    String formattedDate = DateFormat.yMMMMd('id_ID').format(pickedDate);
                     setState(() {
                       dateTime = pickedDate;
                       dateValue = pickedDate.toString();
-                      dateString = GetTimeAgo.parse(pickedDate);
+                      dateString = pickedDate.month == DateTime.now().month ? '${pickedDate.day - DateTime.now().day} Hari Lagi' : '${pickedDate.month - DateTime.now().month} Bulan ${pickedDate.day - DateTime.now().day} Hari Lagi';
                     });
                   }
                 },
