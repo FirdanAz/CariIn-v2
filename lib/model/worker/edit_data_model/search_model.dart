@@ -66,6 +66,7 @@ class Jobs {
   int? salary;
   List<Tags>? tags;
   Company? company;
+  String? expiredDate;
   bool? pklStatus;
   String? confirmedStatus;
   String? createdAt;
@@ -78,6 +79,7 @@ class Jobs {
         this.salary,
         this.tags,
         this.company,
+        this.expiredDate,
         this.pklStatus,
         this.confirmedStatus,
         this.createdAt});
@@ -96,6 +98,7 @@ class Jobs {
     }
     company =
     json['company'] != null ? new Company.fromJson(json['company']) : null;
+    expiredDate = json['expired_date'];
     pklStatus = json['pkl_status'];
     confirmedStatus = json['confirmed_status'];
     createdAt = json['created_at'];
@@ -114,6 +117,7 @@ class Jobs {
     if (this.company != null) {
       data['company'] = this.company!.toJson();
     }
+    data['expired_date'] = this.expiredDate;
     data['pkl_status'] = this.pklStatus;
     data['confirmed_status'] = this.confirmedStatus;
     data['created_at'] = this.createdAt;

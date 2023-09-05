@@ -284,7 +284,7 @@ class _JobDetailPageState extends State<JobDetailPage> {
         children: [
           content(Icons.cast_for_education, 'Pendidikan', education),
           content(Icons.access_time, 'Tipe Pekerjaan', timeType),
-          content(Icons.monetization_on_outlined, 'Gaji', salary),
+          jobDetailModel!.data!.salary != 0 ? content(Icons.monetization_on_outlined, 'Gaji', salary) : content(Icons.monetization_on_outlined, 'Gaji', 'Tidak Menampilkan'),
         ],
       ),
     );

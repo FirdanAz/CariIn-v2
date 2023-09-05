@@ -1,3 +1,4 @@
+import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/model/company/detail_pelamar_model.dart';
 import 'package:cariin_v2/model/worker/detail_lamaran_model.dart';
 import 'package:cariin_v2/service/edit_service.dart';
@@ -198,7 +199,12 @@ class _DetailLamaranState extends State<DetailLamaran> {
                           const SizedBox(height: 10),
                           InkWell(
                             onTap: () {
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => JobDetailPage(id: detailPelamarModel!.data!.job!.id!),));
+                              if(detailPelamarModel!.data!.job != null){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => JobDetailPage(id: detailPelamarModel!.data!.job!.id!),));
+                              }
+                              else {
+                                showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Sepertinya Pekerjaan yang anda lamar Telah dihapus oleh perusahaan'),);
+                              }
                             },
                             child: Container(
                               width: double.maxFinite,
@@ -216,7 +222,7 @@ class _DetailLamaranState extends State<DetailLamaran> {
                                     decoration: BoxDecoration(
                                         color: color.primaryContainer,
                                         borderRadius: BorderRadius.circular(10)),
-                                    child: Image.network('https://cariin.my.id/storage/${detailPelamarModel!.data!.job!.coverImage}', fit: BoxFit.cover,)
+                                    child: detailPelamarModel!.data!.job != null ? Image.network('https://cariin.my.id/storage/${detailPelamarModel!.data!.job!.coverImage}', fit: BoxFit.cover,) : SvgPicture.asset(AppAssets.appsLogo)
                                   ),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -225,7 +231,7 @@ class _DetailLamaranState extends State<DetailLamaran> {
                                       Container(
                                         margin: const EdgeInsets.only(left: 8),
                                         child: Text(
-                                          detailPelamarModel!.data!.job!.title!,
+                                          detailPelamarModel!.data!.job != null ? detailPelamarModel!.data!.job!.title! : 'Pekerjaan Tidak Tersedia',
                                           style: const TextStyle(
                                             fontSize: 16,
                                           ),
@@ -235,7 +241,7 @@ class _DetailLamaranState extends State<DetailLamaran> {
                                       Container(
                                         margin: const EdgeInsets.only(left: 10),
                                         child: Text(
-                                          '${detailPelamarModel!.data!.job!.company!.name} | Feb 2019 - 2020',
+                                          detailPelamarModel!.data!.job != null ? '${detailPelamarModel!.data!.job!.company!.name} | Feb 2019 - 2020' : '----',
                                           style: const TextStyle(
                                             fontSize: 16,
                                           ),
@@ -245,7 +251,7 @@ class _DetailLamaranState extends State<DetailLamaran> {
                                       Container(
                                         margin: EdgeInsets.only(left: 10),
                                         child: Text(
-                                          detailPelamarModel!.data!.job!.company!.location!,
+                                          detailPelamarModel!.data!.job != null ? detailPelamarModel!.data!.job!.company!.location! : '',
                                         ),
                                       )
                                     ],

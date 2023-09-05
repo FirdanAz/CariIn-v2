@@ -5,6 +5,8 @@ import 'package:cariin_v2/ui/options/options.dart';
 import 'package:cariin_v2/ui/view_image/view_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import '../../../common/app_color.dart';
 import '../../../common/public_function.dart';
@@ -21,6 +23,7 @@ class ProfilCompanyPage extends StatefulWidget {
 class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
   bool _isLoad = false;
   ProfilCompanyModel? profilCompanyModel;
+  String? formattedDate;
 
   void _logOut() {
     showDialog(
@@ -59,9 +62,11 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
 
   getdata() async {
     _isLoad = true;
+    await initializeDateFormatting('id_ID', null);
     ProfilCompanyModel profilCompany = await ApiService().ProfilCompany();
     setState(() {
       profilCompanyModel = profilCompany;
+      formattedDate = DateFormat.yMMMMd('id_ID').format(DateTime.parse(profilCompany.data!.createdAt!));
     });
     _isLoad = false;
   }
@@ -276,7 +281,7 @@ class _ProfilCompanyPageState extends State<ProfilCompanyPage> {
                             Icons.description),
                         _profileItems(
                             'Sejak',
-                            profilCompanyModel!.data!.foundingDate.toString(),
+                            formattedDate!,
                             Icons.date_range),
                         _profileItems(
                             'Sebagai',

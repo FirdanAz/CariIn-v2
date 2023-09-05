@@ -4,6 +4,8 @@ import 'package:cariin_v2/common/responsive.dart';
 import 'package:cariin_v2/ui/widget/home_widget.dart';
 import 'package:cariin_v2/ui/widget/svg_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:get_time_ago/get_time_ago.dart';
+import 'package:intl/intl.dart';
 
 import '../../../common/currency_format.dart';
 import '../../../model/company/detail_job_model.dart';
@@ -25,6 +27,7 @@ class _TabDeskripsiState extends State<TabDeskripsi> {
   JobDetailModel? jobDetailModel;
   bool _isLoad = false;
   DateTime? date;
+  String? formattedDate;
 
   getdata() async {
     _isLoad = true;
@@ -33,6 +36,7 @@ class _TabDeskripsiState extends State<TabDeskripsi> {
     setState(() {
       jobDetailModel = details;
       date = DateTime.parse(details.data!.jobCreated.toString());
+      formattedDate = DateFormat('d MMMM y').format(DateTime.parse(details.data!.expiredDate!));
     });
     _isLoad = false;
   }
@@ -80,6 +84,7 @@ class _TabDeskripsiState extends State<TabDeskripsi> {
               gender: '${jobDetailModel!.data!.gender}',
               education: 'Semua',
               age: '17 - 35 Tahun',
+              expired: 'Tanggal berlaku : $formattedDate'
             ),
 
             const SizedBox(height: 20),
@@ -103,6 +108,7 @@ class _TabDeskripsiState extends State<TabDeskripsi> {
     required String gender,
     required String education,
     required String age,
+    required String expired
   }) {
     Widget content(String svgIcon, String fill) {
       return Row(
@@ -140,6 +146,8 @@ class _TabDeskripsiState extends State<TabDeskripsi> {
         content(AppAssets.graduationIcon, education),
         const SizedBox(height: 12),
         content(AppAssets.cakeIcon, age),
+        const SizedBox(height: 12),
+        content(AppAssets.TeknikIcon, expired),
       ],
     );
   }
@@ -158,8 +166,7 @@ class _TabDeskripsiState extends State<TabDeskripsi> {
                 size: Responsive.byWidth(8), color: color.onSurfaceVariant),
           ),
           const SizedBox(width: 1),
-          SizedBox(
-            width: Responsive.byWidth(297),
+          Expanded(
             child: Text(
               responsibility[index],
               textAlign: TextAlign.justify,
