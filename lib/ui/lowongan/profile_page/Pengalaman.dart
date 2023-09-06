@@ -1,7 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/app_color.dart';
+import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/model/worker/experience/experience_list.dart';
 import 'package:cariin_v2/service/edit_service.dart';
+import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
+import 'package:cariin_v2/ui/lowongan/profile_page/form/create_experience.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -28,7 +33,7 @@ class _PengalamanPageState extends State<PengalamanPage> {
     _isLoad = false;
   }
 
-  void _showPopupMenu(BuildContext context, Offset position) async {
+  void _showPopupMenu(BuildContext context, Offset position, String id) async {
     var color = AppColor.theme(Theme.of(context).brightness);
     await showMenu(
       context: context,
@@ -44,8 +49,17 @@ class _PengalamanPageState extends State<PengalamanPage> {
         ),
         PopupMenuItem<String>(
           value: 'delete',
-          child: Text('Hapus'),
           labelTextStyle: MaterialStatePropertyAll(TextStyle(color: color.error)),
+          child: const Text('Hapus'),
+          onTap: () async {
+            bool success = await DataService().deleteExperience(id);
+            if(success == true){
+              showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Pengalaman Dihapus'),);
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(indexs: 3),), (route) => false);
+            } else {
+              showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Ada Kesalahan Sistem!'),);
+            }
+          },
         ),
       ],
     );
@@ -60,6 +74,25 @@ class _PengalamanPageState extends State<PengalamanPage> {
 
   @override
   Widget build(BuildContext context) {
+    showLoaderDialog(BuildContext context) {
+      var color = AppColor.theme(Theme.of(context).brightness);
+      AlertDialog alert = AlertDialog(
+        content: Row(
+          children: [
+            CircularProgressIndicator(backgroundColor: color.secondary),
+            const SizedBox(width: 14),
+            const Text("Loading..."),
+          ],
+        ),
+      );
+      showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
     var color = AppColor.theme(Theme.of(context).brightness);
     return _isLoad
         ? SizedBox(height: 400, child: Center(child: CircularProgressIndicator()),)
@@ -76,7 +109,12 @@ class _PengalamanPageState extends State<PengalamanPage> {
                           MaterialStatePropertyAll(color.primaryContainer),
                       shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10)))),
-                  onPressed: () {},
+                  onPressed: () async {
+                    showLoaderDialog(context);
+                    await Future.delayed(const Duration(seconds: 1));
+                    Navigator.of(context).pop();
+                    PublicFunction.navigatorPush(context, const CreateExperiencePage());
+                  },
                   child: const Text('Tambah Pengalaman'),
                 ),
               ),
@@ -143,7 +181,7 @@ class _PengalamanPageState extends State<PengalamanPage> {
                                   Center(
                                     child: GestureDetector(
                                       onTapUp: (TapUpDetails details) {
-                                        _showPopupMenu(context, details.globalPosition);
+                                        _showPopupMenu(context, details.globalPosition, data.id!.toString());
                                       },
                                       child: Icon(Icons.more_vert, color: color.primary,)
                                     ),

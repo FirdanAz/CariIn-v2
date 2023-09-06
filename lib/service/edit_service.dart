@@ -535,4 +535,95 @@ class DataService {
     }
   }
 
+  Future getWorkerStatus() async {
+    const endPoint = '/api/worker/me/status';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      if (response.statusCode == 200) {
+        await ApiService().RefreshToken('worker', token);
+        if (kDebugMode) {
+          print('status code : ${response.statusCode}');
+        }
+        var result = json.decode(response.body);
+        return result['data']['status'];
+      }
+      if (response.statusCode == 401 &&
+          PublicFunction.getToken('worker') != '') {
+        await ApiService().RefreshToken('worker', token);
+        if (kDebugMode) {
+          print('status code : ${response.statusCode}');
+        }
+        var result = json.decode(response.body);
+        return result['data']['status'];
+      } else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
+
+  Future createExperience(String title, String startAt, String endAt, String location, String desc, File image) async{
+    var endPoint = '/api/worker/experiences/create';
+    final url = Uri.parse('$_baseUrl$endPoint');
+    String token = await PublicFunction.getToken('worker');
+    var body = {
+      'title': title,
+      'start_at': startAt,
+      'end_at': endAt,
+      'location': location,
+      'description': desc,
+    };
+
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    final request = http.MultipartRequest('POST', url)
+      ..headers.addAll(headers)
+      ..fields.addAll(body)
+      ..files.add(await http.MultipartFile.fromPath('proof_image', image.path));
+
+    final response = await request.send().timeout(const Duration(seconds: 15));
+
+    final res = await http.Response.fromStream(response);
+    print(res.body);
+
+    if (res.statusCode == 200) {
+      return true;
+    } else {
+      print('HttpException');
+      return false;
+    }
+  }
+
+  Future deleteExperience(String id) async {
+    var endPoint = '/api/worker/experiences/delete/$id';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {'Authorization': 'Bearer $token'};
+    try {
+      var response = await http.delete(Uri.parse(url), headers: headers);
+      if (response.statusCode == 200) {
+        print('delete sukses');
+        return true;
+      } else{
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
 }

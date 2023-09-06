@@ -33,8 +33,17 @@ class Data {
   String? message;
   String? sentDate;
   bool? read;
+  String? type;
+  String? redirectId;
 
-  Data({this.id, this.subject, this.message, this.sentDate, this.read});
+  Data(
+      {this.id,
+        this.subject,
+        this.message,
+        this.sentDate,
+        this.read,
+        this.type,
+        this.redirectId});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -42,6 +51,8 @@ class Data {
     message = json['message'];
     sentDate = json['sent_date'];
     read = json['read'];
+    type = json['type'];
+    redirectId = json['redirect_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +62,8 @@ class Data {
     data['message'] = this.message;
     data['sent_date'] = this.sentDate;
     data['read'] = this.read;
+    data['type'] = this.type;
+    data['redirect_id'] = this.redirectId;
     return data;
   }
 }
