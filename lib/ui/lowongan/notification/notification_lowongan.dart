@@ -1,15 +1,17 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/model/company/inbox/list.dart';
 import 'package:cariin_v2/service/api_service.dart';
 import 'package:cariin_v2/service/edit_service.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get_time_ago/get_time_ago.dart';
 
 import '../../../../common/app_color.dart';
+import '../../karyawan/detail_profile/send_notif_example.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -126,63 +128,197 @@ class _NotificationPageState extends State<NotificationPage> {
                   _isLoad ? Padding(
                     padding: const EdgeInsets.only(top: 10.0),
                     child: ShimmerPelamar(itemCount: 2),
-                  ) : listInboxModel!.data!.isEmpty ? const SizedBox(height: 500, child: Center(child: Text('Tidak ada Kotak Masuk'),)) : ListView.builder(
+                  ) : listInboxModel!.data!.isEmpty ? const SizedBox(height: 500, child: Center(child: Text('Tidak ada Kotak Masuk'),)) :
+                  ListView.builder(
+                    reverse: _reverse,
                     physics: const BouncingScrollPhysics(),
                     itemCount: listInboxModel!.data!.length,
                     shrinkWrap: true,
                     itemBuilder: (context, index) {
-                      var data = listInboxModel!.data![index];
-                      return Container(
-                        decoration: BoxDecoration(
-                            color: color.surface,
-                            borderRadius: BorderRadius.circular(10)),
-                        width: double.maxFinite,
-                        height: 75,
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          children: [
-                            const CircleAvatar(
-                              radius: 30,
-                              backgroundImage: AssetImage(AppAssets.firdanImg),
-                            ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                      final data = listInboxModel!.data![index];
+                      DateTime currentDate = DateTime.now();
+                      DateTime dates = DateTime.parse(data.sentDate!);
+                      DateTime? date =
+                      DateTime.parse(data.sentDate.toString());
+                      return data.read == true ?
+                      InkWell(
+                        overlayColor: MaterialStatePropertyAll(Colors.transparent),
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationDetailPage(title: data.subject!, message: data.message!),));
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: color.surface,
+                                borderRadius: BorderRadius.circular(10)),
+                            width: double.maxFinite,
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: color.white,
+                                radius: 25,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: SvgPicture.asset(AppAssets.appsLogo),
+                                ),
+                              ),
+                              title: Text(
+                                data.subject!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(color: color.black.withOpacity(0.8), fontWeight: FontWeight.w600, fontSize: 17),
+                              ),
+                              subtitle: Text(
+                                data.message!,
+                                style: TextStyle(
+                                  color: color.black.withOpacity(0.8),
+                                ),
+                              ),
+                              trailing: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 5),
-                                    width: double.maxFinite,
-                                    child: Text(
-                                      data.subject!,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w400,
-                                      ),
+                                  Text(
+                                    GetTimeAgo.parse(date, locale: 'id'),
+                                    style: TextStyle(
+                                      fontSize: 13,
                                     ),
                                   ),
-                                  Container(
-                                    margin: const EdgeInsets.only(left: 5),
-                                    width: double.maxFinite,
-                                    child: const Text(
-                                      '09:21 AM',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                      ),
+                                  const SizedBox(height: 5,),
+                                  Text(
+                                    'Dibaca',
+                                    style: TextStyle(
+                                        color: color.secondary
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                        ),
+                      ):
+                      InkWell(
+                        onTap: () async {
+                          if(data.read == false){
+                            bool isSuccess = await DataService().postReadInbox(data.id!.toString(), 'worker');
+                            if(isSuccess == true){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationDetailPage(title: data.subject!, message: data.message!),));
+                              setState(() {
+                                getData();
+                              });
+                            }
+                          } else {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationDetailPage(title: data.subject!, message: data.message!),));
+                          }
+                        },
+                        overlayColor: const MaterialStatePropertyAll(Colors.transparent),
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: color.surface,
+                                borderRadius: BorderRadius.circular(10)),
+                            width: double.maxFinite,
+                            margin: const EdgeInsets.symmetric(vertical: 8),
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: color.white,
+                                radius: 25,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: SvgPicture.asset(AppAssets.appsLogo),
+                                ),
+                              ),
+                              title: Text(
+                                data.subject!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(color: color.black, fontWeight: FontWeight.w700, fontSize: 17),
+                              ),
+                              subtitle: Text(
+                                data.message!,
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: color.black,
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              trailing: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    GetTimeAgo.parse(date, locale: 'id'),
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 5,),
+                                  Text(
+                                    'Baru',
+                                    style: TextStyle(
+                                        color: color.secondary,
+                                        fontWeight: FontWeight.w600
                                     ),
                                   ),
                                 ],
                               ),
                             )
-                          ],
                         ),
                       );
                     },
-                  )
+                  ),
                 ],
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class NotificationDetailPage extends StatelessWidget {
+  final String title;
+  final String message;
+
+
+  NotificationDetailPage({required this.title, required this.message});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Detail Notifikasi'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            CircleAvatar(
+              radius: 40,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SvgPicture.asset(
+                  AppAssets.appsLogo,
+                  width: double.infinity, // Gambar akan memenuhi lebar layar.
+                  height: 200,// Mengatur bagaimana gambar ditampilkan dalam kotak gambar.
+                ),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Text(
+              message,
+              style: TextStyle(fontSize: 16.0),
+            ),
+          ],
         ),
       ),
     );

@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, must_be_immutable
+// ignore_for_file: use_build_context_synchronously, must_be_immutable, duplicate_ignore
 
 import 'dart:io';
 
@@ -380,7 +380,7 @@ class _LamarProccesPageState extends State<LamarProcessPage> {
                 },);
               }else{
                 showDialog(context: context, builder: (context) {
-                  return PublicFunction.showDialog(context, 'Anda telah melamar dilowongan ini');
+                  return PublicFunction.showDialog(context, 'Anda telah melamar dilowongan ini / Anda tidak bisa melamar disini');
                 },);
               }
             } else {

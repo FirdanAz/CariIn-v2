@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, must_be_immutable
 
+import 'package:cariin_v2/model/company/profil_company_model.dart';
+import 'package:cariin_v2/service/firebase_api_service.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation_karyawan.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import '../../../../common/app_color.dart';
 import '../../../../common/public_function.dart';
 import '../../../../model/company/job_company_model.dart';
 import '../../../../service/api_service.dart';
+import '../../../../service/edit_service.dart';
 import '../../../widget/shimmer_widget.dart';
 import 'create_lowongan.dart';
 
@@ -25,14 +28,17 @@ class SelectJob extends StatefulWidget {
 class _SelectJobState extends State<SelectJob> {
   bool _isLoad = false;
   JobCompanyModel? allJobCompany;
+  String? deviceToken;
 
   getdata() async {
     _isLoad = true;
     String oldToken = await PublicFunction.getToken('company');
     await ApiService().RefreshToken('company', oldToken);
     JobCompanyModel allJob = await ApiService().jobsCompany(true, '');
+    var token = await DataService().getWorkerDevice(widget.workerId.toString());
     setState(() {
       allJobCompany = allJob;
+      deviceToken = token.toString();
     });
     if (kDebugMode) {
       print(allJob);
@@ -75,7 +81,7 @@ class _SelectJobState extends State<SelectJob> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            PublicFunction.navigatorPush(context, RecruitWorkerMain(jobId: job.id!, workerId: widget.workerId));
+                            PublicFunction.navigatorPush(context, RecruitWorkerMain(jobId: job.id!, workerId: widget.workerId, deviceToken: deviceToken!, jobName: job.title!,));
                           },
                           child: Text('Pilih'),
                         )
@@ -338,9 +344,11 @@ class _SelectJobState extends State<SelectJob> {
 }
 
 class RecruitWorkerMain extends StatefulWidget {
-  RecruitWorkerMain({Key? key, required this.jobId, required this.workerId}) : super(key: key);
+  RecruitWorkerMain({Key? key, required this.jobId, required this.workerId, required this.deviceToken, required this.jobName}) : super(key: key);
   int jobId;
   int workerId;
+  String deviceToken;
+  String jobName;
 
   @override
   State<RecruitWorkerMain> createState() => _RecruitWorkerMainState();
@@ -348,11 +356,31 @@ class RecruitWorkerMain extends StatefulWidget {
 
 class _RecruitWorkerMainState extends State<RecruitWorkerMain> {
   final _descController = TextEditingController();
+  ProfilCompanyModel? profilCompanyModel;
+  bool _isLoad = false;
+
+  getData() async {
+    _isLoad = true;
+    await ApiService().RefreshToken('company', await PublicFunction.getToken('company'));
+    ProfilCompanyModel companyModel = await ApiService().ProfilCompany();
+    setState(() {
+       profilCompanyModel = companyModel;
+    });
+    _isLoad = false;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     var color = AppColor.theme(Theme.of(context).brightness);
 
-    return Scaffold(
+    return _isLoad ? const Scaffold(body: Center(child: CircularProgressIndicator(),),) : Scaffold(
       backgroundColor: color.background,
       appBar: AppBar(
         backgroundColor: color.background,
@@ -421,6 +449,8 @@ class _RecruitWorkerMainState extends State<RecruitWorkerMain> {
           onTap: () async {
             bool isSuccess = await ApiService().createWorkerRecruit(context, widget.jobId.toString(), widget.workerId.toString(), _descController.text);
             if(isSuccess == true){
+              await FirebaseApiService().firebaseSendNotif(widget.deviceToken, "Kamu direkrut perusahaan!!", "${profilCompanyModel!.data!.name} Baru saja mengundang anda di pekerjaan ${widget.jobName}", 'https://cariin.my.id/storage/${profilCompanyModel!.data!.profileImage}');
+              await DataService().sendInbox(profilCompanyModel!.data!.id!.toString(), 'company', 'Kamu Mendapat Lamaran', "${profilCompanyModel!.data!.name} Baru saja mengundang anda di pekerjaan ${widget.jobName}");
               showDialog(context: context, builder: (context) {
                 return AlertDialog(
                   content: const Text(
