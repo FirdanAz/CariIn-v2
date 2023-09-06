@@ -450,6 +450,7 @@ class _LamarPklPageState extends State<LamarPklPage> {
                     bool isSucces = await DataService().createPkl(widget.jobId, widget.educationInstitution, widget.description, cvFile!, potoFile!, suratLamaranFile!, suratBuktiFile!);
                     if(isSucces){
                       await FirebaseApiService().firebaseSendNotif(deviceToken!, 'Kamu mendapatkan lamaran baru', '${workerDetailModel!.data!.username} baru saja melamar (PKL) di salah satu Lowongan', 'https://cariin.my.id/storage/${workerDetailModel!.data!.profilImage}');
+                      await DataService().sendInbox(widget.companyId.toString(), 'worker', 'Lamaran Baru!', '${workerDetailModel!.data!.username!} baru saja melamar (PKL) di salah satu pekerjaanmu!!');
                       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(indexs: 1),), (route) => false);
                       showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Lamar Pkl Sukses'),);
                     } else {

@@ -560,6 +560,7 @@ class WorkerCards extends StatelessWidget {
                 children: [
                   Text(
                     name,
+                    maxLines: 1,
                     style: TextStyle(
                         color: color.black,
                         fontWeight: FontWeight.w700,
@@ -579,6 +580,7 @@ class WorkerCards extends StatelessWidget {
                   ),
                   Text(
                     location,
+                    maxLines: 1,
                     style: TextStyle(
                         color: color.black.withOpacity(0.5),
                         fontSize: 14),
@@ -588,6 +590,7 @@ class WorkerCards extends StatelessWidget {
                   ),
                   Text(
                     selection,
+                    maxLines: 1,
                     style: TextStyle(
                         color: color.primary, fontSize: 15),
                   )

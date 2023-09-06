@@ -72,7 +72,6 @@ class _DetailProfilState extends State<DetailProfil> {
           SliverToBoxAdapter(
             child: Container(
               width: double.maxFinite,
-              height: 140,
               margin: const EdgeInsets.symmetric(
                   horizontal: 13
               ),
@@ -111,28 +110,30 @@ class _DetailProfilState extends State<DetailProfil> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    workerDetailModel!.data!.username!,
-                                    style: TextStyle(
-                                        color: color.black,
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 17
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      workerDetailModel!.data!.username!,
+                                      style: TextStyle(
+                                          color: color.black,
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 17
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    height: 7,
-                                  ),
-                                  Text(
-                                    '${workerDetailModel!.data!.age} Tahun',
-                                    style: TextStyle(
-                                        color: color.black,
-                                        fontSize: 14
+                                    const SizedBox(
+                                      height: 7,
                                     ),
-                                  ),
-                                ],
+                                    Text(
+                                      '${workerDetailModel!.data!.age} Tahun',
+                                      style: TextStyle(
+                                          color: color.black,
+                                          fontSize: 14
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               InkWell(child: SvgPicture.asset(AppAssets.cvIcon, width: 25,color: color.primary,), onTap: () {},)
                             ],
@@ -147,14 +148,6 @@ class _DetailProfilState extends State<DetailProfil> {
                               workerDetailModel!.data!.address!,
                               style: TextStyle(
                                   color: color.black,
-                                  fontSize: 14
-                              ),
-                            ),
-                            Text(
-                              ', Indonesia',
-                              style: TextStyle(
-                                  color: color.primary,
-                                  fontWeight: FontWeight.w600,
                                   fontSize: 14
                               ),
                             ),
