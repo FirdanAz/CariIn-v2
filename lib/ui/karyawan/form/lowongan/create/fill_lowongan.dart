@@ -45,8 +45,8 @@ class _FillLowonganState extends State<FillLowongan> {
 
   String dateString = 'Pilih Tanggal';
   String dateValue = '';
-  DateTime dateTime = DateTime(DateTime.now().year, DateTime.now().month, (DateTime.now().day+1));
-  DateTime dateTimes = DateTime(DateTime.now().year, DateTime.now().month, (DateTime.now().day+1));
+  DateTime dateTime = DateTime(DateTime.now().year, DateTime.now().month, (DateTime.now().day+7));
+  DateTime dateTimes = DateTime(DateTime.now().year, DateTime.now().month, (DateTime.now().day+7));
   String date =
       '${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}${DateTime.now().second}';
 
