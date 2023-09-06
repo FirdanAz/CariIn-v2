@@ -6,10 +6,11 @@ import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/model/worker/experience/experience_list.dart';
 import 'package:cariin_v2/service/edit_service.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
-import 'package:cariin_v2/ui/lowongan/profile_page/form/create_experience.dart';
 import 'package:cariin_v2/ui/widget/shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../profile/experience/form/create_experience.dart';
 
 class PengalamanPage extends StatefulWidget {
   const PengalamanPage({super.key});

@@ -1,11 +1,12 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:cariin_v2/common/app_color.dart';
-import 'package:cariin_v2/ui/lowongan/chat_page/chat.dart';
 import 'package:cariin_v2/ui/lowongan/home_page/home.dart';
 import 'package:cariin_v2/ui/lowongan/lamar_page/lamaran.dart';
-import 'package:cariin_v2/ui/lowongan/profile_page/Profile.dart';
 import 'package:flutter/material.dart';
 
 import '../lowongan/notification/notification_lowongan.dart';
+import '../lowongan/profile/page.dart';
 
 class CustomBottomNavigation extends StatefulWidget {
   CustomBottomNavigation({super.key, required this.indexs});
@@ -16,12 +17,11 @@ class CustomBottomNavigation extends StatefulWidget {
 }
 
 class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
-  int _pageIndex = 0;
   final List<Widget> _page = [
     const HomePage(),
     LamaranPage(),
     const NotificationPage(),
-    const ProfilePage()
+    const ProfileSolidPage()
   ];
 
   Future<bool> _onWillPop() async {

@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cariin_v2/common/app_assets.dart';
 import 'package:cariin_v2/service/edit_service.dart';
@@ -10,11 +9,11 @@ import 'package:cariin_v2/ui/view_image/view_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 
-import '../../../../common/app_color.dart';
-import '../../../../common/public_function.dart';
-import '../../../../service/api_service.dart';
+import '../../../../../common/app_color.dart';
+import '../../../../../common/public_function.dart';
+import '../../../../../model/worker/experience/experience_list.dart';
+import '../../../../../service/api_service.dart';
 
 class CreateExperiencePage extends StatefulWidget {
   const CreateExperiencePage({Key? key}) : super(key: key);
@@ -85,7 +84,6 @@ class _CreateExperiencePageState extends State<CreateExperiencePage> {
   }
 
   Widget _form() {
-    var color = AppColor.theme(Theme.of(context).brightness);
     return Form(
       key: _formKey,
       child: Column(
@@ -138,8 +136,10 @@ class _CreateExperiencePageState extends State<CreateExperiencePage> {
                 compressSelectedImage = await PublicFunction.compressImage(selectedImage!, 50, 'gambar pengalaman');
                 bool success = await DataService().createExperience(_titleController.text, dateString, dateLastString != 'Pilih Tanggal' ? dateLastString : '', _locationController.text, _descController.text, compressSelectedImage!);
                 if(success == true){
+                  ListExperienceModel experienceModel =
+                  await DataService().getListExperience();
                   Navigator.of(context).pop();
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(indexs: 3),), (route) => false);
+                  Navigator.of(context).pop(experienceModel);
                   showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Pengalaman Ditambahkan!!'),);
                 } else {
                   showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'Ada Kesalahan Sistem!!'),);
@@ -321,119 +321,117 @@ class _CreateExperiencePageState extends State<CreateExperiencePage> {
 
   Widget _pickImage() {
     var color = AppColor.theme(Theme.of(context).brightness);
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 20,),
-          Text(
-            'Gambar Pengalaman',
-            style: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.w600, color: color.primary),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 20,),
+        Text(
+          'Gambar Pengalaman',
+          style: TextStyle(
+              fontSize: 16, fontWeight: FontWeight.w600, color: color.primary),
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        Container(
+          width: double.maxFinite,
+          height: 150,
+          decoration: BoxDecoration(
+            color: color.black.withOpacity(0.1),
+            borderRadius: const BorderRadius.only(
+              topRight: Radius.circular(20),
+              topLeft: Radius.circular(20)
+            )
           ),
-          const SizedBox(
-            height: 5,
+          child: selectedImage != null ?
+          InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ViewLocalImagePage(title: 'Gambar Pengalaman', imageFile: selectedImage!),));
+            },
+            child: Image.file(selectedImage!, fit: BoxFit.cover,)
+          ) :
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SvgPicture.asset(AppAssets.appsLogo, color: color.black.withOpacity(0.6),),
           ),
-          Container(
-            width: double.maxFinite,
-            height: 150,
-            decoration: BoxDecoration(
-              color: color.black.withOpacity(0.1),
-              borderRadius: const BorderRadius.only(
-                topRight: Radius.circular(20),
-                topLeft: Radius.circular(20)
-              )
-            ),
-            child: selectedImage != null ?
-            InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ViewLocalImagePage(title: 'Gambar Pengalaman', imageFile: selectedImage!),));
-              },
-              child: Image.file(selectedImage!, fit: BoxFit.cover,)
-            ) :
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: SvgPicture.asset(AppAssets.appsLogo, color: color.black.withOpacity(0.6),),
-            ),
-          ),
-          SizedBox(
-            width: double.maxFinite,
-            child: ElevatedButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text('Pilih Gambar dari'),
-                      actions: [
-                        Column(
-                          children: [
-                            InkWell(
-                              onTap: () async {
-                                selectedImage = await _pickImageFromGalery();
-                                setState(() {
-                                  selectedImage;
-                                });
-                                Navigator.of(context).pop();
-                              },
-                              child: Container(
-                                width: double.maxFinite,
-                                padding: const EdgeInsets.all(15),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.window,
-                                      color: color.primary,
-                                    ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    const Text('Galeri'),
-                                  ],
-                                ),
+        ),
+        SizedBox(
+          width: double.maxFinite,
+          child: ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('Pilih Gambar dari'),
+                    actions: [
+                      Column(
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              selectedImage = await _pickImageFromGalery();
+                              setState(() {
+                                selectedImage;
+                              });
+                              Navigator.of(context).pop();
+                            },
+                            child: Container(
+                              width: double.maxFinite,
+                              padding: const EdgeInsets.all(15),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.window,
+                                    color: color.primary,
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  const Text('Galeri'),
+                                ],
                               ),
                             ),
-                            InkWell(
-                              onTap: () async {
-                                selectedImage = await _pickImageFromCamera();
-                                setState(() {
-                                  selectedImage;
-                                });
-                                Navigator.of(context).pop();
-                              },
-                              child: Container(
-                                width: double.maxFinite,
-                                padding: const EdgeInsets.all(15),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.camera,
-                                      color: color.primary,
-                                    ),
-                                    const SizedBox(
-                                      width: 15,
-                                    ),
-                                    const Text('Kamera'),
-                                  ],
-                                ),
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              selectedImage = await _pickImageFromCamera();
+                              setState(() {
+                                selectedImage;
+                              });
+                              Navigator.of(context).pop();
+                            },
+                            child: Container(
+                              width: double.maxFinite,
+                              padding: const EdgeInsets.all(15),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.camera,
+                                    color: color.primary,
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  const Text('Kamera'),
+                                ],
                               ),
                             ),
-                          ],
-                        )
-                      ],
-                    );
-                  },
-                );
-              },
-              style: ButtonStyle(
-                backgroundColor: MaterialStatePropertyAll(color.primary),
-                shape: MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))))
-              ),
-              child: Text('Pilih Gambar', style: TextStyle(color: color.white),),
+                          ),
+                        ],
+                      )
+                    ],
+                  );
+                },
+              );
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStatePropertyAll(color.primary),
+              shape: const MaterialStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))))
             ),
-          )
-        ],
-      ),
+            child: Text('Pilih Gambar', style: TextStyle(color: color.white),),
+          ),
+        )
+      ],
     );
   }
 
