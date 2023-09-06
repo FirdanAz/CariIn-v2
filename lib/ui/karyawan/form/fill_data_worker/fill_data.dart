@@ -294,7 +294,8 @@ class _FillDataProfileWorkerState extends State<FillDataProfileWorker> {
         PageViewModel(
             titleWidget: _isLoad
                 ? ShimmerPelamar(itemCount: 3,)
-                : skillListModel!.data!.isEmpty ? const Center(child: Text('Data Kosong'),) : ListView.builder(
+                : skillListModel!.data!.isEmpty ? const Center(child: Text('Data Kosong'),) :
+            ListView.builder(
                     shrinkWrap: true,
                     itemCount: skillListModel!.data!.length,
                     itemBuilder: (context, index) {
