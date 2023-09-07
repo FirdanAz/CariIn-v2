@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/lowongan/profile/setting.dart';
@@ -53,8 +55,13 @@ class _ProfileSolidPageState extends State<ProfileSolidPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SettingPage(),));
+            onPressed: () async {
+              var result = await Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingPage(),));
+              if(result!=null){
+                setState(() {
+                  getData();
+                });
+              }
             },
           ),
         ],
@@ -100,7 +107,7 @@ class _ProfileSolidPageState extends State<ProfileSolidPage> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Text(
-                      'Data Pribadi',
+                      'Data Pengguna',
                       style: TextStyle(
                         color: color.primary,
                         fontWeight: FontWeight.w600

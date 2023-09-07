@@ -95,7 +95,11 @@ class _ExperienceListPageState extends State<ExperienceListPage> {
     var color = AppColor.theme(Theme.of(context).brightness);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pengalaman'),
+        title: const Text('Pengalaman', style: TextStyle(fontSize: 20),),
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back_ios_new, color: color.primary,),
+        ),
       ),
       body: _isLoad ? const Center(child: CircularProgressIndicator(),) : Column(
         children: [

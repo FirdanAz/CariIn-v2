@@ -626,4 +626,166 @@ class DataService {
     }
   }
 
+  Future getCompanyVisible() async {
+    const endPoint = '/api/worker/me/company-visible';
+    final url = '$_baseUrl$endPoint';
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      if (response.statusCode == 200) {
+        await ApiService().RefreshToken('worker', token);
+        if (kDebugMode) {
+          print('status code : ${response.statusCode}');
+        }
+        var result = json.decode(response.body);
+        if(result['data']['company_visible'] == 'true'){
+          return true;
+        } else {
+          return false;
+        }
+      }
+      if (response.statusCode == 401 &&
+          PublicFunction.getToken('worker') != '') {
+        await ApiService().RefreshToken('worker', token);
+        if (kDebugMode) {
+          print('status code : ${response.statusCode}');
+        }
+        var result = json.decode(response.body);
+        if(result['data']['company_visible'] == 'true'){
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        throw Exception("Failed to fetch data from API");
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
+
+  Future editCompanyVisible(bool companyVisible) async {
+    const endPoint = '/api/worker/me/company-visible/edit';
+    final url = '$_baseUrl$endPoint';
+    final body = {
+      'company_visible': companyVisible.toString(),
+    };
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response =
+      await http.post(Uri.parse(url), headers: headers, body: body);
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print('add deviceToken success');
+        }
+        return true;
+      } else {
+        if (kDebugMode) {
+          print('status codeeee : ${response.statusCode}');
+        }
+        return false;
+      }
+    } on SocketException {
+      if (kDebugMode) {
+        print('Tidak koneksi Internet');
+      }
+      return false;
+    } on HttpException {
+      if (kDebugMode) {
+        print('HttpException');
+      }
+      return false;
+    }
+  }
+
+  Future editUserName(String newName) async {
+    const endPoint = '/api/worker/me/username/edit';
+    final url = '$_baseUrl$endPoint';
+    final body = {
+      'username': newName,
+    };
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response =
+      await http.post(Uri.parse(url), headers: headers, body: body);
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print('add deviceToken success');
+        }
+        return true;
+      } else {
+        if (kDebugMode) {
+          print('status codeeee : ${response.statusCode}');
+        }
+        return false;
+      }
+    } on SocketException {
+      if (kDebugMode) {
+        print('Tidak koneksi Internet');
+      }
+      return false;
+    } on HttpException {
+      if (kDebugMode) {
+        print('HttpException');
+      }
+      return false;
+    }
+  }
+
+  Future editWorkerStatus(String value) async {
+    const endPoint = '/api/worker/me/status/edit';
+    final url = '$_baseUrl$endPoint';
+    final body = {
+      'status': value,
+    };
+    String token = await PublicFunction.getToken('worker');
+    final headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json'
+    };
+
+    try {
+      final response =
+      await http.post(Uri.parse(url), headers: headers, body: body);
+      if (response.statusCode == 200) {
+        if (kDebugMode) {
+          print('edit Worker Status success');
+        }
+        return true;
+      } else {
+        if (kDebugMode) {
+          print('status codeeee : ${response.statusCode}');
+        }
+        return false;
+      }
+    } on SocketException {
+      if (kDebugMode) {
+        print('Tidak koneksi Internet');
+      }
+      return false;
+    } on HttpException {
+      if (kDebugMode) {
+        print('HttpException');
+      }
+      return false;
+    }
+  }
+
 }
