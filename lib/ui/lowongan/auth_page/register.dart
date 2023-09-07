@@ -5,11 +5,13 @@ import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/karyawan/form/fill_data_worker/fill_data.dart';
 import 'package:cariin_v2/ui/lowongan/auth_page/fill_data_worker.dart';
 import 'package:cariin_v2/ui/lowongan/auth_page/login.dart';
+import 'package:cariin_v2/ui/send_otp/page.dart';
 import 'package:cariin_v2/ui/widget/auth_text_field.dart';
 import 'package:flutter/material.dart';
 
 import '../../../common/app_color.dart';
 import '../../../service/api_service.dart';
+import '../../../service/edit_service.dart';
 
 class RegisterLowonganPage extends StatefulWidget {
   const RegisterLowonganPage({Key? key}) : super(key: key);
@@ -23,6 +25,8 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool obsText = true;
+  String selectedOption = 'bekerja';
+  List<DropdownMenuItem<String>> items = getItems;
 
   @override
   Widget build(BuildContext context) {
@@ -147,6 +151,20 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
                   hintText: 'Password',
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              Text(
+                'Status Kerja',
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: color.primary),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              _statusKerja(),
 
               Container(
                 height: 50,
@@ -160,6 +178,7 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
                     onTap: () async {
                       showLoaderDialog(context);
                       await Future.delayed(const Duration(seconds: 2));
+                      await DataService().editWorkerStatus(selectedOption);
                       bool condition = await ApiService().postRegisterWorker(
                           context,
                           _emailController.text,
@@ -170,7 +189,7 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
                         await Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const FillDataWorker(),
+                              builder: (context) => InputOtpPage(email: _emailController.text, password: _passwordController.text),
                             ),
                             (route) => false);
                         Navigator.of(context).pop(true);
@@ -201,4 +220,48 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
       ),
     );
   }
+
+  Widget _statusKerja() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey), // Warna border
+            borderRadius: BorderRadius.circular(10), // Sudut border
+          ),
+          child: DropdownButtonFormField<String>(
+            value: selectedOption,
+            onChanged: (newValue) {
+              setState(() {
+                selectedOption = newValue!;
+              });
+            },
+            items: items,
+            decoration: InputDecoration(
+              border: InputBorder.none, // Hapus border internal DropdownButtonFormField
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+}
+
+List<DropdownMenuItem<String>> get getItems {
+  List<DropdownMenuItem<String>> menuItems = const [
+    DropdownMenuItem(
+        value: 'tidak_bekerja',
+        child: Text("Sedang Tidak Bekerja", style: TextStyle(fontWeight: FontWeight.w400),)),
+    DropdownMenuItem(
+      value: "bekerja",
+      child: Text(
+        "Sedang Bekerja",
+        style: TextStyle(fontWeight: FontWeight.w400),
+      ),
+    ),
+  ];
+  return menuItems;
 }

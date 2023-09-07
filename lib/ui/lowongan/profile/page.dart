@@ -158,7 +158,7 @@ class _ProfileSolidPageState extends State<ProfileSolidPage> {
                       ],
                     ),
                   ),
-                  Padding(
+                  workerModels!.data!.experiences!.isEmpty ? Container() : Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Text(
                       'Pengalaman',
@@ -184,7 +184,7 @@ class _ProfileSolidPageState extends State<ProfileSolidPage> {
                       ],
                     ),
                   ),
-                  Padding(
+                  workerModels!.data!.skills!.isEmpty ? Container() : Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     child: Text(
                       'Keahlian',
