@@ -202,7 +202,6 @@ class _FillLowonganState extends State<FillLowongan> {
                       lastDate: DateTime(2101));
 
                   if (pickedDate != null) {
-                    String formattedDate = DateFormat.yMMMMd('id_ID').format(pickedDate);
                     setState(() {
                       dateTime = pickedDate;
                       dateValue = pickedDate.toString();

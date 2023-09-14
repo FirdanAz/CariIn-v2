@@ -2,6 +2,7 @@
 
 import 'package:cariin_v2/ui/bottom_navigation/bottom_navigation.dart';
 import 'package:cariin_v2/ui/lowongan/auth_page/register.dart';
+import 'package:cariin_v2/ui/send_otp/page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -158,7 +159,7 @@ class _LoginLowonganPageState extends State<LoginLowonganPage> {
                   await ApiService().postLogin(context, _emailController.text, _passwordController.text, 'worker');
                   await Future.delayed(const Duration(seconds: 1));
                   if(await PublicFunction.getToken('worker') != ''){
-                    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => CustomBottomNavigation(indexs: 0),), (route) => false);
+                    await Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => InputOtpPage(email: _emailController.text, nextPage: CustomBottomNavigation(indexs: 0)),), (route) => false);
                     Navigator.of(context).pop(true);
                   } else {
                     Navigator.of(context).pop(true);

@@ -101,58 +101,56 @@ Widget KaryawanListCard(BuildContext context, String urlImage, String workerName
               backgroundImage: NetworkImage(urlImage),
             ),
           ),
-          Container(
-            margin: const EdgeInsets.symmetric(
-                vertical: 25,
-                horizontal: 5
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  workerName,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      color: color.black,
-                      fontSize: 17
-                  ),
-                ),
-                const SizedBox(height: 5,),
-                Text(
-                  '$age Tahun',
-                  style: TextStyle(
-                      color: color.black,
-                      fontSize: 14
-                  ),
-                ),
-                Row(
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.symmetric(
+                  vertical: 25,
+                  horizontal: 5
+              ),
+              child: Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '$address, ',
+                      workerName,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: color.black,
+                          fontSize: 17
+                      ),
+                    ),
+                    const SizedBox(height: 5,),
+                    Text(
+                      '$age Tahun',
                       style: TextStyle(
                           color: color.black,
                           fontSize: 14
                       ),
                     ),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Text(
+                            '$address, ',
+                            style: TextStyle(
+                                color: color.black,
+                                fontSize: 14
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5,),
                     Text(
-                      'Indonesia',
+                      'UI/UX Designer',
                       style: TextStyle(
                           color: color.primary,
-                          fontWeight: FontWeight.w600,
                           fontSize: 14
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 5,),
-                Text(
-                  'UI/UX Designer',
-                  style: TextStyle(
-                      color: color.primary,
-                      fontSize: 14
-                  ),
-                ),
-              ],
+              ),
             ),
           )
         ],

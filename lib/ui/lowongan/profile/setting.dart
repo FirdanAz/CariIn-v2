@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cariin_v2/ui/lowongan/profile/data_profile/edit_profile.dart';
 import 'package:cariin_v2/ui/lowongan/profile/experience/list_page.dart';
 import 'package:cariin_v2/ui/lowongan/profile/skill/list_page.dart';
 import 'package:flutter/material.dart';
@@ -21,14 +22,20 @@ class _SettingPageState extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
+    var color = AppColor.theme(Theme.of(context).brightness);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Pengaturan'),
+        title: const Text('Pengaturan', style: TextStyle(fontSize: 20),),
+        leading: IconButton(
+          onPressed: () => Navigator.of(context).pop(selectedLanguage),
+          icon: Icon(Icons.arrow_back_ios_new, color: color.primary,),
+        ),
       ),
       body: ListView(
         children: [
-          _item(Icons.account_circle, 'Edit Data Pribadi', Icons.edit, () {
-
+          _item(Icons.account_circle, 'Edit Profile & Status', Icons.edit, () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfilePage(),));
           }),
           _item(Icons.work_outline_rounded, 'Pengalaman', Icons.arrow_forward_ios, () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => const ExperienceListPage(),));
