@@ -1,28 +1,34 @@
+import 'dart:math';
+
 import 'package:cariin_v2/common/public_function.dart';
 import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
+import 'package:otp_text_field/otp_field.dart';
+import 'package:otp_text_field/otp_field_style.dart';
+import 'package:otp_text_field/style.dart';
 
+import '../../common/app_color.dart';
 import '../lowongan/auth_page/fill_data_worker.dart';
 
 class InputOtpPage extends StatefulWidget {
-  InputOtpPage({Key? key, required this.email, required this.password}) : super(key: key);
+  InputOtpPage({Key? key, required this.email, required this.nextPage}) : super(key: key);
   String email;
-  String password;
+  Widget nextPage;
 
   @override
   State<InputOtpPage> createState() => _InputOtpPageState();
 }
 
 class _InputOtpPageState extends State<InputOtpPage> {
-  final TextEditingController otpController = TextEditingController();
+  final OtpFieldController otpController = OtpFieldController();
   EmailOTP myauth = EmailOTP();
 
   sendOtp() async {
     myauth.setConfig(
         appEmail: "cariin@dev.com",
-        appName: "Email OTP",
+        appName: "Kode Verifikasi (Cariin)",
         userEmail: widget.email,
-        otpLength: 6,
+        otpLength: 4,
         otpType: OTPType.digitsOnly
     );
     if(myauth.sendOTP() == true){
@@ -41,6 +47,8 @@ class _InputOtpPageState extends State<InputOtpPage> {
 
   @override
   Widget build(BuildContext context) {
+    var color = AppColor.theme(Theme.of(context).brightness);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Masukkan Kode OTP'),
@@ -51,43 +59,35 @@ class _InputOtpPageState extends State<InputOtpPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Kami telah mengirimkan kode OTP ke email Anda.',
+              'Kami telah mengirimkan kode OTP ke email ${widget.email}.',
               textAlign: TextAlign.center,
               style: TextStyle(fontSize: 16.0),
             ),
-            SizedBox(height: 16.0),
-            TextField(
+            const SizedBox(height: 16.0),
+            OTPTextField(
               controller: otpController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                labelText: 'Kode OTP',
-                border: OutlineInputBorder(),
+              length: 4,
+              width: MediaQuery.of(context).size.width,
+              style: TextStyle(
+                  fontSize: 17,
+                color: color.primary
               ),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: () {
-                // Validasi dan proses kode OTP
-                String enteredOTP = otpController.text;
-                if (myauth.verifyOTP(otp: otpController.text)) {
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const FillDataWorker(),), (route) => false);
+              textFieldAlignment: MainAxisAlignment.spaceAround,
+              fieldStyle: FieldStyle.underline,
+              onCompleted: (pin) {
+                bool success = myauth.verifyOTP(otp: pin);
+                if(success == true){
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => widget.nextPage,), (route) => false);
                   _showSuccessDialog();
                 } else {
-                  _showErrorDialog('Kode OTP tidak valid.');
+                  showDialog(context: context, builder: (context) => PublicFunction.showDialog(context, 'masukkan OTP dengan benar'),);
                 }
               },
-              child: Text('Verifikasi OTP'),
-            ),
+            )
           ],
         ),
       ),
     );
-  }
-
-  bool isValidOTP(String otp) {
-    // Implementasikan logika validasi kode OTP sesuai kebutuhan Anda
-    // Contoh: Kode OTP harus memiliki panjang 6 karakter
-    return otp.length == 6;
   }
 
   void _showSuccessDialog() {

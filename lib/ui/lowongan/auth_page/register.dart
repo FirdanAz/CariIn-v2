@@ -189,7 +189,7 @@ class _RegisterLowonganPageState extends State<RegisterLowonganPage> {
                         await Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => InputOtpPage(email: _emailController.text, password: _passwordController.text),
+                              builder: (context) => InputOtpPage(email: _emailController.text, nextPage: const FillDataWorker()),
                             ),
                             (route) => false);
                         Navigator.of(context).pop(true);

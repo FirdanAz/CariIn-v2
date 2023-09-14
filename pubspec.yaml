@@ -64,6 +64,7 @@ dependencies:
   cloud_firestore:
   lecle_downloads_path_provider: ^0.0.2+8
   email_otp:
+  otp_text_field:
 
 
 dev_dependencies:
