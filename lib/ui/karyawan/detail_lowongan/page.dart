@@ -29,9 +29,8 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
   DateTime? date;
   String? desc;
 
-  getdata() async {
+  getData() async {
     _isLoad = true;
-    print('id :  ${widget.id}');
     DetailJobCompanyModel details = await ApiService().jobDetailCompany(widget.id);
     setState(() {
       detailCompanyModel = details;
@@ -44,7 +43,7 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
   @override
   void initState() {
     // TODO: implement initState
-    getdata();
+    getData();
     super.initState();
   }
 
@@ -312,7 +311,7 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.edit, size: 15,),
+                  const Icon(Icons.edit, size: 15,),
                   Text("  Edit Lowongan", style: textStyle),
                 ],
               ),
@@ -338,7 +337,7 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
-                                  child: Text('Batal'),
+                                  child: const Text('Batal'),
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
@@ -348,7 +347,7 @@ class _CompanyJobDetailPageState extends State<CompanyJobDetailPage> {
                                       Navigator.of(context).initState();
                                     });
                                   },
-                                  child: Text('Hapus'),
+                                  child: const Text('Hapus'),
                                 ),
                               ],
                             ),
