@@ -1,0 +1,105 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:cariin_v2/common/app_color.dart';
+import 'package:cariin_v2/ui/lowongan/home_page/home.dart';
+import 'package:cariin_v2/ui/lowongan/lamar_page/lamaran.dart';
+import 'package:flutter/material.dart';
+
+import '../lowongan/notification/notification_lowongan.dart';
+import '../lowongan/profile/page.dart';
+
+class CustomBottomNavigation extends StatefulWidget {
+  CustomBottomNavigation({super.key, required this.indexs});
+  int indexs;
+
+  @override
+  State<CustomBottomNavigation> createState() => _CustomBottomNavigationState();
+}
+
+class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
+  final List<Widget> _page = [
+    const HomePage(),
+    LamaranPage(),
+    const NotificationPage(),
+    const ProfileSolidPage()
+  ];
+
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Keluar Aplikasi'),
+        content: const Text('Yakin untuk keluar dari aplikasi?'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Batal'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Keluar'),
+          ),
+        ],
+      ),
+    )) ?? false;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var color = AppColor.theme(Theme.of(context).brightness);
+
+    setState(() {
+      widget.indexs = widget.indexs;
+    });
+
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
+        // body: _page[_pageIndex],
+        body: _page[widget.indexs],
+        bottomNavigationBar: NavigationBar(
+          backgroundColor: color.background,
+          selectedIndex: widget.indexs,
+          height: 73,
+          destinations: [
+            NavigationDestination(
+                icon: Icon(
+                  Icons.home_filled,
+                  color: widget.indexs == 0
+                      ? color.white
+                      : Theme.of(context).iconTheme.color!.withOpacity(0.5),
+                ),
+                label: "Beranda"),
+            NavigationDestination(
+                icon: Icon(
+                  Icons.work,
+                  color: widget.indexs == 1
+                      ? color.white
+                      : Theme.of(context).iconTheme.color!.withOpacity(0.5),
+                ),
+                label: "Pekerjaan"),
+            NavigationDestination(
+                icon: Icon(
+                  Icons.notifications_active,
+                  color: widget.indexs == 2
+                      ? color.white
+                      : Theme.of(context).iconTheme.color!.withOpacity(0.5),
+                ),
+                label: "Kotak Masuk"),
+            NavigationDestination(
+                icon: Icon(
+                  Icons.person,
+                  color: widget.indexs == 3
+                      ? color.white
+                      : Theme.of(context).iconTheme.color!.withOpacity(0.5),
+                ),
+                label: "Profil"),
+          ],
+          onDestinationSelected: (value) => setState(() {
+            widget.indexs = value;
+          }),
+        ),
+      ),
+    );
+  }
+}

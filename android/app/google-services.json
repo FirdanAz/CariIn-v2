@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "126241171499",
+    "project_id": "cariinv2",
+    "storage_bucket": "cariinv2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:126241171499:android:52bde6a3e8c81b0bab626e",
+        "android_client_info": {
+          "package_name": "com.example.cariin_v2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "126241171499-70qpptdr4j1k6pb9d0ck9ctne7nq3c11.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6OMZliOvRXqUqkTikWgsyEjYQqiRkp-A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "126241171499-70qpptdr4j1k6pb9d0ck9ctne7nq3c11.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
